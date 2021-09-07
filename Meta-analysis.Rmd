@@ -1,0 +1,260 @@
+---
+title: 'Meta-análisis en R'
+subtitle: 'Guía básica'
+author:
+  - name: Juan David Leongómez
+    email: jleongomez@unbosque.edu.co
+    institute: ueb
+    correspondence: true
+institute:
+  - ueb: 'Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. [jdleongomez.info](https://jdleongomez.info/es/)'
+date: "`r Sys.setlocale('LC_TIME');format(Sys.Date(),'%d %B, %Y')`"
+output:
+  pdf_document:
+    highlight: zenburn
+    number_sections: yes
+    toc: no
+    pandoc_args:
+      - '--lua-filter=scholarly-metadata.lua'
+      - '--lua-filter=author-info-blocks.lua'
+editor_options:
+  chunk_output_type: console
+geometry: margin=2cm
+header-includes: 
+  \usepackage{float} 
+  \floatplacement{figure}{H} 
+  \usepackage[utf8]{inputenc} 
+  \usepackage{fancyhdr}
+  \pagestyle{fancy} 
+  \lhead{Guía básica} 
+  \rhead{\textit{Meta-análisis en R}} 
+  \renewcommand{\abstractname}{Descripción}
+  \usepackage[spanish]{babel}
+  \renewcommand\spanishtablename{Tabla}
+  \usepackage{multirow,booktabs,setspace,caption}
+  \usepackage{tikz}
+  \DeclareCaptionLabelSeparator*{spaced}{\\[2ex]}
+  \captionsetup[table]{textfont=it,format=plain,justification=justified,
+  singlelinecheck=false,labelsep=spaced,skip=0pt}
+  \captionsetup[figure]{labelsep=period,labelfont=it,justification=justified,
+  singlelinecheck=false,font=doublespacing}
+always_allow_html: yes
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+urlcolor: blue
+linkcolor: black
+link-citations: true
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(robumeta)
+library(metafor)
+library(dplyr)
+```
+
+```{=tex}
+\begin{center}
+\textbf{Descripción}
+\end{center}
+```
+Este documento contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis en R, usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`robumeta`](https://www.rdocumentation.org/packages/robumeta) [@fisherRobumetaRpackageRobust2015]. Está basado, y siguiendo [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021].
+
+```{=latex}
+{\hypersetup{hidelinks}
+\setcounter{tocdepth}{5}
+\tableofcontents
+}
+```
+# Meta-análisis de correlación
+
+## Base de datos de ejemplo
+
+La base de datos `dat.molloy2014`, tomada de Molloy et al. [-@molloy2013] viene incluída con `{metafor}`. Básicamente, estudia si existe una asociación entre la diligencia (*conscientiousness*) y la adherencia a la medicación. En otras palabras, ¿las personas más diligentes son más propensas a cumplir con la medicación prescrita?
+
+```{r molloy2014}
+dat <- get(data(dat.molloy2014))
+dat <- mutate(dat, study_id = 1:16) #add study_id column
+dat <- dat %>% select(study_id, authors:quality) #bring study_id to first column
+```
+
+La base da datos, que he asignado a un objeto llamado `dat`, tienen ahora la siguiente estructura:
+
+```{r echo=FALSE, message = FALSE}
+library(kableExtra)
+
+kable(dat, 
+      linesep = "",
+      booktabs = TRUE,
+      caption = "Estructura de la base de datos de la base de datos") %>% 
+  kable_styling(latex_options = c("HOLD_position", "scale_down")) %>% 
+  footnote(general = "Datos tomados de Molloy et al. (2013).",
+           general_title = "Nota:",
+           footnote_as_chunk = TRUE)
+```
+
+La columna `ri` contiene los coeficientes de correlación de Pearson (la columna `ni` contiene los tamaños de muestra de cada estudio). Dado que los coeficientes de Pearson no tienen una distribución normal, esto podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeños.
+
+Adicionalmente, en este ejemplo tenemos una serie de moderadores:
+
+-   `controls`: número de variables controladas
+
+-   `design`: si se utilizó un diseño transversal o prospectivo
+
+-   `a_measure`: tipo de medida de adherencia (autoinforme u otro)
+
+-   `c_measure`: tipo de medida de diligencia (NEO u otra)
+
+-   `meanage`: edad promedio de la muestra
+
+-   `quality`: calidad metodológica
+
+## Transformación de *r* de Pearson a *z* de Fisher
+
+Por esto, vamos a transformar los coeficientes *r* de Pearson a *z* de Fisher, que no tienen este problema. Para esto, vamos a usar la función `escalc` del paquete `metafor`.
+
+```{r}
+dat <- escalc(measure = "ZCOR", 
+              ri = ri, 
+              ni = ni,
+              data= dat, 
+              slab = paste(authors, year, sep = ", "))
+```
+
+Esto ha creado dos nuevas variables en nuestra tabla: `yi`, que es el tamaño de efecto, y `vi` que es la varianza.
+
+```{r echo=FALSE, message = FALSE}
+kable(dat, 
+      linesep = "",
+      booktabs = TRUE,
+      caption = "Estructura de la base de datos, con transformación de los r de Pearon a z de Fisher") %>% 
+  kable_styling(latex_options = c("HOLD_position", "scale_down")) %>% 
+  footnote(general = "Datos tomados de Molloy et al., (2013).",
+           general_title = "Nota:",
+           footnote_as_chunk = TRUE) %>% 
+  column_spec(12:13, background = "#c4c4c4")
+```
+
+## Hacer el meta-análisis
+
+Para hacer el meta-análisis, usaremos la función `rma` del paquete `metafor`, para el que tenemos que especificar los tamaños de efecto (`yi`) y varianzas (`vi`) de los estudios a meta-analizar. En este caso, las columnas donde tenemos estos valores, tienen los mismos nombres (`yi`, `vi`). Asignaré los resultados del meta-análisis a un objeto llamado `res`.
+
+```{r}
+res <- rma(yi = yi, vi = vi, data = dat)
+```
+
+Los resultados, son los siguientes:
+
+```{r}
+res
+```
+
+Primero, nos confirma que ajustamos un modelo con efectos aleatorios (`Random-Effects Model`), a partir de 16 estudios (`k = 16`), y que para estimar $\tau^2$ (tau cuadrado[^1]) usamos el método de **máxima verosimilitud restringida**[^2] (`tau^2 estimator: REML`), que se designa como *REML* por sus siglas en inglés.
+
+[^1]: $\tau^2$ es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio. Para más información, ver [@borensteinIdentifyingQuantifyingHeterogeneity2009].
+
+[^2]: Hay varios métodos disponibles como estimador, además de **máxima verosimilitud restringida** (REML). Sin embargo, si no estás seguro, REML es una buena opción. Cada método tiene ventajas y desventajas que, si tienes interés en mirar, están descritas en la [documentación](https://www.rdocumentation.org/packages/metafor/versions/2.4-0/topics/rma.uni) de la función `rma`.
+
+Posteriormente, nos provee los valores de una serie de estimadores de heterogeneidad o varianza:
+
+-   $\tau^2$: `tau^2 (estimated amount of total heterogeneity): 0.0081 (SE = 0.0055)`
+
+-   $\tau$: `tau (square root of estimated tau^2 value): 0.0901`
+
+-   $I^2$: `I^2 (total heterogeneity / total variability): 61.73%`, y
+
+-   $H^2$: `H^2 (total variability / sampling variability):  2.61`
+
+La tercera parte, reporta una prueba de heterogeneidad, usando el estadístico $Q$:
+
+-   `Test for Heterogeneity:`
+
+    `Q(df = 15) = 38.1595, p-val = 0.0009`
+
+De todos estos, los más comúnmente reportados son $\tau^2$, $\tau$, $I^2$ y $Q$. Cada una de estas medidas tiene ventajas y desventajas, por lo cual tiene sentido reportarlas todas.
+
+$I^2$, por ejemplo, tiene la ventaja de ser sencillo de interpretar, pues hay criterios generales para heterogeneidad baja, moderada y alta (típicamente 25%, 50%, and 75%, respectivamente). Sin embargo, es muy sensible a los tamaños de muestra de los estudios meta-analizados (por ejemplo, si en tu meta-análisis hay estudios con tamaños de muestra muy grandes, esto va a sesgar tu $I^2$).
+
+$Q$, aunque no es sensible al tamaño de muestra, es sensible al número de estudios meta-analizados. Tiene la ventaja de ser un test de hipótesis, y como tal, puede ser interpretado a partir de su valor *p*.
+
+$\tau^2$ no tiene estos problemas, pero es más difícil de interpretar.
+
+En nuestro caso, el estadístico $Q$ sugiere que hay una heterogeneidad significativa en los estudios meta-analizados ($p$ = 0.0009). $I^2$, sugiere una heterogeneidad moderada, lo que quiere decir que más de la mitad (61.73%) de la varianza se estima que se deriva de diferencias en los tamaños de efecto.
+
+Por último, tenemos los resultados del modelo de meta-análisis (`Model results`). Nos provee un estimado de la asociación positiva entre diligencia y adherencia a la medicación (0.1499 ± 0.0316), lo que equivale a un valor *z* de 4.7501 , y sugiere que esa asociación es significativa ($p$ \< .0001). Así mismo, nos provee los límites inferior (0.0881) y superior (0.2118) de los intervalos de confianza.
+
+### Más información sobre heterogeneidad
+
+Además de reportar los estadísticos $\tau^2$, $\tau$, $I^2$ y $Q$, podemos fácilmente calcular los intervalos de confianza para $\tau^2$, $\tau$, e $I^2$ con la función `confint`, que también pueden ser reportado junto a estos estadísticos.
+
+```{r}
+confint(res)
+```
+
+Para el $\tau^2$, el hecho de que los intervalos de confianza no crucen el 0 (en nuestro caso 0.0017 *---* 0.0378), sugiere que de hecho también que hay heterogeneidad entre los estudios que meta-analizamos.
+
+### Diagnóstico de influencia
+
+Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado[^3]. Para esto, podemos usar la función `influence`, cuyo resultado en este caso asignaré a un objeto llamado `inf`.
+
+[^3]: Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un *n* de 100, pero el otro tiene un *n* de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que tu meta-análisis sea dependiente de un único estudio.
+
+```{r}
+inf <- influence(res)
+```
+
+Ya que lo asigné a un objeto (`inf`), para ver el resultado, tengo que correrlo para ver su resultado.
+
+```{r}
+inf
+```
+
+Esto me muestra gran cantidad de información de cada estudio (en este caso, una tabla sin formato, que es muy ancha para poder imprimirse en esta página, por lo cual está reportada en dos partes). Sin embargo, lo más importante ahora es mirar la última columna, también llamada `inf`. Si ahí aparecieran asteriscos (que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
+
+Por último, podemos también ver ésta información que tenemos guardada en el objeto `inf`, de manera gráfica, usando la función `plot`.
+
+```{r fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serpian representados con un punto rojo. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo que podemos estar tranquilos con nuestro meta-análisis."}
+plot(inf)
+```
+
+### *Forest plot* (diagrama de bosque)
+
+Para hacer un diagrama de bosque (*forest plot*) resumiendo nuestro meta-análisis, solo tenemos que usar la función `forest`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`).
+
+```{r fig.height=6, fig.cap = "Forest plot básico de metafor. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza, y el tamaño de muestra (representado por el tamaño del cuadrado). Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
+forest(res)
+```
+
+Para una versión más completa y anotada, también usando el plot básico de `metafor`, pero representando coeficientes de correlación de Pearson (*r*) en vez de valores *z*, podemos agregar algunas opciones (explicadas [acá](https://www.metafor-project.org/doku.php/plots:forest_plot)):
+
+```{r fig.height=6, fig.cap = "Forest plot anotado. En esta versión agregué algunos encabezados en español, así como estadísticos generales del modelo de meta-análisis."}
+# forest plot con anotaciones adicionales
+forest(res, cex = 0.8, xlim = c(-1.6, 1.6), 
+       atransf = transf.ztor, 
+       at = transf.rtoz(c(-0.4, -0.2, 0, 0.2, 0.4, 0.6)))
+op <- par(cex = 0.8, font=2)
+text(-1.6, 18, "Autor(es), Año", pos = 4)
+text(1.6, 18, "Correlación [95% CI]", pos = 2)
+par(op)
+# añadir texto con valor Q, dfs, valor p y estadístico I^2
+text(-1.6, -1, pos = 4, cex = 0.8, 
+     bquote(paste("RE Model: Q(", .(res$k - res$p), ") = ",
+     .(formatC(res$QE, digits=2, format="f")),
+     ", p ", .(scales::pvalue(res$pval)), "; ", I^2, " = ",
+     .(formatC(res$I2, digits=1, format="f")), "%")))
+```
+
+O, para una incluso más sofisticada, se puede usar la función `viz_forest` del paquete `metaviz`, usando la variante `rain`.
+
+```{r fig.height=4, warning = FALSE, fig.cap = "*Forest plot* creado con metaviz."}
+library(metaviz)
+viz_forest(res, 
+           study_labels = paste(dat$authors, dat$year, sep = ", "),
+           xlab = "Correlación", 
+           variant = "rain",
+           annotate_CI = TRUE,
+           summary_label = "Resumen",
+           text_size = 2.6)
+```
+
+# Referencias
