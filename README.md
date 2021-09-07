@@ -1,0 +1,2 @@
+# Meta-analisis-en-R
+Este documento contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis en R, usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`robumeta`](https://www.rdocumentation.org/packages/robumeta) [@fisherRobumetaRpackageRobust2015]. Está basado, y siguiendo [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana.
