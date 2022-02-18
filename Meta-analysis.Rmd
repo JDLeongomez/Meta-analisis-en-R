@@ -1,6 +1,6 @@
 ---
-title: 'Meta-análisis en R'
-subtitle: 'Guía básica'
+title: 'Meta-análisis de correlaciones en R'
+subtitle: 'Guía práctica'
 author:
   - name: Juan David Leongómez
     email: jleongomez@unbosque.edu.co
@@ -26,10 +26,12 @@ header-includes:
   \usepackage[utf8]{inputenc} 
   \usepackage{fancyhdr}
   \pagestyle{fancy} 
-  \lhead{Guía básica} 
-  \rhead{\textit{Meta-análisis en R}} 
+  \lhead{Juan David Leongómez}
+  \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}}
+  \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}}
   \renewcommand{\abstractname}{Descripción}
   \usepackage[spanish]{babel}
+  \usepackage{hanging}
   \renewcommand\spanishtablename{Tabla}
   \usepackage{multirow,booktabs,setspace,caption}
   \usepackage{tikz}
@@ -52,6 +54,7 @@ library(robumeta)
 library(metafor)
 library(dplyr)
 library(ggpubr)
+library(kableExtra)
 ```
 
 ```{=tex}
@@ -61,30 +64,52 @@ library(ggpubr)
 ```
 Este documento contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis en R, usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`robumeta`](https://www.rdocumentation.org/packages/robumeta) [@fisherRobumetaRpackageRobust2015]. Está principalmente basado en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene citas a fuentes primarias, además de información que he agregado.
 
+Esta guía asume una comprensión básica del meta-análisis, así como un manejo básico de R. Sin embargo, de ser necesario, como introducción al meta-análisis recomiendo ver el video introductorio sobre meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
+
+******
+
+**Cita éste trabajo como:**
+
+```{=latex}
+\begin{hangparas}{.25in}{1}
+Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía práctica.} Zenodo. \url{https://doi.org/10.5281/zenodo.5640182}
+\end{hangparas}
+```
+
+******
+
 ```{=latex}
 {\hypersetup{hidelinks}
 \setcounter{tocdepth}{5}
 \tableofcontents
 }
 ```
-# Meta-análisis de correlación
 
-## Base de datos de ejemplo
+# Base de datos de ejemplo
 
-La base de datos `dat.molloy2014`, tomada de Molloy et al. [-@molloy2013] viene incluída con `{metafor}`. Básicamente, estudia si existe una asociación entre la diligencia (*conscientiousness*) y la adherencia a la medicación. En otras palabras, ¿las personas más diligentes son más propensas a cumplir con la medicación prescrita?
+Para los ejemplos usados en ésta guía, usaré la base de datos `dat.molloy2014`, tomada de Molloy et al. [-@molloy2013].
+
+Esta base de datos viene incluida con el paquete `{metafor}` de R. Básicamente, Molloy et al. [-@molloy2013] estudiaron si existe una asociación entre la diligencia (*conscientiousness*) y la adherencia a la medicación. En otras palabras, ¿las personas más diligentes son más propensas a cumplir con la medicación prescrita?
+
+Primero, primero, debemos cargar los paquetes que usaremos, incluyendo `{metafor}` y `{robumeta}` para hacer metaánálisis, así como `{dplyr}` para manipular y organizar la base de datos.
+
+```{r eval=FALSE}
+library(robumeta)
+library(metafor)
+library(dplyr)
+```
+
+Una vez cargado el paquete `{metafor}`, ya puedo cargar la base de datos `dat.molloy2014`. En éste caso, para poder *llamarla* cuando sea necesario, la asignaré a un objeto llamado `dat`. 
 
 ```{r molloy2014}
-dat <- get(data(dat.molloy2014))
-dat <- mutate(dat, study_id = 1:16) #agregar columna study_id
-dat <- dat %>% select(study_id, 
-                      authors:quality) #mover study_id como primera columna
+dat <- get(data(dat.molloy2014)) %>%
+  mutate(study_id = 1:16)  %>% #agregar columna study_id
+  select(study_id, authors:quality) #mover study_id como primera columna
 ```
 
 La base da datos, que he asignado a un objeto llamado `dat`, tiene ahora la siguiente estructura (Tabla \@ref(tab:estructura)):
 
 ```{r estructura, echo=FALSE, message = FALSE}
-library(kableExtra)
-
 kable(dat, 
       linesep = "",
       booktabs = TRUE,
@@ -111,7 +136,7 @@ Adicionalmente, en este ejemplo tenemos una serie de moderadores:
 
 -   `quality`: calidad metodológica
 
-## Transformación de *r* de Pearson a *z* de Fisher
+# Transformación de *r* de Pearson a *z* de Fisher
 
 Por esto, vamos a transformar los coeficientes *r* de Pearson a *z* de Fisher, que no tienen este problema. Para esto, vamos a usar la función `escalc` del paquete `metafor`.
 
@@ -137,7 +162,7 @@ kable(dat,
   column_spec(12:13, background = "#c4c4c4")
 ```
 
-## Hacer el meta-análisis {#meta-cor}
+# Hacer el meta-análisis {#meta-cor}
 
 Para hacer el meta-análisis, usaremos la función `rma` del paquete `metafor`, para el que tenemos que especificar los tamaños de efecto (`yi`) y varianzas (`vi`) de los estudios a meta-analizar. En este caso, las columnas donde tenemos estos valores, tienen los mismos nombres (`yi`, `vi`). Asignaré los resultados del meta-análisis a un objeto llamado `res`.
 
@@ -151,9 +176,9 @@ Los resultados, son los siguientes:
 res
 ```
 
-Primero, nos confirma que ajustamos un modelo con efectos aleatorios (`Random-Effects Model`), a partir de 16 estudios (`k = 16`), y que para estimar $\tau^2$ (tau cuadrado[^1]) usamos el método de **máxima verosimilitud restringida**[^2] (`tau^2 estimator: REML`), que se designa como *REML* por sus siglas en inglés.
+Primero, nos confirma que ajustamos un modelo con efectos aleatorios (`Random-Effects Model`), a partir de 16 estudios (`k = 16`), y que para estimar $\tau^2$ (tau cuadrado[^1]) usamos el método de **máxima verosimilitud restringida**[^2] (`tau^2 estimator: REML`), que se designa como *REML* por sus siglas en inglés .
 
-[^1]: $\tau^2$ es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio. Para más información, ver [@borensteinIdentifyingQuantifyingHeterogeneity2009].
+[^1]: $\tau^2$ es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio. Para más información, ver Borenstein et al. [-@borensteinIdentifyingQuantifyingHeterogeneity2009].
 
 [^2]: Hay varios métodos disponibles como estimador, además de **máxima verosimilitud restringida** (REML). Sin embargo, si no estás seguro, REML es una buena opción. Cada método tiene ventajas y desventajas que, si tienes interés en mirar, están descritas en la [documentación](https://www.rdocumentation.org/packages/metafor/versions/2.4-0/topics/rma.uni) de la función `rma`.
 
@@ -185,7 +210,7 @@ En nuestro caso, el estadístico $Q$ sugiere que hay una heterogeneidad signific
 
 Por último, tenemos los resultados del modelo de meta-análisis (`Model results`). Nos provee un estimado de la asociación positiva entre diligencia y adherencia a la medicación (0.1499 ± 0.0316), lo que equivale a un valor *z* de 4.7501 , y sugiere que esa asociación es significativa ($p$ \< .0001). Así mismo, nos provee los límites inferior (0.0881) y superior (0.2118) de los intervalos de confianza.
 
-### Más información sobre heterogeneidad
+## Más información sobre heterogeneidad
 
 Además de reportar los estadísticos $\tau^2$, $\tau$, $I^2$ y $Q$, podemos fácilmente calcular los intervalos de confianza para $\tau^2$, $\tau$, e $I^2$ con la función `confint`, que también pueden ser reportado junto a estos estadísticos.
 
@@ -195,7 +220,7 @@ confint(res)
 
 Para el $\tau^2$, el hecho de que los intervalos de confianza no crucen el 0 (en nuestro caso 0.0017 *---* 0.0378), sugiere que de hecho también que hay heterogeneidad entre los estudios que meta-analizamos.
 
-### Diagnóstico de influencia
+## Diagnóstico de influencia
 
 Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado[^3]. Para esto, podemos usar la función `influence`, cuyo resultado en este caso asignaré a un objeto llamado `inf`.
 
@@ -219,7 +244,7 @@ Por último, podemos también ver ésta información que tenemos guardada en el 
 plot(inf)
 ```
 
-### *Forest plot* (diagrama de bosque)
+## *Forest plot* (diagrama de bosque)
 
 Para hacer un diagrama de bosque (*forest plot*) con [`metafor`](https://www.metafor-project.org/doku.php) resumiendo nuestro meta-análisis, solo tenemos que usar la función `forest`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`).
 
@@ -264,7 +289,7 @@ viz_forest(res,
            text_size = 2.6)
 ```
 
-### *Funnel plot* (diagrama de embudo) y sesgo de estudios pequeños
+## *Funnel plot* (diagrama de embudo) y sesgo de estudios pequeños
 
 En este punto, es en donde más errores se cometen. Las pruebas más comunes para evaluar sesgos de publicación, son la evaluación de la asimatría en el *funnel plot* (diagrama de embudo), y la regresión (o test) de Egger [@eggerBiasMetaanalysisDetected1997].
 
@@ -272,7 +297,7 @@ El principal error que la mayoría de los investigadores (meta-analistas) comete
 
 A pesar de esto, tanto la regresión de Egger como el *funnel plot*, son intersantes dado que el sesgo de estudios pequeños es importante.
 
-#### *Funnel plot*
+### *Funnel plot*
 
 Para crear un *funnel plot* con [`metafor`](https://www.metafor-project.org/doku.php), de nuestro meta-análisis, solo tenemos que usar la función `funnel`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`).
 
@@ -316,7 +341,7 @@ ggarrange(p.suna, p.sunb,
           nrow = 2)
 ```
 
-#### Regresión de Egger {#reg-egger}
+### Regresión de Egger {#reg-egger}
 
 Para hacer una prueba formal de sesgo de estudios pequeños, podemos hacer una prueba o regresión de Egger [@eggerBiasMetaanalysisDetected1997]. En [`metafor`](https://www.metafor-project.org/doku.php), esto se hace con la función `regtest`, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (`res`).
 
@@ -332,9 +357,9 @@ Como se puede ver, la prueba de Egger no muestra un resultado significativo (`z 
 
 Con base en esto, y la inspección visual subjetiva del *funnel plot*, muchos investigadores concluyen que no hay sesgo de publicación. Sin embargo, como mencioné antes, estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (más adelante, en la sección XXXXX, explicaré cómo evaluar si hay sesgo de publicación).
 
-## Meta-análisis de correlación con moderador
+# Meta-análisis de correlación con moderador
 
-### Ejemplo 1: Moderación de la edad promedio de los participantes
+## Ejemplo 1: Moderación de la edad promedio de los participantes
 
 Primero, y como ejemplo, vamos a ver si la edad (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^4], lo que podría moderar (afectar) la asociación entre diligencia (*conscientiousness*) y adherencia a la medicación prescrita.
 
@@ -354,13 +379,13 @@ res.modage
 
 Los resultados, que tienen la misma organización que los del análisis sin moderadores (sección \@ref(meta-cor)) resultado nos muestra que, a pesar de la gran diferencia de edad entre estudios, la edad no tiene un efecto significativo, como se puede ver en la columna `pval` para el efecto de `meanage` (`r round(res.modage$pval[2], 4)`).
 
-#### *Forest plot* y *funnel plot* {#plot-mod}
+### *Forest plot* y *funnel plot* {#plot-mod}
 
 Por supuesto, de estos resultados también puedo crear *forest plots* y *funnel plots*, siguiendo los ejemplos y código de la sección \@ref(meta-cor).
 
 Para el *forest plot*, hago a continuación un ejemplo usando la opción básica (por supuesto, se pueden crear versiones anotadas y mejoradas, pero la función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) tendrá problemas para crear un *forest plot* de un meta-análisis con moderadores).
 
-```{r for-plot-mod1, warning = FALSE, fig.height=6, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador. En la ilustración gráfica, además de los efectos originales, se puede ver el efecto de cada estudio estimado cuando se incluye el moderador como polígonos (diamantes) de color gris. Sin embargo, ya no obtenemos una fila representando el efecto promediado del meta-análisis, ya que no tenemos un solo efecto."}
+```{r for-plot-mod1, warning = FALSE, fig.height=5, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador. En la ilustración gráfica, además de los efectos originales, se puede ver el efecto de cada estudio estimado cuando se incluye el moderador como polígonos (diamantes) de color gris. Sin embargo, ya no obtenemos una fila representando el efecto promediado del meta-análisis, ya que no tenemos un solo efecto."}
 # forest plot con anotaciones adicionales
 forest(res.modage, xlim = c(-1.6, 1.6))
 text(-1.6, 18, "Autor(es), Año", pos = 4)
@@ -373,7 +398,7 @@ De manera similar, podemos obtener un *funnel plot* de nuestro meta-análisis co
 funnel(res.modage)
 ```
 
-### Ejemplo 2: Moderación de la calidad de los estudios meta-analizados
+## Ejemplo 2: Moderación de la calidad de los estudios meta-analizados
 
 La base de datos con tiene una medida de calidad metodológica de los estudios (variable `quality`). Dicha calidad, también podría moderar la asociación entre diligencia (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, puedo hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.modq` para diferenciarlo de los demás.
 
@@ -386,7 +411,7 @@ De nuevo, encontramos que éste moderador (`quality`), al igual que la edad prom
 
 Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como describí en la sección \@ref(plot-mod).
 
-### Ejemplo 3: Moderación de las controles usados en cada estudio meta-analizado
+## Ejemplo 3: Moderación de las controles usados en cada estudio meta-analizado
 
 Como último ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre diligencia (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.mes`. Son embargo, dado que la variable que contiene esta información (`controls`) es un factor, pero no está definido como tal, debo hacerlo en la usando la función `factor` al ingresar el argumento `mods` (i.e. `mods = ~factor(controls)`).
 
@@ -399,11 +424,17 @@ En éste caso, a diferencia de los ejemplos de moderación anteriores, la variab
 
 Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como describí en la sección \@ref(plot-mod).
 
-## Sesgo de publicación (*publication bias*) {#sesgo-pub}
+# Sesgo de publicación (*publication bias*) {#sesgo-pub}
+
+Para determinar el sesgo de publicación, se puede usar la función `weightfunct` del paquete `{weightr}`, que nos permite "estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges [-@veveaGeneralLinearModel1995] como la versión modificada presentada en Vevea y Woods [-@veveaPublicationBiasResearch2005]", como se describe en la [documentación](https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct) de la función `weightfunct`.
+
+```{r message=FALSE}
+library(weightr)
+```
+
+En este caso, usaré esta función, asignando el resultado a un objeto que llamaré `wf`.
 
 ```{r}
-library(weightr)
-
 wf <- weightfunct(effect = dat$yi, v = dat$vi, table = TRUE)
 wf
 ```
