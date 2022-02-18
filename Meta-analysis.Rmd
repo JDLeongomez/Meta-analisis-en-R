@@ -33,10 +33,10 @@ header-includes:
   \renewcommand{\abstractname}{Descripción}
   \usepackage[spanish]{babel}
   \usepackage{hanging}
-  \usepackage{mdframed}
+  \usepackage[framemethod=TikZ]{mdframed}
+  \usepackage{fontawesome5}
   \renewcommand\spanishtablename{Tabla}
   \usepackage{multirow,booktabs,setspace,caption}
-  \usepackage{tikz}
   \DeclareCaptionLabelSeparator*{spaced}{\\[2ex]}
   \captionsetup[table]{textfont=it,format=plain,justification=justified,
   singlelinecheck=false,labelsep=spaced,skip=0pt}
@@ -56,8 +56,13 @@ opts_chunk$set(comment = NA)
 def_hook <- knit_hooks$get("output")
 knit_hooks$set(output = function(x, options){
   out <- def_hook(x, options)
-  return(paste("\\begin{mdframed}[backgroundcolor=black!10]\\begin{verbatim}", x,
-               "\\end{verbatim}\\end{mdframed}", collapse = "\n"))
+  return(paste("\\vspace{3mm}
+                \\begin{mdframed}[linecolor = gray,
+                                  linewidth = 1.5pt,
+                                  frametitle={\\textcolor{gray}{Salida de la consola de R:}}]
+                \\begin{verbatim}", 
+               x,
+               "\\end{verbatim}\\end{mdframed}"))
 })
 library(robumeta)
 library(metafor)
