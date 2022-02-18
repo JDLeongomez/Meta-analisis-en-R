@@ -29,9 +29,11 @@ header-includes:
   \lhead{Juan David Leongómez}
   \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}}
   \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}}
+  \lfoot{\footnotesize{Versión 2}}
   \renewcommand{\abstractname}{Descripción}
   \usepackage[spanish]{babel}
   \usepackage{hanging}
+  \usepackage{mdframed}
   \renewcommand\spanishtablename{Tabla}
   \usepackage{multirow,booktabs,setspace,caption}
   \usepackage{tikz}
@@ -49,7 +51,14 @@ bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+opts_chunk$set(comment = NA)
+def_hook <- knit_hooks$get("output")
+knit_hooks$set(output = function(x, options){
+  out <- def_hook(x, options)
+  return(paste("\\begin{mdframed}[backgroundcolor=black!10]\\begin{verbatim}", x,
+               "\\end{verbatim}\\end{mdframed}", collapse = "\n"))
+})
 library(robumeta)
 library(metafor)
 library(dplyr)
@@ -66,7 +75,7 @@ Este documento contiene todo el código explicaciones básicas, paso a paso, par
 
 Esta guía asume una comprensión básica del meta-análisis, así como un manejo básico de R. Sin embargo, de ser necesario, como introducción al meta-análisis recomiendo ver el video introductorio sobre meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
 
-******
+------------------------------------------------------------------------
 
 **Cita éste trabajo como:**
 
@@ -76,7 +85,7 @@ Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía pr
 \end{hangparas}
 ```
 
-******
+------------------------------------------------------------------------
 
 ```{=latex}
 {\hypersetup{hidelinks}
@@ -84,7 +93,6 @@ Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía pr
 \tableofcontents
 }
 ```
-
 # Base de datos de ejemplo
 
 Para los ejemplos usados en ésta guía, usaré la base de datos `dat.molloy2014`, tomada de Molloy et al. [-@molloy2013].
@@ -99,7 +107,7 @@ library(metafor)
 library(dplyr)
 ```
 
-Una vez cargado el paquete `{metafor}`, ya puedo cargar la base de datos `dat.molloy2014`. En éste caso, para poder *llamarla* cuando sea necesario, la asignaré a un objeto llamado `dat`. 
+Una vez cargado el paquete `{metafor}`, ya puedo cargar la base de datos `dat.molloy2014`. En éste caso, para poder *llamarla* cuando sea necesario, la asignaré a un objeto llamado `dat`.
 
 ```{r molloy2014}
 dat <- get(data(dat.molloy2014)) %>%
@@ -138,7 +146,7 @@ Adicionalmente, en este ejemplo tenemos una serie de moderadores:
 
 # Transformación de *r* de Pearson a *z* de Fisher
 
-Por esto, vamos a transformar los coeficientes *r* de Pearson a *z* de Fisher, que no tienen este problema. Para esto, vamos a usar la función `escalc` del paquete `metafor`.
+Por esto, vamos a transformar los coeficientes *r* de Pearson a *z* de Fisher, que no tienen este problema. Usaré la función `escalc` del paquete `metafor`.
 
 ```{r}
 dat <- escalc(measure = "ZCOR", 
