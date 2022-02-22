@@ -45,10 +45,36 @@ header-includes:
 always_allow_html: yes
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
 urlcolor: blue
-linkcolor: red
+linkcolor: violet
 link-citations: true
 bibliography: references.bib
 ---
+
+```{=tex}
+\newcounter{theo}
+\newenvironment{theo}[1][]{%
+  \refstepcounter{theo}%
+  \ifstrempty{#1}%
+  {\mdfsetup{%
+      frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0]
+        \node[anchor=east,rectangle,fill=blue!20]
+        { Theorem~\thetheo};}}
+  }%
+  {\mdfsetup{%
+      frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0]
+        \node[anchor=east,rectangle,fill=blue!20]
+        { Salida de la consola de R:};}}%
+  }%
+  \mdfsetup{innertopmargin=7pt,linecolor=blue!20,linewidth=2pt,topline=true,
+    frametitleaboveskip=-15pt}
+  \begin{mdframed}[]
+  }{%
+\end{mdframed}%
+}
+```
+
 
 ```{r setup, include=FALSE}
 library(knitr)
@@ -56,13 +82,10 @@ opts_chunk$set(comment = NA)
 def_hook <- knit_hooks$get("output")
 knit_hooks$set(output = function(x, options){
   out <- def_hook(x, options)
-  return(paste("\\vspace{3mm}
-                \\begin{mdframed}[linecolor = gray,
-                                  linewidth = 1.5pt,
-                                  frametitle={\\textcolor{gray}{Salida de la consola de R:}}]
+  return(paste("\\begin{theo}[nobreak=true]
                 \\begin{verbatim}", 
                x,
-               "\\end{verbatim}\\end{mdframed}"))
+               "\\end{verbatim}\\end{theo}"))
 })
 library(robumeta)
 library(metafor)
@@ -70,6 +93,8 @@ library(dplyr)
 library(ggpubr)
 library(kableExtra)
 ```
+
+------------------------------------------------------------------------
 
 ```{=tex}
 \begin{center}
@@ -98,6 +123,8 @@ Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía pr
 \tableofcontents
 }
 ```
+
+
 # Base de datos de ejemplo
 
 Para los ejemplos usados en ésta guía, usaré la base de datos `dat.molloy2014`, tomada de Molloy et al. [-@molloy2013].
@@ -133,7 +160,7 @@ kable(dat,
            footnote_as_chunk = TRUE)
 ```
 
-La columna `ri` contiene los coeficientes de correlación de Pearson (la columna `ni` contiene los tamaños de muestra de cada estudio). Dado que los coeficientes de Pearson no tienen una distribución normal, esto podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeños.
+La columna `ri` contiene los coeficientes de correlación de Pearson (la columna `ni` contiene los tamaños de muestra de cada estudio).
 
 Adicionalmente, en este ejemplo tenemos una serie de moderadores:
 
@@ -151,14 +178,13 @@ Adicionalmente, en este ejemplo tenemos una serie de moderadores:
 
 # Transformación de *r* de Pearson a *z* de Fisher
 
-Por esto, vamos a transformar los coeficientes *r* de Pearson a *z* de Fisher, que no tienen este problema. Usaré la función `escalc` del paquete `metafor`.
+Dado que los coeficientes de Pearson (columna `ri`) no tienen una distribución normal, esto podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeños. Por esto, vamos a transformar los coeficientes *r* de Pearson a *z* de Fisher, que no tienen este problema. Usaré la función `escalc` del paquete `metafor`.
 
 ```{r}
 dat <- escalc(measure = "ZCOR", 
               ri = ri, 
               ni = ni,
-              data= dat, 
-              slab = paste(authors, year, sep = ", "))
+              data = dat)
 ```
 
 Esto ha creado dos nuevas variables en nuestra tabla: `yi`, que es el tamaño de efecto, y `vi` que es la varianza.
@@ -169,9 +195,12 @@ kable(dat,
       booktabs = TRUE,
       caption = "Estructura de la base de datos, con transformación de los r de Pearon a z de Fisher") %>% 
   kable_styling(latex_options = c("HOLD_position", "scale_down")) %>% 
-  footnote(general = "Datos tomados de Molloy et al., (2013).",
+  footnote(general = "Las nuevas columnas creadas usando la función \\\\texttt{escalc} 
+           (\\\\texttt{yi} como tamaño de efecto y \\\\texttt{vi} como varianza) están 
+           resaltadas en gris.",
            general_title = "Nota:",
-           footnote_as_chunk = TRUE) %>% 
+           footnote_as_chunk = TRUE,
+           escape = FALSE) %>% 
   column_spec(12:13, background = "#c4c4c4")
 ```
 
@@ -189,11 +218,7 @@ Los resultados, son los siguientes:
 res
 ```
 
-Primero, nos confirma que ajustamos un modelo con efectos aleatorios (`Random-Effects Model`), a partir de 16 estudios (`k = 16`), y que para estimar $\tau^2$ (tau cuadrado[^1]) usamos el método de **máxima verosimilitud restringida**[^2] (`tau^2 estimator: REML`), que se designa como *REML* por sus siglas en inglés .
-
-[^1]: $\tau^2$ es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio. Para más información, ver Borenstein et al. [-@borensteinIdentifyingQuantifyingHeterogeneity2009].
-
-[^2]: Hay varios métodos disponibles como estimador, además de **máxima verosimilitud restringida** (REML). Sin embargo, si no estás seguro, REML es una buena opción. Cada método tiene ventajas y desventajas que, si tienes interés en mirar, están descritas en la [documentación](https://www.rdocumentation.org/packages/metafor/versions/2.4-0/topics/rma.uni) de la función `rma`.
+Primero, nos confirma que ajustamos un modelo con efectos aleatorios (`Random-Effects Model`), a partir de 16 estudios (`k = 16`), y que para estimar $\tau^2$ (tau cuadrado) usamos el método de **máxima verosimilitud restringida**^[Hay varios métodos disponibles como estimador, además de **máxima verosimilitud restringida** (REML). Sin embargo, si tienes dudas, REML es una buena opción. Cada método tiene ventajas y desventajas que, si tienes interés en mirar, están descritas en la [documentación](https://www.rdocumentation.org/packages/metafor/versions/2.4-0/topics/rma.uni) de la función `rma`.] (`tau^2 estimator: REML`), que se designa como *REML* por sus siglas en inglés .
 
 Posteriormente, nos provee los valores de una serie de estimadores de heterogeneidad o varianza:
 
@@ -213,11 +238,11 @@ La tercera parte, reporta una prueba de heterogeneidad, usando el estadístico $
 
 De todos estos, los más comúnmente reportados son $\tau^2$, $\tau$, $I^2$ y $Q$. Cada una de estas medidas tiene ventajas y desventajas, por lo cual tiene sentido reportarlas todas.
 
-$I^2$, por ejemplo, tiene la ventaja de ser sencillo de interpretar, pues hay criterios generales para heterogeneidad baja, moderada y alta (típicamente 25%, 50%, and 75%, respectivamente). Sin embargo, es muy sensible a los tamaños de muestra de los estudios meta-analizados (por ejemplo, si en tu meta-análisis hay estudios con tamaños de muestra muy grandes, esto va a sesgar tu $I^2$).
+* **$I^2$:** tiene la ventaja de ser sencillo de interpretar, pues hay criterios generales para heterogeneidad baja, moderada y alta (típicamente 25%, 50%, and 75%, respectivamente). Sin embargo, es muy sensible a los tamaños de muestra de los estudios meta-analizados (por ejemplo, si en tu meta-análisis hay estudios con tamaños de muestra muy grandes, esto va a sesgar tu $I^2$).
 
-$Q$, aunque no es sensible al tamaño de muestra, es sensible al número de estudios meta-analizados. Tiene la ventaja de ser un test de hipótesis, y como tal, puede ser interpretado a partir de su valor *p*.
+* **$Q$:** aunque no es sensible al tamaño de muestra, es sensible al número de estudios meta-analizados. Tiene la ventaja de ser un test de hipótesis, y como tal, puede ser interpretado a partir de su valor *p*.
 
-$\tau^2$ no tiene estos problemas, pero es más difícil de interpretar.
+* **$\tau^2$:** no tiene problemas de sensibilidad a los tamaños de muestra o número de estudios meta-analizados, pero es más difícil de interpretar. $\tau^2$ es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio. Para más información, ver Borenstein et al. [-@borensteinIdentifyingQuantifyingHeterogeneity2009].
 
 En nuestro caso, el estadístico $Q$ sugiere que hay una heterogeneidad significativa en los estudios meta-analizados ($p$ = 0.0009). $I^2$, sugiere una heterogeneidad moderada, lo que quiere decir que más de la mitad (61.73%) de la varianza se estima que se deriva de diferencias en los tamaños de efecto.
 
@@ -235,9 +260,7 @@ Para el $\tau^2$, el hecho de que los intervalos de confianza no crucen el 0 (en
 
 ## Diagnóstico de influencia
 
-Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado[^3]. Para esto, podemos usar la función `influence`, cuyo resultado en este caso asignaré a un objeto llamado `inf`.
-
-[^3]: Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un *n* de 100, pero el otro tiene un *n* de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que tu meta-análisis sea dependiente de un único estudio.
+Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado^[Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un *n* de 100, pero el otro tiene un *n* de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que tu meta-análisis sea dependiente de un único estudio.]. Para esto, podemos usar la función `influence`, cuyo resultado en este caso asignaré a un objeto llamado `inf`.
 
 ```{r}
 inf <- influence(res)
@@ -368,15 +391,17 @@ regtest(res)
 
 Como se puede ver, la prueba de Egger no muestra un resultado significativo (`z = 1.0216, p = 0.3070`).
 
-Con base en esto, y la inspección visual subjetiva del *funnel plot*, muchos investigadores concluyen que no hay sesgo de publicación. Sin embargo, como mencioné antes, estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (más adelante, en la sección XXXXX, explicaré cómo evaluar si hay sesgo de publicación).
+```{r echo = FALSE}
+regtest(res)
+```
+
+Con base en esto, y la inspección visual subjetiva del *funnel plot*, muchos investigadores concluyen que no hay sesgo de publicación. Sin embargo, como mencioné antes, estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (más adelante, en la sección \@ref(sesgo-pub), explicaré cómo evaluar si hay sesgo de publicación).
 
 # Meta-análisis de correlación con moderador
 
 ## Ejemplo 1: Moderación de la edad promedio de los participantes
 
-Primero, y como ejemplo, vamos a ver si la edad (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^4], lo que podría moderar (afectar) la asociación entre diligencia (*conscientiousness*) y adherencia a la medicación prescrita.
-
-[^4]: De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
+Primero, y como ejemplo, vamos a ver si la edad (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios^[De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.], lo que podría moderar (afectar) la asociación entre diligencia (*conscientiousness*) y adherencia a la medicación prescrita.
 
 Para esto, de nuevo podemos usar la función `rma` de paquete `metafor` y de la misma manera que en la sección \@ref(meta-cor), pero agregando nuestra variable moderadora (`meanage`) al argumento `mods`. En este caso voy a asignar a un objeto llamado `res.modage`, para diferenciarlo del objeto `res` al que asigné el meta-análisis básico, sin moderadores.
 
