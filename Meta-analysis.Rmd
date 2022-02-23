@@ -289,7 +289,7 @@ Esto me muestra gran cantidad de información de cada estudio (en este caso, una
 
 Por último, podemos también ver ésta información que tenemos guardada en el objeto `inf`, de manera gráfica, usando la función `plot`.
 
-```{r fig.height=7, fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo que podemos estar tranquilos con nuestro meta-análisis."}
+```{r fig.height=9, fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo que podemos estar tranquilos con nuestro meta-análisis."}
 plot(inf)
 ```
 
@@ -297,15 +297,15 @@ plot(inf)
 
 Para hacer un diagrama de bosque (*forest plot*) con [`metafor`](https://www.metafor-project.org/doku.php) resumiendo nuestro meta-análisis, solo tenemos que usar la función `forest`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`).
 
-Como se puede ver en las Figuras \@ref(fig:for-plot1), \@ref(fig:for-plot2) y \@ref(fig:for-plot3) (que son versiones del mismo *forest plot*), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre `r min(dat$ri)` y `r max(dat$ri)`), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en algunos son prácticamente 0 o incluso negativas.
-
-```{r for-plot1, fig.height=5.3, fig.cap = "Forest plot básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza, y el tamaño de muestra (representado por el tamaño del cuadrado). Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
+```{r for-plot1, fig.height=7, fig.cap = "Forest plot básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza, y el tamaño de muestra (representado por el tamaño del cuadrado). Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
 forest(res)
 ```
 
+Como se puede ver en las Figuras \@ref(fig:for-plot1), \@ref(fig:for-plot2) y \@ref(fig:for-plot3) (que son versiones del mismo *forest plot*), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre `r min(dat$ri)` y `r max(dat$ri)`), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en algunos son prácticamente 0 o incluso negativas.
+
 Para una versión más completa y anotada, también usando el *plot* básico de [`metafor`](https://www.metafor-project.org/doku.php), pero agregando encabezados de cada columna en español, nombres de los estudios meta-analizados (pegando las columnas `authors` y `year` separadas por una coma y un espacio: `paste(dat$authors, dat$year, sep = ", ")` como argumento `slab`) así como agregando una columna con los pesos dados a cada estudio, y detalles del modelo final (estas opciones están explicadas [acá](https://search.r-project.org/CRAN/refmans/metafor/html/forest.rma.html)):
 
-```{r for-plot2, fig.height=5, fig.cap = "Forest plot anotado, creado con [metafor](https://www.metafor-project.org/doku.php). En esta versión agregué algunos encabezados en español, así como estadísticos generales del modelo de meta-análisis. Modelo EA se refiere al modelo meta-analizado, de efectos aleatorios."}
+```{r for-plot2, fig.height=7, fig.cap = "Forest plot anotado, creado con [metafor](https://www.metafor-project.org/doku.php). En esta versión agregué algunos encabezados en español, así como estadísticos generales del modelo de meta-análisis. Modelo EA se refiere al modelo meta-analizado, de efectos aleatorios."}
 # forest plot con anotaciones adicionales
 forest(res, cex = 0.75, xlim = c(-1.6, 1.6),
        slab = paste(dat$authors, dat$year, sep = ", "),
@@ -325,12 +325,12 @@ text(x = 1, y = 18, labels = "Peso", pos = 2)
 text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
 ```
 
-O, para una incluso más sofisticada, se puede usar la función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). En el siguiente ejemplo hago 3 versiones del mismo *forest plot* usando diferentes variantes y escalas de colores, y transformando de vuelta los coeficientes de *z* de Fisher a *r* de Pearson.
+O, para una incluso más sofisticada, se puede usar la función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). 
 
 ```{r eval = FALSE}
 library(metaviz)
 
-# Variante "classic" (no tiene que ser definida, pues es la opción por defecto)
+# A. Variante "classic" (no tiene que ser definida, pues es la opción por defecto)
 viz_forest(res, 
            study_labels = paste(dat$authors, dat$year, sep = ", "),
            xlab = "Correlación", 
@@ -339,7 +339,7 @@ viz_forest(res,
            text_size = 2.6,
            x_trans_function = tanh)
 
-# Variante "thick"
+# B. Variante "thick"
 viz_forest(res, 
            study_labels = paste(dat$authors, dat$year, sep = ", "),
            xlab = "Correlación", 
@@ -350,7 +350,7 @@ viz_forest(res,
            text_size = 2.6,
            x_trans_function = tanh)
 
-# Variante "rain"
+# C. Variante "rain"
 viz_forest(res, 
            study_labels = paste(dat$authors, dat$year, sep = ", "),
            xlab = "Correlación", 
@@ -362,7 +362,9 @@ viz_forest(res,
            x_trans_function = tanh)
 ```
 
-```{r for-plot3, echo = FALSE, fig.height = 8, warning = FALSE, fig.cap = 'Variantes de forest plots creados con  [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). **A.** Variante clásica (opción por defecto). **B.** Variante "thick" y escala de colores "Greens". **C.** Variante "rain" y escala de colores "Purples".'}
+Con el código anterior genero las siguientes tres versiones del mismo *forest plot* usando diferentes variantes y escalas de colores, y transformando de vuelta los coeficientes de *z* de Fisher a *r* de Pearson. Por supuesto, es cuestión de gusto cuál usar.
+
+```{r for-plot3, echo = FALSE, fig.height = 3}
 library(metaviz)
 p.classic <- viz_forest(res, 
                         study_labels = paste(dat$authors, dat$year, sep = ", "),
@@ -372,6 +374,11 @@ p.classic <- viz_forest(res,
                         text_size = 2.6,
                         x_trans_function = tanh)
 
+ggarrange(p.classic,
+          labels = c("A"))
+```   
+
+```{r for-plot3b, echo = FALSE, fig.height = 6, warning = FALSE, fig.cap = 'Variantes de forest plots creados con  [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). **A.** Variante clásica (opción por defecto). **B.** Variante "thick" y escala de colores "Greens". **C.** Variante "rain" y escala de colores "Purples".'}
 p.thick <- viz_forest(res, 
                       study_labels = paste(dat$authors, dat$year, sep = ", "),
                       xlab = "Correlación", 
@@ -392,9 +399,9 @@ p.rain <- viz_forest(res,
                      text_size = 2.6,
                      x_trans_function = tanh)
 
-ggarrange(p.classic, p.thick, p.rain,
-          labels = "AUTO",
-          nrow = 3)
+ggarrange(p.thick, p.rain,
+          labels = c("B", "C"),
+          nrow = 2)
 ```
 
 ## *Funnel plot* (diagrama de embudo) y sesgo de estudios pequeños
@@ -409,13 +416,13 @@ A pesar de esto, tanto la regresión de Egger como el *funnel plot*, son intersa
 
 Para crear un *funnel plot* con [`metafor`](https://www.metafor-project.org/doku.php), de nuestro meta-análisis, solo tenemos que usar la función `funnel`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`).
 
-```{r funnel-plot1, fig.height=5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo."}
+```{r funnel-plot1, fig.height=6, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo."}
 funnel(res)
 ```
 
 De nuevo, se puede usar el paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función [`viz_funnel`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-funnel-plots-with-viz_funnel). Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regressión de Egger (`egger = TRUE`; ver sección \@ref(reg-egger), a continuación), transformando los tamaños de efecto de regreso a $r$ de Pearson (`x_trans_function = tanh`), y con los títulos de los ejes en español.
 
-```{r funnel-plot2, fig.height=4, warning = FALSE, fig.cap = "Funnel plot creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5% (i.e. $p$ > 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1% (i.e. $p$ > 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger."}
+```{r funnel-plot2, fig.height=5, warning = FALSE, fig.cap = "Funnel plot creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5% (i.e. $p$ > 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1% (i.e. $p$ > 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger."}
 viz_funnel(res, 
            egger = TRUE,
            x_trans_function = tanh,
@@ -426,14 +433,14 @@ viz_funnel(res,
 Alternativamente, el paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) tiene la función [`viz_sunset`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#sunset-power-enhanced-funnel-plots), que permite además mostrar el poder estadístico (o potencia) de los estudios meta-analizados para detectar un efecto de interés mediante una prueba de Wald de dos colas. A continuación, muestro dos versiones de esta función. En ambos casos, agregué el efecto *real* encontrado con el meta-análisis (`contours = TRUE`), y transformé los tamaños de efecto de regreso a $r$ de Pearson (`x_trans_function = tanh`).
 
 ```{r eval = FALSE}
-# Escala de poder discreta
+# A. Escala de poder discreta
 viz_sunset(res,
            contours = TRUE,
            x_trans_function = tanh,
            ylab = "Error estándar",
            xlab = "Coeficiente de correlación")
 
-# Escala de poder contínua
+# B. Escala de poder contínua
 viz_sunset(res, 
            contours = TRUE,
            x_trans_function = tanh, 
