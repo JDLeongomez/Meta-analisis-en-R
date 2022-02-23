@@ -13,6 +13,7 @@ output:
   bookdown::pdf_document2:
     highlight: zenburn
     number_sections: yes
+    keep_tex:  true
     toc: no
     pandoc_args:
       - '--lua-filter=scholarly-metadata.lua'
