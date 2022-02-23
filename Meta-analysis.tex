@@ -5,6 +5,17 @@
 %
 \documentclass[
 ]{article}
+\title{Meta-análisis de correlaciones en R}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Guía práctica}
+\author{Juan David Leongómez\textsuperscript{1}}
+\date{23 febrero, 2022}
+
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
 \usepackage{iftex}
@@ -40,7 +51,7 @@
   pdftitle={Meta-análisis de correlaciones en R},
   pdfauthor={Juan David Leongómez1},
   colorlinks=true,
-  linkcolor={gray},
+  linkcolor={iacoldark},
   filecolor={Maroon},
   citecolor={Blue},
   urlcolor={blue},
@@ -137,7 +148,7 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-\usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \renewcommand\spanishtablename{Tabla} \usepackage{multirow,booktabs,setspace,caption} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \captionsetup[table]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,labelsep=spaced,skip=5pt} \captionsetup[figure]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,skip=5pt}
+\usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \renewcommand\spanishtablename{Tabla} \usepackage{multirow,booktabs,setspace,caption} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \captionsetup[table]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,labelsep=spaced,skip=5pt} \captionsetup[figure]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,skip=5pt} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -156,36 +167,25 @@
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 
-\title{Meta-análisis de correlaciones en R}
-\usepackage{etoolbox}
-\makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
-\makeatother
-\subtitle{Guía práctica}
-\author{Juan David Leongómez\textsuperscript{1}}
-\date{23 febrero, 2022}
-
 \begin{document}
 \maketitle
 
 \textsuperscript{1} Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. Email: \href{mailto:jleongomez@unbosque.edu.co}{\nolinkurl{jleongomez@unbosque.edu.co}}. Web: \href{https://jdleongomez.info/es/}{jdleongomez.info}.
 
-\newtcolorbox{Box2}[2][]{
+\newtcolorbox[auto counter]{Box2}[2][]{
                 lower separated=false,
                 colback=white,
-                colframe=darkgray,
+                colframe=iacol,
                 fonttitle=\bfseries,
-                colbacktitle=gray,
-                coltitle=white,
-                boxrule=0.2pt,
+                colbacktitle=iacol,
+                coltitle=black,
+                boxrule=1pt,
                 outer arc=1pt,
                 breakable,
                 enhanced,
                 attach boxed title to top left={yshift=-0.1in,xshift=0.15in},
                 boxed title style={boxrule=0pt,colframe=white,},
-title=#2,#1}
+              title=#2,#1}
 
 \vfill
 \begin{center}
@@ -249,8 +249,8 @@ Tras asignar la base de datos a este objeto (\texttt{dat}), podemos verla en la 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{footnotesize}
-                \begin{Box2}{\texttt{Consola de R}}
+\begin{Box2}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
                 \begin{verbatim}                authors year  ni     ri controls          design   a_measure
 1      Axelsson et al. 2009 109  0.187     none cross-sectional self-report
 2      Axelsson et al. 2011 749  0.162     none cross-sectional self-report
@@ -286,10 +286,10 @@ Tras asignar la base de datos a este objeto (\texttt{dat}), podemos verla en la 
 15       NEO   46.20       3
 16       NEO   56.00       1
  \end{verbatim}
-                \end{Box2}
                 \end{footnotesize}
+                \end{Box2}
 
-Por supuesto, la salida de la consola no es la más clara, así que de aquí en adelante mostraré cualquier tabla en un formato de impresión. Voy a volver a cargar la base de datos (sobreescribiendo el objeto \texttt{dat}), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada \texttt{study\_id}, en la que numeraré los estudios del 1 al 16. A continuación, reorganizaré las columnas para que \texttt{study\_id} sea la primera, en vez de la última columna.
+Por supuesto, la salida de la consola no es la más clara, así que de aquí en adelante mostraré la mayoría de las tablas en un formato de impresión, más fácil de leer. Voy a volver a cargar la base de datos (sobreescribiendo el objeto \texttt{dat}), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada \texttt{study\_id}, en la que numeraré los estudios del 1 al 16. A continuación, reorganizaré las columnas para que \texttt{study\_id} sea la primera, en vez de la última columna.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -377,26 +377,26 @@ Esto ha creado dos nuevas variables en nuestra tabla: \texttt{yi}, que es el tam
 \toprule
 study\_id & authors & year & ni & ri & controls & design & a\_measure & c\_measure & meanage & quality & yi & vi\\
 \midrule
-1 & Axelsson et al. & 2009 & 109 & 0.187 & none & cross-sectional & self-report & other & 22.00 & 1 & \cellcolor[HTML]{c4c4c4}{0.1892266} & \cellcolor[HTML]{c4c4c4}{0.0094340}\\
-2 & Axelsson et al. & 2011 & 749 & 0.162 & none & cross-sectional & self-report & NEO & 53.59 & 1 & \cellcolor[HTML]{c4c4c4}{0.1634399} & \cellcolor[HTML]{c4c4c4}{0.0013405}\\
-3 & Bruce et al. & 2010 & 55 & 0.340 & none & prospective & other & NEO & 43.36 & 2 & \cellcolor[HTML]{c4c4c4}{0.3540925} & \cellcolor[HTML]{c4c4c4}{0.0192308}\\
-4 & Christensen et al. & 1999 & 107 & 0.320 & none & cross-sectional & self-report & other & 41.70 & 1 & \cellcolor[HTML]{c4c4c4}{0.3316471} & \cellcolor[HTML]{c4c4c4}{0.0096154}\\
-5 & Christensen \& Smith & 1995 & 72 & 0.270 & none & prospective & other & NEO & 46.39 & 2 & \cellcolor[HTML]{c4c4c4}{0.2768638} & \cellcolor[HTML]{c4c4c4}{0.0144928}\\
-6 & Cohen et al. & 2004 & 65 & 0.000 & none & prospective & other & NEO & 41.20 & 2 & \cellcolor[HTML]{c4c4c4}{0.0000000} & \cellcolor[HTML]{c4c4c4}{0.0161290}\\
-7 & Dobbels et al. & 2005 & 174 & 0.175 & none & cross-sectional & self-report & NEO & 52.30 & 1 & \cellcolor[HTML]{c4c4c4}{0.1768200} & \cellcolor[HTML]{c4c4c4}{0.0058480}\\
-8 & Ediger et al. & 2007 & 326 & 0.050 & multiple & prospective & self-report & NEO & 41.00 & 3 & \cellcolor[HTML]{c4c4c4}{0.0500417} & \cellcolor[HTML]{c4c4c4}{0.0030960}\\
-9 & Insel et al. & 2006 & 58 & 0.260 & none & prospective & other & other & 77.00 & 2 & \cellcolor[HTML]{c4c4c4}{0.2661084} & \cellcolor[HTML]{c4c4c4}{0.0181818}\\
-10 & Jerant et al. & 2011 & 771 & 0.010 & multiple & prospective & other & NEO & 78.60 & 3 & \cellcolor[HTML]{c4c4c4}{0.0100003} & \cellcolor[HTML]{c4c4c4}{0.0013021}\\
-11 & Moran et al. & 1997 & 56 & -0.090 & multiple & prospective & other & NEO & 57.20 & 2 & \cellcolor[HTML]{c4c4c4}{-0.0902442} & \cellcolor[HTML]{c4c4c4}{0.0188679}\\
-12 & O'Cleirigh et al. & 2007 & 91 & 0.370 & none & prospective & self-report & NEO & 37.90 & 2 & \cellcolor[HTML]{c4c4c4}{0.3884231} & \cellcolor[HTML]{c4c4c4}{0.0113636}\\
-13 & Penedo et al. & 2003 & 116 & 0.000 & none & cross-sectional & self-report & NEO & 39.20 & 1 & \cellcolor[HTML]{c4c4c4}{0.0000000} & \cellcolor[HTML]{c4c4c4}{0.0088496}\\
-14 & Quine et al. & 2012 & 537 & 0.150 & none & prospective & self-report & other & 69.00 & 2 & \cellcolor[HTML]{c4c4c4}{0.1511404} & \cellcolor[HTML]{c4c4c4}{0.0018727}\\
-15 & Stilley et al. & 2004 & 158 & 0.240 & none & prospective & other & NEO & 46.20 & 3 & \cellcolor[HTML]{c4c4c4}{0.2447741} & \cellcolor[HTML]{c4c4c4}{0.0064516}\\
-16 & Wiebe \& Christensen & 1997 & 65 & 0.040 & none & prospective & other & NEO & 56.00 & 1 & \cellcolor[HTML]{c4c4c4}{0.0400214} & \cellcolor[HTML]{c4c4c4}{0.0161290}\\
+1 & Axelsson et al. & 2009 & 109 & 0.187 & none & cross-sectional & self-report & other & 22.00 & 1 & \cellcolor[HTML]{f68212}{0.1892266} & \cellcolor[HTML]{f68212}{0.0094340}\\
+2 & Axelsson et al. & 2011 & 749 & 0.162 & none & cross-sectional & self-report & NEO & 53.59 & 1 & \cellcolor[HTML]{f68212}{0.1634399} & \cellcolor[HTML]{f68212}{0.0013405}\\
+3 & Bruce et al. & 2010 & 55 & 0.340 & none & prospective & other & NEO & 43.36 & 2 & \cellcolor[HTML]{f68212}{0.3540925} & \cellcolor[HTML]{f68212}{0.0192308}\\
+4 & Christensen et al. & 1999 & 107 & 0.320 & none & cross-sectional & self-report & other & 41.70 & 1 & \cellcolor[HTML]{f68212}{0.3316471} & \cellcolor[HTML]{f68212}{0.0096154}\\
+5 & Christensen \& Smith & 1995 & 72 & 0.270 & none & prospective & other & NEO & 46.39 & 2 & \cellcolor[HTML]{f68212}{0.2768638} & \cellcolor[HTML]{f68212}{0.0144928}\\
+6 & Cohen et al. & 2004 & 65 & 0.000 & none & prospective & other & NEO & 41.20 & 2 & \cellcolor[HTML]{f68212}{0.0000000} & \cellcolor[HTML]{f68212}{0.0161290}\\
+7 & Dobbels et al. & 2005 & 174 & 0.175 & none & cross-sectional & self-report & NEO & 52.30 & 1 & \cellcolor[HTML]{f68212}{0.1768200} & \cellcolor[HTML]{f68212}{0.0058480}\\
+8 & Ediger et al. & 2007 & 326 & 0.050 & multiple & prospective & self-report & NEO & 41.00 & 3 & \cellcolor[HTML]{f68212}{0.0500417} & \cellcolor[HTML]{f68212}{0.0030960}\\
+9 & Insel et al. & 2006 & 58 & 0.260 & none & prospective & other & other & 77.00 & 2 & \cellcolor[HTML]{f68212}{0.2661084} & \cellcolor[HTML]{f68212}{0.0181818}\\
+10 & Jerant et al. & 2011 & 771 & 0.010 & multiple & prospective & other & NEO & 78.60 & 3 & \cellcolor[HTML]{f68212}{0.0100003} & \cellcolor[HTML]{f68212}{0.0013021}\\
+11 & Moran et al. & 1997 & 56 & -0.090 & multiple & prospective & other & NEO & 57.20 & 2 & \cellcolor[HTML]{f68212}{-0.0902442} & \cellcolor[HTML]{f68212}{0.0188679}\\
+12 & O'Cleirigh et al. & 2007 & 91 & 0.370 & none & prospective & self-report & NEO & 37.90 & 2 & \cellcolor[HTML]{f68212}{0.3884231} & \cellcolor[HTML]{f68212}{0.0113636}\\
+13 & Penedo et al. & 2003 & 116 & 0.000 & none & cross-sectional & self-report & NEO & 39.20 & 1 & \cellcolor[HTML]{f68212}{0.0000000} & \cellcolor[HTML]{f68212}{0.0088496}\\
+14 & Quine et al. & 2012 & 537 & 0.150 & none & prospective & self-report & other & 69.00 & 2 & \cellcolor[HTML]{f68212}{0.1511404} & \cellcolor[HTML]{f68212}{0.0018727}\\
+15 & Stilley et al. & 2004 & 158 & 0.240 & none & prospective & other & NEO & 46.20 & 3 & \cellcolor[HTML]{f68212}{0.2447741} & \cellcolor[HTML]{f68212}{0.0064516}\\
+16 & Wiebe \& Christensen & 1997 & 65 & 0.040 & none & prospective & other & NEO & 56.00 & 1 & \cellcolor[HTML]{f68212}{0.0400214} & \cellcolor[HTML]{f68212}{0.0161290}\\
 \bottomrule
 \multicolumn{13}{l}{\rule{0pt}{1em}\textit{Nota:} Las nuevas columnas creadas usando la función \texttt{escalc} 
            (\texttt{yi} como tamaño de efecto y \texttt{vi} como varianza) están 
-           resaltadas en gris.}\\
+           resaltadas en naranja}\\
 \end{tabular}}
 \end{table}
 
@@ -419,8 +419,8 @@ Los resultados, son los siguientes:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{footnotesize}
-                \begin{Box2}{\texttt{Consola de R}}
+\begin{Box2}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
                 \begin{verbatim} 
 Random-Effects Model (k = 16; tau^2 estimator: REML)
 
@@ -440,8 +440,8 @@ estimate      se    zval    pval   ci.lb   ci.ub
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
  \end{verbatim}
-                \end{Box2}
                 \end{footnotesize}
+                \end{Box2}
 
 Primero, nos confirma que ajustamos un modelo con efectos aleatorios (\texttt{Random-Effects\ Model}), a partir de 16 estudios (\texttt{k\ =\ 16}), y que para estimar \(\tau^2\) (tau cuadrado) usamos el método de \textbf{máxima verosimilitud restringida}\footnote{Hay varios métodos disponibles como estimador, además de \textbf{máxima verosimilitud restringida} (REML). Sin embargo, si tienes dudas, REML es una buena opción. Cada método tiene ventajas y desventajas que, si tienes interés en mirar, están descritas en la \href{https://www.rdocumentation.org/packages/metafor/versions/2.4-0/topics/rma.uni}{documentación} de la función \texttt{rma}.} (\texttt{tau\^{}2\ estimator:\ REML}), que se designa como \emph{REML} por sus siglas en inglés .
 
@@ -493,8 +493,8 @@ Además de reportar los estadísticos \(\tau^2\), \(\tau\), \(I^2\) y \(Q\), pod
 \end{Highlighting}
 \end{Shaded}
 
-\begin{footnotesize}
-                \begin{Box2}{\texttt{Consola de R}}
+\begin{Box2}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
                 \begin{verbatim} 
        estimate   ci.lb   ci.ub 
 tau^2    0.0081  0.0017  0.0378 
@@ -502,32 +502,32 @@ tau      0.0901  0.0412  0.1944
 I^2(%)  61.7324 25.2799 88.2545 
 H^2      2.6132  1.3383  8.5139 
  \end{verbatim}
-                \end{Box2}
                 \end{footnotesize}
+                \end{Box2}
 
 Para el \(\tau^2\), el hecho de que los intervalos de confianza no crucen el 0 (en nuestro caso 0.0017 \emph{---} 0.0378), sugiere que de hecho también que hay heterogeneidad entre los estudios que meta-analizamos.
 
 \hypertarget{diagnuxf3stico-de-influencia}{%
 \subsection{Diagnóstico de influencia}\label{diagnuxf3stico-de-influencia}}
 
-Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que tu meta-análisis sea dependiente de un único estudio.}. Para esto, podemos usar la función \texttt{influence}, cuyo resultado en este caso asignaré a un objeto llamado \texttt{inf}.
+Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que tu meta-análisis sea dependiente de un único estudio.}. Para esto, podemos usar la función \texttt{influence}, cuyo resultado en este caso asignaré a un objeto llamado \texttt{inf.res}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{inf }\OtherTok{\textless{}{-}} \FunctionTok{influence}\NormalTok{(res)}
+\NormalTok{inf.res }\OtherTok{\textless{}{-}} \FunctionTok{influence}\NormalTok{(res)}
 \end{Highlighting}
 \end{Shaded}
 
-Ya que lo asigné a un objeto (\texttt{inf}), para ver el resultado, tengo que correrlo para ver su resultado.
+Ya que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, tengo que correr este objeto para ver su resultado.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{inf}
+\NormalTok{inf.res}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{footnotesize}
-                \begin{Box2}{\texttt{Consola de R}}
+\begin{Box2}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
                 \begin{verbatim} 
    rstudent  dffits cook.d  cov.r tau2.del  QE.del    hat  weight    dfbs inf 
 1    0.2918  0.0485 0.0025 1.1331   0.0091 37.7109 0.0568  5.6776  0.0481     
@@ -547,16 +547,16 @@ Ya que lo asigné a un objeto (\texttt{inf}), para ver el resultado, tengo que c
 15   0.8066  0.2126 0.0459 1.0907   0.0083 35.8385 0.0684  6.8403  0.2125     
 16  -0.7160 -0.1656 0.0280 1.0853   0.0087 37.7017 0.0411  4.1094 -0.1642     
  \end{verbatim}
-                \end{Box2}
                 \end{footnotesize}
+                \end{Box2}
 
-Esto me muestra gran cantidad de información de cada estudio (en este caso, una tabla sin formato, que es muy ancha para poder imprimirse en esta página, por lo cual está reportada en dos partes). Sin embargo, lo más importante ahora es mirar la última columna, también llamada \texttt{inf}. Si ahí aparecieran asteriscos (que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
+Esto me muestra gran cantidad de información de cada estudio (en este caso, una tabla sin formato). Sin embargo, lo más importante ahora es mirar la última columna, llamada \texttt{inf}. Si ahí aparecieran asteriscos (que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
 
-Por último, podemos también ver ésta información que tenemos guardada en el objeto \texttt{inf}, de manera gráfica, usando la función \texttt{plot}.
+Por último, podemos también ver ésta información que tenemos guardada en el objeto \texttt{inf.res}, de manera gráfica, usando la función \texttt{plot}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(inf)}
+\FunctionTok{plot}\NormalTok{(inf.res)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -573,6 +573,7 @@ Para hacer un diagrama de bosque (\emph{forest plot}) con \href{https://www.meta
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
 \FunctionTok{forest}\NormalTok{(res)}
 \end{Highlighting}
 \end{Shaded}
@@ -590,10 +591,10 @@ Para una versión más completa y anotada, también usando el \emph{plot} básic
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# forest plot con anotaciones adicionales}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
 \FunctionTok{forest}\NormalTok{(res, }\AttributeTok{cex =} \FloatTok{0.75}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\FloatTok{1.6}\NormalTok{),}
        \AttributeTok{slab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{),}
        \AttributeTok{showweights =} \ConstantTok{TRUE}\NormalTok{,}
-       \AttributeTok{atransf =}\NormalTok{ transf.ztor, }
        \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
        \AttributeTok{digits =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,3L),}
        \AttributeTok{mlab =} \FunctionTok{bquote}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Modelo EA: Q("}\NormalTok{, .(res}\SpecialCharTok{$}\NormalTok{k }\SpecialCharTok{{-}}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{p), }\StringTok{") = "}\NormalTok{,}
@@ -646,7 +647,7 @@ O, para una incluso más sofisticada, se puede usar la función \href{https://cr
            \AttributeTok{study\_labels =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{),}
            \AttributeTok{xlab =} \StringTok{"Correlación"}\NormalTok{, }
            \AttributeTok{variant =} \StringTok{"rain"}\NormalTok{,}
-           \AttributeTok{col =} \StringTok{"Purples"}\NormalTok{,}
+           \AttributeTok{col =} \StringTok{"Oranges"}\NormalTok{,}
            \AttributeTok{annotate\_CI =} \ConstantTok{TRUE}\NormalTok{,}
            \AttributeTok{summary\_label =} \StringTok{"Resumen"}\NormalTok{,}
            \AttributeTok{text\_size =} \FloatTok{2.6}\NormalTok{,}
@@ -654,14 +655,16 @@ O, para una incluso más sofisticada, se puede usar la función \href{https://cr
 \end{Highlighting}
 \end{Shaded}
 
-Con el código anterior genero las siguientes tres versiones del mismo \emph{forest plot} usando diferentes variantes y escalas de colores, y transformando de vuelta los coeficientes de \emph{z} de Fisher a \emph{r} de Pearson. Por supuesto, es cuestión de gusto cuál usar.
+Con el código anterior genero las siguientes tres versiones del mismo \emph{forest plot} usando diferentes variantes y escalas de colores, y transformando de vuelta los coeficientes de \emph{z} de Fisher a \emph{r} de Pearson.
+
+Por supuesto, es cuestión de gusto cuál usar.
 
 \includegraphics{Meta-analysis_files/figure-latex/for-plot3-1.pdf}
 
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/for-plot3b-1.pdf}
-\caption{\label{fig:for-plot3b}Variantes de forest plots creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. \textbf{A.} Variante clásica (opción por defecto). \textbf{B.} Variante ``thick'' y escala de colores ``Greens''. \textbf{C.} Variante ``rain'' y escala de colores ``Purples''.}
+\caption{\label{fig:for-plot3b}Variantes de forest plots creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. \textbf{A.} Variante clásica (opción por defecto). \textbf{B.} Variante ``thick'' y escala de colores ``Greens.'' \textbf{C.} Variante ``rain'' y escala de colores ``Oranges.''}
 \end{figure}
 
 \hypertarget{funnel-plot-diagrama-de-embudo-y-sesgo-de-estudios-pequeuxf1os}{%
@@ -680,6 +683,7 @@ Para crear un \emph{funnel plot} con \href{https://www.metafor-project.org/doku.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
 \FunctionTok{funnel}\NormalTok{(res)}
 \end{Highlighting}
 \end{Shaded}
@@ -748,8 +752,8 @@ Para hacer una prueba formal de sesgo de estudios pequeños, podemos hacer una p
 
 Como se puede ver, la prueba de Egger no muestra un resultado significativo (\texttt{z\ =\ 1.0216,\ p\ =\ 0.3070}).
 
-\begin{footnotesize}
-                \begin{Box2}{\texttt{Consola de R}}
+\begin{Box2}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
                 \begin{verbatim} 
 Regression Test for Funnel Plot Asymmetry
 
@@ -759,8 +763,8 @@ Predictor: standard error
 Test for Funnel Plot Asymmetry: z = 1.0216, p = 0.3070
 Limit Estimate (as sei -> 0):   b = 0.0790 (CI: -0.0686, 0.2266)
  \end{verbatim}
-                \end{Box2}
                 \end{footnotesize}
+                \end{Box2}
 
 Con base en esto, y la inspección visual subjetiva del \emph{funnel plot}, muchos investigadores concluyen que no hay sesgo de publicación. Sin embargo, como mencioné antes, estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (más adelante, en la sección \ref{sesgo-pub}, explicaré cómo evaluar si hay sesgo de publicación).
 
@@ -788,8 +792,8 @@ Los resultados, son los siguientes:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{footnotesize}
-                \begin{Box2}{\texttt{Consola de R}}
+\begin{Box2}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
                 \begin{verbatim} 
 Mixed-Effects Model (k = 16; tau^2 estimator: REML)
 
@@ -814,29 +818,27 @@ meanage   -0.0024  0.0020  -1.1952  0.2320  -0.0063  0.0015
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
  \end{verbatim}
-                \end{Box2}
                 \end{footnotesize}
+                \end{Box2}
 
 Los resultados, que tienen la misma organización que los del análisis sin moderadores (sección \ref{meta-cor}) resultado nos muestra que, a pesar de la gran diferencia de edad entre estudios, la edad no tiene un efecto significativo, como se puede ver en la columna \texttt{pval} para el efecto de \texttt{meanage} (0.232).
 
 \hypertarget{plot-mod}{%
 \subsubsection{\texorpdfstring{\emph{Forest plot} y \emph{funnel plot}}{Forest plot y funnel plot}}\label{plot-mod}}
 
-Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \emph{funnel plots}, siguiendo los ejemplos y código de la sección \ref{meta-cor}.
-
-Para el \emph{forest plot}, hago a continuación un ejemplo anotado y mejorado (tal como el ejemplo de la figura \ref{fig:for-plot2}), pero es importante tener en cuenta que esta opción no creará un resumen del meta-análisis.
+Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \emph{funnel plots}, siguiendo los ejemplos y código de la sección \ref{meta-cor}. Para el \emph{forest plot}, hago a continuación un ejemplo anotado y mejorado (tal como el ejemplo de la figura \ref{fig:for-plot2}), pero es importante tener en cuenta que esta opción no creará un resumen del meta-análisis.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# forest plot con anotaciones adicionales}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
 \FunctionTok{forest}\NormalTok{(res.modage,  }\AttributeTok{cex =} \FloatTok{0.75}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\FloatTok{1.6}\NormalTok{),}
        \AttributeTok{slab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{),}
        \AttributeTok{showweights =} \ConstantTok{TRUE}\NormalTok{,}
-       \AttributeTok{atransf =}\NormalTok{ transf.ztor,}
        \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
        \AttributeTok{digits =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,3L))}
 \CommentTok{\# agregar encabezados a las columnas (valores de X y Y deben ser ajustados)}
-\NormalTok{op }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{font=}\DecValTok{2}\NormalTok{)}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{font=}\DecValTok{2}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(}\AttributeTok{x =} \SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\AttributeTok{y =} \DecValTok{18}\NormalTok{, }\AttributeTok{labels =} \StringTok{"Autor(es), Año"}\NormalTok{, }\AttributeTok{pos =} \DecValTok{4}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(}\AttributeTok{x =} \DecValTok{0}\NormalTok{, }\AttributeTok{y =} \DecValTok{18}\NormalTok{, }\AttributeTok{labels =} \StringTok{"Efecto e IC"}\NormalTok{, }\AttributeTok{pos =} \DecValTok{4}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(}\AttributeTok{x =} \DecValTok{1}\NormalTok{, }\AttributeTok{y =} \DecValTok{18}\NormalTok{, }\AttributeTok{labels =} \StringTok{"Peso"}\NormalTok{, }\AttributeTok{pos =} \DecValTok{2}\NormalTok{)}
@@ -856,6 +858,7 @@ De manera similar, podemos obtener un \emph{funnel plot} de nuestro meta-anális
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
 \FunctionTok{funnel}\NormalTok{(res.modage)}
 \end{Highlighting}
 \end{Shaded}
@@ -878,8 +881,8 @@ La base de datos con tiene una medida de calidad metodológica de los estudios (
 \end{Highlighting}
 \end{Shaded}
 
-\begin{footnotesize}
-                \begin{Box2}{\texttt{Consola de R}}
+\begin{Box2}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
                 \begin{verbatim} 
 Mixed-Effects Model (k = 16; tau^2 estimator: REML)
 
@@ -904,8 +907,8 @@ quality   -0.0312  0.0391  -0.7995  0.4240  -0.1078  0.0453
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
  \end{verbatim}
-                \end{Box2}
                 \end{footnotesize}
+                \end{Box2}
 
 De nuevo, encontramos que éste moderador (\texttt{quality}), al igual que la edad promedio (\texttt{meanage}), no tiene un efecto significativo, como se puede ver en la columna \texttt{pval} para el efecto de \texttt{quality} (0.424).
 
@@ -923,8 +926,8 @@ Como último ejemplo, voy a mirar si el hecho de que los estudios tengan variabl
 \end{Highlighting}
 \end{Shaded}
 
-\begin{footnotesize}
-                \begin{Box2}{\texttt{Consola de R}}
+\begin{Box2}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
                 \begin{verbatim} 
 Mixed-Effects Model (k = 16; tau^2 estimator: REML)
 
@@ -949,8 +952,8 @@ factor(controls)none    0.1621  0.0361  4.4858  <.0001   0.0913  0.2329  ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
  \end{verbatim}
-                \end{Box2}
                 \end{footnotesize}
+                \end{Box2}
 
 En éste caso, a diferencia de los ejemplos de moderación anteriores, la variable moderadora (\texttt{controls}) sí tiene un efecto significativo, como se puede ver en la columna \texttt{pval} para el efecto de \texttt{factor(controls)none} (\textless0.001), y en los asteriscos que aparecen al final de esa fila (\texttt{***}).
 
@@ -959,7 +962,7 @@ Por supuesto, \emph{forest plots} y \emph{funnel plots} pueden ser creados, tal 
 \hypertarget{sesgo-pub}{%
 \section{\texorpdfstring{Sesgo de publicación (\emph{publication bias})}{Sesgo de publicación (publication bias)}}\label{sesgo-pub}}
 
-Para determinar el sesgo de publicación, se puede usar la función \texttt{weightfunct} del paquete \texttt{\{weightr\}}, que nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea y Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005})'', como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}.
+Para determinar el sesgo de publicación, se puede usar la función \texttt{weightfunct} del paquete \texttt{\{weightr\}}, que nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea y Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005}),'' como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -976,8 +979,8 @@ En este caso, usaré esta función, asignando el resultado a un objeto que llama
 \end{Highlighting}
 \end{Shaded}
 
-\begin{footnotesize}
-                \begin{Box2}{\texttt{Consola de R}}
+\begin{Box2}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
                 \begin{verbatim} 
 Unadjusted Model (k = 16):
 
@@ -1015,8 +1018,8 @@ Number of Effect Sizes per Interval:
 p-values <0.025              9
 0.025 < p-values < 1         7
  \end{verbatim}
-                \end{Box2}
                 \end{footnotesize}
+                \end{Box2}
 
 \hypertarget{referencias}{%
 \section*{Referencias}\label{referencias}}
