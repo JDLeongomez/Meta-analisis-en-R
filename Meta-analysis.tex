@@ -5,17 +5,6 @@
 %
 \documentclass[
 ]{article}
-\title{Meta-análisis de correlaciones en R}
-\usepackage{etoolbox}
-\makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
-\makeatother
-\subtitle{Guía práctica}
-\author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{1}}
-\date{24 febrero, 2022}
-
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
 \usepackage{iftex}
@@ -48,8 +37,8 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={Meta-análisis de correlaciones en R},
-  pdfauthor={Juan David Leongómez 1},
+  pdftitle={Meta-análisis de correlaciones en R:},
+  pdfauthor={Juan David Leongómez },
   colorlinks=true,
   linkcolor={iacoldark},
   filecolor={Maroon},
@@ -148,7 +137,7 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-\usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \renewcommand\spanishtablename{Tabla} \usepackage{multirow,booktabs,setspace,caption} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \captionsetup[table]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,labelsep=spaced,skip=5pt} \captionsetup[figure]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,skip=5pt} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \usepackage{changepage}
+\usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \usepackage{svg} \renewcommand\spanishtablename{Tabla} \usepackage{multirow,booktabs,setspace,caption} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \captionsetup[table]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,labelsep=spaced,skip=5pt} \captionsetup[figure]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,skip=5pt} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -167,12 +156,21 @@
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 
+\title{Meta-análisis de correlaciones en R:}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Guía práctica}
+\author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
+\date{25 febrero, 2022}
+
 \begin{document}
 \maketitle
 
-\textsuperscript{1} Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. Email: \href{mailto:jleongomez@unbosque.edu.co}{\nolinkurl{jleongomez@unbosque.edu.co}}. Web: \href{https://jdleongomez.info/es/}{jdleongomez.info}.
-
-\newtcolorbox[auto counter]{Box2}[2][]{
+\newtcolorbox[auto counter]{ROut}[2][]{
                 lower separated=false,
                 colback=white,
                 colframe=iacol,
@@ -187,25 +185,30 @@
                 boxed title style={boxrule=0pt,colframe=white,},
               title=#2,#1}
 
-\vfill
 \begin{center}
+Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. Email: \href{mailto:jleongomez@unbosque.edu.co}{jleongomez@unbosque.edu.co}. Web: \href{https://jdleongomez.info/es}{jdleongomez.info}.
+
+\vfill
 \textbf{Descripción}
 \end{center}
-\begin{adjustwidth}{1.5cm}{1.5cm}
 
-Este documento contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis en R, usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://www.rdocumentation.org/packages/robumeta}{\texttt{robumeta}} (\protect\hyperlink{ref-fisherRobumetaRpackageRobust2015}{Fisher \& Tipton, 2015}). Está principalmente basado en \href{https://youtu.be/lH4VZMTEZSc}{este video}, creado por Daniel S. Quintana (\protect\hyperlink{ref-quintanaHowPerformMetaanalysis2021}{2021}), pero contiene citas a fuentes primarias, además de información que he agregado.
+\par
+\begingroup
+\leftskip3em
+\rightskip\leftskip
 
-Esta guía asume una comprensión básica del meta-análisis, así como un manejo básico de R. Sin embargo, de ser necesario, como introducción al meta-análisis recomiendo ver el video introductorio sobre meta-análisis en \emph{jamovi} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}) que publiqué anteriormente en mi canal de YouTube \href{https://www.youtube.com/c/InvestigaciónAbierta}{\emph{Investigación Abierta}}.
+Este documento contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}). Está principalmente basado en \href{https://youtu.be/lH4VZMTEZSc}{este video}, creado por Daniel S. Quintana (\protect\hyperlink{ref-quintanaHowPerformMetaanalysis2021}{2021}), pero contiene citas a fuentes primarias, además de información que he agregado.
 
-\href{https://www.youtube.com/c/InvestigaciónAbierta}{\includegraphics{Logo-IA-Rectangulo.png}}
+Esta guía asume un manejo básico de R, así como una comprensión básica del meta-análisis. Sin embargo, de ser necesario y como introducción, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video introductorio} al meta-análisis en \emph{jamovi} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}) que publiqué anteriormente en mi canal de YouTube \href{https://www.youtube.com/c/InvestigaciónAbierta}{\emph{Investigación Abierta}}.
 
-\textbackslash end\{adjustwidth\}
+\href{https://www.youtube.com/c/InvestigaciónAbierta}{\includegraphics{Logo-IA-Rectangulo.pdf}}
+
+\par
+\endgroup
 \vfill
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-\textbf{Cita éste trabajo como:}
-
+\textbf{Cita esta guía como } \hrulefill 
+\newline
 \begin{hangparas}{.25in}{1}
 Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía práctica.} Zenodo. \url{https://doi.org/10.5281/zenodo.5640182}
 \end{hangparas}
@@ -225,12 +228,12 @@ Para los ejemplos usados en ésta guía, usaré la base de datos \texttt{dat.mol
 
 Esta base de datos viene incluida con el paquete \texttt{\{metafor\}} de R. Básicamente, Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}) estudiaron si existe una asociación entre la diligencia (\emph{conscientiousness}) y la adherencia a la medicación. En otras palabras, ¿las personas más diligentes son más propensas a cumplir con la medicación prescrita?
 
-Primero, primero, debemos cargar los paquetes que usaremos, incluyendo \texttt{\{metafor\}} y \texttt{\{robumeta\}} para hacer metaánálisis, así como \texttt{\{dplyr\}} para manipular y organizar la base de datos.
+Primero, primero, debemos cargar los paquetes que usaremos, incluyendo \texttt{\{metafor\}} y \texttt{\{metaviz\}} para hacer meta-análisis, así como \texttt{\{dplyr\}} para manipular y organizar la base de datos.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(robumeta)}
 \FunctionTok{library}\NormalTok{(metafor)}
+\FunctionTok{library}\NormalTok{(metaviz)}
 \FunctionTok{library}\NormalTok{(dplyr)}
 \end{Highlighting}
 \end{Shaded}
@@ -251,7 +254,7 @@ Tras asignar la base de datos a este objeto (\texttt{dat}), podemos verla en la 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Box2}{Consola de R: Output~\thetcbcounter}
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
                 \begin{verbatim}                authors year  ni     ri controls          design   a_measure
 1      Axelsson et al. 2009 109  0.187     none cross-sectional self-report
@@ -289,7 +292,7 @@ Tras asignar la base de datos a este objeto (\texttt{dat}), podemos verla en la 
 16       NEO   56.00       1
  \end{verbatim}
                 \end{footnotesize}
-                \end{Box2}
+                \end{ROut}
 
 Por supuesto, la salida de la consola no es la más clara, así que de aquí en adelante mostraré la mayoría de las tablas en un formato de impresión, más fácil de leer. Voy a volver a cargar la base de datos (sobreescribiendo el objeto \texttt{dat}), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada \texttt{study\_id}, en la que numeraré los estudios del 1 al 16. A continuación, reorganizaré las columnas para que \texttt{study\_id} sea la primera, en vez de la última columna.
 
@@ -341,7 +344,7 @@ Adicionalmente, en este ejemplo tenemos una serie de moderadores:
 
 \begin{itemize}
 \item
-  \texttt{controls}: número de variables controladas
+  \texttt{controls}: cantidad de variables controladas (ninguna o múltiples)
 \item
   \texttt{design}: si se utilizó un diseño transversal o prospectivo
 \item
@@ -421,7 +424,7 @@ Los resultados, son los siguientes:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Box2}{Consola de R: Output~\thetcbcounter}
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
                 \begin{verbatim} 
 Random-Effects Model (k = 16; tau^2 estimator: REML)
@@ -443,7 +446,7 @@ estimate      se    zval    pval   ci.lb   ci.ub
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
  \end{verbatim}
                 \end{footnotesize}
-                \end{Box2}
+                \end{ROut}
 
 Primero, nos confirma que ajustamos un modelo con efectos aleatorios (\texttt{Random-Effects\ Model}), a partir de 16 estudios (\texttt{k\ =\ 16}), y que para estimar \(\tau^2\) (tau cuadrado) usamos el método de \textbf{máxima verosimilitud restringida}\footnote{Hay varios métodos disponibles como estimador, además de \textbf{máxima verosimilitud restringida} (REML). Sin embargo, si tienes dudas, REML es una buena opción. Cada método tiene ventajas y desventajas que, si tienes interés en mirar, están descritas en la \href{https://www.rdocumentation.org/packages/metafor/versions/2.4-0/topics/rma.uni}{documentación} de la función \texttt{rma}.} (\texttt{tau\^{}2\ estimator:\ REML}), que se designa como \emph{REML} por sus siglas en inglés .
 
@@ -495,7 +498,7 @@ Además de reportar los estadísticos \(\tau^2\), \(\tau\), \(I^2\) y \(Q\), pod
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Box2}{Consola de R: Output~\thetcbcounter}
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
                 \begin{verbatim} 
        estimate   ci.lb   ci.ub 
@@ -505,7 +508,7 @@ I^2(%)  61.7324 25.2799 88.2545
 H^2      2.6132  1.3383  8.5139 
  \end{verbatim}
                 \end{footnotesize}
-                \end{Box2}
+                \end{ROut}
 
 Para el \(\tau^2\), el hecho de que los intervalos de confianza no crucen el 0 (en nuestro caso 0.0017 \emph{---} 0.0378), sugiere que de hecho también que hay heterogeneidad entre los estudios que meta-analizamos.
 
@@ -528,7 +531,7 @@ Ya que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, tengo q
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Box2}{Consola de R: Output~\thetcbcounter}
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
                 \begin{verbatim} 
    rstudent  dffits cook.d  cov.r tau2.del  QE.del    hat  weight    dfbs inf 
@@ -550,7 +553,7 @@ Ya que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, tengo q
 16  -0.7160 -0.1656 0.0280 1.0853   0.0087 37.7017 0.0411  4.1094 -0.1642     
  \end{verbatim}
                 \end{footnotesize}
-                \end{Box2}
+                \end{ROut}
 
 Esto me muestra gran cantidad de información de cada estudio (en este caso, una tabla sin formato). Sin embargo, lo más importante ahora es mirar la última columna, llamada \texttt{inf}. Si ahí aparecieran asteriscos (que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
 
@@ -622,8 +625,6 @@ O, para una incluso más sofisticada, se puede usar la función \href{https://cr
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(metaviz)}
-
 \CommentTok{\# A. Variante "classic" (no tiene que ser definida, pues es la opción por defecto)}
 \FunctionTok{viz\_forest}\NormalTok{(res, }
            \AttributeTok{study\_labels =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{),}
@@ -666,7 +667,7 @@ Por supuesto, es cuestión de gusto cuál usar.
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/for-plot3b-1.pdf}
-\caption{\label{fig:for-plot3b}Variantes de forest plots creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. \textbf{A.} Variante clásica (opción por defecto). \textbf{B.} Variante ``thick'' y escala de colores ``Greens.'' \textbf{C.} Variante ``rain'' y escala de colores ``Oranges.''}
+\caption{\label{fig:for-plot3b}Variantes de forest plots creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. \textbf{A.} Variante clásica (opción por defecto). \textbf{B.} Variante ``thick'' y escala de colores ``Greens''. \textbf{C.} Variante ``rain'' y escala de colores ``Oranges''.}
 \end{figure}
 
 \hypertarget{funnel-plot-diagrama-de-embudo-y-sesgo-de-estudios-pequeuxf1os}{%
@@ -754,7 +755,7 @@ Para hacer una prueba formal de sesgo de estudios pequeños, podemos hacer una p
 
 Como se puede ver, la prueba de Egger no muestra un resultado significativo (\texttt{z\ =\ 1.0216,\ p\ =\ 0.3070}).
 
-\begin{Box2}{Consola de R: Output~\thetcbcounter}
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
                 \begin{verbatim} 
 Regression Test for Funnel Plot Asymmetry
@@ -766,7 +767,7 @@ Test for Funnel Plot Asymmetry: z = 1.0216, p = 0.3070
 Limit Estimate (as sei -> 0):   b = 0.0790 (CI: -0.0686, 0.2266)
  \end{verbatim}
                 \end{footnotesize}
-                \end{Box2}
+                \end{ROut}
 
 Con base en esto, y la inspección visual subjetiva del \emph{funnel plot}, muchos investigadores concluyen que no hay sesgo de publicación. Sin embargo, como mencioné antes, estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (más adelante, en la sección \ref{sesgo-pub}, explicaré cómo evaluar si hay sesgo de publicación).
 
@@ -794,7 +795,7 @@ Los resultados, son los siguientes:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Box2}{Consola de R: Output~\thetcbcounter}
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
                 \begin{verbatim} 
 Mixed-Effects Model (k = 16; tau^2 estimator: REML)
@@ -821,7 +822,7 @@ meanage   -0.0024  0.0020  -1.1952  0.2320  -0.0063  0.0015
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
  \end{verbatim}
                 \end{footnotesize}
-                \end{Box2}
+                \end{ROut}
 
 Los resultados, que tienen la misma organización que los del análisis sin moderadores (sección \ref{meta-cor}) resultado nos muestra que, a pesar de la gran diferencia de edad entre estudios, la edad no tiene un efecto significativo, como se puede ver en la columna \texttt{pval} para el efecto de \texttt{meanage} (0.232).
 
@@ -883,7 +884,7 @@ La base de datos con tiene una medida de calidad metodológica de los estudios (
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Box2}{Consola de R: Output~\thetcbcounter}
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
                 \begin{verbatim} 
 Mixed-Effects Model (k = 16; tau^2 estimator: REML)
@@ -910,7 +911,7 @@ quality   -0.0312  0.0391  -0.7995  0.4240  -0.1078  0.0453
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
  \end{verbatim}
                 \end{footnotesize}
-                \end{Box2}
+                \end{ROut}
 
 De nuevo, encontramos que éste moderador (\texttt{quality}), al igual que la edad promedio (\texttt{meanage}), no tiene un efecto significativo, como se puede ver en la columna \texttt{pval} para el efecto de \texttt{quality} (0.424).
 
@@ -928,7 +929,7 @@ Como último ejemplo, voy a mirar si el hecho de que los estudios tengan variabl
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Box2}{Consola de R: Output~\thetcbcounter}
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
                 \begin{verbatim} 
 Mixed-Effects Model (k = 16; tau^2 estimator: REML)
@@ -955,7 +956,7 @@ factor(controls)none    0.1621  0.0361  4.4858  <.0001   0.0913  0.2329  ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
  \end{verbatim}
                 \end{footnotesize}
-                \end{Box2}
+                \end{ROut}
 
 En éste caso, a diferencia de los ejemplos de moderación anteriores, la variable moderadora (\texttt{controls}) sí tiene un efecto significativo, como se puede ver en la columna \texttt{pval} para el efecto de \texttt{factor(controls)none} (\textless0.001), y en los asteriscos que aparecen al final de esa fila (\texttt{***}).
 
@@ -964,7 +965,7 @@ Por supuesto, \emph{forest plots} y \emph{funnel plots} pueden ser creados, tal 
 \hypertarget{sesgo-pub}{%
 \section{\texorpdfstring{Sesgo de publicación (\emph{publication bias})}{Sesgo de publicación (publication bias)}}\label{sesgo-pub}}
 
-Para determinar el sesgo de publicación, se puede usar la función \texttt{weightfunct} del paquete \texttt{\{weightr\}}, que nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea y Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005}),'' como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}.
+Para determinar el sesgo de publicación, se puede usar la función \texttt{weightfunct} del paquete \texttt{\{weightr\}}, que nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea y Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005})'', como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -981,7 +982,7 @@ En este caso, usaré esta función, asignando el resultado a un objeto que llama
 \end{Highlighting}
 \end{Shaded}
 
-\begin{Box2}{Consola de R: Output~\thetcbcounter}
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
                 \begin{verbatim} 
 Unadjusted Model (k = 16):
@@ -1021,7 +1022,7 @@ p-values <0.025              9
 0.025 < p-values < 1         7
  \end{verbatim}
                 \end{footnotesize}
-                \end{Box2}
+                \end{ROut}
 
 \hypertarget{referencias}{%
 \section*{Referencias}\label{referencias}}
@@ -1035,8 +1036,8 @@ Borenstein, M., Hedges, L. V., Higgns, J. P. T., \& Rothstein, H. R. (2009). Ide
 \leavevmode\vadjust pre{\hypertarget{ref-eggerBiasMetaanalysisDetected1997}{}}%
 Egger, M., Smith, G. D., Schneider, M., \& Minder, C. (1997). Bias in meta-analysis detected by a simple, graphical test. \emph{BMJ}, \emph{315}(7109), 629--634. \url{https://doi.org/10.1136/bmj.315.7109.629}
 
-\leavevmode\vadjust pre{\hypertarget{ref-fisherRobumetaRpackageRobust2015}{}}%
-Fisher, Z., \& Tipton, E. (2015). Robumeta: {An R}-package for robust variance estimation in meta-analysis. \emph{arXiv:1503.02220 {[}Stat{]}}. \url{https://arxiv.org/abs/1503.02220}
+\leavevmode\vadjust pre{\hypertarget{ref-KossmeierMetaviz}{}}%
+Kossmeier, M., Tran, U. S., \& Voracek, M. (2020). \emph{Metaviz: Forest plots, funnel plots, and visual funnel plot inference for meta-analysis}. \url{https://CRAN.R-project.org/package=metaviz}
 
 \leavevmode\vadjust pre{\hypertarget{ref-leongomezMetaanalysis2021}{}}%
 Leongómez, J. D. (2021). \emph{Hacer meta-análisis en jamovi es muy fácil}. {[}Archivo de {Vídeo}{]}. YouTube. \url{https://youtu.be/ntBbkOn9D_o}.

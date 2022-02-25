@@ -1,12 +1,9 @@
 ---
-title: 'Meta-análisis de correlaciones en R'
+title: 'Meta-análisis de correlaciones en R:'
 subtitle: 'Guía práctica'
 author:
   - name: Juan David Leongómez \orcidlink{0000-0002-0092-6298}
-    institute: ueb
     correspondence: false
-institute:
-  - ueb: 'Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. Email: jleongomez@unbosque.edu.co. Web: [jdleongomez.info](https://jdleongomez.info/es/).'
 date: "`r Sys.setlocale('LC_TIME');format(Sys.Date(),'%d %B, %Y')`"
 output:
   bookdown::pdf_document2:
@@ -37,6 +34,7 @@ header-includes:
   \usepackage{tikz,lipsum,lmodern}
   \usepackage[most]{tcolorbox}
   \usepackage{fontawesome5}
+  \usepackage{svg}
   \renewcommand\spanishtablename{Tabla}
   \usepackage{multirow,booktabs,setspace,caption}
   \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]}
@@ -47,7 +45,6 @@ header-includes:
   \usepackage{orcidlink}
   \definecolor{iacol}{RGB}{246, 130, 18}
   \definecolor{iacoldark}{RGB}{246, 100, 18}
-  \usepackage{changepage} 
 always_allow_html: yes
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
 urlcolor: blue
@@ -57,7 +54,7 @@ bibliography: references.bib
 ---
 
 ```{=tex}
-\newtcolorbox[auto counter]{Box2}[2][]{
+\newtcolorbox[auto counter]{ROut}[2][]{
                 lower separated=false,
                 colback=white,
                 colframe=iacol,
@@ -80,13 +77,13 @@ opts_chunk$set(comment = NA)
 def_hook <- knit_hooks$get("output")
 knit_hooks$set(output = function(x, options){
   out <- def_hook(x, options)
-  return(paste("\\begin{Box2}{Consola de R: Output~\\thetcbcounter}
+  return(paste("\\begin{ROut}{Consola de R: Output~\\thetcbcounter}
                 \\begin{footnotesize}
                 \\begin{verbatim}", 
                x,
                "\\end{verbatim}
                 \\end{footnotesize}
-                \\end{Box2}"))
+                \\end{ROut}"))
 })
 library(robumeta)
 library(metafor)
@@ -96,26 +93,32 @@ library(kableExtra)
 ```
 
 ```{=tex}
-\vfill
 \begin{center}
+Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. Email: \href{mailto:jleongomez@unbosque.edu.co}{jleongomez@unbosque.edu.co}. Web: \href{https://jdleongomez.info/es}{jdleongomez.info}.
+
+\vfill
 \textbf{Descripción}
 \end{center}
-\begin{adjustwidth}{1.5cm}{1.5cm}
+
+\par
+\begingroup
+\leftskip3em
+\rightskip\leftskip
 ```
-Este documento contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis en R, usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`robumeta`](https://www.rdocumentation.org/packages/robumeta) [@fisherRobumetaRpackageRobust2015]. Está principalmente basado en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene citas a fuentes primarias, además de información que he agregado.
 
-Esta guía asume una comprensión básica del meta-análisis, así como un manejo básico de R. Sin embargo, de ser necesario, como introducción al meta-análisis recomiendo ver el video introductorio sobre meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
+Este documento contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. Está principalmente basado en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene citas a fuentes primarias, además de información que he agregado.
 
-[![Investigación Abierta](Logo-IA-Rectangulo.png)](https://www.youtube.com/c/InvestigaciónAbierta){width=40%}
+Esta guía asume  un manejo básico de R, así como una comprensión básica del meta-análisis. Sin embargo, de ser necesario y como introducción, recomiendo ver [este video introductorio](https://youtu.be/ntBbkOn9D_o) al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
 
-\end{adjustwidth}
-\vfill
-
-----------------------
-
-**Cita éste trabajo como:**
+[![Investigación Abierta](Logo-IA-Rectangulo.pdf)](https://www.youtube.com/c/InvestigaciónAbierta){width=40%}
 
 ```{=latex}
+\par
+\endgroup
+\vfill
+
+\textbf{Cita esta guía como } \hrulefill 
+\newline
 \begin{hangparas}{.25in}{1}
 Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía práctica.} Zenodo. \url{https://doi.org/10.5281/zenodo.5640182}
 \end{hangparas}
@@ -137,11 +140,11 @@ Para los ejemplos usados en ésta guía, usaré la base de datos `dat.molloy2014
 
 Esta base de datos viene incluida con el paquete `{metafor}` de R. Básicamente, Molloy et al. [-@molloy2013] estudiaron si existe una asociación entre la diligencia (*conscientiousness*) y la adherencia a la medicación. En otras palabras, ¿las personas más diligentes son más propensas a cumplir con la medicación prescrita?
 
-Primero, primero, debemos cargar los paquetes que usaremos, incluyendo `{metafor}` y `{robumeta}` para hacer metaánálisis, así como `{dplyr}` para manipular y organizar la base de datos.
+Primero, primero, debemos cargar los paquetes que usaremos, incluyendo `{metafor}` y `{metaviz}` para hacer meta-análisis, así como `{dplyr}` para manipular y organizar la base de datos.
 
 ```{r eval=FALSE}
-library(robumeta)
 library(metafor)
+library(metaviz)
 library(dplyr)
 ```
 
@@ -183,7 +186,7 @@ La columna `ri` contiene los coeficientes de correlación de Pearson (la columna
 
 Adicionalmente, en este ejemplo tenemos una serie de moderadores:
 
--   `controls`: número de variables controladas
+-   `controls`: cantidad de variables controladas (ninguna o múltiples)
 
 -   `design`: si se utilizó un diseño transversal o prospectivo
 
@@ -335,8 +338,6 @@ text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
 O, para una incluso más sofisticada, se puede usar la función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). 
 
 ```{r eval = FALSE}
-library(metaviz)
-
 # A. Variante "classic" (no tiene que ser definida, pues es la opción por defecto)
 viz_forest(res, 
            study_labels = paste(dat$authors, dat$year, sep = ", "),
