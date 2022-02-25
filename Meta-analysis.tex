@@ -13,8 +13,8 @@
 }
 \makeatother
 \subtitle{Guía práctica}
-\author{Juan David Leongómez\textsuperscript{1}}
-\date{23 febrero, 2022}
+\author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{1}}
+\date{24 febrero, 2022}
 
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
@@ -49,7 +49,7 @@
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
   pdftitle={Meta-análisis de correlaciones en R},
-  pdfauthor={Juan David Leongómez1},
+  pdfauthor={Juan David Leongómez 1},
   colorlinks=true,
   linkcolor={iacoldark},
   filecolor={Maroon},
@@ -148,7 +148,7 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-\usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \renewcommand\spanishtablename{Tabla} \usepackage{multirow,booktabs,setspace,caption} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \captionsetup[table]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,labelsep=spaced,skip=5pt} \captionsetup[figure]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,skip=5pt} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18}
+\usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \renewcommand\spanishtablename{Tabla} \usepackage{multirow,booktabs,setspace,caption} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \captionsetup[table]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,labelsep=spaced,skip=5pt} \captionsetup[figure]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,skip=5pt} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \usepackage{changepage}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -191,6 +191,7 @@
 \begin{center}
 \textbf{Descripción}
 \end{center}
+\begin{adjustwidth}{1.5cm}{1.5cm}
 
 Este documento contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis en R, usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://www.rdocumentation.org/packages/robumeta}{\texttt{robumeta}} (\protect\hyperlink{ref-fisherRobumetaRpackageRobust2015}{Fisher \& Tipton, 2015}). Está principalmente basado en \href{https://youtu.be/lH4VZMTEZSc}{este video}, creado por Daniel S. Quintana (\protect\hyperlink{ref-quintanaHowPerformMetaanalysis2021}{2021}), pero contiene citas a fuentes primarias, además de información que he agregado.
 
@@ -198,6 +199,7 @@ Esta guía asume una comprensión básica del meta-análisis, así como un manej
 
 \href{https://www.youtube.com/c/InvestigaciónAbierta}{\includegraphics{Logo-IA-Rectangulo.png}}
 
+\textbackslash end\{adjustwidth\}
 \vfill
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}

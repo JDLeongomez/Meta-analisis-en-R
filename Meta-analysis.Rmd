@@ -2,8 +2,7 @@
 title: 'Meta-análisis de correlaciones en R'
 subtitle: 'Guía práctica'
 author:
-  - name: Juan David Leongómez
-    email: jleongomez@unbosque.edu.co
+  - name: Juan David Leongómez \orcidlink{0000-0002-0092-6298}
     institute: ueb
     correspondence: false
 institute:
@@ -23,10 +22,10 @@ editor_options:
 geometry: margin=2cm
 header-includes: 
   \usepackage{float} 
-  \floatplacement{figure}{H} 
-  \usepackage[utf8]{inputenc} 
+  \floatplacement{figure}{H}
+  \usepackage[utf8]{inputenc}
   \usepackage{fancyhdr}
-  \pagestyle{fancy} 
+  \pagestyle{fancy}
   \lhead{Juan David Leongómez}
   \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}}
   \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}}
@@ -45,8 +44,10 @@ header-includes:
   singlelinecheck=false,labelsep=spaced,skip=5pt}
   \captionsetup[figure]{labelfont=bf,textfont=it,format=plain,justification=justified,
   singlelinecheck=false,skip=5pt}
+  \usepackage{orcidlink}
   \definecolor{iacol}{RGB}{246, 130, 18}
   \definecolor{iacoldark}{RGB}{246, 100, 18}
+  \usepackage{changepage} 
 always_allow_html: yes
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
 urlcolor: blue
@@ -99,6 +100,7 @@ library(kableExtra)
 \begin{center}
 \textbf{Descripción}
 \end{center}
+\begin{adjustwidth}{1.5cm}{1.5cm}
 ```
 Este documento contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis en R, usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`robumeta`](https://www.rdocumentation.org/packages/robumeta) [@fisherRobumetaRpackageRobust2015]. Está principalmente basado en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene citas a fuentes primarias, además de información que he agregado.
 
@@ -106,6 +108,7 @@ Esta guía asume una comprensión básica del meta-análisis, así como un manej
 
 [![Investigación Abierta](Logo-IA-Rectangulo.png)](https://www.youtube.com/c/InvestigaciónAbierta){width=40%}
 
+\end{adjustwidth}
 \vfill
 
 ----------------------

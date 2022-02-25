@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.2.23)  23 FEB 2022 14:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.2.24)  24 FEB 2022 17:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -208,7 +208,7 @@ File: x11nam.def 2021/10/31 v2.13 Predefined colors according to Unix/X11 (UK)
 ))
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.
 sty
-Package: hyperref 2021-06-07 v7.00m Hypertext links for LaTeX
+Package: hyperref 2022-02-21 v7.00n Hypertext links for LaTeX
 
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdfte
 xcmds.sty
@@ -249,14 +249,9 @@ Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.de
 f
-File: pd1enc.def 2021-06-07 v7.00m Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2022-02-21 v7.00n Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-)
-(c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref-
-langpatches.def
-File: hyperref-langpatches.def 2021-06-07 v7.00m Hyperref: patches for babel la
-nguages
 )
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.
 sty
@@ -269,24 +264,24 @@ Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 \Hy@SavedSpaceFactor=\count274
 
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2022-02-21 v7.00n Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Option `unicode' set `true' on input line 4073.
-Package hyperref Info: Hyper figures OFF on input line 4192.
-Package hyperref Info: Link nesting OFF on input line 4197.
-Package hyperref Info: Hyper index ON on input line 4200.
-Package hyperref Info: Plain pages OFF on input line 4207.
-Package hyperref Info: Backreferencing OFF on input line 4212.
+Package hyperref Info: Option `unicode' set `true' on input line 4018.
+Package hyperref Info: Hyper figures OFF on input line 4137.
+Package hyperref Info: Link nesting OFF on input line 4142.
+Package hyperref Info: Hyper index ON on input line 4145.
+Package hyperref Info: Plain pages OFF on input line 4152.
+Package hyperref Info: Backreferencing OFF on input line 4157.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4445.
+Package hyperref Info: Bookmarks ON on input line 4390.
 \c@Hy@tempcnt=\count275
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4804.
+LaTeX Info: Redefining \url on input line 4749.
 \XeTeXLinkMargin=\dimen149
 
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.st
@@ -301,15 +296,15 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 \Fld@menulength=\count276
 \Field@Width=\dimen150
 \Fld@charsize=\dimen151
-Package hyperref Info: Hyper figures OFF on input line 6076.
-Package hyperref Info: Link nesting OFF on input line 6081.
-Package hyperref Info: Hyper index ON on input line 6084.
-Package hyperref Info: backreferencing OFF on input line 6091.
-Package hyperref Info: Link coloring OFF on input line 6096.
-Package hyperref Info: Link coloring with OCG OFF on input line 6101.
-Package hyperref Info: PDF/A mode OFF on input line 6106.
-LaTeX Info: Redefining \ref on input line 6146.
-LaTeX Info: Redefining \pageref on input line 6150.
+Package hyperref Info: Hyper figures OFF on input line 6027.
+Package hyperref Info: Link nesting OFF on input line 6032.
+Package hyperref Info: Hyper index ON on input line 6035.
+Package hyperref Info: backreferencing OFF on input line 6042.
+Package hyperref Info: Link coloring OFF on input line 6047.
+Package hyperref Info: Link coloring with OCG OFF on input line 6052.
+Package hyperref Info: PDF/A mode OFF on input line 6057.
+LaTeX Info: Redefining \ref on input line 6097.
+LaTeX Info: Redefining \pageref on input line 6101.
 
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.
 sty
@@ -324,7 +319,7 @@ Package hyperref Info: Driver (autodetected): hpdftex.
 
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.d
 ef
-File: hpdftex.def 2021-06-07 v7.00m Hyperref driver for pdfTeX
+File: hpdftex.def 2022-02-21 v7.00n Hyperref driver for pdfTeX
 
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx
 .sty
@@ -1094,11 +1089,43 @@ Package caption Info: longtable package is loaded.
 sty
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 ))
+(c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/orcidlink/orcidlin
+k.sty
+Package: orcidlink 2021/06/11 v1.0.4 Linked ORCiD logo macro package
+
+(c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/frontendlaye
+r/tikz/libraries/tikzlibrarysvg.path.code.tex
+File: tikzlibrarysvg.path.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+
+(c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/libraries/pg
+flibrarysvg.path.code.tex
+File: pgflibrarysvg.path.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+
+(c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pgf/modules/pgfm
+oduleparser.code.tex
+File: pgfmoduleparser.code.tex 2021/05/15 v3.1.9a (3.1.9a)
+\pgfparserdef@arg@count=\count349
+)
+\pgf@lib@svg@last@x=\dimen308
+\pgf@lib@svg@last@y=\dimen309
+\pgf@lib@svg@last@c@x=\dimen310
+\pgf@lib@svg@last@c@y=\dimen311
+\pgf@lib@svg@count=\count350
+\pgf@lib@svg@max@num=\count351
+))
+\@curXheight=\skip88
+)
+(c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/changepage/changep
+age.sty
+Package: changepage 2009/10/20 v1.0c check page and change page layout
+\c@cp@cntr=\count352
+\cp@tempcnt=\count353
+)
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.st
 y
-\wrapoverhang=\dimen308
-\WF@size=\dimen309
-\c@WF@wrappedlines=\count349
+\wrapoverhang=\dimen312
+\WF@size=\dimen313
+\c@WF@wrappedlines=\count354
 \WF@box=\box89
 \WF@everypar=\toks51
 Package: wrapfig 2003/01/31  v 3.6
@@ -1107,7 +1134,7 @@ Package: wrapfig 2003/01/31  v 3.6
 sty
 Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
 \everycr=\toks52
-\minrowclearance=\skip88
+\minrowclearance=\skip89
 )
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscap
 e.sty
@@ -1125,32 +1152,32 @@ Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
 sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@box=\box90
-\sift@deathcycles=\count350
-\@vwid@loff=\dimen310
-\@vwid@roff=\dimen311
+\sift@deathcycles=\count355
+\@vwid@loff=\dimen314
+\@vwid@roff=\dimen315
 )
-\c@taburow=\count351
-\tabu@nbcols=\count352
-\tabu@cnt=\count353
-\tabu@Xcol=\count354
-\tabu@alloc=\count355
-\tabu@nested=\count356
-\tabu@target=\dimen312
-\tabu@spreadtarget=\dimen313
-\tabu@naturalX=\dimen314
-\tabucolX=\dimen315
-\tabu@Xsum=\dimen316
-\extrarowdepth=\dimen317
-\abovetabulinesep=\dimen318
-\belowtabulinesep=\dimen319
-\tabustrutrule=\dimen320
+\c@taburow=\count356
+\tabu@nbcols=\count357
+\tabu@cnt=\count358
+\tabu@Xcol=\count359
+\tabu@alloc=\count360
+\tabu@nested=\count361
+\tabu@target=\dimen316
+\tabu@spreadtarget=\dimen317
+\tabu@naturalX=\dimen318
+\tabucolX=\dimen319
+\tabu@Xsum=\dimen320
+\extrarowdepth=\dimen321
+\abovetabulinesep=\dimen322
+\belowtabulinesep=\dimen323
+\tabustrutrule=\dimen324
 \tabu@thebody=\toks53
 \tabu@footnotes=\toks54
 \tabu@box=\box91
 \tabu@arstrutbox=\box92
 \tabu@hleads=\box93
 \tabu@vleads=\box94
-\tabu@cellskip=\skip89
+\tabu@cellskip=\skip90
 )
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttable/thr
 eeparttable.sty
@@ -1160,24 +1187,24 @@ Package: threeparttable 2003/06/13  v 3.0
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttablex/th
 reeparttablex.sty
 Package: threeparttablex 2013/07/23 v0.3 by daleif
-\TPTL@width=\skip90
+\TPTL@width=\skip91
 ) (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
 \UL@box=\box96
 \UL@hyphenbox=\box97
-\UL@skip=\skip91
+\UL@skip=\skip92
 \UL@hook=\toks55
-\UL@height=\dimen321
-\UL@pe=\count357
-\UL@pixel=\dimen322
+\UL@height=\dimen325
+\UL@pe=\count362
+\UL@pixel=\dimen326
 \ULC@box=\box98
 Package: ulem 2019/11/18
-\ULdepth=\dimen323
+\ULdepth=\dimen327
 )
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/makecell/makecell.
 sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
-\rotheadsize=\dimen324
-\c@nlinenum=\count358
+\rotheadsize=\dimen328
+\c@nlinenum=\count363
 \TeXr@lab=\toks56
 ) (./Meta-analysis.aux
 LaTeX Info: Redefining \. on input line 25.
@@ -1229,12 +1256,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count359
+\c@section@level=\count364
 )
 LaTeX Info: Redefining \ref on input line 170.
 LaTeX Info: Redefining \pageref on input line 170.
 LaTeX Info: Redefining \nameref on input line 170.
-(./Meta-analysis.out) (./Meta-analysis.out)
 \@outlinefile=\write5
 \openout5 = `Meta-analysis.out'.
 
@@ -1274,8 +1300,11 @@ LaTeX Info: Redefining \nameref on input line 170.
 
 LaTeX Info: Redefining \. on input line 170.
 LaTeX Info: Redefining \% on input line 170.
-\c@lstlisting=\count360
+\c@lstlisting=\count365
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: changepage package is loaded.
+\caption@adjustwidth@hsize=\dimen329
+\caption@adjustwidth@linewidth=\dimen330
 Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
@@ -1321,181 +1350,144 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 173.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 173.
-\c@tcb@cnt@Box2=\count361
+\c@tcb@cnt@Box2=\count366
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-95.
+96.
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<Logo-IA-Rectangulo.png, id=118, 1927.11943pt x 1084.2917pt>
+<Logo-IA-Rectangulo.png, id=55, 1927.11943pt x 1084.2917pt>
 File: Logo-IA-Rectangulo.png Graphic file (type png)
 <use Logo-IA-Rectangulo.png>
-Package pdftex.def Info: Logo-IA-Rectangulo.png  used on input line 199.
-(pdftex.def)             Requested size: 500.48053pt x 281.59483pt.
+Package pdftex.def Info: Logo-IA-Rectangulo.png  used on input line 200.
+(pdftex.def)             Requested size: 415.11655pt x 233.56488pt.
 [1
 
 {c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdfte
-x.map} <./Logo-IA-Rectangulo.png>] (./Meta-analysis.toc
-LaTeX Info: Redefining \. on input line 1.
-LaTeX Info: Redefining \% on input line 1.
-)
+x.map} <./Logo-IA-Rectangulo.png>]
+No file Meta-analysis.toc.
 \tf@toc=\write6
 \openout6 = `Meta-analysis.toc'.
 
 [2] [3] [4]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 4
-83.
+85.
 (c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [5]
-<Meta-analysis_files/figure-latex/unnamed-chunk-11-1.pdf, id=205, 469.755pt x 6
+<Meta-analysis_files/figure-latex/unnamed-chunk-11-1.pdf, id=129, 469.755pt x 6
 50.43pt>
 File: Meta-analysis_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (typ
 e pdf)
 <use Meta-analysis_files/figure-latex/unnamed-chunk-11-1.pdf>
 Package pdftex.def Info: Meta-analysis_files/figure-latex/unnamed-chunk-11-1.pd
-f  used on input line 565.
+f  used on input line 567.
 (pdftex.def)             Requested size: 469.75386pt x 650.4284pt.
 [6]
 Overfull \vbox (10.26942pt too high) has occurred while \output is active []
 
 [7 <./Meta-analysis_files/figure-latex/unnamed-chunk-11-1.pdf>]
-<Meta-analysis_files/figure-latex/for-plot1-1.pdf, id=230, 469.755pt x 397.485p
+<Meta-analysis_files/figure-latex/for-plot1-1.pdf, id=155, 469.755pt x 397.485p
 t>
 File: Meta-analysis_files/figure-latex/for-plot1-1.pdf Graphic file (type pdf)
 <use Meta-analysis_files/figure-latex/for-plot1-1.pdf>
 Package pdftex.def Info: Meta-analysis_files/figure-latex/for-plot1-1.pdf  used
- on input line 583.
+ on input line 585.
 (pdftex.def)             Requested size: 469.75386pt x 397.48402pt.
 
-LaTeX Warning: Reference `fig:for-plot3' on page 8 undefined on input line 587.
+LaTeX Warning: Reference `fig:for-plot3' on page 8 undefined on input line 589.
 
 
 [8 <./Meta-analysis_files/figure-latex/for-plot1-1.pdf>]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 597.
-<Meta-analysis_files/figure-latex/for-plot2-1.pdf, id=249, 469.755pt x 361.35pt
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 599.
+<Meta-analysis_files/figure-latex/for-plot2-1.pdf, id=176, 469.755pt x 361.35pt
 >
 File: Meta-analysis_files/figure-latex/for-plot2-1.pdf Graphic file (type pdf)
 <use Meta-analysis_files/figure-latex/for-plot2-1.pdf>
 Package pdftex.def Info: Meta-analysis_files/figure-latex/for-plot2-1.pdf  used
- on input line 615.
+ on input line 617.
 (pdftex.def)             Requested size: 469.75386pt x 361.34912pt.
 [9 <./Meta-analysis_files/figure-latex/for-plot2-1.pdf>]
-<Meta-analysis_files/figure-latex/for-plot3-1.pdf, id=265, 469.755pt x 216.81pt
+<Meta-analysis_files/figure-latex/for-plot3-1.pdf, id=192, 469.755pt x 216.81pt
 >
 File: Meta-analysis_files/figure-latex/for-plot3-1.pdf Graphic file (type pdf)
 <use Meta-analysis_files/figure-latex/for-plot3-1.pdf>
 Package pdftex.def Info: Meta-analysis_files/figure-latex/for-plot3-1.pdf  used
- on input line 662.
-(pdftex.def)             Requested size: 469.75386pt x 216.80946pt.
-<Meta-analysis_files/figure-latex/for-plot3b-1.pdf, id=266, 469.755pt x 433.62p
+ on input line 664.
+(pdftex.def)             Requested size: 415.12747pt x 191.59729pt.
+<Meta-analysis_files/figure-latex/for-plot3b-1.pdf, id=193, 469.755pt x 433.62p
 t>
 File: Meta-analysis_files/figure-latex/for-plot3b-1.pdf Graphic file (type pdf)
 
 <use Meta-analysis_files/figure-latex/for-plot3b-1.pdf>
 Package pdftex.def Info: Meta-analysis_files/figure-latex/for-plot3b-1.pdf  use
-d on input line 666.
+d on input line 668.
 (pdftex.def)             Requested size: 469.75386pt x 433.61894pt.
 [10 <./Meta-analysis_files/figure-latex/for-plot3-1.pdf>] [11 <./Meta-analysis_
 files/figure-latex/for-plot3b-1.pdf>]
-<Meta-analysis_files/figure-latex/funnel-plot1-1.pdf, id=299, 469.755pt x 361.3
+<Meta-analysis_files/figure-latex/funnel-plot1-1.pdf, id=227, 469.755pt x 361.3
 5pt>
 File: Meta-analysis_files/figure-latex/funnel-plot1-1.pdf Graphic file (type pd
 f)
 <use Meta-analysis_files/figure-latex/funnel-plot1-1.pdf>
 Package pdftex.def Info: Meta-analysis_files/figure-latex/funnel-plot1-1.pdf  u
-sed on input line 693.
+sed on input line 695.
 (pdftex.def)             Requested size: 469.75386pt x 361.34912pt.
-<Meta-analysis_files/figure-latex/funnel-plot2-1.pdf, id=304, 469.755pt x 325.2
+<Meta-analysis_files/figure-latex/funnel-plot2-1.pdf, id=232, 469.755pt x 325.2
 15pt>
 File: Meta-analysis_files/figure-latex/funnel-plot2-1.pdf Graphic file (type pd
 f)
 <use Meta-analysis_files/figure-latex/funnel-plot2-1.pdf>
 Package pdftex.def Info: Meta-analysis_files/figure-latex/funnel-plot2-1.pdf  u
-sed on input line 711.
+sed on input line 713.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [12 <./Meta-analysis_files/figure-latex/funnel-plot1-1.pdf>]
-<Meta-analysis_files/figure-latex/funnel-plot3-1.pdf, id=320, 433.62pt x 614.29
+<Meta-analysis_files/figure-latex/funnel-plot3-1.pdf, id=249, 433.62pt x 614.29
 5pt>
 File: Meta-analysis_files/figure-latex/funnel-plot3-1.pdf Graphic file (type pd
 f)
 <use Meta-analysis_files/figure-latex/funnel-plot3-1.pdf>
 Package pdftex.def Info: Meta-analysis_files/figure-latex/funnel-plot3-1.pdf  u
-sed on input line 738.
+sed on input line 740.
 (pdftex.def)             Requested size: 433.63878pt x 614.3216pt.
 [13 <./Meta-analysis_files/figure-latex/funnel-plot2-1.pdf>] [14 <./Meta-analys
 is_files/figure-latex/funnel-plot3-1.pdf>] [15]
-<Meta-analysis_files/figure-latex/for-plot-mod1-1.pdf, id=375, 469.755pt x 252.
+<Meta-analysis_files/figure-latex/for-plot-mod1-1.pdf, id=308, 469.755pt x 252.
 945pt>
 File: Meta-analysis_files/figure-latex/for-plot-mod1-1.pdf Graphic file (type p
 df)
 <use Meta-analysis_files/figure-latex/for-plot-mod1-1.pdf>
 Package pdftex.def Info: Meta-analysis_files/figure-latex/for-plot-mod1-1.pdf  
-used on input line 851.
+used on input line 853.
 (pdftex.def)             Requested size: 469.75386pt x 252.94438pt.
-[16 <./Meta-analysis_files/figure-latex/for-plot-mod1-1.pdf>]
-<Meta-analysis_files/figure-latex/funnel-plot-mod1-1.pdf, id=392, 469.755pt x 3
+[16]
+<Meta-analysis_files/figure-latex/funnel-plot-mod1-1.pdf, id=319, 469.755pt x 3
 61.35pt>
 File: Meta-analysis_files/figure-latex/funnel-plot-mod1-1.pdf Graphic file (typ
 e pdf)
 <use Meta-analysis_files/figure-latex/funnel-plot-mod1-1.pdf>
 Package pdftex.def Info: Meta-analysis_files/figure-latex/funnel-plot-mod1-1.pd
-f  used on input line 868.
+f  used on input line 870.
 (pdftex.def)             Requested size: 469.75386pt x 361.34912pt.
-[17 <./Meta-analysis_files/figure-latex/funnel-plot-mod1-1.pdf>] [18] [19] [20]
-(./Meta-analysis.aux
-LaTeX Info: Redefining \. on input line 25.
-LaTeX Info: Redefining \% on input line 25.
-)
+[17 <./Meta-analysis_files/figure-latex/for-plot-mod1-1.pdf>] [18 <./Meta-analy
+sis_files/figure-latex/funnel-plot-mod1-1.pdf>] [19] [20] [21]
 
-LaTeX Warning: There were undefined references.
+! LaTeX Error: \begin{list} on input line 194 ended by \end{document}.
 
-Package rerunfilecheck Info: File `Meta-analysis.out' has not changed.
-(rerunfilecheck)             Checksum: 6B1CFAB544E0000F71F1BB943BBB2448;4124.
- ) 
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1064 \end{document}
+                      
 Here is how much of TeX's memory you used:
- 36779 strings out of 480220
- 740985 string characters out of 5893336
- 1146422 words of memory out of 5000000
- 54000 multiletter control sequences out of 15000+600000
+ 37172 strings out of 480220
+ 754078 string characters out of 5893336
+ 1155712 words of memory out of 5000000
+ 54386 multiletter control sequences out of 15000+600000
  549280 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 84i,12n,96p,1426b,1314s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Hfootnote.3} has been referenced but does not exi
-st, replaced by a fixed one
+ 84i,13n,96p,1473b,1425s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
-, replaced by a fixed one
-
-{c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc
-}{c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.e
-nc}{c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.
-enc}{c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ma
-thit.enc}<c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/
-lm/lmbx10.pfb><c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/pu
-blic/lm/lmbx12.pfb><c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/fonts/typ
-e1/public/lm/lmbx8.pfb><c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist/fonts
-/type1/public/lm/lmbxi10.pfb><c:/Users/juanl/AppData/Roaming/TinyTeX/texmf-dist
-/fonts/type1/public/lm/lmmi10.pfb><c:/Users/juanl/AppData/Roaming/TinyTeX/texmf
--dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/juanl/AppData/Roaming/TinyTeX/t
-exmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/juanl/AppData/Roaming/TinyT
-eX/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/Users/juanl/AppData/Roaming/T
-inyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/Users/juanl/AppData/Roamin
-g/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/juanl/AppData/Roa
-ming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/juanl/AppData/
-Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/juanl/App
-Data/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb><c:/Users/juanl
-/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/Users/
-juanl/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/U
-sers/juanl/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on Meta-analysis.pdf (20 pages, 1122382 bytes).
-PDF statistics:
- 546 PDF objects out of 1000 (max. 8388607)
- 437 compressed objects within 5 object streams
- 88 named destinations out of 1000 (max. 500000)
- 340 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+!  ==> Fatal error occurred, no output PDF file produced!
