@@ -12,8 +12,8 @@ output:
     keep_tex:  true
     toc: no
     pandoc_args:
-      - '--lua-filter=scholarly-metadata.lua'
-      - '--lua-filter=author-info-blocks.lua'
+      - '--lua-filter=lua/scholarly-metadata.lua'
+      - '--lua-filter=lua/author-info-blocks.lua'
 editor_options:
   chunk_output_type: console
 geometry: margin=2cm
@@ -51,7 +51,7 @@ csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa
 urlcolor: blue
 linkcolor: iacoldark
 link-citations: true
-bibliography: references.bib
+bibliography: bib/references.bib
 ---
 
 ```{=tex}
@@ -111,7 +111,7 @@ Este documento contiene todo el código explicaciones básicas, paso a paso, par
 
 Esta guía asume  un manejo básico de R, así como una comprensión básica del meta-análisis. Sin embargo, de ser necesario y como introducción, recomiendo ver [este video introductorio](https://youtu.be/ntBbkOn9D_o) al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
 
-[![Investigación Abierta](Logo-IA-Rectangulo.pdf)](https://www.youtube.com/c/InvestigaciónAbierta){width=40%}
+[![Investigación Abierta](images\Logo-IA-Rectangulo.pdf)](https://www.youtube.com/c/InvestigaciónAbierta){width=40%}
 
 ```{=latex}
 \par
