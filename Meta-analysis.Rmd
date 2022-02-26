@@ -38,10 +38,11 @@ header-includes:
   \renewcommand\spanishtablename{Tabla}
   \usepackage{multirow,booktabs,setspace,caption}
   \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]}
+  \DeclareCaptionLabelSeparator{point}{. }
   \captionsetup[table]{labelfont=bf,textfont=it,format=plain,justification=justified,
   singlelinecheck=false,labelsep=spaced,skip=5pt}
-  \captionsetup[figure]{labelfont=bf,textfont=it,format=plain,justification=justified,
-  singlelinecheck=false,skip=5pt}
+  \captionsetup[figure]{labelfont=bf,format=plain,justification=justified,
+  singlelinecheck=false,labelsep=point,skip=5pt}
   \usepackage{orcidlink}
   \definecolor{iacol}{RGB}{246, 130, 18}
   \definecolor{iacoldark}{RGB}{246, 100, 18}
@@ -132,7 +133,7 @@ Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía pr
 }
 ```
 
-----------------------
+\newpage
 
 # Base de datos de ejemplo
 
@@ -298,7 +299,7 @@ Esto me muestra gran cantidad de información de cada estudio (en este caso, una
 
 Por último, podemos también ver ésta información que tenemos guardada en el objeto `inf.res`, de manera gráfica, usando la función `plot`.
 
-```{r fig.height=9, fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo que podemos estar tranquilos con nuestro meta-análisis."}
+```{r fig.height=4.5, fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis."}
 plot(inf.res)
 ```
 
@@ -311,9 +312,9 @@ par(mar=c(4,0,0,0))
 forest(res)
 ```
 
-Como se puede ver en las Figuras \@ref(fig:for-plot1), \@ref(fig:for-plot2) y \@ref(fig:for-plot3) (que son versiones del mismo *forest plot*), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre `r min(dat$ri)` y `r max(dat$ri)`), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en algunos son prácticamente 0 o incluso negativas.
+Como se puede ver en las Figuras \@ref(fig:for-plot1), \@ref(fig:for-plot2) y \@ref(fig:for-plot3b) (que son versiones del mismo *forest plot*), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre `r min(dat$ri)` y `r max(dat$ri)`), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en algunos son prácticamente 0 o incluso negativas.
 
-Para una versión más completa y anotada, también usando el *plot* básico de [`metafor`](https://www.metafor-project.org/doku.php), pero agregando encabezados de cada columna en español, nombres de los estudios meta-analizados (pegando las columnas `authors` y `year` separadas por una coma y un espacio: `paste(dat$authors, dat$year, sep = ", ")` como argumento `slab`) así como agregando una columna con los pesos dados a cada estudio, y detalles del modelo final (estas opciones están explicadas [acá](https://search.r-project.org/CRAN/refmans/metafor/html/forest.rma.html)):
+Para una versión más completa y anotada, también usando el *plot* básico de [`metafor`](https://www.metafor-project.org/doku.php), pero agregando encabezados de cada columna en español, nombres de los estudios meta-analizados (en este caso, y dado que tenemos la lista de autores y años de publicación en columnas separadas, pegando las columnas `authors` y `year` separadas por una coma y un espacio: `paste(dat$authors, dat$year, sep = ", ")` como argumento `slab`) así como una columna con los pesos dados a cada estudio, y detalles del modelo final^[Estas opciones están explicadas [acá](https://search.r-project.org/CRAN/refmans/metafor/html/forest.rma.html).]:
 
 ```{r for-plot2, fig.height=5, fig.cap = "Forest plot anotado, creado con [metafor](https://www.metafor-project.org/doku.php). En esta versión agregué algunos encabezados en español, así como estadísticos generales del modelo de meta-análisis. Modelo EA se refiere al modelo meta-analizado, de efectos aleatorios."}
 # forest plot con anotaciones adicionales
@@ -426,8 +427,12 @@ A pesar de esto, tanto la regresión de Egger como el *funnel plot*, son intersa
 
 Para crear un *funnel plot* con [`metafor`](https://www.metafor-project.org/doku.php), de nuestro meta-análisis, solo tenemos que usar la función `funnel`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`).
 
-```{r funnel-plot1, fig.height=5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo."}
-par(mar=c(4,0,0,0))
+```{r eval = FALSE}
+funnel(res)
+```
+
+```{r funnel-plot1, echo = FALSE, fig.height=5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo."}
+par(mar=c(4,4,0,1))
 funnel(res)
 ```
 
@@ -541,8 +546,12 @@ Es importante tener en cuenta que la función [`viz_forest`](https://cran.r-proj
 
 De manera similar, podemos obtener un *funnel plot* de nuestro meta-análisis con moderador, pero éste nos mostrará, en vez de los coeficientes de correlación (transformados a $z$ de Fisher), los valores residuales de cada estudio (es decir, qué tanto se alejan del resultado de nuestro meta-análisis):
 
-```{r funnel-plot-mod1, fig.height=5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste."}
-par(mar=c(4,0,0,0))
+```{r eval = FALSE}
+funnel(res.modage)
+```
+
+```{r funnel-plot-mod1, echo = FALSE, fig.height=5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste."}
+par(mar=c(4,4,0,1))
 funnel(res.modage)
 ```
 
@@ -586,5 +595,106 @@ En este caso, usaré esta función, asignando el resultado a un objeto que llama
 wf <- weightfunct(effect = dat$yi, v = dat$vi, table = TRUE)
 wf
 ```
+
+El modelo tradicional nos da un estimado muy similar al des estudio original (0.1486), dado que usa un método ligeramente diferente.
+
+Nos da valores de heterogeneidad $\tau^2$, $\tau$ y $Q$.
+
+Pero lo más importante, es que nos da los resultado del meta-análisis, ajustando los pesos dados a cada efecto, de cada estudio meta-analizado.
+
+Lo que esta función hace es lo que se conoce como *selection models* (modelos de selección). Básicamente, da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores $p$ (ver SESGO DE PUBLICACIÓN); estudios con valores $p$ mayores a 0.05 (o 0.10), tienen menos probabilidad de ser publicados que estudios con $p < 0.05$.
+
+La función `weightfunct` incrementa el peso de estudios que tienen menos probabilidad de ser publicados, y reduce el peso de estudios con mayor probabilidad de ser publicados. Por esto, al usar ésta técnica, estás asumiendo que de hecho, en el efecto que tratas de encontrar en tu meta-análisis, de hecho hay un sesgo de publicación, lo que a menudo es una suposición bastante justa.
+
+Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el meta-análisis original nos daba como resultado un efecto de ~0.15, esta técnica nos estima un efecto de ~0.09. Básicamente, a *encogido* nuestro tamaño de efecto. 
+
+Al final el *Likelihood ratio test* (algo así como "Prueba de cociente de probabilidades"), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí basándose en la relación de su verosimilitud. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
+
+Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es < 0.10; significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el *funnel plot* (Figs. \@ref(fig:funnel-plot1), \@ref(fig:funnel-plot2) y \@ref(fig:funnel-plot3)) y la regresión de Egger (sección \@ref(reg-egger)), sugerían lo contrario. 
+
+# Poder estadístico del meta-análisis
+
+En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso `r round(min(res$beta[1]), 2)` para el meta-análisis original "`res`", o `r round(wf$output_adj$par[2], 2)` el meta-análisis con pesos ajustados "`wf`"). Para este ejemplo, asumiré que el efecto *real* es el encontrado en nuestro análisis original (`r round(min(res$beta[1]), 2)`), pues este efecto es más mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
+
+Para hacer esto, usaré el paquete `metameta` [@quintanaMetameta2022], que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos *reales*. 
+
+## Instalación de `metameta`
+
+El paquete `metameta` se debe instalar desde GitHub^[[GitHub](https://github.com/) es un repositorio abierto para para proyectos de código abierto en el que, entre otras cosas, suelen estar alojados todos los paquetes de R incluso en versiones de desarrollador. Por supuesto, a diferencia de [CRAN](https://cran.r-project.org/), GitHub no es ni mucho menos específico para paquetes de R.] ya que, al día de hoy, no está aún disponible en CRAN.
+
+Para esto, debemos tener instalado el paquete `devtools`, y usar la función `install_github` que nos permite instalar paquetes directamente desde GitHub. 
+
+```{r eval=FALSE}
+#se debe tener instalado el paquete devtools
+library(devtools)
+install_github("dsquintana/metameta")
+```
+
+## Análisis de poder
+
+Una vez instalado, podemos cargar el paquete.
+
+```{r}
+library(metameta)
+```
+
+Como datos, necesitamos no solamente los tamaños de datos a meta-analizar ($r$ de Pearson transformado a *z* de Fisher), sino además los intervalos de confianza, tal como fueron reportados en varios de nuestros *Forest plots*. 
+
+Debemos asumir el efecto real, pero esto nunca podemos saberlo. En este caso, asumimos un efecto de $r = 0.15$, tal como en nuestro meta-análisis original. Sin embargo, el efecto real no es algo que podamos saber (es, de hecho, lo que queremos acercarnos a conocer a través del meta-análisis), así que la función `mapower_ul` del paquete `metameta` calcula el poder de cada meta-análisis para un rango de posibles efectos reales.
+
+```{r}
+dat.power <- summary(dat) %>%
+  select(yi, ci.lb, ci.ub) %>%
+  rename(lower = ci.lb, upper = ci.ub)
+power <- mapower_ul(dat = dat.power, observed_es = 0.15, name = "Molloy et al. 2014")
+
+power_dat <- power$dat
+power_dat
+```
+
+## Visualización del análisis de poder (*Firepower plot*)
+
+Según esto, nuestro meta-análisis solo tiene un poder estadístico suficiente para detectar de manera confiable efectos mayores a 0.4, lo que está muy por encima de nuestras estimaciones de un efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados)
+
+```{r}
+power_list <- list(power$power_median_dat)
+power.plot <- firepower(power_list)
+```
+
+```{r eval = FALSE}
+power.plot
+```
+
+```{r fire-plot1, fig.height = 2, echo = FALSE, fig.cap = "Fireplot básico de [metameta](https://www.dsquintana.blog/metameta-r-package-meta-analysis/), para un análisis de poder de nuestro meta-análisis. *Observed* hace referencia al tamaño de efecto observado en nuestro meta-análisis original; en este caso, 0.15."}
+power.plot$fp_plot
+```
+
+Si queremos cambiar los títulos a español, y ya que el objeto `power.plot` contiene dos elementos (`dat` y `fp_plot`, que es propiamente la gráfica). Éste último elemento es de clase `ggplot`, por lo que podemos usar funciones de `ggplot2` para cambiar, por ejemplo, el título del eje $X$ a "Tamaño de efecto", el título de la leyenda a "Poder", y el efecto observado de "*Observed*" a "Observado"^[Para cambiar el título del eje $X$ usé la función `xlab`; para el título de la leyenda la función `guides` (opción `fill = guide_legend`); y para los valores del eje $X$, la función `scale_x_discrete`}.]. Por ejemplo:
+
+```{r fire-plot2, fig.height = 2, message = FALSE, fig.cap = "Fireplot básico de [metameta](https://www.dsquintana.blog/metameta-r-package-meta-analysis/), para un análisis de poder de nuestro meta-análisis, con el texto traducido a español y con la leyenda en una escala discreta para facilitar su lectura. *Observado* hace referencia al tamaño de efecto observado en nuestro meta-análisis original (en este caso, 0.15)."}
+power.plot$fp_plot +
+  xlab("Tamaño de efecto") +
+  guides(fill = guide_legend(title = "Poder", 
+                             reverse = TRUE)) +
+  scale_x_discrete(labels = c("es_observed" = "Observado",
+                              "es01" = 0.1,    
+                              "es02" = 0.2,
+                              "es03" = 0.3,
+                              "es04" = 0.4,    
+                              "es05" = 0.5,    
+                              "es06" = 0.6,    
+                              "es07" = 0.7,
+                              "es08" = 0.8,
+                              "es09" = 0.9,
+                              "es1"  =1))
+```
+
+# APÉNDICE 1: Alternativas a `metafor` {-}
+
+Acá he usado principalmente una ruta para hacer meta-análisis basada en el paquete `metafor`, acompañado de `metaviz` para visualizaciones, `weightr` para ajustar pesos y detectar sesgos de publicación, y `metameta` para estimar el poder estadístico de un meta-análisis.
+
+Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro *Doing meta-analysis with R: a hands-on guide* [@harrer2021doing] se acompaña del paquete [`dmetar`](https://dmetar.protectlab.org/index.html) [@Harrer2019dmetar], que contiene opciones para hacer meta-análisis tanto a partir de `metafor`, como a partir de `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015]. 
+
+De manera importante, los objetos generados por `meta` al realizar un meta-análisis permiten hacer otros análisis como *risk of bias* (riesgo de sesgo), inferencia multi-modelo, detección de *outliers* (valores atípicos), o *p-curve* (curva de valores $p$), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete `dmetar`, y en especial la página [*Get Started*](https://dmetar.protectlab.org/articles/dmetar.html).
 
 # Referencias

@@ -137,7 +137,7 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-\usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \usepackage{svg} \renewcommand\spanishtablename{Tabla} \usepackage{multirow,booktabs,setspace,caption} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \captionsetup[table]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,labelsep=spaced,skip=5pt} \captionsetup[figure]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,skip=5pt} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18}
+\usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \usepackage{svg} \renewcommand\spanishtablename{Tabla} \usepackage{multirow,booktabs,setspace,caption} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,labelsep=spaced,skip=5pt} \captionsetup[figure]{labelfont=bf,format=plain,justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{25 febrero, 2022}
+\date{26 febrero, 2022}
 
 \begin{document}
 \maketitle
@@ -219,7 +219,7 @@ Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía pr
  \tableofcontents
 }
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\newpage
 
 \hypertarget{base-de-datos-de-ejemplo}{%
 \section{Base de datos de ejemplo}\label{base-de-datos-de-ejemplo}}
@@ -568,7 +568,7 @@ Por último, podemos también ver ésta información que tenemos guardada en el 
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-11-1.pdf}
-\caption{\label{fig:unnamed-chunk-11}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo que podemos estar tranquilos con nuestro meta-análisis.}
+\caption{\label{fig:unnamed-chunk-11}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis.}
 \end{figure}
 
 \hypertarget{forest-plot-diagrama-de-bosque}{%
@@ -589,9 +589,9 @@ Para hacer un diagrama de bosque (\emph{forest plot}) con \href{https://www.meta
 \caption{\label{fig:for-plot1}Forest plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza, y el tamaño de muestra (representado por el tamaño del cuadrado). Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante.}
 \end{figure}
 
-Como se puede ver en las Figuras \ref{fig:for-plot1}, \ref{fig:for-plot2} y \ref{fig:for-plot3} (que son versiones del mismo \emph{forest plot}), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre -0.09 y 0.37), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en algunos son prácticamente 0 o incluso negativas.
+Como se puede ver en las Figuras \ref{fig:for-plot1}, \ref{fig:for-plot2} y \ref{fig:for-plot3b} (que son versiones del mismo \emph{forest plot}), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre -0.09 y 0.37), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en algunos son prácticamente 0 o incluso negativas.
 
-Para una versión más completa y anotada, también usando el \emph{plot} básico de \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, pero agregando encabezados de cada columna en español, nombres de los estudios meta-analizados (pegando las columnas \texttt{authors} y \texttt{year} separadas por una coma y un espacio: \texttt{paste(dat\$authors,\ dat\$year,\ sep\ =\ ",\ ")} como argumento \texttt{slab}) así como agregando una columna con los pesos dados a cada estudio, y detalles del modelo final (estas opciones están explicadas \href{https://search.r-project.org/CRAN/refmans/metafor/html/forest.rma.html}{acá}):
+Para una versión más completa y anotada, también usando el \emph{plot} básico de \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, pero agregando encabezados de cada columna en español, nombres de los estudios meta-analizados (en este caso, y dado que tenemos la lista de autores y años de publicación en columnas separadas, pegando las columnas \texttt{authors} y \texttt{year} separadas por una coma y un espacio: \texttt{paste(dat\$authors,\ dat\$year,\ sep\ =\ ",\ ")} como argumento \texttt{slab}) así como una columna con los pesos dados a cada estudio, y detalles del modelo final\footnote{Estas opciones están explicadas \href{https://search.r-project.org/CRAN/refmans/metafor/html/forest.rma.html}{acá}.}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -675,7 +675,7 @@ Por supuesto, es cuestión de gusto cuál usar.
 
 En este punto, es en donde más errores se cometen. Las pruebas más comunes para evaluar sesgos de publicación, son la evaluación de la asimatría en el \emph{funnel plot} (diagrama de embudo), y la regresión (o test) de Egger (\protect\hyperlink{ref-eggerBiasMetaanalysisDetected1997}{Egger et al., 1997}).
 
-El principal error que la mayoría de los investigadores (meta-analistas) cometen, es que simplemente basándose en éstos métodos, concluyen que un meta-análisis tiene (o no) riesgo de sufrir de un sesgo de publicación. Sin embargo, estos métodos, no son pruebas exclusivas de sesgo de publicación, sino de sesgo de estudios de tamaño muestral pequeño (ver e.g. \protect\hyperlink{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{Schwarzer et al., 2015}), que pueden incluir sesgo de publicación, pero no se centran exclusivamente en éste.
+El principal error que la mayoría de los investigadores (meta-analistas) cometen, es que simplemente basándose en éstos métodos, concluyen que un meta-análisis tiene (o no) riesgo de sufrir de un sesgo de publicación. Sin embargo, estos métodos, no son pruebas exclusivas de sesgo de publicación, sino de sesgo de estudios de tamaño muestral pequeño (ver e.g. \protect\hyperlink{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{Schwarzer et al., 2015b}), que pueden incluir sesgo de publicación, pero no se centran exclusivamente en éste.
 
 A pesar de esto, tanto la regresión de Egger como el \emph{funnel plot}, son intersantes dado que el sesgo de estudios pequeños es importante.
 
@@ -686,7 +686,6 @@ Para crear un \emph{funnel plot} con \href{https://www.metafor-project.org/doku.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
 \FunctionTok{funnel}\NormalTok{(res)}
 \end{Highlighting}
 \end{Shaded}
@@ -861,7 +860,6 @@ De manera similar, podemos obtener un \emph{funnel plot} de nuestro meta-anális
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
 \FunctionTok{funnel}\NormalTok{(res.modage)}
 \end{Highlighting}
 \end{Shaded}
@@ -1024,17 +1022,210 @@ p-values <0.025              9
                 \end{footnotesize}
                 \end{ROut}
 
+El modelo tradicional nos da un estimado muy similar al des estudio original (0.1486), dado que usa un método ligeramente diferente.
+
+Nos da valores de heterogeneidad \(\tau^2\), \(\tau\) y \(Q\).
+
+Pero lo más importante, es que nos da los resultado del meta-análisis, ajustando los pesos dados a cada efecto, de cada estudio meta-analizado.
+
+Lo que esta función hace es lo que se conoce como \emph{selection models} (modelos de selección). Básicamente, da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores \(p\) (ver SESGO DE PUBLICACIÓN); estudios con valores \(p\) mayores a 0.05 (o 0.10), tienen menos probabilidad de ser publicados que estudios con \(p < 0.05\).
+
+La función \texttt{weightfunct} incrementa el peso de estudios que tienen menos probabilidad de ser publicados, y reduce el peso de estudios con mayor probabilidad de ser publicados. Por esto, al usar ésta técnica, estás asumiendo que de hecho, en el efecto que tratas de encontrar en tu meta-análisis, de hecho hay un sesgo de publicación, lo que a menudo es una suposición bastante justa.
+
+Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el meta-análisis original nos daba como resultado un efecto de \textasciitilde0.15, esta técnica nos estima un efecto de \textasciitilde0.09. Básicamente, a \emph{encogido} nuestro tamaño de efecto.
+
+Al final el \emph{Likelihood ratio test} (algo así como ``Prueba de cociente de probabilidades''), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí basándose en la relación de su verosimilitud. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
+
+Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es \textless{} 0.10; significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el \emph{funnel plot} (Figs. \ref{fig:funnel-plot1}, \ref{fig:funnel-plot2} y \ref{fig:funnel-plot3}) y la regresión de Egger (sección \ref{reg-egger}), sugerían lo contrario.
+
+\hypertarget{poder-estaduxedstico-del-meta-anuxe1lisis}{%
+\section{Poder estadístico del meta-análisis}\label{poder-estaduxedstico-del-meta-anuxe1lisis}}
+
+En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso 0.15 para el meta-análisis original ``\texttt{res}'', o 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}''). Para este ejemplo, asumiré que el efecto \emph{real} es el encontrado en nuestro análisis original (0.15), pues este efecto es más mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
+
+Para hacer esto, usaré el paquete \texttt{metameta} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}), que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos \emph{reales}.
+
+\hypertarget{instalaciuxf3n-de-metameta}{%
+\subsection{\texorpdfstring{Instalación de \texttt{metameta}}{Instalación de metameta}}\label{instalaciuxf3n-de-metameta}}
+
+El paquete \texttt{metameta} se debe instalar desde GitHub\footnote{\href{https://github.com/}{GitHub} es un repositorio abierto para para proyectos de código abierto en el que, entre otras cosas, suelen estar alojados todos los paquetes de R incluso en versiones de desarrollador. Por supuesto, a diferencia de \href{https://cran.r-project.org/}{CRAN}, GitHub no es ni mucho menos específico para paquetes de R.} ya que, al día de hoy, no está aún disponible en CRAN.
+
+Para esto, debemos tener instalado el paquete \texttt{devtools}, y usar la función \texttt{install\_github} que nos permite instalar paquetes directamente desde GitHub.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#se debe tener instalado el paquete devtools}
+\FunctionTok{library}\NormalTok{(devtools)}
+\FunctionTok{install\_github}\NormalTok{(}\StringTok{"dsquintana/metameta"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{anuxe1lisis-de-poder}{%
+\subsection{Análisis de poder}\label{anuxe1lisis-de-poder}}
+
+Una vez instalado, podemos cargar el paquete.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(metameta)}
+\end{Highlighting}
+\end{Shaded}
+
+Como datos, necesitamos no solamente los tamaños de datos a meta-analizar (\(r\) de Pearson transformado a \emph{z} de Fisher), sino además los intervalos de confianza, tal como fueron reportados en varios de nuestros \emph{Forest plots}.
+
+Debemos asumir el efecto real, pero esto nunca podemos saberlo. En este caso, asumimos un efecto de \(r = 0.15\), tal como en nuestro meta-análisis original. Sin embargo, el efecto real no es algo que podamos saber (es, de hecho, lo que queremos acercarnos a conocer a través del meta-análisis), así que la función \texttt{mapower\_ul} del paquete \texttt{metameta} calcula el poder de cada meta-análisis para un rango de posibles efectos reales.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dat.power }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(dat) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(yi, ci.lb, ci.ub) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{rename}\NormalTok{(}\AttributeTok{lower =}\NormalTok{ ci.lb, }\AttributeTok{upper =}\NormalTok{ ci.ub)}
+\NormalTok{power }\OtherTok{\textless{}{-}} \FunctionTok{mapower\_ul}\NormalTok{(}\AttributeTok{dat =}\NormalTok{ dat.power, }\AttributeTok{observed\_es =} \FloatTok{0.15}\NormalTok{, }\AttributeTok{name =} \StringTok{"Molloy et al. 2014"}\NormalTok{)}
+
+\NormalTok{power\_dat }\OtherTok{\textless{}{-}}\NormalTok{ power}\SpecialCharTok{$}\NormalTok{dat}
+\NormalTok{power\_dat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
+                \begin{verbatim}             yi        lower      upper        sei power_es_observed power_es01
+1   0.18922664 -0.001141888 0.37959517 0.09712680         0.3390835  0.1774836
+2   0.16343992  0.091680539 0.23519930 0.03661193         0.9837035  0.7797623
+3   0.35409253  0.082294427 0.62589063 0.13867250         0.1910727  0.1113715
+4   0.33164711  0.139456828 0.52383739 0.09805627         0.3337559  0.1750148
+5   0.27686382  0.040911886 0.51281576 0.12038364         0.2383028  0.1320187
+6   0.00000000 -0.248915675 0.24891567 0.12699779         0.2188783  0.1234921
+7   0.17682002  0.026937828 0.32670221 0.07647051         0.5006730  0.2576556
+8   0.05004173 -0.059013584 0.15909704 0.05564047         0.7691106  0.4354589
+9   0.26610841  0.001826917 0.53038990 0.13483749         0.1994161  0.1149996
+10  0.01000033 -0.060723775 0.08072444 0.03608373         0.9859910  0.7914240
+11 -0.09024419 -0.359465946 0.17897757 0.13735804         0.1938536  0.1125800
+12  0.38842310  0.179490237 0.59735596 0.10659840         0.2905754  0.1553001
+13  0.00000000 -0.184377902 0.18437790 0.09407036         0.3575910  0.1861296
+14  0.15114044  0.066324499 0.23595637 0.04327344         0.9340134  0.6371865
+15  0.24477411  0.087346017 0.40220221 0.08032046         0.4632371  0.2379950
+16  0.04002135 -0.208894321 0.28893703 0.12699779         0.2188783  0.1234921
+   power_es02 power_es03 power_es04 power_es05 power_es06 power_es07 power_es08
+1   0.5395394  0.8705053  0.9845502  0.9992836  0.9999877  0.9999999  1.0000000
+2   0.9997697  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000
+3   0.3026621  0.5806100  0.8223954  0.9500825  0.9910281  0.9989921  0.9999302
+4   0.5317864  0.8642261  0.9829686  0.9991528  0.9999840  0.9999999  1.0000000
+5   0.3827659  0.7026651  0.9135189  0.9858616  0.9987531  0.9999421  0.9999986
+6   0.3502733  0.6562694  0.8829174  0.9759855  0.9971497  0.9998088  0.9999929
+7   0.7439048  0.9751837  0.9994638  0.9999977  1.0000000  1.0000000  1.0000000
+8   0.9489275  0.9997002  0.9999999  1.0000000  1.0000000  1.0000000  1.0000000
+9   0.3170763  0.6044851  0.8429297  0.9597856  0.9936099  0.9993842  0.9999645
+10  0.9998300  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000
+11  0.3074782  0.5886809  0.8294859  0.9535367  0.9919839  0.9991443  0.9999443
+12  0.4666848  0.8035418  0.9634686  0.9968384  0.9998781  0.9999980  1.0000000
+13  0.5659845  0.8904902  0.9890522  0.9996035  0.9999950  1.0000000  1.0000000
+14  0.9961139  0.9999997  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000
+15  0.7019697  0.9620572  0.9987365  0.9999900  1.0000000  1.0000000  1.0000000
+16  0.3502733  0.6562694  0.8829174  0.9759855  0.9971497  0.9998088  0.9999929
+   power_es09 power_es1
+1   1.0000000 1.0000000
+2   1.0000000 1.0000000
+3   0.9999971 0.9999999
+4   1.0000000 1.0000000
+5   1.0000000 1.0000000
+6   0.9999999 1.0000000
+7   1.0000000 1.0000000
+8   1.0000000 1.0000000
+9   0.9999988 1.0000000
+10  1.0000000 1.0000000
+11  0.9999978 0.9999999
+12  1.0000000 1.0000000
+13  1.0000000 1.0000000
+14  1.0000000 1.0000000
+15  1.0000000 1.0000000
+16  0.9999999 1.0000000
+ \end{verbatim}
+                \end{footnotesize}
+                \end{ROut}
+
+\hypertarget{visualizaciuxf3n-del-anuxe1lisis-de-poder-firepower-plot}{%
+\subsection{\texorpdfstring{Visualización del análisis de poder (\emph{Firepower plot})}{Visualización del análisis de poder (Firepower plot)}}\label{visualizaciuxf3n-del-anuxe1lisis-de-poder-firepower-plot}}
+
+Según esto, nuestro meta-análisis solo tiene un poder estadístico suficiente para detectar de manera confiable efectos mayores a 0.4, lo que está muy por encima de nuestras estimaciones de un efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{power\_list }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(power}\SpecialCharTok{$}\NormalTok{power\_median\_dat)}
+\NormalTok{power.plot }\OtherTok{\textless{}{-}} \FunctionTok{firepower}\NormalTok{(power\_list)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{power.plot}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/fire-plot1-1.pdf}
+\caption{\label{fig:fire-plot1}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis. \emph{Observed} hace referencia al tamaño de efecto observado en nuestro meta-análisis original; en este caso, 0.15.}
+\end{figure}
+
+Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.plot} contiene dos elementos (\texttt{dat} y \texttt{fp\_plot}, que es propiamente la gráfica). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto'', el título de la leyenda a ``Poder'', y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.}. Por ejemplo:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{power.plot}\SpecialCharTok{$}\NormalTok{fp\_plot }\SpecialCharTok{+}
+  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Tamaño de efecto"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{guides}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{guide\_legend}\NormalTok{(}\AttributeTok{title =} \StringTok{"Poder"}\NormalTok{, }
+                             \AttributeTok{reverse =} \ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"es\_observed"} \OtherTok{=} \StringTok{"Observado"}\NormalTok{,}
+                              \StringTok{"es01"} \OtherTok{=} \FloatTok{0.1}\NormalTok{,    }
+                              \StringTok{"es02"} \OtherTok{=} \FloatTok{0.2}\NormalTok{,}
+                              \StringTok{"es03"} \OtherTok{=} \FloatTok{0.3}\NormalTok{,}
+                              \StringTok{"es04"} \OtherTok{=} \FloatTok{0.4}\NormalTok{,    }
+                              \StringTok{"es05"} \OtherTok{=} \FloatTok{0.5}\NormalTok{,    }
+                              \StringTok{"es06"} \OtherTok{=} \FloatTok{0.6}\NormalTok{,    }
+                              \StringTok{"es07"} \OtherTok{=} \FloatTok{0.7}\NormalTok{,}
+                              \StringTok{"es08"} \OtherTok{=} \FloatTok{0.8}\NormalTok{,}
+                              \StringTok{"es09"} \OtherTok{=} \FloatTok{0.9}\NormalTok{,}
+                              \StringTok{"es1"}  \OtherTok{=}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/fire-plot2-1.pdf}
+\caption{\label{fig:fire-plot2}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis, con el texto traducido a español y con la leyenda en una escala discreta para facilitar su lectura. \emph{Observado} hace referencia al tamaño de efecto observado en nuestro meta-análisis original (en este caso, 0.15).}
+\end{figure}
+
+\hypertarget{apuxe9ndice-1-alternativas-a-metafor}{%
+\section*{\texorpdfstring{APÉNDICE 1: Alternativas a \texttt{metafor}}{APÉNDICE 1: Alternativas a metafor}}\label{apuxe9ndice-1-alternativas-a-metafor}}
+\addcontentsline{toc}{section}{APÉNDICE 1: Alternativas a \texttt{metafor}}
+
+Acá he usado principalmente una ruta para hacer meta-análisis basada en el paquete \texttt{metafor}, acompañado de \texttt{metaviz} para visualizaciones, \texttt{weightr} para ajustar pesos y detectar sesgos de publicación, y \texttt{metameta} para estimar el poder estadístico de un meta-análisis.
+
+Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro \emph{Doing meta-analysis with R: a hands-on guide} (\protect\hyperlink{ref-harrer2021doing}{Harrer et al., 2021}) se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} (\protect\hyperlink{ref-Harrer2019dmetar}{Harrer et al., 2019}), que contiene opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}).
+
+De manera importante, los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), o \emph{p-curve} (curva de valores \(p\)), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \texttt{dmetar}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
+
 \hypertarget{referencias}{%
 \section*{Referencias}\label{referencias}}
 \addcontentsline{toc}{section}{Referencias}
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-BalduzziMeta2019}{}}%
+Balduzzi, S., Rücker, G., \& Schwarzer, G. (2019). How to perform a meta-analysis with {R}: A practical tutorial. \emph{Evidence-Based Mental Health}, \emph{22}, 153--160. \url{https://doi.org/10.1136/ebmental-2019-300117}
+
 \leavevmode\vadjust pre{\hypertarget{ref-borensteinIdentifyingQuantifyingHeterogeneity2009}{}}%
 Borenstein, M., Hedges, L. V., Higgns, J. P. T., \& Rothstein, H. R. (2009). Identifying and {Quantifying Heterogeneity}. In \emph{Introduction to {Meta}-{Analysis}} (pp. 107--125). Wiley. \url{https://doi.org/10.1002/9780470743386.ch16}
 
 \leavevmode\vadjust pre{\hypertarget{ref-eggerBiasMetaanalysisDetected1997}{}}%
 Egger, M., Smith, G. D., Schneider, M., \& Minder, C. (1997). Bias in meta-analysis detected by a simple, graphical test. \emph{BMJ}, \emph{315}(7109), 629--634. \url{https://doi.org/10.1136/bmj.315.7109.629}
+
+\leavevmode\vadjust pre{\hypertarget{ref-harrer2021doing}{}}%
+Harrer, M., Cuijpers, P., A, F. T., \& Ebert, D. D. (2021). \emph{Doing meta-analysis with {R}: A hands-on guide} (1st ed.). Chapman \& Hall/CRC Press. \url{https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/}
+
+\leavevmode\vadjust pre{\hypertarget{ref-Harrer2019dmetar}{}}%
+Harrer, M., Cuijpers, P., Furukawa, T., \& Ebert, D. D. (2019). \emph{Dmetar: Companion r package for the guide 'doing meta-analysis in r'}. \url{http://dmetar.protectlab.org/}
 
 \leavevmode\vadjust pre{\hypertarget{ref-KossmeierMetaviz}{}}%
 Kossmeier, M., Tran, U. S., \& Voracek, M. (2020). \emph{Metaviz: Forest plots, funnel plots, and visual funnel plot inference for meta-analysis}. \url{https://CRAN.R-project.org/package=metaviz}
@@ -1048,8 +1239,14 @@ Molloy, G. J., O'Carroll, R. E., \& Ferguson, E. (2013). Conscientiousness and M
 \leavevmode\vadjust pre{\hypertarget{ref-quintanaHowPerformMetaanalysis2021}{}}%
 Quintana, D. S. (2021). \emph{How to perform a meta-analysis in {R}}. {[}Archivo de {Vídeo}{]}. YouTube. \url{https://youtu.be/lH4VZMTEZSc}.
 
+\leavevmode\vadjust pre{\hypertarget{ref-quintanaMetameta2022}{}}%
+Quintana, D. S. (2022). \emph{Metameta: A suite of tools to re-evaluate published meta-analyses}. \url{https://github.com/dsquintana/metameta}
+
+\leavevmode\vadjust pre{\hypertarget{ref-schwarzerMetaAnalysis2015}{}}%
+Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015a). \emph{Meta-{Analysis} with {R}}. {Springer International Publishing}. \url{https://doi.org/10.1007/978-3-319-21416-0}
+
 \leavevmode\vadjust pre{\hypertarget{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{}}%
-Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015). Small-{Study Effects} in {Meta}-{Analysis}. In G. Schwarzer, J. R. Carpenter, \& G. Rücker (Eds.), \emph{Meta-{Analysis} with {R}} (pp. 107--141). {Springer International Publishing}. \url{https://doi.org/10.1007/978-3-319-21416-0_5}
+Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015b). Small-{Study Effects} in {Meta}-{Analysis}. In G. Schwarzer, J. R. Carpenter, \& G. Rücker (Eds.), \emph{Meta-{Analysis} with {R}} (pp. 107--141). {Springer International Publishing}. \url{https://doi.org/10.1007/978-3-319-21416-0_5}
 
 \leavevmode\vadjust pre{\hypertarget{ref-veveaGeneralLinearModel1995}{}}%
 Vevea, J. L., \& Hedges, L. V. (1995). A general linear model for estimating effect size in the presence of publication bias. \emph{Psychometrika}, \emph{60}(3), 419--435. \url{https://doi.org/10.1007/BF02294384}
