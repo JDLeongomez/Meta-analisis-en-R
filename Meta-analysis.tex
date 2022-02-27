@@ -197,7 +197,7 @@ Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicolog�
 \leftskip3em
 \rightskip\leftskip
 
-Este documento contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}). Está principalmente basado en \href{https://youtu.be/lH4VZMTEZSc}{este video}, creado por Daniel S. Quintana (\protect\hyperlink{ref-quintanaHowPerformMetaanalysis2021}{2021}), pero contiene citas a fuentes primarias, además de información que he agregado.
+Esta guía contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}). Está principalmente basado en \href{https://youtu.be/lH4VZMTEZSc}{este video}, creado por Daniel S. Quintana (\protect\hyperlink{ref-quintanaHowPerformMetaanalysis2021}{2021}), pero contiene citas a fuentes primarias, además de información que he agregado.
 
 Esta guía asume un manejo básico de R, así como una comprensión básica del meta-análisis. Sin embargo, de ser necesario y como introducción, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video introductorio} al meta-análisis en \emph{jamovi} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}) que publiqué anteriormente en mi canal de YouTube \href{https://www.youtube.com/c/InvestigaciónAbierta}{\emph{Investigación Abierta}}.
 
@@ -208,17 +208,16 @@ Esta guía asume un manejo básico de R, así como una comprensión básica del 
 \vfill
 
 \textbf{Cita esta guía como } \hrulefill 
-\newline
+
 \begin{hangparas}{.25in}{1}
 Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía práctica.} Zenodo. \url{https://doi.org/10.5281/zenodo.5640182}
 \end{hangparas}
-\newpage
 
+\newpage
 {\hypersetup{hidelinks}
  \setcounter{tocdepth}{5}
  \tableofcontents
 }
-
 \newpage
 
 \hypertarget{base-de-datos-de-ejemplo}{%
@@ -371,11 +370,11 @@ Dado que los coeficientes de Pearson (columna \texttt{ri}) no tienen una distrib
 \end{Highlighting}
 \end{Shaded}
 
-Esto ha creado dos nuevas variables en nuestra tabla: \texttt{yi}, que es el tamaño de efecto, y \texttt{vi} que es la varianza.
+Esto ha creado dos nuevas variables en nuestra tabla: \texttt{yi}, que es el tamaño de efecto, y \texttt{vi} que es la varianza (Tabla \ref{tab:estructuramod2}).
 
 \begin{table}[H]
 
-\caption{\label{tab:unnamed-chunk-5}Estructura de la base de datos, con transformación de los r de Pearon a z de Fisher}
+\caption{\label{tab:estructuramod2}Estructura de la base de datos, con transformación de los r de Pearon a z de Fisher}
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}[t]{rlrrrllllrr>{}r>{}r}
@@ -523,7 +522,7 @@ Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los 
 \end{Highlighting}
 \end{Shaded}
 
-Ya que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, tengo que correr este objeto para ver su resultado.
+Ya que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, debo correr este objeto para ver su resultado.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -557,7 +556,7 @@ Ya que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, tengo q
 
 Esto me muestra gran cantidad de información de cada estudio (en este caso, una tabla sin formato). Sin embargo, lo más importante ahora es mirar la última columna, llamada \texttt{inf}. Si ahí aparecieran asteriscos (que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
 
-Por último, podemos también ver ésta información que tenemos guardada en el objeto \texttt{inf.res}, de manera gráfica, usando la función \texttt{plot}.
+Por último, podemos también ver ésta información que tenemos guardada en el objeto \texttt{inf.res}, de manera gráfica, usando la función \texttt{plot} (Fig. \ref{fig:infplot}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -567,18 +566,17 @@ Por último, podemos también ver ésta información que tenemos guardada en el 
 
 \begin{figure}
 \centering
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-11-1.pdf}
-\caption{\label{fig:unnamed-chunk-11}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis.}
+\includegraphics{Meta-analysis_files/figure-latex/infplot-1.pdf}
+\caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis.}
 \end{figure}
 
 \hypertarget{forest-plot-diagrama-de-bosque}{%
 \subsection{\texorpdfstring{\emph{Forest plot} (diagrama de bosque)}{Forest plot (diagrama de bosque)}}\label{forest-plot-diagrama-de-bosque}}
 
-Para hacer un diagrama de bosque (\emph{forest plot}) con \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} resumiendo nuestro meta-análisis, solo tenemos que usar la función \texttt{forest}, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (\texttt{res}).
+Para hacer un diagrama de bosque (\emph{forest plot}) con \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} resumiendo nuestro meta-análisis, solo tenemos que usar la función \texttt{forest}, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (\texttt{res}; esto produce la Fig. \ref{fig:for-plot1}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
 \FunctionTok{forest}\NormalTok{(res)}
 \end{Highlighting}
 \end{Shaded}
@@ -591,12 +589,11 @@ Para hacer un diagrama de bosque (\emph{forest plot}) con \href{https://www.meta
 
 Como se puede ver en las Figuras \ref{fig:for-plot1}, \ref{fig:for-plot2} y \ref{fig:for-plot3b} (que son versiones del mismo \emph{forest plot}), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre -0.09 y 0.37), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en algunos son prácticamente 0 o incluso negativas.
 
-Para una versión más completa y anotada, también usando el \emph{plot} básico de \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, pero agregando encabezados de cada columna en español, nombres de los estudios meta-analizados (en este caso, y dado que tenemos la lista de autores y años de publicación en columnas separadas, pegando las columnas \texttt{authors} y \texttt{year} separadas por una coma y un espacio: \texttt{paste(dat\$authors,\ dat\$year,\ sep\ =\ ",\ ")} como argumento \texttt{slab}) así como una columna con los pesos dados a cada estudio, y detalles del modelo final\footnote{Estas opciones están explicadas \href{https://search.r-project.org/CRAN/refmans/metafor/html/forest.rma.html}{acá}.}:
+Para una versión más completa y anotada, también usando el \emph{plot} básico de \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, pero agregando encabezados de cada columna en español, nombres de los estudios meta-analizados\footnote{En este caso, y dado que tenemos la lista de autores y años de publicación en columnas separadas, pegando las columnas \texttt{authors} y \texttt{year} separadas por una coma y un espacio: \texttt{paste(dat\$authors,\ dat\$year,\ sep\ =\ ",\ ")} como argumento \texttt{slab}.} así como una columna con los pesos dados a cada estudio, y detalles del modelo final\footnote{Estas opciones están explicadas \href{https://search.r-project.org/CRAN/refmans/metafor/html/forest.rma.html}{acá}.}, podemos hacer algo como esto:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# forest plot con anotaciones adicionales}
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
 \FunctionTok{forest}\NormalTok{(res, }\AttributeTok{cex =} \FloatTok{0.75}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\FloatTok{1.6}\NormalTok{),}
        \AttributeTok{slab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{),}
        \AttributeTok{showweights =} \ConstantTok{TRUE}\NormalTok{,}
@@ -682,7 +679,7 @@ A pesar de esto, tanto la regresión de Egger como el \emph{funnel plot}, son in
 \hypertarget{funnel-plot}{%
 \subsubsection{\texorpdfstring{\emph{Funnel plot}}{Funnel plot}}\label{funnel-plot}}
 
-Para crear un \emph{funnel plot} con \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, de nuestro meta-análisis, solo tenemos que usar la función \texttt{funnel}, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (\texttt{res}).
+Para crear un \emph{funnel plot} con \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, de nuestro meta-análisis, solo tenemos que usar la función \texttt{funnel}, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (\texttt{res}, que produce la Fig. \ref{fig:funnel-plot1}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -696,7 +693,7 @@ Para crear un \emph{funnel plot} con \href{https://www.metafor-project.org/doku.
 \caption{\label{fig:funnel-plot1}Funnel plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher) en el eje \emph{X}, así como su error estándar en el eje \emph{Y}. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo.}
 \end{figure}
 
-De nuevo, se puede usar el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}}, usando la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-funnel-plots-with-viz_funnel}{\texttt{viz\_funnel}}. Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regressión de Egger (\texttt{egger\ =\ TRUE}; ver sección \ref{reg-egger}, a continuación), transformando los tamaños de efecto de regreso a \(r\) de Pearson (\texttt{x\_trans\_function\ =\ tanh}), y con los títulos de los ejes en español.
+De nuevo, se puede usar el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}}, usando la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-funnel-plots-with-viz_funnel}{\texttt{viz\_funnel}}. Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regressión de Egger (\texttt{egger\ =\ TRUE}; ver sección \ref{reg-egger}, a continuación), transformando los tamaños de efecto de regreso a \(r\) de Pearson (\texttt{x\_trans\_function\ =\ tanh}), y con los títulos de los ejes en español (Fig. \ref{fig:funnel-plot2}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -714,7 +711,9 @@ De nuevo, se puede usar el paquete \href{https://cran.r-project.org/web/packages
 \caption{\label{fig:funnel-plot2}Funnel plot creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5\% (i.e.~\(p\) \textgreater{} 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1\% (i.e.~\(p\) \textgreater{} 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger.}
 \end{figure}
 
-Alternativamente, el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} tiene la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#sunset-power-enhanced-funnel-plots}{\texttt{viz\_sunset}}, que permite además mostrar el poder estadístico (o potencia) de los estudios meta-analizados para detectar un efecto de interés mediante una prueba de Wald de dos colas. A continuación, muestro dos versiones de esta función. En ambos casos, agregué el efecto \emph{real} encontrado con el meta-análisis (\texttt{contours\ =\ TRUE}), y transformé los tamaños de efecto de regreso a \(r\) de Pearson (\texttt{x\_trans\_function\ =\ tanh}).
+Alternativamente, el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} tiene la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#sunset-power-enhanced-funnel-plots}{\texttt{viz\_sunset}}, que permite además mostrar el poder estadístico (o potencia) de los estudios meta-analizados para detectar un efecto de interés mediante una prueba de Wald de dos colas. De ser necesario, para entender las bases del poder estadístico, recomiendo ver \href{https://youtube.com/playlist?list=PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}{esta serie de videos} (\protect\hyperlink{ref-leongomezPoderRvid2020}{Leongómez, 2020b}) y/o, para mayor profundidad, leer \href{https://doi.org/10.5281/zenodo.3988776}{esta guía} (\protect\hyperlink{ref-leongomezAnalisisPoderEstadistico2020}{Leongómez, 2020a}) que publiqué anteriormente.
+
+A continuación, muestro dos versiones de \emph{funnel plots} creados con la función \texttt{viz\_sunset} (Fig. \ref{fig:funnel-plot3}). En ambos casos, agregué el efecto \emph{real} encontrado con el meta-análisis (\texttt{contours\ =\ TRUE}), y transformé los tamaños de efecto de regreso a \(r\) de Pearson (\texttt{x\_trans\_function\ =\ tanh}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -744,7 +743,7 @@ Alternativamente, el paquete \href{https://cran.r-project.org/web/packages/metav
 \hypertarget{reg-egger}{%
 \subsubsection{Regresión de Egger}\label{reg-egger}}
 
-Para hacer una prueba formal de sesgo de estudios pequeños, podemos hacer una prueba o regresión de Egger (\protect\hyperlink{ref-eggerBiasMetaanalysisDetected1997}{Egger et al., 1997}). En \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, esto se hace con la función \texttt{regtest}, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (\texttt{res}).
+Para hacer una prueba formal de sesgo de estudios pequeños (\protect\hyperlink{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{Schwarzer et al., 2015b}; \protect\hyperlink{ref-sternePublicationRelatedBias2000}{Sterne et al., 2000}), podemos hacer una prueba o regresión de Egger (\protect\hyperlink{ref-eggerBiasMetaanalysisDetected1997}{Egger et al., 1997}). En \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, esto se hace con la función \texttt{regtest}, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (\texttt{res}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -828,12 +827,11 @@ Los resultados, que tienen la misma organización que los del análisis sin mode
 \hypertarget{plot-mod}{%
 \subsubsection{\texorpdfstring{\emph{Forest plot} y \emph{funnel plot}}{Forest plot y funnel plot}}\label{plot-mod}}
 
-Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \emph{funnel plots}, siguiendo los ejemplos y código de la sección \ref{meta-cor}. Para el \emph{forest plot}, hago a continuación un ejemplo anotado y mejorado (tal como el ejemplo de la figura \ref{fig:for-plot2}), pero es importante tener en cuenta que esta opción no creará un resumen del meta-análisis.
+Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \emph{funnel plots}, siguiendo los ejemplos y código de la sección \ref{meta-cor}. Para el \emph{forest plot}, hago a continuación un ejemplo anotado y mejorado (Fig. \ref{fig:for-plot-mod1}, con un código similar al usado como ejemplo en la Fig. \ref{fig:for-plot2}). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto \emph{real} como producto del meta-análisis.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# forest plot con anotaciones adicionales}
-\FunctionTok{par}\NormalTok{(}\AttributeTok{mar=}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
 \FunctionTok{forest}\NormalTok{(res.modage,  }\AttributeTok{cex =} \FloatTok{0.75}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\FloatTok{1.6}\NormalTok{),}
        \AttributeTok{slab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{),}
        \AttributeTok{showweights =} \ConstantTok{TRUE}\NormalTok{,}
@@ -856,7 +854,7 @@ Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \em
 
 Es importante tener en cuenta que la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-forest-plots-with-function-viz_forest}{\texttt{viz\_forest}} del paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} tendrá problemas para crear un \emph{forest plot} de un meta-análisis con moderadores).
 
-De manera similar, podemos obtener un \emph{funnel plot} de nuestro meta-análisis con moderador, pero éste nos mostrará, en vez de los coeficientes de correlación (transformados a \(z\) de Fisher), los valores residuales de cada estudio (es decir, qué tanto se alejan del resultado de nuestro meta-análisis):
+De manera similar, podemos obtener un \emph{funnel plot} de nuestro meta-análisis con moderador, pero éste nos mostrará, en vez de los coeficientes de correlación (transformados a \(z\) de Fisher), los valores residuales de cada estudio (es decir, qué tanto se alejan del resultado de nuestro meta-análisis; Fig. \ref{fig:funnel-plot1}):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1156,6 +1154,8 @@ Según esto, nuestro meta-análisis solo tiene un poder estadístico suficiente 
 \end{Highlighting}
 \end{Shaded}
 
+Para ver el \emph{fireplot} que creamoe, y ya que lo asigné a un objeto que llamé \texttt{power.plot}, debo correr el objeto para ver el resultado (Fig. \ref{fig:fire-plot1}).
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{power.plot}
@@ -1168,7 +1168,7 @@ Según esto, nuestro meta-análisis solo tiene un poder estadístico suficiente 
 \caption{\label{fig:fire-plot1}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis. \emph{Observed} hace referencia al tamaño de efecto observado en nuestro meta-análisis original; en este caso, 0.15.}
 \end{figure}
 
-Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.plot} contiene dos elementos (\texttt{dat} y \texttt{fp\_plot}, que es propiamente la gráfica). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto'', el título de la leyenda a ``Poder'', y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.}. Por ejemplo:
+Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.plot} contiene dos elementos (\texttt{dat} y \texttt{fp\_plot}, que es propiamente la gráfica). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto'', el título de la leyenda a ``Poder'', y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.} (Fig. \ref{fig:fire-plot2}). Por ejemplo:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1196,15 +1196,59 @@ Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.pl
 \caption{\label{fig:fire-plot2}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis, con el texto traducido a español y con la leyenda en una escala discreta para facilitar su lectura. \emph{Observado} hace referencia al tamaño de efecto observado en nuestro meta-análisis original (en este caso, 0.15).}
 \end{figure}
 
-\hypertarget{apuxe9ndice-1-alternativas-a-metafor}{%
-\section*{\texorpdfstring{APÉNDICE 1: Alternativas a \texttt{metafor}}{APÉNDICE 1: Alternativas a metafor}}\label{apuxe9ndice-1-alternativas-a-metafor}}
-\addcontentsline{toc}{section}{APÉNDICE 1: Alternativas a \texttt{metafor}}
+\newpage
+
+\hypertarget{apuxe9ndices}{%
+\section*{APÉNDICES}\label{apuxe9ndices}}
+\addcontentsline{toc}{section}{APÉNDICES}
+
+\hypertarget{alternativas-a-metafor}{%
+\subsection*{\texorpdfstring{Alternativas a \texttt{metafor}}{Alternativas a metafor}}\label{alternativas-a-metafor}}
+\addcontentsline{toc}{subsection}{Alternativas a \texttt{metafor}}
 
 Acá he usado principalmente una ruta para hacer meta-análisis basada en el paquete \texttt{metafor}, acompañado de \texttt{metaviz} para visualizaciones, \texttt{weightr} para ajustar pesos y detectar sesgos de publicación, y \texttt{metameta} para estimar el poder estadístico de un meta-análisis.
 
 Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro \emph{Doing meta-analysis with R: a hands-on guide} (\protect\hyperlink{ref-harrer2021doing}{Harrer et al., 2021}) se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} (\protect\hyperlink{ref-Harrer2019dmetar}{Harrer et al., 2019}), que contiene opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}).
 
-De manera importante, los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), o \emph{p-curve} (curva de valores \(p\)), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \texttt{dmetar}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
+De manera importante, los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), o \emph{p-curve} (curva de valores \(p\)), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
+
+\hypertarget{citas-y-referencias-de-paquetes-de-r}{%
+\subsection*{Citas y referencias de paquetes de R}\label{citas-y-referencias-de-paquetes-de-r}}
+\addcontentsline{toc}{subsection}{Citas y referencias de paquetes de R}
+
+Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función \texttt{citation} en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos usar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato \texttt{BibTex} que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia (alternativamente nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias a mano).
+
+Por ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) para manipular los datos, y usando la función \texttt{citation}, obtengo esta información:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{citation}\NormalTok{(}\StringTok{"dplyr"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
+                \begin{verbatim} 
+To cite package 'dplyr' in publications use:
+
+  Hadley Wickham, Romain François, Lionel Henry and Kirill Müller
+  (2021). dplyr: A Grammar of Data Manipulation. R package version
+  1.0.7. https://CRAN.R-project.org/package=dplyr
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {dplyr: A Grammar of Data Manipulation},
+    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
+    year = {2021},
+    note = {R package version 1.0.7},
+    url = {https://CRAN.R-project.org/package=dplyr},
+  }
+ \end{verbatim}
+                \end{footnotesize}
+                \end{ROut}
+
+\newpage
 
 \hypertarget{referencias}{%
 \section*{Referencias}\label{referencias}}
@@ -1219,25 +1263,31 @@ Balduzzi, S., Rücker, G., \& Schwarzer, G. (2019). How to perform a meta-analys
 Borenstein, M., Hedges, L. V., Higgns, J. P. T., \& Rothstein, H. R. (2009). Identifying and {Quantifying Heterogeneity}. In \emph{Introduction to {Meta}-{Analysis}} (pp. 107--125). Wiley. \url{https://doi.org/10.1002/9780470743386.ch16}
 
 \leavevmode\vadjust pre{\hypertarget{ref-eggerBiasMetaanalysisDetected1997}{}}%
-Egger, M., Smith, G. D., Schneider, M., \& Minder, C. (1997). Bias in meta-analysis detected by a simple, graphical test. \emph{BMJ}, \emph{315}(7109), 629--634. \url{https://doi.org/10.1136/bmj.315.7109.629}
+Egger, M., Smith, G. D., Schneider, M., \& Minder, C. (1997). {Bias in Meta-Analysis Detected by a Simple, Graphical Test}. \emph{BMJ}, \emph{315}(7109), 629--634. \url{https://doi.org/10.1136/bmj.315.7109.629}
 
 \leavevmode\vadjust pre{\hypertarget{ref-harrer2021doing}{}}%
-Harrer, M., Cuijpers, P., A, F. T., \& Ebert, D. D. (2021). \emph{Doing meta-analysis with {R}: A hands-on guide} (1st ed.). Chapman \& Hall/CRC Press. \url{https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/}
+Harrer, M., Cuijpers, P., A, F. T., \& Ebert, D. D. (2021). \emph{{Doing Meta-Analysis With {R}: A Hands-On Guide}} (1st ed.). Chapman \& Hall/CRC Press. \url{https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Harrer2019dmetar}{}}%
-Harrer, M., Cuijpers, P., Furukawa, T., \& Ebert, D. D. (2019). \emph{Dmetar: Companion r package for the guide 'doing meta-analysis in r'}. \url{http://dmetar.protectlab.org/}
+Harrer, M., Cuijpers, P., Furukawa, T., \& Ebert, D. D. (2019). \emph{{dmetar: Companion R Package For The Guide 'Doing Meta-Analysis in R'}}. \url{http://dmetar.protectlab.org/}
 
 \leavevmode\vadjust pre{\hypertarget{ref-KossmeierMetaviz}{}}%
-Kossmeier, M., Tran, U. S., \& Voracek, M. (2020). \emph{Metaviz: Forest plots, funnel plots, and visual funnel plot inference for meta-analysis}. \url{https://CRAN.R-project.org/package=metaviz}
+Kossmeier, M., Tran, U. S., \& Voracek, M. (2020). \emph{{metaviz: Forest Plots, Funnel Plots, and Visual Funnel Plot Inference for Meta-Analysis}}. \url{https://CRAN.R-project.org/package=metaviz}
 
 \leavevmode\vadjust pre{\hypertarget{ref-leongomezMetaanalysis2021}{}}%
-Leongómez, J. D. (2021). \emph{Hacer meta-análisis en jamovi es muy fácil}. {[}Archivo de {Vídeo}{]}. YouTube. \url{https://youtu.be/ntBbkOn9D_o}.
+Leongómez, J. D. (2021). \emph{Hacer meta-análisis en jamovi es muy fácil}. {[}Video{]}. YouTube. \url{https://youtu.be/ntBbkOn9D_o}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-leongomezAnalisisPoderEstadistico2020}{}}%
+Leongómez, J. D. (2020a). \emph{Análisis de poder estadístico y cálculo de tamaño de muestra en {R}: {Guía} práctica}. {Zenodo}. \url{https://doi.org/10.5281/zenodo.3988776}
+
+\leavevmode\vadjust pre{\hypertarget{ref-leongomezPoderRvid2020}{}}%
+Leongómez, J. D. (2020b). \emph{Poder estadístico y tamaño de muestra en {R}}. {[}Serie de Videos{]}. YouTube. \url{https://youtube.com/playlist?list=PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-molloy2013}{}}%
 Molloy, G. J., O'Carroll, R. E., \& Ferguson, E. (2013). Conscientiousness and Medication Adherence: A Meta-analysis. \emph{Annals of Behavioral Medicine}, \emph{47}(1), 92--101. \url{https://doi.org/10.1007/s12160-013-9524-4}
 
 \leavevmode\vadjust pre{\hypertarget{ref-quintanaHowPerformMetaanalysis2021}{}}%
-Quintana, D. S. (2021). \emph{How to perform a meta-analysis in {R}}. {[}Archivo de {Vídeo}{]}. YouTube. \url{https://youtu.be/lH4VZMTEZSc}.
+Quintana, D. S. (2021). \emph{{How to Perform a Meta-Analysis in R}}. {[}Video{]}. YouTube. \url{https://youtu.be/lH4VZMTEZSc}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-quintanaMetameta2022}{}}%
 Quintana, D. S. (2022). \emph{Metameta: A suite of tools to re-evaluate published meta-analyses}. \url{https://github.com/dsquintana/metameta}
@@ -1248,6 +1298,9 @@ Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015a). \emph{Meta-{Analysis} w
 \leavevmode\vadjust pre{\hypertarget{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{}}%
 Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015b). Small-{Study Effects} in {Meta}-{Analysis}. In G. Schwarzer, J. R. Carpenter, \& G. Rücker (Eds.), \emph{Meta-{Analysis} with {R}} (pp. 107--141). {Springer International Publishing}. \url{https://doi.org/10.1007/978-3-319-21416-0_5}
 
+\leavevmode\vadjust pre{\hypertarget{ref-sternePublicationRelatedBias2000}{}}%
+Sterne, J. A. C., Gavaghan, D., \& Egger, M. (2000). Publication and related bias in meta-analysis. \emph{Journal of Clinical Epidemiology}, \emph{53}(11), 1119--1129. \url{https://doi.org/10.1016/S0895-4356(00)00242-0}
+
 \leavevmode\vadjust pre{\hypertarget{ref-veveaGeneralLinearModel1995}{}}%
 Vevea, J. L., \& Hedges, L. V. (1995). A general linear model for estimating effect size in the presence of publication bias. \emph{Psychometrika}, \emph{60}(3), 419--435. \url{https://doi.org/10.1007/BF02294384}
 
@@ -1256,6 +1309,9 @@ Vevea, J. L., \& Woods, C. M. (2005). Publication bias in research synthesis: Se
 
 \leavevmode\vadjust pre{\hypertarget{ref-viechtbauer2010}{}}%
 Viechtbauer, W. (2010). Conducting Meta-Analyses in {R} with the metafor Package. \emph{Journal of Statistical Software}, \emph{36}(3). \url{https://doi.org/10.18637/jss.v036.i03}
+
+\leavevmode\vadjust pre{\hypertarget{ref-WickhamDplyr2021}{}}%
+Wickham, H., François, R., Henry, L., \& Müller, K. (2021). \emph{Dplyr: A grammar of data manipulation}. \url{https://CRAN.R-project.org/package=dplyr}
 
 \end{CSLReferences}
 
