@@ -679,7 +679,7 @@ A pesar de esto, tanto la regresión de Egger como el \emph{funnel plot}, son in
 \hypertarget{funnel-plot}{%
 \subsubsection{\texorpdfstring{\emph{Funnel plot}}{Funnel plot}}\label{funnel-plot}}
 
-Para crear un \emph{funnel plot} con \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, de nuestro meta-análisis, solo tenemos que usar la función \texttt{funnel}, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (\texttt{res}, que produce la Fig. \ref{fig:funnel-plot1}).
+Para crear un \emph{funnel plot} con \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, de nuestro meta-análisis, solo tenemos que usar la función \texttt{funnel}, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (\texttt{res}). Con esto, he generado la Figura \ref{fig:funnel-plot1}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -693,7 +693,23 @@ Para crear un \emph{funnel plot} con \href{https://www.metafor-project.org/doku.
 \caption{\label{fig:funnel-plot1}Funnel plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher) en el eje \emph{X}, así como su error estándar en el eje \emph{Y}. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo.}
 \end{figure}
 
-De nuevo, se puede usar el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}}, usando la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-funnel-plots-with-viz_funnel}{\texttt{viz\_funnel}}. Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regressión de Egger (\texttt{egger\ =\ TRUE}; ver sección \ref{reg-egger}, a continuación), transformando los tamaños de efecto de regreso a \(r\) de Pearson (\texttt{x\_trans\_function\ =\ tanh}), y con los títulos de los ejes en español (Fig. \ref{fig:funnel-plot2}).
+O, si queremos cambiar los títulos de los ejes, por ejemplo escribiéndolos en español, podemos hacerlo agregando los argumentos \texttt{xlab} (para el eje \(X\)) y/o \texttt{ylab} (para el eje \(Y\)), como se ve en la Figura \ref{fig:funnel-plot1a}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{funnel}\NormalTok{(res, }
+       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
+       \AttributeTok{ylab =} \StringTok{"Error estándar"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/funnel-plot1a-1.pdf}
+\caption{\label{fig:funnel-plot1a}Funnel plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}, con tpitulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher) en el eje \emph{X}, así como su error estándar en el eje \emph{Y}. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste.}
+\end{figure}
+
+De nuevo, se puede usar el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}}, usando la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-funnel-plots-with-viz_funnel}{\texttt{viz\_funnel}}. Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regresión de Egger (\texttt{egger\ =\ TRUE}; ver sección \ref{reg-egger}, más adelante), transformando los tamaños de efecto de regreso a \(r\) de Pearson (\texttt{x\_trans\_function\ =\ tanh}), y con los títulos de los ejes en español (Fig. \ref{fig:funnel-plot2}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -768,6 +784,71 @@ Limit Estimate (as sei -> 0):   b = 0.0790 (CI: -0.0686, 0.2266)
                 \end{ROut}
 
 Con base en esto, y la inspección visual subjetiva del \emph{funnel plot}, muchos investigadores concluyen que no hay sesgo de publicación. Sin embargo, como mencioné antes, estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (más adelante, en la sección \ref{sesgo-pub}, explicaré cómo evaluar si hay sesgo de publicación).
+
+\hypertarget{muxe9todo-trim-and-fill-recorte-y-relleno}{%
+\subsubsection{\texorpdfstring{Método \emph{trim and fill} (recorte y relleno)}{Método trim and fill (recorte y relleno)}}\label{muxe9todo-trim-and-fill-recorte-y-relleno}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{trimfill}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
+                \begin{verbatim} 
+Estimated number of missing studies on the left side: 2 (SE = 2.7118)
+
+Random-Effects Model (k = 18; tau^2 estimator: REML)
+
+tau^2 (estimated amount of total heterogeneity): 0.0112 (SE = 0.0066)
+tau (square root of estimated tau^2 value):      0.1061
+I^2 (total heterogeneity / total variability):   67.50%
+H^2 (total variability / sampling variability):  3.08
+
+Test for Heterogeneity:
+Q(df = 17) = 46.3990, p-val = 0.0002
+
+Model Results:
+
+estimate      se    zval    pval   ci.lb   ci.ub 
+  0.1288  0.0333  3.8628  0.0001  0.0635  0.1942  *** 
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+ \end{verbatim}
+                \end{footnotesize}
+                \end{ROut}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{funnel}\NormalTok{(}\FunctionTok{trimfill}\NormalTok{(res), }
+       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
+       \AttributeTok{ylab =} \StringTok{"Error estándar"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-20-1.pdf}
+\caption{\label{fig:unnamed-chunk-20}En negro los estudios meta-analizados; en blanco, los estudios \emph{rellenados}.}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{viz\_funnel}\NormalTok{(res, }
+           \AttributeTok{contours\_col =} \StringTok{"Oranges"}\NormalTok{,}
+           \AttributeTok{trim\_and\_fill =} \ConstantTok{TRUE}\NormalTok{, }
+           \AttributeTok{trim\_and\_fill\_side =} \StringTok{"left"}\NormalTok{, }\CommentTok{\#IMPORTANTE}
+           \AttributeTok{egger =} \ConstantTok{TRUE}\NormalTok{,}
+           \AttributeTok{x\_trans\_function =}\NormalTok{ tanh,}
+           \AttributeTok{ylab =} \StringTok{"Error estándar"}\NormalTok{,}
+           \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{0}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dotted"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-21-1.pdf}
 
 \hypertarget{meta-anuxe1lisis-de-correlaciuxf3n-con-moderador}{%
 \section{Meta-análisis de correlación con moderador}\label{meta-anuxe1lisis-de-correlaciuxf3n-con-moderador}}
@@ -858,14 +939,33 @@ De manera similar, podemos obtener un \emph{funnel plot} de nuestro meta-anális
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{funnel}\NormalTok{(res.modage)}
+\FunctionTok{funnel}\NormalTok{(res.modage,}
+       \AttributeTok{xlab =} \StringTok{"Valor residual"}\NormalTok{,}
+       \AttributeTok{ylab =} \StringTok{"Error estándar"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/funnel-plot-mod1-1.pdf}
-\caption{\label{fig:funnel-plot-mod1}Funnel plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo la edad promedio de los participantes como moderador. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste.}
+\caption{\label{fig:funnel-plot-mod1}Funnel plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo la edad promedio de los participantes como moderador, y con títulos de los ejes en español. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste.}
+\end{figure}
+
+\hypertarget{meta-analytic-scatter-plot-gruxe1fico-de-dispersiuxf3n-meta-analuxedtico}{%
+\subsubsection{\texorpdfstring{\emph{Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{Meta-Analytic Scatter Plot (Gráfico de dispersión meta-analítico)}}\label{meta-analytic-scatter-plot-gruxe1fico-de-dispersiuxf3n-meta-analuxedtico}}
+
+Cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función \texttt{regplot}hace precisamente esto (Fig. @(fig:reg-plot)).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{regplot}\NormalTok{(res.modage)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/reg-plot-1.pdf}
+\caption{\label{fig:reg-plot}Gráfico de dispersión meta-analítico (\emph{Meta-Analytic Scatter Plot}). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso). La línea negra representa el efecto previsto en función del predictor (en este caso \texttt{age}, edad) con intervalo de confianza del 95\%.}
 \end{figure}
 
 \hypertarget{ejemplo-2-moderaciuxf3n-de-la-calidad-de-los-estudios-meta-analizados}{%
@@ -1034,7 +1134,7 @@ Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el 
 
 Al final el \emph{Likelihood ratio test} (algo así como ``Prueba de cociente de probabilidades''), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí basándose en la relación de su verosimilitud. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
 
-Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es \textless{} 0.10; significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el \emph{funnel plot} (Figs. \ref{fig:funnel-plot1}, \ref{fig:funnel-plot2} y \ref{fig:funnel-plot3}) y la regresión de Egger (sección \ref{reg-egger}), sugerían lo contrario.
+Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es \textless{} 0.10; significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el \emph{funnel plot} (Figs. \ref{fig:funnel-plot1}, \ref{fig:funnel-plot1a} \ref{fig:funnel-plot2} y \ref{fig:funnel-plot3}) y la regresión de Egger (sección \ref{reg-egger}), sugerían lo contrario.
 
 \hypertarget{poder-estaduxedstico-del-meta-anuxe1lisis}{%
 \section{Poder estadístico del meta-análisis}\label{poder-estaduxedstico-del-meta-anuxe1lisis}}

@@ -447,7 +447,7 @@ A pesar de esto, tanto la regresión de Egger como el *funnel plot*, son intersa
 
 ### *Funnel plot*
 
-Para crear un *funnel plot* con [`metafor`](https://www.metafor-project.org/doku.php), de nuestro meta-análisis, solo tenemos que usar la función `funnel`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`, que produce la Fig. \@ref(fig:funnel-plot1)).
+Para crear un *funnel plot* con [`metafor`](https://www.metafor-project.org/doku.php), de nuestro meta-análisis, solo tenemos que usar la función `funnel`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`). Con esto, he generado la Figura \@ref(fig:funnel-plot1).
 
 ```{r eval = FALSE}
 funnel(res)
@@ -458,7 +458,22 @@ par(mar=c(4,4,0,1))
 funnel(res)
 ```
 
-De nuevo, se puede usar el paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función [`viz_funnel`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-funnel-plots-with-viz_funnel). Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regressión de Egger (`egger = TRUE`; ver sección \@ref(reg-egger), a continuación), transformando los tamaños de efecto de regreso a $r$ de Pearson (`x_trans_function = tanh`), y con los títulos de los ejes en español (Fig. \@ref(fig:funnel-plot2)).
+O, si queremos cambiar los títulos de los ejes, por ejemplo escribiéndolos en español, podemos hacerlo agregando los argumentos `xlab` (para el eje $X$) y/o `ylab` (para el eje $Y$), como se ve en la Figura \@ref(fig:funnel-plot1a).
+
+```{r eval = FALSE}
+funnel(res, 
+       xlab = "Coeficiente de correlación transformado en z de Fisher",
+       ylab = "Error estándar")
+```
+
+```{r funnel-plot1a, echo = FALSE, fig.height=5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php), con tpitulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste."}
+par(mar=c(4,4,0,1))
+funnel(res, 
+       xlab = "Coeficiente de correlación transformado en z de Fisher",
+       ylab = "Error estándar")
+```
+
+De nuevo, se puede usar el paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función [`viz_funnel`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-funnel-plots-with-viz_funnel). Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regresión de Egger (`egger = TRUE`; ver sección \@ref(reg-egger), más adelante), transformando los tamaños de efecto de regreso a $r$ de Pearson (`x_trans_function = tanh`), y con los títulos de los ejes en español (Fig. \@ref(fig:funnel-plot2)).
 
 ```{r funnel-plot2, fig.height=4.5, warning = FALSE, fig.cap = "Funnel plot creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5% (i.e. $p$ > 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1% (i.e. $p$ > 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger."}
 viz_funnel(res, 
@@ -501,6 +516,7 @@ p.sunb <- viz_sunset(res,
                      power_contours = "continuous",
                      ylab = "Error estándar",
                      xlab = "Coeficiente de correlación")
+  
 ggarrange(p.suna, p.sunb,
           labels = "AUTO",
           nrow = 2)
@@ -525,6 +541,31 @@ regtest(res)
 ```
 
 Con base en esto, y la inspección visual subjetiva del *funnel plot*, muchos investigadores concluyen que no hay sesgo de publicación. Sin embargo, como mencioné antes, estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (más adelante, en la sección \@ref(sesgo-pub), explicaré cómo evaluar si hay sesgo de publicación).
+
+### Método *trim and fill* (recorte y relleno)
+
+```{r}
+trimfill(res)
+```
+
+```{r fig.cap = "En negro los estudios meta-analizados; en blanco, los estudios *rellenados*."}
+funnel(trimfill(res), 
+       xlab = "Coeficiente de correlación transformado en z de Fisher",
+       ylab = "Error estándar")
+```
+
+
+```{r}
+viz_funnel(res, 
+           contours_col = "Oranges",
+           trim_and_fill = TRUE, 
+           trim_and_fill_side = "left", #IMPORTANTE
+           egger = TRUE,
+           x_trans_function = tanh,
+           ylab = "Error estándar",
+           xlab = "Coeficiente de correlación") +
+  geom_vline(xintercept = 0, linetype = "dotted")
+```
 
 # Meta-análisis de correlación con moderador
 
@@ -586,13 +627,26 @@ Es importante tener en cuenta que la función [`viz_forest`](https://cran.r-proj
 De manera similar, podemos obtener un *funnel plot* de nuestro meta-análisis con moderador, pero éste nos mostrará, en vez de los coeficientes de correlación (transformados a $z$ de Fisher), los valores residuales de cada estudio (es decir, qué tanto se alejan del resultado de nuestro meta-análisis; Fig. \@ref(fig:funnel-plot1)):
 
 ```{r eval = FALSE}
-funnel(res.modage)
+funnel(res.modage,
+       xlab = "Valor residual",
+       ylab = "Error estándar")
 ```
 
-```{r funnel-plot-mod1, echo = FALSE, fig.height=5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste."}
+```{r funnel-plot-mod1, echo = FALSE, fig.height=5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador, y con títulos de los ejes en español. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste."}
 par(mar=c(4,4,0,1))
-funnel(res.modage)
+funnel(res.modage,
+       xlab = "Valor residual",
+       ylab = "Error estándar")
 ```
+
+### *Meta-Analytic Scatter Plot* (Gráfico de dispersión meta-analítico)
+
+Cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función `regplot`hace precisamente esto (Fig. \@(fig:reg-plot)).
+
+```{r reg-plot, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{age}, edad) con intervalo de confianza del 95%."}
+regplot(res.modage)
+```
+
 
 ## Ejemplo 2: Moderación de la calidad de los estudios meta-analizados
 
@@ -649,7 +703,7 @@ Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el 
 
 Al final el *Likelihood ratio test* (algo así como "Prueba de cociente de probabilidades"), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí basándose en la relación de su verosimilitud. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
 
-Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es < 0.10; significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el *funnel plot* (Figs. \@ref(fig:funnel-plot1), \@ref(fig:funnel-plot2) y \@ref(fig:funnel-plot3)) y la regresión de Egger (sección \@ref(reg-egger)), sugerían lo contrario. 
+Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es < 0.10; significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el *funnel plot* (Figs. \@ref(fig:funnel-plot1), \@ref(fig:funnel-plot1a) \@ref(fig:funnel-plot2) y \@ref(fig:funnel-plot3)) y la regresión de Egger (sección \@ref(reg-egger)), sugerían lo contrario. 
 
 # Poder estadístico del meta-análisis
 
