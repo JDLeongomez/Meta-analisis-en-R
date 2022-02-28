@@ -6,7 +6,7 @@ meta_plot(ri = dat$ri, ni = dat$ni)
 
 meta_plot(ri = dat$ri, ni = dat$ni, nr_lines = "summary")
 
-puniform(ri = dat$ri, ni = dat$ni, side = "right", method = "LNP", plot = TRUE)
+puniform(ri = dat$ri, ni = dat$ni, side = "right", method = "LNP")
 
 
 

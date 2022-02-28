@@ -7,13 +7,15 @@ author:
 date: "`r Sys.setlocale('LC_TIME');format(Sys.Date(),'%d %B, %Y')`"
 output:
   bookdown::pdf_document2:
-    highlight: zenburn
     number_sections: yes
     keep_tex:  true
     toc: no
     pandoc_args:
       - '--lua-filter=lua/scholarly-metadata.lua'
       - '--lua-filter=lua/author-info-blocks.lua'
+      - '--highlight-style=theme/my_style.theme'
+classoption: 
+      - bookmarksnumbered
 editor_options:
   chunk_output_type: console
 geometry: margin=2cm
@@ -63,7 +65,7 @@ bibliography: bib/references.bib
                 colbacktitle=iacol,
                 coltitle=black,
                 boxrule=1pt,
-                outer arc=1pt,
+                sharp corners,
                 breakable,
                 enhanced,
                 attach boxed title to top left={yshift=-0.1in,xshift=0.15in},
@@ -501,7 +503,9 @@ viz_sunset(res,
            x_trans_function = tanh, 
            power_contours = "continuous",
            ylab = "Error estándar",
-           xlab = "Coeficiente de correlación")
+           xlab = "Coeficiente de correlación") +
+  labs(fill = "Poder")
+
 ```
 
 ```{r funnel-plot3, message = TRUE, echo = FALSE, fig.height=8.5, fig.width=6, warning = FALSE, fig.cap = "Dos versiones de funnel plot creados con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función viz-sunset, que estima el poder de cada estudio para detectar un efecto de interés. **A.** Poder representado por bandas dicretas de color. **B.** Poder representado de manera contínua en una escala de color. En ambos casos, y tal como en la Fig. \\@ref(fig:funnel-plot2), el efecto real está representado como una línea vertical, y el triángulo a partir de su inicio representa el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis."}
