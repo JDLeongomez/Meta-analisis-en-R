@@ -49,7 +49,8 @@ header-includes:
   \definecolor{iacol}{RGB}{246, 130, 18}
   \definecolor{iacoldark}{RGB}{246, 100, 18}
 always_allow_html: yes
-csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+csl: bib/apa.csl
+#https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
 urlcolor: blue
 linkcolor: iacoldark
 link-citations: true
@@ -109,9 +110,9 @@ Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicolog�
 \rightskip\leftskip
 ```
 
-Esta guía contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. Está principalmente basado en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene citas a fuentes primarias, además de información que he agregado.
+Esta guía contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. Está principalmente basado en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene algunos pasos adicionales o alternativos, así como citas a fuentes primarias, e información que he agregado.
 
-Esta guía asume  un manejo básico de R, así como una comprensión básica del meta-análisis. Sin embargo, de ser necesario y como introducción, recomiendo ver [este video introductorio](https://youtu.be/ntBbkOn9D_o) al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
+**Nota:** Esta guía asume  un manejo básico de R, así como una comprensión básica del meta-análisis. Sin embargo, de ser necesario y como introducción, recomiendo ver [este video introductorio](https://youtu.be/ntBbkOn9D_o) al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
 
 [![Investigación Abierta](images\Logo-IA-Rectangulo.pdf)](https://www.youtube.com/c/InvestigaciónAbierta){width=40%}
 
@@ -142,7 +143,7 @@ Para los ejemplos usados en ésta guía, usaré la base de datos `dat.molloy2014
 
 Esta base de datos viene incluida con el paquete `{metafor}` de R. Básicamente, Molloy et al. [-@molloy2013] estudiaron si existe una asociación entre la diligencia (*conscientiousness*) y la adherencia a la medicación. En otras palabras, ¿las personas más diligentes son más propensas a cumplir con la medicación prescrita?
 
-Primero, primero, debemos cargar los paquetes que usaremos, incluyendo `{metafor}` y `{metaviz}` para hacer meta-análisis, así como `{dplyr}` para manipular y organizar la base de datos.
+Primero, debemos cargar los paquetes que usaré a lo largo de esta guía: `{metafor}` [@viechtbauer2010] y `{metaviz}` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `{dplyr}` [@WickhamDplyr2021] para manipular y organizar la base de datos.
 
 ```{r eval=FALSE}
 library(metafor)
@@ -150,18 +151,21 @@ library(metaviz)
 library(dplyr)
 ```
 
-Una vez cargado el paquete `{metafor}`, ya puedo cargar la base de datos `dat.molloy2014`. En éste caso, para poder *llamarla* cuando sea necesario, la asignaré a un objeto llamado `dat`. 
+Una vez cargado el paquete `{metafor}`, ya podemos cargar la base de datos `dat.molloy2014`. En éste caso, para poder *llamarla* cuando sea necesario, la asignaré a un objeto llamado `dat`. 
+
 ```{r}
 dat <- get(data(dat.molloy2014))
 ```
 
-Tras asignar la base de datos a este objeto (`dat`), podemos verla en la consola de R sencillamente usando el comando `dat`.
+Tras asignar la base de datos a este objeto (`dat`), la base de datos se puede ver en la consola de R sencillamente usando como comando el nombre que le dimos al objeto al que lo asignamos (en este caso, `dat`).
 
 ```{r}
 dat
 ```
 
-Por supuesto, la salida de la consola no es la más clara, así que de aquí en adelante mostraré la mayoría de las tablas en un formato de impresión, más fácil de leer. Voy a volver a cargar la base de datos (sobreescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16. A continuación, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna.
+Por supuesto, la salida de la consola no es la más clara, pero para una versión más legible, se puede usar la función `View`, y el nombre de la base de datos o tabla como argumento (en este caso `View(dat)`). Sin embargo, de aquí en adelante mostraré la mayoría de las tablas en un formato de impresión, más limpio y fácil de leer. 
+
+Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16. A continuación, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna.
 
 ```{r molloy2014}
 dat <- get(data(dat.molloy2014)) %>%
@@ -182,9 +186,7 @@ kable(dat,
            footnote_as_chunk = TRUE)
 ```
 
-Por supuesto, la columna `authors` tiene los autores de cada estudio a meta-analizar, y la columna `year` el año de publicación. 
-
-La columna `ri` contiene los coeficientes de correlación de Pearson (la columna `ni` contiene los tamaños de muestra de cada estudio).
+Por supuesto, la columna `authors` tiene los autores de cada estudio a meta-analizar, y la columna `year` el año de publicación. La columna `ri` contiene los coeficientes de correlación de Pearson, y la columna `ni` los tamaños de muestra de cada estudio.
 
 Adicionalmente, en este ejemplo tenemos una serie de moderadores:
 
@@ -200,18 +202,17 @@ Adicionalmente, en este ejemplo tenemos una serie de moderadores:
 
 -   `quality`: calidad metodológica
 
-# Transformación de *r* de Pearson a *z* de Fisher
+# Preparación de los datos: transformación de coeficientes *r* de Pearson a *z* de Fisher
 
-Dado que los coeficientes de Pearson (columna `ri`) no tienen una distribución normal, esto podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeños. Por esto, vamos a transformar los coeficientes *r* de Pearson a *z* de Fisher, que no tienen este problema. Usaré la función `escalc` del paquete `metafor`.
+Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeños. Por esto, lo mejor es transformar los coeficientes *r* de Pearson a *z* de Fisher [@fisherFrequencyDistributionValues1915], que no tienen este problema^[Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (*r*), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significancia para coeficientes *r*. La transformación de Fisher de valores *r* a *z* —que es la [tangente hiperbólica inversa](https://es.wikipedia.org/wiki/Tangente_hiperb%C3%B3lica) de *r*— resuelve este problema, pues los coeficientes *z* tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de *r* [para una demostración en español, ver @sanchez-brunoTransformacionFisherPara2005].]. 
+
+Para transformar los coeficientes *r* de Pearson a coeficientes *z* de Fisher, usaré la función `escalc` del paquete `metafor`. Los argumentos que requiere esta función, además del tipo de transformación a realizar (en este caso `measure = "ZCOR"`), son los coeficientes de correlación (`ri`), el tamaño de muestra de cada correlación (`ni`), y la base de datos que contiene estos valores (`data`). En nuestro caso, las columnas donde están estos valores, tienen los mismos nombres (`ri`, `ni`). En este ejemplo, asignaré el resultado de esta función al mismo objeto `dat`, que contiene la base de datos, para sobrescribirlo y no crear objetos adicionales.
 
 ```{r}
-dat <- escalc(measure = "ZCOR", 
-              ri = ri, 
-              ni = ni,
-              data = dat)
+dat <- escalc(measure = "ZCOR", ri = ri, ni = ni, data = dat)
 ```
 
-Esto ha creado dos nuevas variables en nuestra tabla: `yi`, que es el tamaño de efecto, y `vi` que es la varianza (Tabla \@ref(tab:estructuramod2)).
+Esta función agrega dos nuevas variables: `yi`, que es el tamaño de efecto (en valores *z* de Fisher), y `vi` que es la varianza (Tabla \@ref(tab:estructuramod2)).
 
 ```{r estructuramod2, echo=FALSE, message = FALSE}
 kable(dat, 
@@ -230,7 +231,7 @@ kable(dat,
 
 # Hacer el meta-análisis {#meta-cor}
 
-Para hacer el meta-análisis, usaremos la función `rma` del paquete `metafor`, para el que tenemos que especificar los tamaños de efecto (`yi`) y varianzas (`vi`) de los estudios a meta-analizar. En este caso, las columnas donde tenemos estos valores, tienen los mismos nombres (`yi`, `vi`). Asignaré los resultados del meta-análisis a un objeto llamado `res`.
+Para hacer el meta-análisis, usaré la función `rma` del paquete `metafor`. Esta función requiere especificar los tamaños de efecto (`yi`) y varianzas (`vi`) de los estudios a meta-analizar. En nuestro caso, las columnas donde están estos valores, tienen los mismos nombres (`yi`, `vi`). Asignaré los resultados del meta-análisis a un nuevo objeto llamado `res`.
 
 ```{r}
 res <- rma(yi = yi, vi = vi, data = dat)
@@ -242,7 +243,9 @@ Los resultados, son los siguientes:
 res
 ```
 
-Primero, nos confirma que ajustamos un modelo con efectos aleatorios (`Random-Effects Model`), a partir de 16 estudios (`k = 16`), y que para estimar $\tau^2$ (tau cuadrado) usamos el método de **máxima verosimilitud restringida**^[Hay varios métodos disponibles como estimador, además de **máxima verosimilitud restringida** (REML). Sin embargo, si tienes dudas, REML es una buena opción. Cada método tiene ventajas y desventajas que, si tienes interés en mirar, están descritas en la [documentación](https://www.rdocumentation.org/packages/metafor/versions/2.4-0/topics/rma.uni) de la función `rma`.] (`tau^2 estimator: REML`), que se designa como *REML* por sus siglas en inglés .
+Vamos a analizar estos resultados de la consola de R por partes:
+
+Primero, nos confirman que ajustamos un modelo con efectos aleatorios (`Random-Effects Model`), a partir de 16 estudios (`k = 16`), y que para estimar $\tau^2$ (tau cuadrado) usamos el método de **máxima verosimilitud restringida**^[Hay varios métodos disponibles como estimador, además de **máxima verosimilitud restringida** (REML). Sin embargo, si tienes dudas, REML es una buena opción. Cada método tiene ventajas y desventajas que, si tienes interés en mirar, están descritas en la [documentación](https://www.rdocumentation.org/packages/metafor/versions/2.4-0/topics/rma.uni) de la función `rma`.] (`tau^2 estimator: REML`), que se designa como *REML* por sus siglas en inglés .
 
 Posteriormente, nos provee los valores de una serie de estimadores de heterogeneidad o varianza:
 
@@ -270,7 +273,31 @@ De todos estos, los más comúnmente reportados son $\tau^2$, $\tau$, $I^2$ y $Q
 
 En nuestro caso, el estadístico $Q$ sugiere que hay una heterogeneidad significativa en los estudios meta-analizados ($p$ = 0.0009). $I^2$, sugiere una heterogeneidad moderada, lo que quiere decir que más de la mitad (61.73%) de la varianza se estima que se deriva de diferencias en los tamaños de efecto.
 
-Por último, tenemos los resultados del modelo de meta-análisis (`Model results`). Nos provee un estimado de la asociación positiva entre diligencia y adherencia a la medicación (0.1499 ± 0.0316), lo que equivale a un valor *z* de 4.7501 , y sugiere que esa asociación es significativa ($p$ \< .0001). Así mismo, nos provee los límites inferior (0.0881) y superior (0.2118) de los intervalos de confianza.
+Más abajo, el *output* de la consola de R nos muestra los resultados de nuestro meta-análisis (`Model results`); en otras palabras, ¿cuál es el tamaño de efecto de la asociación entre  diligencia (*conscientiousness*) y la adherencia a la medicación, según nuestro meta-análisis?
+
+Esta parte nos provee varios resultados:
+
+-   `Estimate`: estimado de la correlación entre diligencia y adherencia a la medicación
+
+-   `se`: error estándar del estimado de la asociación
+
+-   `zval`: XXXXXXX https://en.wikipedia.org/wiki/Z-test, https://www.rdocumentation.org/packages/metafor/versions/2.4-0/topics/rma.uni
+
+-   `pval`: valor *p* de la correlación
+
+-   `ci.lb`: límite inferior del intervalo de confianza (*confidence interval lower bound*)
+
+-   `ci.ub`: límite superior del intervalo de confianza (*confidence interval upper bound*)
+
+-   Nivel de significancia: representación con asteriscos (o un punto) del nivel de significación
+
+-   `Signif. codes: 0 ’***’ 0.001 ’**’ 0.01 ’*’ 0.05 ’.’ 0.1 ’ ’ 1`: Clave para interpretar los niveles de significación. Aunque puede parecer complejo, básicamente, quiere decir que tres asteriscos (`***`) representan un valor *p* entre 0 y 0.001 (*p* < .001); dos asteriscos (`**`) un valor *p* entre 0.001 y 0.01 (*p* < .01); un asterisco (`*`) un valor *p* entre 0.01 y 0.05 (*p* < .05); un punto (`.`) un valor *p* entre 0.05 y 0.01 (*p* < .1, que ya no es significativo); y si no hay ningún símbolo, un valor *p* entre 0.1 y 1 (*p* > .1, no significativo)
+
+En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre diligencia y adherencia a la medicación (*r* = .1499), con un error estándar de 0.0316, lo que equivale a un valor *z* de 4.7501. Así mismo, sugiere que esa asociación es significativa ($p$ \< .0001), y nos muestra el intervalo de confianza al 95% (o IC del 95%); los intervalos de confianza (en este caso al 95%) lo que sugieren es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (*r* = .0881) y superior (*r* = .2118) de los intervalos de confianza. 
+
+Esto se podría resumir, por ejemplo, como: 
+
+>El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre diligencia y adherencia a la medicación (*r* ± *se*  = 0.15 ± 0.032, IC del 95% [0.088, 0.212], *z* = 4.75, $p$ \< .0001). 
 
 ## Más información sobre heterogeneidad
 
