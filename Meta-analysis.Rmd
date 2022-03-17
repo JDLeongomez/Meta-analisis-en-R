@@ -27,7 +27,8 @@ header-includes:
   \pagestyle{fancy}
   \lhead{Juan David Leongómez}
   \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}}
-  \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}}
+  \rfoot{\footnotesize{{doi:}
+    \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}}
   \lfoot{\footnotesize{Versión 2}}
   \renewcommand{\abstractname}{Descripción}
   \usepackage[spanish]{babel}
@@ -41,9 +42,16 @@ header-includes:
   \usepackage{multirow,booktabs,setspace,caption}
   \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]}
   \DeclareCaptionLabelSeparator{point}{. }
-  \captionsetup[table]{labelfont=bf,textfont=it,format=plain,justification=justified,
-  singlelinecheck=false,labelsep=spaced,skip=5pt}
-  \captionsetup[figure]{labelfont=bf,format=plain,justification=justified,
+  \captionsetup[table]{labelfont=bf,
+    textfont=it,
+    format=plain,
+    justification=justified,
+    singlelinecheck=false,
+    labelsep=spaced,
+    skip=5pt}
+  \captionsetup[figure]{labelfont=bf,
+    format=plain,
+    justification=justified,
   singlelinecheck=false,labelsep=point,skip=5pt}
   \usepackage{orcidlink}
   \definecolor{iacol}{RGB}{246, 130, 18}
@@ -737,7 +745,7 @@ library(metameta)
 
 Como datos, necesitamos no solamente los tamaños de datos a meta-analizar ($r$ de Pearson transformado a *z* de Fisher), sino además los intervalos de confianza, tal como fueron reportados en varios de nuestros *Forest plots*. 
 
-Debemos asumir el efecto real, pero esto nunca podemos saberlo. En este caso, asumimos un efecto de $r = 0.15$, tal como en nuestro meta-análisis original. Sin embargo, el efecto real no es algo que podamos saber (es, de hecho, lo que queremos acercarnos a conocer a través del meta-análisis), así que la función `mapower_ul` del paquete `metameta` calcula el poder de cada meta-análisis para un rango de posibles efectos reales.
+En este caso, voy a asumir un *efecto real* de $r = 0.15$, tal como en nuestro meta-análisis original. Sin embargo, el *efecto real* no es algo que podamos saber (es, de hecho, lo que queremos acercarnos a conocer a través del meta-análisis), así que la función `mapower_ul` del paquete `metameta` calcula el poder de cada meta-análisis para un rango de posibles efectos reales.
 
 ```{r}
 dat.power <- summary(dat) %>%
@@ -758,7 +766,7 @@ power_list <- list(power$power_median_dat)
 power.plot <- firepower(power_list)
 ```
 
-Para ver el *fireplot* que creamoe, y ya que lo asigné a un objeto que llamé `power.plot`, debo correr el objeto para ver el resultado (Fig. \@ref(fig:fire-plot1)).
+Para ver el *fireplot* que creamos, y ya que lo asigné a un objeto que llamé `power.plot`, debo correr el objeto para ver el resultado (Fig. \@ref(fig:fire-plot1)).
 
 ```{r eval = FALSE}
 power.plot

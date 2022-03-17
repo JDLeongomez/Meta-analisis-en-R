@@ -137,7 +137,7 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-\usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \usepackage{svg} \renewcommand\spanishtablename{Tabla} \usepackage{multirow,booktabs,setspace,caption} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf,textfont=it,format=plain,justification=justified, singlelinecheck=false,labelsep=spaced,skip=5pt} \captionsetup[figure]{labelfont=bf,format=plain,justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18}
+\usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \usepackage{svg} \renewcommand\spanishtablename{Tabla} \usepackage{multirow,booktabs,setspace,caption} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{27 febrero, 2022}
+\date{07 marzo, 2022}
 
 \begin{document}
 \maketitle
@@ -1172,7 +1172,7 @@ Una vez instalado, podemos cargar el paquete.
 
 Como datos, necesitamos no solamente los tamaños de datos a meta-analizar (\(r\) de Pearson transformado a \emph{z} de Fisher), sino además los intervalos de confianza, tal como fueron reportados en varios de nuestros \emph{Forest plots}.
 
-Debemos asumir el efecto real, pero esto nunca podemos saberlo. En este caso, asumimos un efecto de \(r = 0.15\), tal como en nuestro meta-análisis original. Sin embargo, el efecto real no es algo que podamos saber (es, de hecho, lo que queremos acercarnos a conocer a través del meta-análisis), así que la función \texttt{mapower\_ul} del paquete \texttt{metameta} calcula el poder de cada meta-análisis para un rango de posibles efectos reales.
+En este caso, voy a asumir un \emph{efecto real} de \(r = 0.15\), tal como en nuestro meta-análisis original. Sin embargo, el \emph{efecto real} no es algo que podamos saber (es, de hecho, lo que queremos acercarnos a conocer a través del meta-análisis), así que la función \texttt{mapower\_ul} del paquete \texttt{metameta} calcula el poder de cada meta-análisis para un rango de posibles efectos reales.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1333,16 +1333,16 @@ Por ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamD
 To cite package 'dplyr' in publications use:
 
   Hadley Wickham, Romain François, Lionel Henry and Kirill Müller
-  (2021). dplyr: A Grammar of Data Manipulation. R package version
-  1.0.7. https://CRAN.R-project.org/package=dplyr
+  (2022). dplyr: A Grammar of Data Manipulation. R package version
+  1.0.8. https://CRAN.R-project.org/package=dplyr
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {dplyr: A Grammar of Data Manipulation},
     author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
-    year = {2021},
-    note = {R package version 1.0.7},
+    year = {2022},
+    note = {R package version 1.0.8},
     url = {https://CRAN.R-project.org/package=dplyr},
   }
  \end{verbatim}
