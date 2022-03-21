@@ -5,17 +5,6 @@
 %
 \documentclass[
   bookmarksnumbered]{article}
-\title{Meta-análisis de correlaciones en R:}
-\usepackage{etoolbox}
-\makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
-\makeatother
-\subtitle{Guía práctica}
-\author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{18 marzo, 2022}
-
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
 \usepackage{iftex}
@@ -166,6 +155,17 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
+
+\title{Meta-análisis de correlaciones en R:}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Guía práctica}
+\author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
+\date{21 marzo, 2022}
 
 \begin{document}
 \maketitle
@@ -446,8 +446,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
                 \end{footnotesize}
                 \end{ROut}
 
-\hypertarget{interpretaciuxf3n-de-los-resultados-del-meta-anuxe1lisis}{%
-\subsection{Interpretación de los resultados del meta-análisis}\label{interpretaciuxf3n-de-los-resultados-del-meta-anuxe1lisis}}
+\hypertarget{meta-interp}{%
+\subsection{Interpretación de los resultados del meta-análisis}\label{meta-interp}}
 
 Vamos a analizar estos resultados de la consola de R por partes:
 
@@ -511,12 +511,12 @@ Esta parte nos provee varios resultados:
   \texttt{Signif.\ codes:\ 0\ ’***’\ 0.001\ ’**’\ 0.01\ ’*’\ 0.05\ ’.’\ 0.1\ ’\ ’\ 1}: Clave para interpretar los niveles de significación. Aunque puede parecer complejo, básicamente, quiere decir que tres asteriscos (\texttt{***}) representan un valor \emph{p} entre 0 y 0.001 (\emph{p} \textless{} .001); dos asteriscos (\texttt{**}) un valor \emph{p} entre 0.001 y 0.01 (\emph{p} \textless{} .01); un asterisco (\texttt{*}) un valor \emph{p} entre 0.01 y 0.05 (\emph{p} \textless{} .05); un punto (\texttt{.}) un valor \emph{p} entre 0.05 y 0.01 (\emph{p} \textless{} .1, que ya no es significativo); y si no hay ningún símbolo, un valor \emph{p} entre 0.1 y 1 (\emph{p} \textgreater{} .1, no significativo)
 \end{itemize}
 
-En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre diligencia y adherencia a la medicación (coeficiente de correlación transformado en \emph{z} de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (\emph{Z} = 4.7501, \(p\) \textless{} .0001), y nos muestra el intervalo de confianza al 95\% (o IC del 95\%); los intervalos de confianza (en este caso al 95\%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (\emph{z} = .0881) y superior (\emph{z} = .2118) de estos intervalos de confianza.
+En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre diligencia y adherencia a la medicación (coeficiente de correlación transformado en \emph{z} de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (\emph{Z} = 4.7501, \(p\) \textless{} .0001), y nos muestra el intervalo de confianza al 95\% (o IC 95\%); los intervalos de confianza (en este caso al 95\%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (\emph{z} = .0881) y superior (\emph{z} = .2118) de estos intervalos de confianza.
 
 Esto se podría resumir, por ejemplo, como:
 
 \begin{quote}
-El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre diligencia y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC del 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055; \(\tau\) = 0.0901; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%).
+El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre diligencia y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055; \(\tau\) = 0.0901; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%).
 \end{quote}
 
 \hypertarget{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}{%
@@ -551,12 +551,20 @@ Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pe
                 \end{footnotesize}
                 \end{ROut}
 
-Cualquiera de estas opciones nos da un valor de \emph{r} = 0.1487872, muy similar al obtenido (\emph{z} = 0.1499). Siempre se puede hacer los mismo con el error estándar y los límites del intervalo de confianza al 95\% (todos valores en \emph{z} de Fisher, pues fue el tamaño de efecto que meta-analizamos), y reportar todos estos resultados en coeficientes de correlación \emph{r} de Pearson.
+Cualquiera de estas opciones nos da un valor de \emph{r} = 0.1487872, muy similar al obtenido (\emph{z} = 0.1499). Esto se debe a que, para coeficientes \emph{r} de Pearson entre -0.4 y 0.4, la transformación a valores \emph{z} de Fisher produce resultados muy similares (Fig. \ref{fig:rvsz}).
+
+Por supuesto, si decides reportar los resultados de tu meta-análisis en coeficientes \emph{r} de Pearson, siempre puedes hacer lo mismo con el error estándar y los límites del intervalo de confianza al 95\% (todos valores en \emph{z} de Fisher, pues fue el tamaño de efecto que meta-analizamos).
+
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/rvsz-1.pdf}
+\caption{\label{fig:rvsz}Asociación entre coeficientes de correlación \emph{r} de Pearson (eje \emph{X}), y su transformación a \emph{z} de Fisher (eje \emph{Y}). La línea naranja representa la asociación entre valores \emph{r} y \emph{z}; como referencia, la línea negra punteada representa igualdad entre ejes (\emph{y} = \emph{x}). Como se puede ver, cuando \emph{r} está entre aproximadamente -0.4 y 0.4, los valores \emph{z} son casi idénticos. Para valores más extremos, el valor de \emph{z} se aleja progresivamente del valor de \emph{r} (hasta el infinito).}
+\end{figure}
 
 \hypertarget{muxe1s-informaciuxf3n-sobre-heterogeneidad}{%
 \subsection{Más información sobre heterogeneidad}\label{muxe1s-informaciuxf3n-sobre-heterogeneidad}}
 
-Además de reportar los estadísticos \(\tau^2\), \(\tau\), \(I^2\) y \(Q\), podemos fácilmente calcular los intervalos de confianza para \(\tau^2\), \(\tau\), e \(I^2\) con la función \texttt{confint}, que también pueden ser reportado junto a estos estadísticos.
+Además de reportar los estadísticos \(\tau^2\), \(\tau\), \(I^2\) y \(Q\) (como expliqué en la sección \ref{meta-interp}), podemos fácilmente calcular los intervalos de confianza para \(\tau^2\), \(\tau\), e \(I^2\) con la función \texttt{confint}, que también pueden ser reportados junto a estos estadísticos.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -576,12 +584,18 @@ H^2      2.6132  1.3383  8.5139
                 \end{footnotesize}
                 \end{ROut}
 
-Para el \(\tau^2\), el hecho de que los intervalos de confianza no crucen el 0 (en nuestro caso 0.0017 \emph{---} 0.0378), sugiere que de hecho también que hay heterogeneidad entre los estudios que meta-analizamos.
+Para el \(\tau^2\), el hecho de que los límites del intervalo de confianza no crucen el 0 (es decir, no hay un límite negativo y otro positivo; en nuestro caso, ambos son positivos: IC 95\% {[}0.0017, 0.0378{]}), de hecho también sugiere que que hay heterogeneidad entre los estudios que meta-analizamos.
+
+Esto se podría resumir, por ejemplo, como:
+
+\begin{quote}
+El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre diligencia y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055, IC 95\% {[}0.0017, 0.0378{]}; \(\tau\) = 0.0901, IC 95\% {[}0.0412, 0.1944{]}; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%, IC 95\% {[}25.2799\%, 88.2545\%{]}).
+\end{quote}
 
 \hypertarget{diagnuxf3stico-de-influencia}{%
 \subsection{Diagnóstico de influencia}\label{diagnuxf3stico-de-influencia}}
 
-Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que tu meta-análisis sea dependiente de un único estudio.}. Para esto, podemos usar la función \texttt{influence}, cuyo resultado en este caso asignaré a un objeto llamado \texttt{inf.res}.
+Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que tu meta-análisis sea dependiente principalmente de un único estudio.}. Para esto, podemos usar la función \texttt{influence} del paquete \texttt{\{metafor\}}, cuyo resultado, en este caso, asignaré a un objeto llamado \texttt{inf.res}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -731,7 +745,7 @@ Por supuesto, es cuestión de gusto cuál usar.
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/for-plot3b-1.pdf}
-\caption{\label{fig:for-plot3b}Variantes de forest plots creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. \textbf{A.} Variante clásica (opción por defecto). \textbf{B.} Variante ``thick'' y escala de colores ``Greens.'' \textbf{C.} Variante ``rain'' y escala de colores ``Oranges.''}
+\caption{\label{fig:for-plot3b}Variantes de forest plots creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. \textbf{A.} Variante clásica (opción por defecto). \textbf{B.} Variante ``thick'' y escala de colores ``Greens''. \textbf{C.} Variante ``rain'' y escala de colores ``Oranges''.}
 \end{figure}
 
 \hypertarget{funnel-plot-diagrama-de-embudo-y-sesgo-de-estudios-pequeuxf1os}{%
@@ -1129,7 +1143,7 @@ Por supuesto, \emph{forest plots} y \emph{funnel plots} pueden ser creados, tal 
 \hypertarget{sesgo-pub}{%
 \section{\texorpdfstring{Sesgo de publicación (\emph{publication bias})}{Sesgo de publicación (publication bias)}}\label{sesgo-pub}}
 
-Para determinar el sesgo de publicación, se puede usar la función \texttt{weightfunct} del paquete \texttt{\{weightr\}}, que nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea y Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005}),'' como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}.
+Para determinar el sesgo de publicación, se puede usar la función \texttt{weightfunct} del paquete \texttt{\{weightr\}}, que nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea y Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005})'', como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1207,7 +1221,7 @@ Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es 
 \hypertarget{poder-estaduxedstico-del-meta-anuxe1lisis}{%
 \section{Poder estadístico del meta-análisis}\label{poder-estaduxedstico-del-meta-anuxe1lisis}}
 
-En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso 0.15 para el meta-análisis original ``\texttt{res},'' o 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}''). Para este ejemplo, asumiré que el efecto \emph{real} es el encontrado en nuestro análisis original (0.15), pues este efecto es más mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
+En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso 0.15 para el meta-análisis original ``\texttt{res}'', o 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}''). Para este ejemplo, asumiré que el efecto \emph{real} es el encontrado en nuestro análisis original (0.15), pues este efecto es más mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
 
 Para hacer esto, usaré el paquete \texttt{metameta} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}), que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos \emph{reales}.
 
@@ -1336,7 +1350,7 @@ Para ver el \emph{fireplot} que creamos, y ya que lo asigné a un objeto que lla
 \caption{\label{fig:fire-plot1}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis. \emph{Observed} hace referencia al tamaño de efecto observado en nuestro meta-análisis original; en este caso, 0.15.}
 \end{figure}
 
-Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.plot} contiene dos elementos (\texttt{dat} y \texttt{fp\_plot}, que es propiamente la gráfica). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto,'' el título de la leyenda a ``Poder,'' y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.} (Fig. \ref{fig:fire-plot2}). Por ejemplo:
+Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.plot} contiene dos elementos (\texttt{dat} y \texttt{fp\_plot}, que es propiamente la gráfica). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto'', el título de la leyenda a ``Poder'', y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.} (Fig. \ref{fig:fire-plot2}). Por ejemplo:
 
 \begin{Shaded}
 \begin{Highlighting}[]
