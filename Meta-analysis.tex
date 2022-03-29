@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{21 marzo, 2022}
+\date{28 marzo, 2022}
 
 \begin{document}
 \maketitle
@@ -212,8 +212,8 @@ Esta guía contiene todo el código explicaciones básicas, paso a paso, para ha
 \begin{hangparas}{.25in}{1}
 Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía práctica.} Zenodo. \url{https://doi.org/10.5281/zenodo.5640182}
 \end{hangparas}
-
 \newpage
+
 {\hypersetup{hidelinks}
  \setcounter{tocdepth}{5}
  \tableofcontents
@@ -453,7 +453,7 @@ Vamos a analizar estos resultados de la consola de R por partes:
 
 Primero, nos confirman que ajustamos un modelo con efectos aleatorios (\texttt{Random-Effects\ Model}), a partir de 16 estudios (\texttt{k\ =\ 16}), y que para estimar \(\tau^2\) (tau cuadrado) usamos el método de \textbf{máxima verosimilitud restringida}\footnote{Hay varios métodos disponibles como estimador, además de \textbf{máxima verosimilitud restringida} (REML). Sin embargo, si tienes dudas, REML es una buena opción. Cada método tiene ventajas y desventajas que, si tienes interés en mirar, están descritas en la \href{https://www.rdocumentation.org/packages/metafor/versions/2.4-0/topics/rma.uni}{documentación} de la función \texttt{rma}.} (\texttt{tau\^{}2\ estimator:\ REML}), que se designa como \emph{REML} por sus siglas en inglés .
 
-Posteriormente, nos provee los valores de una serie de estimadores de heterogeneidad o varianza:
+Posteriormente, nos provee los valores de una serie de estimadores de heterogeneidad:
 
 \begin{itemize}
 \item
@@ -466,7 +466,7 @@ Posteriormente, nos provee los valores de una serie de estimadores de heterogene
   \(H^2\): \texttt{H\^{}2\ (total\ variability\ /\ sampling\ variability):\ \ 2.61}
 \end{itemize}
 
-La tercera parte, reporta una prueba de heterogeneidad, usando el estadístico \(Q\):
+La tercera parte, reporta otra prueba de heterogeneidad, usando el estadístico \(Q\):
 
 \begin{itemize}
 \item
@@ -486,7 +486,7 @@ De todos estos, los más comúnmente reportados son \(\tau^2\), \(\tau\), \(I^2\
   \(\tau^2\): no tiene problemas de sensibilidad a los tamaños de muestra o número de estudios meta-analizados, pero es más difícil de interpretar. \(\tau^2\) es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio. Para más información, ver Borenstein et al. (\protect\hyperlink{ref-borensteinIdentifyingQuantifyingHeterogeneity2009}{2009}).
 \end{itemize}
 
-En nuestro caso, el estadístico \(Q\) sugiere que hay una heterogeneidad significativa en los estudios meta-analizados (\(p\) = 0.0009). \(I^2\), sugiere una heterogeneidad moderada, lo que quiere decir que más de la mitad (61.73\%) de la varianza se estima que se deriva de diferencias en los tamaños de efecto.
+En nuestro caso, el estadístico \(Q\) sugiere que hay una heterogeneidad significativa en los estudios meta-analizados (\(p\) = 0.0009). \(I^2\), sugiere una heterogeneidad moderada, lo que quiere decir que se estima que más de la mitad (61.73\%) de la varianza se deriva de diferencias en los tamaños de efecto.
 
 Más abajo, el \emph{output} de la consola de R nos muestra los resultados de nuestro meta-análisis (\texttt{Model\ results}); en otras palabras, ¿cuál es el tamaño de efecto de la asociación entre diligencia (\emph{conscientiousness}) y la adherencia a la medicación, según nuestro meta-análisis?
 
@@ -522,12 +522,11 @@ El resultado meta-analizado sugiere que en efecto existe una asociación positiv
 \hypertarget{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}{%
 \subsubsection{\texorpdfstring{Alternativa: Reportar el estimado como \emph{r} de Pearson en vez de \emph{z} de Fisher}{Alternativa: Reportar el estimado como r de Pearson en vez de z de Fisher}}\label{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}}
 
-Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pearson en vez de la transformación a \emph{z} de Fisher, puedes transformar los valores \emph{z} de Fisher de vuelta a \emph{r} de Pearson. Para esto existen múltiples opciones en R, incluyendo la función \texttt{fisherz2r} del paquete \texttt{\{psych\}} (\protect\hyperlink{ref-revellePsych2021}{Revelle, 2021}) (o simplemente usar la función \texttt{tanh}, que calcula la tangente hiperbólica). Por ejemplo, para convertir el estimado de nuestro meta-análisis a \emph{r} de Pearson, solo debo usar alguna de esas funciones, y agregar el valor \emph{z} (0.1499 en nuestro caso) como único argumento:
+Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pearson en vez de la transformación a \emph{z} de Fisher, puedes transformar los valores \emph{z} de Fisher de vuelta a \emph{r} de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función \texttt{tanh}, que calcula la tangente hiperbólica (o la función \texttt{fisherz2r} del paquete \texttt{\{psych\}} (\protect\hyperlink{ref-revellePsych2021}{Revelle, 2021})). Por ejemplo, para transformar el estimado de nuestro meta-análisis a \emph{r} de Pearson, solo debo usar alguna de esas funciones, y agregar el valor \emph{z} (0.1499 en nuestro caso) como único argumento:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(psych)}
-\FunctionTok{fisherz2r}\NormalTok{(}\FloatTok{0.1499}\NormalTok{)}
+\FunctionTok{tanh}\NormalTok{(}\FloatTok{0.1499}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -540,7 +539,8 @@ Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pe
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{tanh}\NormalTok{(}\FloatTok{0.1499}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(psych)}
+\FunctionTok{fisherz2r}\NormalTok{(}\FloatTok{0.1499}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -558,13 +558,17 @@ Por supuesto, si decides reportar los resultados de tu meta-análisis en coefici
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/rvsz-1.pdf}
-\caption{\label{fig:rvsz}Asociación entre coeficientes de correlación \emph{r} de Pearson (eje \emph{X}), y su transformación a \emph{z} de Fisher (eje \emph{Y}). La línea naranja representa la asociación entre valores \emph{r} y \emph{z}; como referencia, la línea negra punteada representa igualdad entre ejes (\emph{y} = \emph{x}). Como se puede ver, cuando \emph{r} está entre aproximadamente -0.4 y 0.4, los valores \emph{z} son casi idénticos. Para valores más extremos, el valor de \emph{z} se aleja progresivamente del valor de \emph{r} (hasta el infinito).}
+\caption{\label{fig:rvsz}Asociación entre coeficientes de correlación \emph{r} de Pearson (eje \emph{X}), y su transformación a \emph{z} de Fisher (eje \emph{Y}). La línea naranja representa la asociación entre valores \emph{r} y \emph{z}; como referencia, la línea negra punteada representa igualdad entre ejes (\emph{y} = \emph{x}). Como se puede ver, cuando \emph{r} está entre aproximadamente -0.4 y 0.4 (rectángulo gris), los valores \emph{r} y \emph{z} son casi idénticos. Para valores más extremos, el valor de \emph{z} se aleja progresivamente del valor de \emph{r} (hasta el infinito).}
 \end{figure}
 
 \hypertarget{muxe1s-informaciuxf3n-sobre-heterogeneidad}{%
 \subsection{Más información sobre heterogeneidad}\label{muxe1s-informaciuxf3n-sobre-heterogeneidad}}
 
-Además de reportar los estadísticos \(\tau^2\), \(\tau\), \(I^2\) y \(Q\) (como expliqué en la sección \ref{meta-interp}), podemos fácilmente calcular los intervalos de confianza para \(\tau^2\), \(\tau\), e \(I^2\) con la función \texttt{confint}, que también pueden ser reportados junto a estos estadísticos.
+Es importante tener en cuenta que la heterogeneidad no es un \emph{supuesto} que se deba cumplir al hacer un meta-análisis, y por ende una heterogeneidad moderada o alta no invalida sus resultados. Sencillamente es información útil que se debe reportar y tener en cuenta al interpretar el resultado de un meta-análisis. En este caso, la presencia de heterogeneidad sugiere que los estudios meta-analizados varían y no suelen reportar resultados similares.
+
+De manera general, y para decirlo de manera más técnica, la presencia de heterogeneidad estadística es indicativa de una variación entre los estudios en la magnitud y la dirección de la estimación del efecto estudiado (para más información y ejemplos, ver \protect\hyperlink{ref-sedgwickMetaanalysesWhatHeterogeneity2015}{Sedgwick, 2015}).
+
+Por esto, reportar información detallada acerca de la heterogeneidad de los estudios meta-analizados es siempre útil. De hecho, además de reportar los estadísticos \(\tau^2\), \(\tau\), \(I^2\) y \(Q\) (como expliqué en la sección \ref{meta-interp}), podemos fácilmente calcular los intervalos de confianza para \(\tau^2\), \(\tau\), e \(I^2\) (además de \(H^2\), que no he usado) con la función \texttt{confint}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -584,9 +588,9 @@ H^2      2.6132  1.3383  8.5139
                 \end{footnotesize}
                 \end{ROut}
 
-Para el \(\tau^2\), el hecho de que los límites del intervalo de confianza no crucen el 0 (es decir, no hay un límite negativo y otro positivo; en nuestro caso, ambos son positivos: IC 95\% {[}0.0017, 0.0378{]}), de hecho también sugiere que que hay heterogeneidad entre los estudios que meta-analizamos.
+Para \(\tau^2\), el hecho de que los límites del intervalo de confianza no crucen el 0 (es decir, no hay un límite negativo y otro positivo; en nuestro caso, ambos son positivos: IC 95\% {[}0.0017, 0.0378{]}), también sugiere que que hay heterogeneidad entre los estudios que meta-analizamos.
 
-Esto se podría resumir, por ejemplo, como:
+Estos intervalos de confianza que también pueden ser reportados junto a sus correspondientes estadísticos. Entonces, esto se podría resumir, por ejemplo, como:
 
 \begin{quote}
 El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre diligencia y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055, IC 95\% {[}0.0017, 0.0378{]}; \(\tau\) = 0.0901, IC 95\% {[}0.0412, 0.1944{]}; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%, IC 95\% {[}25.2799\%, 88.2545\%{]}).
@@ -595,7 +599,7 @@ El resultado meta-analizado sugiere que en efecto existe una asociación positiv
 \hypertarget{diagnuxf3stico-de-influencia}{%
 \subsection{Diagnóstico de influencia}\label{diagnuxf3stico-de-influencia}}
 
-Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que tu meta-análisis sea dependiente principalmente de un único estudio.}. Para esto, podemos usar la función \texttt{influence} del paquete \texttt{\{metafor\}}, cuyo resultado, en este caso, asignaré a un objeto llamado \texttt{inf.res}.
+Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que nuestro meta-análisis sea dependiente principalmente de un único estudio.}. Para esto, podemos usar la función \texttt{influence} del paquete \texttt{\{metafor\}}, cuyo resultado, en este caso, asignaré a un objeto llamado \texttt{inf.res}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -603,7 +607,7 @@ Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los 
 \end{Highlighting}
 \end{Shaded}
 
-Ya que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, debo correr este objeto para ver su resultado.
+Dado que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, debo usar como comando el nombre que le di al objeto.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -635,7 +639,7 @@ Ya que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, debo co
                 \end{footnotesize}
                 \end{ROut}
 
-Esto me muestra gran cantidad de información de cada estudio (en este caso, una tabla sin formato). Sin embargo, lo más importante ahora es mirar la última columna, llamada \texttt{inf}. Si ahí aparecieran asteriscos (que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
+Esto me muestra gran cantidad de información de cada estudio (en este caso, presentado como una tabla sin formato, tal cual se ve en la consola de R). Sin embargo, lo más importante ahora es mirar la última columna, llamada \texttt{inf}. Si ahí aparecieran asteriscos para algún estudio meta-analizado(que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
 
 Por último, podemos también ver ésta información que tenemos guardada en el objeto \texttt{inf.res}, de manera gráfica, usando la función \texttt{plot} (Fig. \ref{fig:infplot}).
 
@@ -681,11 +685,11 @@ Para una versión más completa y anotada, también usando el \emph{plot} básic
        \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
        \AttributeTok{digits =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,3L),}
        \AttributeTok{mlab =} \FunctionTok{bquote}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Modelo EA: Q("}\NormalTok{, .(res}\SpecialCharTok{$}\NormalTok{k }\SpecialCharTok{{-}}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{p), }\StringTok{") = "}\NormalTok{,}
-\NormalTok{     .(}\FunctionTok{formatC}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{QE, }\AttributeTok{digits=}\DecValTok{2}\NormalTok{, }\AttributeTok{format=}\StringTok{"f"}\NormalTok{)),}
+\NormalTok{     .(}\FunctionTok{formatC}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{QE, }\AttributeTok{digits =} \DecValTok{2}\NormalTok{, }\AttributeTok{format =} \StringTok{"f"}\NormalTok{)),}
      \StringTok{", p "}\NormalTok{, .(scales}\SpecialCharTok{::}\FunctionTok{pvalue}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{pval)), }\StringTok{"; "}\NormalTok{, I}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{, }\StringTok{" = "}\NormalTok{,}
-\NormalTok{     .(}\FunctionTok{formatC}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{I2, }\AttributeTok{digits=}\DecValTok{1}\NormalTok{, }\AttributeTok{format=}\StringTok{"f"}\NormalTok{)), }\StringTok{"\%"}\NormalTok{)))}
+\NormalTok{     .(}\FunctionTok{formatC}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{I2, }\AttributeTok{digits =} \DecValTok{1}\NormalTok{, }\AttributeTok{format =} \StringTok{"f"}\NormalTok{)), }\StringTok{"\%"}\NormalTok{)))}
 \CommentTok{\# agregar encabezados a las columnas (valores de X y Y deben ser ajustados)}
-\NormalTok{op }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{font=}\DecValTok{2}\NormalTok{) }
+\NormalTok{op }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{font =} \DecValTok{2}\NormalTok{) }
 \FunctionTok{text}\NormalTok{(}\AttributeTok{x =} \SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\AttributeTok{y =} \DecValTok{18}\NormalTok{, }\AttributeTok{labels =} \StringTok{"Autor(es), Año"}\NormalTok{, }\AttributeTok{pos =} \DecValTok{4}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(}\AttributeTok{x =} \DecValTok{0}\NormalTok{, }\AttributeTok{y =} \DecValTok{18}\NormalTok{, }\AttributeTok{labels =} \StringTok{"Efecto e IC"}\NormalTok{, }\AttributeTok{pos =} \DecValTok{4}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(}\AttributeTok{x =} \DecValTok{1}\NormalTok{, }\AttributeTok{y =} \DecValTok{18}\NormalTok{, }\AttributeTok{labels =} \StringTok{"Peso"}\NormalTok{, }\AttributeTok{pos =} \DecValTok{2}\NormalTok{)}
@@ -808,7 +812,7 @@ De nuevo, se puede usar el paquete \href{https://cran.r-project.org/web/packages
 \caption{\label{fig:funnel-plot2}Funnel plot creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5\% (i.e.~\(p\) \textgreater{} 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1\% (i.e.~\(p\) \textgreater{} 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger.}
 \end{figure}
 
-Alternativamente, el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} tiene la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#sunset-power-enhanced-funnel-plots}{\texttt{viz\_sunset}}, que permite además mostrar el poder estadístico (o potencia) de los estudios meta-analizados para detectar un efecto de interés mediante una prueba de Wald de dos colas. De ser necesario, para entender las bases del poder estadístico, recomiendo ver \href{https://youtube.com/playlist?list=PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}{esta serie de videos} (\protect\hyperlink{ref-leongomezPoderRvid2020}{Leongómez, 2020b}) y/o, para mayor profundidad, leer \href{https://doi.org/10.5281/zenodo.3988776}{esta guía} (\protect\hyperlink{ref-leongomezAnalisisPoderEstadistico2020}{Leongómez, 2020a}) que publiqué anteriormente.
+Alternativamente, el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} tiene la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#sunset-power-enhanced-funnel-plots}{\texttt{viz\_sunset}}, que permite además mostrar el poder estadístico (o potencia) de los estudios meta-analizados para detectar un efecto de interés mediante una prueba de Wald de dos colas. De ser necesario, para entender las bases del poder estadístico, recomiendo ver \href{https://youtube.com/playlist?list\%20=\%20PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}{esta serie de videos} (\protect\hyperlink{ref-leongomezPoderRvid2020}{Leongómez, 2020b}) y/o, para mayor profundidad, leer \href{https://doi.org/10.5281/zenodo.3988776}{esta guía} (\protect\hyperlink{ref-leongomezAnalisisPoderEstadistico2020}{Leongómez, 2020a}) que publiqué anteriormente.
 
 A continuación, muestro dos versiones de \emph{funnel plots} creados con la función \texttt{viz\_sunset} (Fig. \ref{fig:funnel-plot3}). En ambos casos, agregué el efecto \emph{real} encontrado con el meta-análisis (\texttt{contours\ =\ TRUE}), y transformé los tamaños de efecto de regreso a \(r\) de Pearson (\texttt{x\_trans\_function\ =\ tanh}).
 
@@ -1001,7 +1005,7 @@ Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \em
        \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
        \AttributeTok{digits =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,3L))}
 \CommentTok{\# agregar encabezados a las columnas (valores de X y Y deben ser ajustados)}
-\FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{font=}\DecValTok{2}\NormalTok{)}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{font =} \DecValTok{2}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(}\AttributeTok{x =} \SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\AttributeTok{y =} \DecValTok{18}\NormalTok{, }\AttributeTok{labels =} \StringTok{"Autor(es), Año"}\NormalTok{, }\AttributeTok{pos =} \DecValTok{4}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(}\AttributeTok{x =} \DecValTok{0}\NormalTok{, }\AttributeTok{y =} \DecValTok{18}\NormalTok{, }\AttributeTok{labels =} \StringTok{"Efecto e IC"}\NormalTok{, }\AttributeTok{pos =} \DecValTok{4}\NormalTok{)}
 \FunctionTok{text}\NormalTok{(}\AttributeTok{x =} \DecValTok{1}\NormalTok{, }\AttributeTok{y =} \DecValTok{18}\NormalTok{, }\AttributeTok{labels =} \StringTok{"Peso"}\NormalTok{, }\AttributeTok{pos =} \DecValTok{2}\NormalTok{)}
@@ -1368,7 +1372,7 @@ Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.pl
                               \StringTok{"es07"} \OtherTok{=} \FloatTok{0.7}\NormalTok{,}
                               \StringTok{"es08"} \OtherTok{=} \FloatTok{0.8}\NormalTok{,}
                               \StringTok{"es09"} \OtherTok{=} \FloatTok{0.9}\NormalTok{,}
-                              \StringTok{"es1"}  \OtherTok{=}\DecValTok{1}\NormalTok{))}
+                              \StringTok{"es1"}  \OtherTok{=} \DecValTok{1}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1488,6 +1492,9 @@ Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015a). \emph{Meta-{Analysis} w
 
 \leavevmode\vadjust pre{\hypertarget{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{}}%
 Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015b). Small-{Study Effects} in {Meta}-{Analysis}. In G. Schwarzer, J. R. Carpenter, \& G. Rücker (Eds.), \emph{Meta-{Analysis} with {R}} (pp. 107--141). {Springer International Publishing}. \url{https://doi.org/10.1007/978-3-319-21416-0_5}
+
+\leavevmode\vadjust pre{\hypertarget{ref-sedgwickMetaanalysesWhatHeterogeneity2015}{}}%
+Sedgwick, P. (2015). Meta-analyses: What is heterogeneity? \emph{BMJ}, \emph{350}, h1435. \url{https://doi.org/10.1136/bmj.h1435}
 
 \leavevmode\vadjust pre{\hypertarget{ref-sternePublicationRelatedBias2000}{}}%
 Sterne, J. A. C., Gavaghan, D., \& Egger, M. (2000). Publication and related bias in meta-analysis. \emph{Journal of Clinical Epidemiology}, \emph{53}(11), 1119--1129. \url{https://doi.org/10.1016/S0895-4356(00)00242-0}
