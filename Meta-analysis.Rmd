@@ -114,9 +114,9 @@ Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicolog�
 \leftskip3em
 \rightskip\leftskip
 ```
-Esta guía contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. Está principalmente basado en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene algunos pasos adicionales o alternativos, así como citas a fuentes primarias, e información que he agregado.
+Esta guía contiene todo el código y explicaciones, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando principalmente los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. Incluye explicaciones básicas para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa) e interpretación de los resultados, así como creación de *forest plots* y *funnel plots* para meta-análisis de correlaciones simples o con moderadores. Adicionalmente, incluye estrategias para detectar posibles sesgos de publicación usando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], así como para determinar el poder estadístico de un meta-análisis usando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022]. 
 
-**Nota:** Esta guía asume un manejo básico de R, así como una comprensión básica del meta-análisis. Sin embargo, de ser necesario y como introducción, recomiendo ver [este video introductorio](https://youtu.be/ntBbkOn9D_o) al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
+**Nota:** Está guía está principalmente basada en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene algunos pasos adicionales o alternativos, así como citas a fuentes primarias, e información detallada adicional que he agregado. Como tal, asume un manejo básico de R, así como una comprensión general de los principios del meta-análisis. Sin embargo, de ser necesario y como introducción, recomiendo ver [este video introductorio](https://youtu.be/ntBbkOn9D_o) al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
 
 [![Investigación Abierta](images%5CLogo-IA-Rectangulo.pdf)](https://www.youtube.com/c/InvestigaciónAbierta)
 
@@ -138,13 +138,14 @@ Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía pr
 }
 \newpage
 ```
+
 # Base de datos de ejemplo
 
 Para los ejemplos usados en ésta guía, usaré la base de datos `dat.molloy2014`, tomada de Molloy et al. [-@molloy2013].
 
-Esta base de datos viene incluida con el paquete `{metafor}` de R. Básicamente, Molloy et al. [-@molloy2013] estudiaron si existe una asociación entre la diligencia (*conscientiousness*) y la adherencia a la medicación. En otras palabras, ¿las personas más diligentes son más propensas a cumplir con la medicación prescrita?
+Esta base de datos viene incluida con el paquete `metafor` de R. Básicamente, Molloy et al. [-@molloy2013] estudiaron si existe una asociación entre la diligencia (*conscientiousness*) y la adherencia a la medicación. En otras palabras, ¿las personas más diligentes son más propensas a cumplir con la medicación prescrita?
 
-Primero, debemos cargar los paquetes que usaré a lo largo de esta guía: `{metafor}` [@viechtbauer2010] y `{metaviz}` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `{dplyr}` [@WickhamDplyr2021] para manipular y organizar la base de datos.
+Primero, debemos cargar los paquetes que usaré a lo largo de esta guía: `metafor` [@viechtbauer2010] y `metaviz` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `dplyr` [@WickhamDplyr2021] para manipular y organizar la base de datos.
 
 ```{r eval = FALSE}
 library(metafor)
@@ -152,7 +153,7 @@ library(metaviz)
 library(dplyr)
 ```
 
-Una vez cargado el paquete `{metafor}`, ya podemos cargar la base de datos `dat.molloy2014`. En éste caso, para poder *llamarla* cuando sea necesario, la asignaré a un objeto llamado `dat`.
+Una vez cargado el paquete `metafor`, ya podemos cargar la base de datos `dat.molloy2014`. En éste caso, para poder *llamarla* cuando sea necesario, la asignaré a un objeto llamado `dat`.
 
 ```{r}
 dat <- get(data(dat.molloy2014))
@@ -308,7 +309,7 @@ Esto se podría resumir, por ejemplo, como:
 
 ### Alternativa: Reportar el estimado como *r* de Pearson en vez de *z* de Fisher
 
-Para reportar la correlación, si prefieres reportar coeficientes *r* de Pearson en vez de la transformación a *z* de Fisher, puedes transformar los valores *z* de Fisher de vuelta a *r* de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función `tanh`, que calcula la tangente hiperbólica (o la función `fisherz2r` del paquete `{psych}` [@revellePsych2021]). Por ejemplo, para transformar el estimado de nuestro meta-análisis a *r* de Pearson, solo debo usar alguna de esas funciones, y agregar el valor *z* (0.1499 en nuestro caso) como único argumento:
+Para reportar la correlación, si prefieres reportar coeficientes *r* de Pearson en vez de la transformación a *z* de Fisher, puedes transformar los valores *z* de Fisher de vuelta a *r* de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función `tanh`, que calcula la tangente hiperbólica (o la función `fisherz2r` del paquete `psych` [@revellePsych2021]). Por ejemplo, para transformar el estimado de nuestro meta-análisis a *r* de Pearson, solo debo usar alguna de esas funciones, y agregar el valor *z* (0.1499 en nuestro caso) como único argumento:
 
 ```{r message = FALSE}
 tanh(0.1499)
@@ -320,7 +321,7 @@ Cualquiera de estas opciones nos da un valor de *r* = 0.1487872, muy similar al 
 
 Por supuesto, si decides reportar los resultados de tu meta-análisis en coeficientes *r* de Pearson, siempre puedes hacer lo mismo con el error estándar y los límites del intervalo de confianza al 95% (todos valores en *z* de Fisher, pues fue el tamaño de efecto que meta-analizamos).
 
-```{r rvsz, echo = FALSE, message = FALSE, warning = FALSE, fig.height = 4, fig.cap = "Asociación entre coeficientes de correlación *r* de Pearson (eje *X*), y su transformación a *z* de Fisher (eje *Y*). La línea naranja representa la asociación entre valores *r* y *z*; como referencia, la línea negra punteada representa igualdad entre ejes (*y* = *x*). Como se puede ver, cuando *r* está entre aproximadamente -0.4 y 0.4 (rectángulo gris), los valores *r* y *z* son casi idénticos. Para valores más extremos, el valor de *z* se aleja progresivamente del valor de *r* (hasta el infinito)."}
+```{r rvsz, echo = FALSE, message = FALSE, warning = FALSE, fig.height = 4, fig.cap = "Asociación entre coeficientes de correlación *r* de Pearson (eje *X*), y su transformación a *z* de Fisher (eje *Y*). La línea naranja representa la asociación entre valores *r* y *z*; como referencia, la línea negra punteada representa igualdad entre ejes (*y* = *x*). Como se puede ver, cuando *r* está aproximadamente entre -0.4 y 0.4 (rectángulo gris), los valores *r* y *z* son casi idénticos. Para valores más extremos, el valor de *z* se aleja progresivamente del valor de *r* (hasta el infinito)."}
 
 library(tidyquant)
 
@@ -366,7 +367,7 @@ Estos intervalos de confianza que también pueden ser reportados junto a sus cor
 
 ## Diagnóstico de influencia
 
-Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado[^3]. Para esto, podemos usar la función `influence` del paquete `{metafor}`, cuyo resultado, en este caso, asignaré a un objeto llamado `inf.res`.
+Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado[^3]. Para esto, podemos usar la función `influence` del paquete `metafor`, cuyo resultado, en este caso, asignaré a un objeto llamado `inf.res`.
 
 [^3]: Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un *n* de 100, pero el otro tiene un *n* de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que nuestro meta-análisis sea dependiente principalmente de un único estudio.
 
@@ -380,7 +381,29 @@ Dado que lo asigné a un objeto (`inf.res`), para ver el resultado, debo usar co
 inf.res
 ```
 
-Esto me muestra gran cantidad de información de cada estudio (en este caso, presentado como una tabla sin formato, tal cual se ve en la consola de R). Sin embargo, lo más importante ahora es mirar la última columna, llamada `inf`. Si ahí aparecieran asteriscos para algún estudio meta-analizado(que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
+Esto me muestra gran cantidad de información de cada estudio (en este caso, lo presento como una tabla sin formato, tal cual se ve en la consola de R). Las columnas que incluye son:
+
+-   `rstudent`: residuo estandarizados externamente. Esto **no** corresponde al coeficiente de correlación de cada estudio, sino a la diferencia entre el tamaño de efecto observado en cada estudio, y la predicción de dicho valor cuando dicho estudio se elimina del meta-análisis
+
+-   `dffits`: diferencia de ajuste(s) (en inglés *difference in fit(s)*). Es una medida diagnóstica de la influencia de cada punto en una regresión (en este caso, cada estudio en un meta-análisis) propuesta originalmente por Belsley, Kuh y Welsch [-@belsleyRegressionDiagnosticsIdentifying1980]
+
+-   `cook.d`: Distancia de Cook (en inglés, *Cook's distance*). Es otra medida diagnóstica de la influencia, propuesta originalmente por Cook [@cookDetectionInfluentialObservation1977]. Es conceptualmente idéntica a DFFITS (`dffits`), y he hecho existe una fórmula para convertir una medida en la otra [@Henry2003]. Aunque no hay un acuerdo absoluto respecto, comúnmente se asume que valores mayores a 1 ($D_{i} > 1$), representan puntos altamente influyentes en un modelo [@cookResidualsInfluenceRegression1982], que probablemente deban ser excluidos
+
+-   `cov.r`: relación (o proporción) de covarianza. Es el determinante de la matriz de varianza-covarianza de las estimaciones de los parámetros basadas en el conjunto de datos, cuando cada estudio se elimina del meta-análisis, dividido por el mismo determinante de la matriz de varianza-covarianza cuando se incluyen todos los estudios. Básicamente, un valor menor a 1 indica que la eliminación de ese estudio produce estimaciones más precisas de los coeficientes del modelo
+
+-   `tau2.del`: es la cantidad de heterogeneidad (residual) $\tau^2$ cuando se elimina cada estudio
+
+-   `QE.del`: similar al resultado anterior, este se refiere al estadístico $Q$ obtenido cuando se excluye cada estudio
+
+-   `hat`: los valores *hat* ($h_{i}$) son una medida estandarizada de la distancia de cada punto a la media de la variable predictora. Mientras valores cercanos a 0 indican que no hay un valor preocupante, valores cercanos a 1, aunque no indican directamente alta influencia de algún punto,ciertamente nos indican que vale la pena investigar más. Los valores *hat* están abiertos a la interpretación, pero un valor de corte que es común es el doble de la media de los todos valores *hat* ($\overline{h}$); cualquier estudio con un valor mayor debe ser examinado con cuidado
+
+-   `weight`: 
+
+-   `dfbs`: 
+
+-   `inf`: por suerte, esta columna `inf` resume esta información por nosotros. Cualquier estudio que se considere influyente, teniendo en cuenta la diferencia de ajuste, la distancia de Cook, los valores *hat* o DFBETAS, será señalado acá como influyente, usando asteriscos.
+
+Sin embargo, lo más importante ahora es mirar la última columna, llamada `inf`. Si ahí aparecieran asteriscos para algún estudio meta-analizado(que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
 
 Por último, podemos también ver ésta información que tenemos guardada en el objeto `inf.res`, de manera gráfica, usando la función `plot` (Fig. \@ref(fig:infplot)).
 
@@ -734,7 +757,7 @@ funnel(res.modage,
 
 ### *Meta-Analytic Scatter Plot* (Gráfico de dispersión meta-analítico)
 
-Cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función `regplot`hace precisamente esto (Fig. \@(fig:reg-plot)).
+Cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función `regplot` hace precisamente esto (Fig. \@ref(fig:reg-plot)).
 
 ```{r reg-plot, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{age}, edad) con intervalo de confianza del 95%."}
 regplot(res.modage)
@@ -768,7 +791,7 @@ Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como des
 
 # Sesgo de publicación (*publication bias*) {#sesgo-pub}
 
-Para determinar el sesgo de publicación, se puede usar la función `weightfunct` del paquete `{weightr}`, que nos permite "estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges [-@veveaGeneralLinearModel1995] como la versión modificada presentada en Vevea y Woods [-@veveaPublicationBiasResearch2005]", como se describe en la [documentación](https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct) de la función `weightfunct`.
+Para determinar el sesgo de publicación, se puede usar la función `weightfunct` del paquete `weightr` [@coburnWeightr2019], que nos permite "estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges [-@veveaGeneralLinearModel1995] como la versión modificada presentada en Vevea y Woods [-@veveaPublicationBiasResearch2005]", como se describe en la [documentación](https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct) de la función `weightfunct`.
 
 ```{r message = FALSE}
 library(weightr)

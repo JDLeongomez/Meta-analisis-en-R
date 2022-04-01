@@ -5,6 +5,17 @@
 %
 \documentclass[
   bookmarksnumbered]{article}
+\title{Meta-análisis de correlaciones en R:}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Guía práctica}
+\author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
+\date{31 marzo, 2022}
+
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
 \usepackage{iftex}
@@ -156,17 +167,6 @@
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 
-\title{Meta-análisis de correlaciones en R:}
-\usepackage{etoolbox}
-\makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
-\makeatother
-\subtitle{Guía práctica}
-\author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{30 marzo, 2022}
-
 \begin{document}
 \maketitle
 
@@ -197,9 +197,9 @@ Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicolog�
 \leftskip3em
 \rightskip\leftskip
 
-Esta guía contiene todo el código explicaciones básicas, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}). Está principalmente basado en \href{https://youtu.be/lH4VZMTEZSc}{este video}, creado por Daniel S. Quintana (\protect\hyperlink{ref-quintanaHowPerformMetaanalysis2021}{2021}), pero contiene algunos pasos adicionales o alternativos, así como citas a fuentes primarias, e información que he agregado.
+Esta guía contiene todo el código y explicaciones, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando principalmente los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}). Incluye explicaciones básicas para la transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher (y viceversa) e interpretación de los resultados, así como creación de \emph{forest plots} y \emph{funnel plots} para meta-análisis de correlaciones simples o con moderadores. Adicionalmente, incluye estrategias para detectar posibles sesgos de publicación usando el paquete \href{https://www.r-pkg.org/pkg/weightr}{\texttt{weightr}} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}), así como para determinar el poder estadístico de un meta-análisis usando \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{\texttt{metameta}} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}).
 
-\textbf{Nota:} Esta guía asume un manejo básico de R, así como una comprensión básica del meta-análisis. Sin embargo, de ser necesario y como introducción, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video introductorio} al meta-análisis en \emph{jamovi} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}) que publiqué anteriormente en mi canal de YouTube \href{https://www.youtube.com/c/InvestigaciónAbierta}{\emph{Investigación Abierta}}.
+\textbf{Nota:} Está guía está principalmente basada en \href{https://youtu.be/lH4VZMTEZSc}{este video}, creado por Daniel S. Quintana (\protect\hyperlink{ref-quintanaHowPerformMetaanalysis2021}{2021}), pero contiene algunos pasos adicionales o alternativos, así como citas a fuentes primarias, e información detallada adicional que he agregado. Como tal, asume un manejo básico de R, así como una comprensión general de los principios del meta-análisis. Sin embargo, de ser necesario y como introducción, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video introductorio} al meta-análisis en \emph{jamovi} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}) que publiqué anteriormente en mi canal de YouTube \href{https://www.youtube.com/c/InvestigaciónAbierta}{\emph{Investigación Abierta}}.
 
 \href{https://www.youtube.com/c/InvestigaciónAbierta}{\includegraphics{images/Logo-IA-Rectangulo.pdf}}
 
@@ -225,9 +225,9 @@ Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía pr
 
 Para los ejemplos usados en ésta guía, usaré la base de datos \texttt{dat.molloy2014}, tomada de Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}).
 
-Esta base de datos viene incluida con el paquete \texttt{\{metafor\}} de R. Básicamente, Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}) estudiaron si existe una asociación entre la diligencia (\emph{conscientiousness}) y la adherencia a la medicación. En otras palabras, ¿las personas más diligentes son más propensas a cumplir con la medicación prescrita?
+Esta base de datos viene incluida con el paquete \texttt{metafor} de R. Básicamente, Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}) estudiaron si existe una asociación entre la diligencia (\emph{conscientiousness}) y la adherencia a la medicación. En otras palabras, ¿las personas más diligentes son más propensas a cumplir con la medicación prescrita?
 
-Primero, debemos cargar los paquetes que usaré a lo largo de esta guía: \texttt{\{metafor\}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \texttt{\{metaviz\}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}) para hacer e ilustrar los resultados del meta-análisis, así como \texttt{\{dplyr\}} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) para manipular y organizar la base de datos.
+Primero, debemos cargar los paquetes que usaré a lo largo de esta guía: \texttt{metafor} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \texttt{metaviz} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}) para hacer e ilustrar los resultados del meta-análisis, así como \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) para manipular y organizar la base de datos.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -237,7 +237,7 @@ Primero, debemos cargar los paquetes que usaré a lo largo de esta guía: \textt
 \end{Highlighting}
 \end{Shaded}
 
-Una vez cargado el paquete \texttt{\{metafor\}}, ya podemos cargar la base de datos \texttt{dat.molloy2014}. En éste caso, para poder \emph{llamarla} cuando sea necesario, la asignaré a un objeto llamado \texttt{dat}.
+Una vez cargado el paquete \texttt{metafor}, ya podemos cargar la base de datos \texttt{dat.molloy2014}. En éste caso, para poder \emph{llamarla} cuando sea necesario, la asignaré a un objeto llamado \texttt{dat}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -522,7 +522,7 @@ El resultado meta-analizado sugiere que en efecto existe una asociación positiv
 \hypertarget{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}{%
 \subsubsection{\texorpdfstring{Alternativa: Reportar el estimado como \emph{r} de Pearson en vez de \emph{z} de Fisher}{Alternativa: Reportar el estimado como r de Pearson en vez de z de Fisher}}\label{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}}
 
-Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pearson en vez de la transformación a \emph{z} de Fisher, puedes transformar los valores \emph{z} de Fisher de vuelta a \emph{r} de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función \texttt{tanh}, que calcula la tangente hiperbólica (o la función \texttt{fisherz2r} del paquete \texttt{\{psych\}} (\protect\hyperlink{ref-revellePsych2021}{Revelle, 2021})). Por ejemplo, para transformar el estimado de nuestro meta-análisis a \emph{r} de Pearson, solo debo usar alguna de esas funciones, y agregar el valor \emph{z} (0.1499 en nuestro caso) como único argumento:
+Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pearson en vez de la transformación a \emph{z} de Fisher, puedes transformar los valores \emph{z} de Fisher de vuelta a \emph{r} de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función \texttt{tanh}, que calcula la tangente hiperbólica (o la función \texttt{fisherz2r} del paquete \texttt{psych} (\protect\hyperlink{ref-revellePsych2021}{Revelle, 2021})). Por ejemplo, para transformar el estimado de nuestro meta-análisis a \emph{r} de Pearson, solo debo usar alguna de esas funciones, y agregar el valor \emph{z} (0.1499 en nuestro caso) como único argumento:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -558,7 +558,7 @@ Por supuesto, si decides reportar los resultados de tu meta-análisis en coefici
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/rvsz-1.pdf}
-\caption{\label{fig:rvsz}Asociación entre coeficientes de correlación \emph{r} de Pearson (eje \emph{X}), y su transformación a \emph{z} de Fisher (eje \emph{Y}). La línea naranja representa la asociación entre valores \emph{r} y \emph{z}; como referencia, la línea negra punteada representa igualdad entre ejes (\emph{y} = \emph{x}). Como se puede ver, cuando \emph{r} está entre aproximadamente -0.4 y 0.4 (rectángulo gris), los valores \emph{r} y \emph{z} son casi idénticos. Para valores más extremos, el valor de \emph{z} se aleja progresivamente del valor de \emph{r} (hasta el infinito).}
+\caption{\label{fig:rvsz}Asociación entre coeficientes de correlación \emph{r} de Pearson (eje \emph{X}), y su transformación a \emph{z} de Fisher (eje \emph{Y}). La línea naranja representa la asociación entre valores \emph{r} y \emph{z}; como referencia, la línea negra punteada representa igualdad entre ejes (\emph{y} = \emph{x}). Como se puede ver, cuando \emph{r} está aproximadamente entre -0.4 y 0.4 (rectángulo gris), los valores \emph{r} y \emph{z} son casi idénticos. Para valores más extremos, el valor de \emph{z} se aleja progresivamente del valor de \emph{r} (hasta el infinito).}
 \end{figure}
 
 \hypertarget{muxe1s-informaciuxf3n-sobre-heterogeneidad}{%
@@ -599,7 +599,7 @@ El resultado meta-analizado sugiere que en efecto existe una asociación positiv
 \hypertarget{diagnuxf3stico-de-influencia}{%
 \subsection{Diagnóstico de influencia}\label{diagnuxf3stico-de-influencia}}
 
-Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que nuestro meta-análisis sea dependiente principalmente de un único estudio.}. Para esto, podemos usar la función \texttt{influence} del paquete \texttt{\{metafor\}}, cuyo resultado, en este caso, asignaré a un objeto llamado \texttt{inf.res}.
+Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que nuestro meta-análisis sea dependiente principalmente de un único estudio.}. Para esto, podemos usar la función \texttt{influence} del paquete \texttt{metafor}, cuyo resultado, en este caso, asignaré a un objeto llamado \texttt{inf.res}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -639,7 +639,32 @@ Dado que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, debo 
                 \end{footnotesize}
                 \end{ROut}
 
-Esto me muestra gran cantidad de información de cada estudio (en este caso, presentado como una tabla sin formato, tal cual se ve en la consola de R). Sin embargo, lo más importante ahora es mirar la última columna, llamada \texttt{inf}. Si ahí aparecieran asteriscos para algún estudio meta-analizado(que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
+Esto me muestra gran cantidad de información de cada estudio (en este caso, lo presento como una tabla sin formato, tal cual se ve en la consola de R). Las columnas que incluye son:
+
+\begin{itemize}
+\item
+  \texttt{rstudent}: residuo estandarizados externamente. Esto \textbf{no} corresponde al coeficiente de correlación de cada estudio, sino a la diferencia entre el tamaño de efecto observado en cada estudio, y la predicción de dicho valor cuando dicho estudio se elimina del meta-análisis
+\item
+  \texttt{dffits}: diferencia de ajuste(s) (en inglés \emph{difference in fit(s)}). Es una medida diagnóstica de la influencia de cada punto en una regresión (en este caso, cada estudio en un meta-análisis) propuesta originalmente por Belsley, Kuh y Welsch (\protect\hyperlink{ref-belsleyRegressionDiagnosticsIdentifying1980}{1980})
+\item
+  \texttt{cook.d}: Distancia de Cook (en inglés, \emph{Cook's distance}). Es otra medida diagnóstica de la influencia, propuesta originalmente por Cook (\protect\hyperlink{ref-cookDetectionInfluentialObservation1977}{Cook, 1977}). Es conceptualmente idéntica a DFFITS (\texttt{dffits}), y he hecho existe una fórmula para convertir una medida en la otra (\protect\hyperlink{ref-Henry2003}{Henry et al., 2003}). Aunque no hay un acuerdo absoluto respecto, comúnmente se asume que valores mayores a 1 (\(D_{i} > 1\)), representan puntos altamente influyentes en un modelo (\protect\hyperlink{ref-cookResidualsInfluenceRegression1982}{Cook \& Weisberg, 1982}), que probablemente deban ser excluidos
+\item
+  \texttt{cov.r}: relación (o proporción) de covarianza. Es el determinante de la matriz de varianza-covarianza de las estimaciones de los parámetros basadas en el conjunto de datos, cuando cada estudio se elimina del meta-análisis, dividido por el mismo determinante de la matriz de varianza-covarianza cuando se incluyen todos los estudios. Básicamente, un valor menor a 1 indica que la eliminación de ese estudio produce estimaciones más precisas de los coeficientes del modelo
+\item
+  \texttt{tau2.del}: es la cantidad de heterogeneidad (residual) \(\tau^2\) cuando se elimina cada estudio
+\item
+  \texttt{QE.del}: similar al resultado anterior, este se refiere al estadístico \(Q\) obtenido cuando se excluye cada estudio
+\item
+  \texttt{hat}: los valores \emph{hat} (\(h_{i}\)) son una medida estandarizada de la distancia de cada punto a la media de la variable predictora. Mientras valores cercanos a 0 indican que no hay un valor preocupante, valores cercanos a 1, aunque no indican directamente alta influencia de algún punto,ciertamente nos indican que vale la pena investigar más. Los valores \emph{hat} están abiertos a la interpretación, pero un valor de corte que es común es el doble de la media de los todos valores \emph{hat} (\(\overline{h}\)); cualquier estudio con un valor mayor debe ser examinado con cuidado
+\item
+  \texttt{weight}:
+\item
+  \texttt{dfbs}:
+\item
+  \texttt{inf}: por suerte, esta columna \texttt{inf} resume esta información por nosotros. Cualquier estudio que se considere influyente, teniendo en cuenta la diferencia de ajuste, la distancia de Cook, los valores \emph{hat} o DFBETAS, será señalado acá como influyente, usando asteriscos.
+\end{itemize}
+
+Sin embargo, lo más importante ahora es mirar la última columna, llamada \texttt{inf}. Si ahí aparecieran asteriscos para algún estudio meta-analizado(que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
 
 Por último, podemos también ver ésta información que tenemos guardada en el objeto \texttt{inf.res}, de manera gráfica, usando la función \texttt{plot} (Fig. \ref{fig:infplot}).
 
@@ -749,7 +774,7 @@ Por supuesto, es cuestión de gusto cuál usar.
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/for-plot3b-1.pdf}
-\caption{\label{fig:for-plot3b}Variantes de forest plots creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. \textbf{A.} Variante clásica (opción por defecto). \textbf{B.} Variante ``thick'' y escala de colores ``Greens''. \textbf{C.} Variante ``rain'' y escala de colores ``Oranges''.}
+\caption{\label{fig:for-plot3b}Variantes de forest plots creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. \textbf{A.} Variante clásica (opción por defecto). \textbf{B.} Variante ``thick'' y escala de colores ``Greens.'' \textbf{C.} Variante ``rain'' y escala de colores ``Oranges.''}
 \end{figure}
 
 \hypertarget{funnel-plot-diagrama-de-embudo-y-sesgo-de-estudios-pequeuxf1os}{%
@@ -1040,7 +1065,7 @@ De manera similar, podemos obtener un \emph{funnel plot} de nuestro meta-anális
 \hypertarget{meta-analytic-scatter-plot-gruxe1fico-de-dispersiuxf3n-meta-analuxedtico}{%
 \subsubsection{\texorpdfstring{\emph{Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{Meta-Analytic Scatter Plot (Gráfico de dispersión meta-analítico)}}\label{meta-analytic-scatter-plot-gruxe1fico-de-dispersiuxf3n-meta-analuxedtico}}
 
-Cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función \texttt{regplot}hace precisamente esto (Fig. @(fig:reg-plot)).
+Cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función \texttt{regplot} hace precisamente esto (Fig. \ref{fig:reg-plot}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1147,7 +1172,7 @@ Por supuesto, \emph{forest plots} y \emph{funnel plots} pueden ser creados, tal 
 \hypertarget{sesgo-pub}{%
 \section{\texorpdfstring{Sesgo de publicación (\emph{publication bias})}{Sesgo de publicación (publication bias)}}\label{sesgo-pub}}
 
-Para determinar el sesgo de publicación, se puede usar la función \texttt{weightfunct} del paquete \texttt{\{weightr\}}, que nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea y Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005})'', como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}.
+Para determinar el sesgo de publicación, se puede usar la función \texttt{weightfunct} del paquete \texttt{weightr} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}), que nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea y Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005}),'' como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1225,7 +1250,7 @@ Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es 
 \hypertarget{poder-estaduxedstico-del-meta-anuxe1lisis}{%
 \section{Poder estadístico del meta-análisis}\label{poder-estaduxedstico-del-meta-anuxe1lisis}}
 
-En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso 0.15 para el meta-análisis original ``\texttt{res}'', o 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}''). Para este ejemplo, asumiré que el efecto \emph{real} es el encontrado en nuestro análisis original (0.15), pues este efecto es más mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
+En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso 0.15 para el meta-análisis original ``\texttt{res},'' o 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}''). Para este ejemplo, asumiré que el efecto \emph{real} es el encontrado en nuestro análisis original (0.15), pues este efecto es más mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
 
 Para hacer esto, usaré el paquete \texttt{metameta} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}), que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos \emph{reales}.
 
@@ -1354,7 +1379,7 @@ Para ver el \emph{fireplot} que creamos, y ya que lo asigné a un objeto que lla
 \caption{\label{fig:fire-plot1}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis. \emph{Observed} hace referencia al tamaño de efecto observado en nuestro meta-análisis original; en este caso, 0.15.}
 \end{figure}
 
-Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.plot} contiene dos elementos (\texttt{dat} y \texttt{fp\_plot}, que es propiamente la gráfica). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto'', el título de la leyenda a ``Poder'', y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.} (Fig. \ref{fig:fire-plot2}). Por ejemplo:
+Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.plot} contiene dos elementos (\texttt{dat} y \texttt{fp\_plot}, que es propiamente la gráfica). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto,'' el título de la leyenda a ``Poder,'' y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.} (Fig. \ref{fig:fire-plot2}). Por ejemplo:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1445,8 +1470,20 @@ A BibTeX entry for LaTeX users is
 \leavevmode\vadjust pre{\hypertarget{ref-BalduzziMeta2019}{}}%
 Balduzzi, S., Rücker, G., \& Schwarzer, G. (2019). How to perform a meta-analysis with {R}: A practical tutorial. \emph{Evidence-Based Mental Health}, \emph{22}, 153--160. \url{https://doi.org/10.1136/ebmental-2019-300117}
 
+\leavevmode\vadjust pre{\hypertarget{ref-belsleyRegressionDiagnosticsIdentifying1980}{}}%
+Belsley, D. A., Kuh, E., \& Welsch, R. E. (1980). \emph{Regression {Diagnostics}: {Identifying Influential Data} and {Sources} of {Collinearity}}. {John Wiley \& Sons, Inc.} \url{https://doi.org/10.1002/0471725153}
+
 \leavevmode\vadjust pre{\hypertarget{ref-borensteinIdentifyingQuantifyingHeterogeneity2009}{}}%
 Borenstein, M., Hedges, L. V., Higgns, J. P. T., \& Rothstein, H. R. (2009). Identifying and {Quantifying Heterogeneity}. In \emph{Introduction to {Meta}-{Analysis}} (pp. 107--125). Wiley. \url{https://doi.org/10.1002/9780470743386.ch16}
+
+\leavevmode\vadjust pre{\hypertarget{ref-coburnWeightr2019}{}}%
+Coburn, K. M., \& Vevea, J. L. (2019). \emph{Weightr: Estimating weight-function models for publication bias}. \url{https://CRAN.R-project.org/package=weightr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-cookDetectionInfluentialObservation1977}{}}%
+Cook, R. D. (1977). Detection of {Influential Observation} in {Linear Regression}. \emph{Technometrics}, \emph{19}(1), 15--18. \url{https://doi.org/10.2307/1268249}
+
+\leavevmode\vadjust pre{\hypertarget{ref-cookResidualsInfluenceRegression1982}{}}%
+Cook, R. D., \& Weisberg, S. (1982). \emph{Residuals and {Influence} in {Regression}}. {New York: Chapman and Hall}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-eggerBiasMetaanalysisDetected1997}{}}%
 Egger, M., Smith, G. D., Schneider, M., \& Minder, C. (1997). {Bias in Meta-Analysis Detected by a Simple, Graphical Test}. \emph{BMJ}, \emph{315}(7109), 629--634. \url{https://doi.org/10.1136/bmj.315.7109.629}
@@ -1459,6 +1496,9 @@ Harrer, M., Cuijpers, P., A, F. T., \& Ebert, D. D. (2021). \emph{{Doing Meta-An
 
 \leavevmode\vadjust pre{\hypertarget{ref-Harrer2019dmetar}{}}%
 Harrer, M., Cuijpers, P., Furukawa, T., \& Ebert, D. D. (2019). \emph{{dmetar: Companion R Package For The Guide 'Doing Meta-Analysis in R'}}. \url{http://dmetar.protectlab.org/}
+
+\leavevmode\vadjust pre{\hypertarget{ref-Henry2003}{}}%
+Henry, N. W., Cohen, J., \& Cohen, P. (2003). \emph{Applied {Multiple Regression}/{Correlation Analysis} for the {Behavioral Sciences}.} (3rd ed.). {Lawrence Erlbaum Associates}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-KossmeierMetaviz}{}}%
 Kossmeier, M., Tran, U. S., \& Voracek, M. (2020). \emph{{metaviz: Forest Plots, Funnel Plots, and Visual Funnel Plot Inference for Meta-Analysis}}. \url{https://CRAN.R-project.org/package=metaviz}
