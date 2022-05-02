@@ -20,6 +20,7 @@ editor_options:
   chunk_output_type: console
 geometry: margin=2cm
 header-includes: 
+  \usepackage{setspace}
   \usepackage{float} 
   \floatplacement{figure}{H}
   \usepackage[utf8]{inputenc}
@@ -38,8 +39,8 @@ header-includes:
   \usepackage[most]{tcolorbox}
   \usepackage{fontawesome5}
   \usepackage{svg}
+  \usepackage{multirow,booktabs,caption}
   \renewcommand\spanishtablename{Tabla}
-  \usepackage{multirow,booktabs,setspace,caption}
   \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]}
   \DeclareCaptionLabelSeparator{point}{. }
   \captionsetup[table]{labelfont=bf,
@@ -116,7 +117,7 @@ Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicolog�
 ```
 Esta guía contiene todo el código y explicaciones, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando principalmente los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. Incluye explicaciones básicas para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa) e interpretación de los resultados, así como creación de *forest plots* y *funnel plots* para meta-análisis de correlaciones simples o con moderadores. Adicionalmente, incluye estrategias para detectar posibles sesgos de publicación usando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], así como para determinar el poder estadístico de un meta-análisis usando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022]. 
 
-**Nota:** Está guía está principalmente basada en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene algunos pasos adicionales o alternativos, así como citas a fuentes primarias, e información detallada adicional que he agregado. Como tal, asume un manejo básico de R, así como una comprensión general de los principios del meta-análisis. Sin embargo, de ser necesario y como introducción, recomiendo ver [este video introductorio](https://youtu.be/ntBbkOn9D_o) al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
+**Nota:** Está guía está parcialmente basada en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene pasos adicionales o alternativos, así como citas a fuentes primarias, e información complementaria y detallada que he agregado. Como tal, asume un manejo básico de R, así como una comprensión general de los principios del meta-análisis. Sin embargo, de ser necesario y como preámbulo, recomiendo ver [este video introductorio](https://youtu.be/ntBbkOn9D_o) al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
 
 [![Investigación Abierta](images%5CLogo-IA-Rectangulo.pdf)](https://www.youtube.com/c/InvestigaciónAbierta)
 
@@ -143,9 +144,9 @@ Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía pr
 
 Para los ejemplos usados en ésta guía, usaré la base de datos `dat.molloy2014`, tomada de Molloy et al. [-@molloy2013].
 
-Esta base de datos viene incluida con el paquete `metafor` de R. Básicamente, Molloy et al. [-@molloy2013] estudiaron si existe una asociación entre la diligencia (*conscientiousness*) y la adherencia a la medicación. En otras palabras, ¿las personas más diligentes son más propensas a cumplir con la medicación prescrita?
+Esta base de datos viene incluida con el paquete `metafor` de R. Básicamente, Molloy et al. [-@molloy2013] estudiaron si existe una asociación entre la concienciación (*conscientiousness*^[Para una definición detallada, ver @johnBigFiveTrait1999]) y la adherencia a la medicación. En otras palabras, ¿las personas más *concienciadas* tienden a cumplir más con la medicación prescrita?
 
-Primero, debemos cargar los paquetes que usaré a lo largo de esta guía: `metafor` [@viechtbauer2010] y `metaviz` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `dplyr` [@WickhamDplyr2021] para manipular y organizar la base de datos.
+Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: `metafor` [@viechtbauer2010] y `metaviz` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `dplyr` [@WickhamDplyr2021] para manipular y organizar la base de datos.
 
 ```{r eval = FALSE}
 library(metafor)
@@ -153,7 +154,7 @@ library(metaviz)
 library(dplyr)
 ```
 
-Una vez cargado el paquete `metafor`, ya podemos cargar la base de datos `dat.molloy2014`. En éste caso, para poder *llamarla* cuando sea necesario, la asignaré a un objeto llamado `dat`.
+Como ya hemos cargado el paquete `metafor`, ya podemos cargar la base de datos `dat.molloy2014`. En éste caso, para poder *llamarla* cuando sea necesario, la asignaré a un objeto llamado `dat`.
 
 ```{r}
 dat <- get(data(dat.molloy2014))
@@ -165,13 +166,13 @@ Tras asignar la base de datos a este objeto (`dat`), la base de datos se puede v
 dat
 ```
 
-Por supuesto, la salida de la consola no es la más clara, pero para una versión más legible, se puede usar la función `View`, y el nombre de la base de datos o tabla como argumento (en este caso `View(dat)`). Sin embargo, de aquí en adelante mostraré la mayoría de las tablas en un formato de impresión, más limpio y fácil de leer.
+Por supuesto, la salida de la consola no es la más clara, pero para una versión más legible, se puede usar la función `View`, y el nombre de la base de datos o tabla como argumento (en este caso `View(dat)`). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión, más limpio y fácil de leer.
 
 Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16. A continuación, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna.
 
 ```{r molloy2014}
 dat <- get(data(dat.molloy2014)) %>%
-  mutate(study_id = 1:16)  %>% #agregar columna study_id
+  mutate(study_id = 1:16)  %>% #crear columna study_id y agregar npúmero del 1 al 16
   select(study_id, authors:quality) #mover study_id como primera columna
 ```
 
@@ -188,21 +189,21 @@ kable(dat,
            footnote_as_chunk = TRUE)
 ```
 
-Por supuesto, la columna `authors` tiene los autores de cada estudio a meta-analizar, y la columna `year` el año de publicación. La columna `ri` contiene los coeficientes de correlación de Pearson, y la columna `ni` los tamaños de muestra de cada estudio.
+Por supuesto, la columna `authors` tiene los autores de cada estudio a meta-analizar, y la columna `year` el año de publicación. La columna `ni` contiene los tamaños de muestra de cada estudio, y la columna `ri` los coeficientes de correlación de Pearson.
 
-Adicionalmente, en este ejemplo tenemos una serie de moderadores:
+Adicionalmente, en este ejemplo tenemos una serie de posibles moderadores:
 
 -   `controls`: cantidad de variables controladas (ninguna o múltiples)
 
 -   `design`: si se utilizó un diseño transversal o prospectivo
 
--   `a_measure`: tipo de medida de adherencia (autoinforme u otro)
+-   `a_measure`: tipo de medida de adherencia (autoinforme u otro tipo de medida más "objetivo")
 
--   `c_measure`: tipo de medida de diligencia (NEO u otra)
+-   `c_measure`: tipo de medida de concienciación (si se midió con alguna versión del inventario de personalidad NEO o con alguna otra escala)
 
 -   `meanage`: edad promedio de la muestra
 
--   `quality`: calidad metodológica
+-   `quality`: calidad metodológica (la calidad metodológica fue calificada por los autores en una escala de 1 a 4, donde las puntuaciones más altas indican una mayor calidad; para información respecto a cómo se obtuvo esta puntuación, ver el artículo original de Molloy et al. [-@molloy2013]
 
 # Preparación de los datos: transformación de coeficientes *r* de Pearson a *z* de Fisher
 
@@ -281,11 +282,11 @@ De todos estos, los más comúnmente reportados son $\tau^2$, $\tau$, $I^2$ y $Q
 
 En nuestro caso, el estadístico $Q$ sugiere que hay una heterogeneidad significativa en los estudios meta-analizados ($p$ = 0.0009). $I^2$, sugiere una heterogeneidad moderada, lo que quiere decir que se estima que más de la mitad (61.73%) de la varianza se deriva de diferencias en los tamaños de efecto.
 
-Más abajo, el *output* de la consola de R nos muestra los resultados de nuestro meta-análisis (`Model results`); en otras palabras, ¿cuál es el tamaño de efecto de la asociación entre diligencia (*conscientiousness*) y la adherencia a la medicación, según nuestro meta-análisis?
+Más abajo, el *output* de la consola de R nos muestra los resultados de nuestro meta-análisis (`Model results`); en otras palabras, ¿cuál es el tamaño de efecto de la asociación entre concienciación (*conscientiousness*) y la adherencia a la medicación, según nuestro meta-análisis?
 
 Esta parte nos provee varios resultados:
 
--   `Estimate (0.1499)`: estimado de la correlación entre diligencia y adherencia a la medicación
+-   `Estimate (0.1499)`: estimado de la correlación entre concienciación y adherencia a la medicación
 
 -   `se (0.0316)`: error estándar del estimado de la asociación
 
@@ -301,11 +302,11 @@ Esta parte nos provee varios resultados:
 
 -   `Signif. codes: 0 ’***’ 0.001 ’**’ 0.01 ’*’ 0.05 ’.’ 0.1 ’ ’ 1`: Clave para interpretar los niveles de significación. Aunque puede parecer complejo, básicamente, quiere decir que tres asteriscos (`***`) representan un valor *p* entre 0 y 0.001 (*p* \< .001); dos asteriscos (`**`) un valor *p* entre 0.001 y 0.01 (*p* \< .01); un asterisco (`*`) un valor *p* entre 0.01 y 0.05 (*p* \< .05); un punto (`.`) un valor *p* entre 0.05 y 0.01 (*p* \< .1, que ya no es significativo); y si no hay ningún símbolo, un valor *p* entre 0.1 y 1 (*p* > .1, no significativo)
 
-En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre diligencia y adherencia a la medicación (coeficiente de correlación transformado en *z* de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (*Z* = 4.7501, $p$ < .0001), y nos muestra el intervalo de confianza al 95% (o IC 95%); los intervalos de confianza (en este caso al 95%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (*z* = .0881) y superior (*z* = .2118) de estos intervalos de confianza.
+En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (coeficiente de correlación transformado en *z* de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (*Z* = 4.7501, $p$ < .0001), y nos muestra el intervalo de confianza al 95% (o IC 95%); los intervalos de confianza (en este caso al 95%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (*z* = .0881) y superior (*z* = .2118) de estos intervalos de confianza.
 
 Esto se podría resumir, por ejemplo, como:
 
-> El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre diligencia y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%).
+> El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%).
 
 ### Alternativa: Reportar el estimado como *r* de Pearson en vez de *z* de Fisher
 
@@ -363,7 +364,7 @@ Para $\tau^2$, el hecho de que los límites del intervalo de confianza no crucen
 
 Estos intervalos de confianza que también pueden ser reportados junto a sus correspondientes  estadísticos. Entonces, esto se podría resumir, por ejemplo, como:
 
-> El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre diligencia y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055, IC 95% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%, IC 95% [25.2799%, 88.2545%]).
+> El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055, IC 95% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%, IC 95% [25.2799%, 88.2545%]).
 
 ## Diagnóstico de influencia
 
@@ -685,7 +686,7 @@ viz_funnel(res,
 
 ## Ejemplo 1: Moderación de la edad promedio de los participantes
 
-Primero, y como ejemplo, vamos a ver si la edad (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^6], lo que podría moderar (afectar) la asociación entre diligencia (*conscientiousness*) y adherencia a la medicación prescrita.
+Primero, y como ejemplo, vamos a ver si la edad (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^6], lo que podría moderar (afectar) la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita.
 
 [^6]: De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
 
@@ -765,7 +766,7 @@ regplot(res.modage)
 
 ## Ejemplo 2: Moderación de la calidad de los estudios meta-analizados
 
-La base de datos con tiene una medida de calidad metodológica de los estudios (variable `quality`). Dicha calidad, también podría moderar la asociación entre diligencia (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, puedo hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.modq` para diferenciarlo de los demás.
+La base de datos con tiene una medida de calidad metodológica de los estudios (variable `quality`). Dicha calidad, también podría moderar la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, puedo hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.modq` para diferenciarlo de los demás.
 
 ```{r}
 res.modq <- rma(yi = yi, vi = vi, mods = ~quality, data = dat)
@@ -778,7 +779,7 @@ Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como des
 
 ## Ejemplo 3: Moderación de las controles usados en cada estudio meta-analizado
 
-Como último ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre diligencia (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.mes`. Son embargo, dado que la variable que contiene esta información (`controls`) es un factor, pero no está definido como tal, debo hacerlo en la usando la función `factor` al ingresar el argumento `mods` (i.e. `mods = ~factor(controls)`).
+Como último ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.mes`. Son embargo, dado que la variable que contiene esta información (`controls`) es un factor, pero no está definido como tal, debo hacerlo en la usando la función `factor` al ingresar el argumento `mods` (i.e. `mods = ~factor(controls)`).
 
 ```{r}
 res.mes <- rma(yi = yi, vi = vi, mods = ~factor(controls), data = dat)
@@ -917,7 +918,7 @@ De manera importante, los objetos generados por `meta` al realizar un meta-anál
 
 ## Citas y referencias de paquetes de R {.unnumbered}
 
-Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función `citation` en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos usar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato `BibTex` que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia (alternativamente nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente).
+Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función `citation` en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato `BibTex` que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia (alternativamente nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente).
 
 Por ejemplo, en ésta guía usé `dplyr` [@WickhamDplyr2021] para manipular los datos, y usando la función `citation`, obtengo esta información:
 
