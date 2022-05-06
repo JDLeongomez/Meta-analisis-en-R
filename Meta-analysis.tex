@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{02 mayo, 2022}
+\date{06 mayo, 2022}
 
 \begin{document}
 \maketitle
@@ -295,7 +295,7 @@ Tras asignar la base de datos a este objeto (\texttt{dat}), la base de datos se 
 
 Por supuesto, la salida de la consola no es la más clara, pero para una versión más legible, se puede usar la función \texttt{View}, y el nombre de la base de datos o tabla como argumento (en este caso \texttt{View(dat)}). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión, más limpio y fácil de leer.
 
-Voy a volver a cargar la base de datos (sobrescribiendo el objeto \texttt{dat}), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada \texttt{study\_id}, en la que numeraré los estudios del 1 al 16. A continuación, reorganizaré las columnas para que \texttt{study\_id} sea la primera, en vez de la última columna.
+Voy a volver a cargar la base de datos (sobrescribiendo el objeto \texttt{dat}), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada \texttt{study\_id}, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. A continuación, reorganizaré las columnas para que \texttt{study\_id} sea la primera, en vez de la última columna.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -337,7 +337,7 @@ study\_id & authors & year & ni & ri & controls & design & a\_measure & c\_measu
 \end{tabular}}
 \end{table}
 
-Por supuesto, la columna \texttt{authors} tiene los autores de cada estudio a meta-analizar, y la columna \texttt{year} el año de publicación. La columna \texttt{ni} contiene los tamaños de muestra de cada estudio, y la columna \texttt{ri} los coeficientes de correlación de Pearson.
+Por supuesto, la columna \texttt{authors} tiene los autores de cada estudio a meta-analizar, y la columna \texttt{year} el año de publicación. La columna \texttt{ni} contiene el tamaño de muestra de cada estudio, y la columna \texttt{ri} el coeficiente de correlación de Pearson.
 
 Adicionalmente, en este ejemplo tenemos una serie de posibles moderadores:
 
@@ -483,7 +483,7 @@ De todos estos, los más comúnmente reportados son \(\tau^2\), \(\tau\), \(I^2\
 \item
   \(Q\): aunque no es sensible al tamaño de muestra, es sensible al número de estudios meta-analizados. Tiene la ventaja de ser un test de hipótesis, y como tal, puede ser interpretado a partir de su valor \emph{p}.
 \item
-  \(\tau^2\): no tiene problemas de sensibilidad a los tamaños de muestra o número de estudios meta-analizados, pero es más difícil de interpretar. \(\tau^2\) es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio. Para más información, ver Borenstein et al. (\protect\hyperlink{ref-borensteinIdentifyingQuantifyingHeterogeneity2009}{2009}).
+  \(\tau^2\): no tiene problemas de sensibilidad a los tamaños de muestra o número de estudios meta-analizados, pero es más difícil de interpretar. \(\tau^2\) es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio (para más información, ver \protect\hyperlink{ref-borensteinIdentifyingQuantifyingHeterogeneity2009}{Borenstein et al., 2009}).
 \end{itemize}
 
 En nuestro caso, el estadístico \(Q\) sugiere que hay una heterogeneidad significativa en los estudios meta-analizados (\(p\) = 0.0009). \(I^2\), sugiere una heterogeneidad moderada, lo que quiere decir que se estima que más de la mitad (61.73\%) de la varianza se deriva de diferencias en los tamaños de efecto.
@@ -494,21 +494,21 @@ Esta parte nos provee varios resultados:
 
 \begin{itemize}
 \item
-  \texttt{Estimate\ (0.1499)}: estimado de la correlación entre concienciación y adherencia a la medicación
+  \texttt{Estimate\ (0.1499)}: estimado de la correlación entre concienciación y adherencia a la medicación, en este caso en valores \emph{z} de Fisher, pues así transformamos los coeficientes de cada estudio
 \item
-  \texttt{se\ (0.0316)}: error estándar del estimado de la asociación
+  \texttt{se\ (0.0316)}: error estándar del estimado de la asociación (en valores \emph{z} de Fisher)
 \item
-  \texttt{zval\ (4.7501)}: estadístico \emph{Z} (mayúscula) que comprueba la media de una distribución. No se debe confundir con la transformación de coeficientes de correlación a \emph{z} de Fisher (minúscula); este estadístico no nos provee una estimación de la asociación entre las variables correlacionadas, sino, de manera similar a una prueba \emph{t}, nos sugiere si nuestra media (para el caso, el resultado de nuestro meta-análisis), se diferencia de 0 (o una correlación nula). Cuando \emph{Z} es mayor a 1.96 (o menor a -1.96), nuestro resultado en el 5\% extremo de la distribución \emph{Z} y sería significativo con un \(\alpha\) tradicional de 0.05 (dos colas)
+  \texttt{zval\ (4.7501)}: estadístico \emph{Z} (mayúscula) que comprueba la media de una distribución. No se debe confundir con la transformación de coeficientes de correlación a \emph{z} de Fisher (minúscula); este estadístico no nos provee una estimación de la asociación entre las variables correlacionadas, sino, de manera similar a una prueba \emph{t}, nos sugiere si nuestra media (para el caso, el resultado de nuestro meta-análisis), se diferencia de 0 (o una correlación nula). Cuando \emph{Z} es mayor a 1.96 (o menor a -1.96), nuestro resultado está en el 5\% extremo de la distribución \emph{Z} y sería significativo con un \(\alpha\) tradicional de 0.05 (dos colas)
 \item
   \texttt{pval\ (\textless{}.0001)}: valor \emph{p} de la correlación meta-analizada
 \item
-  \texttt{ci.lb\ (0.0881)}: límite inferior del intervalo de confianza (\emph{confidence interval lower bound}) de la correlación meta-analizada
+  \texttt{ci.lb\ (0.0881)}: límite inferior del intervalo de confianza (\emph{confidence interval lower bound}) de la correlación meta-analizada (en valores \emph{z} de Fisher)
 \item
-  \texttt{ci.ub\ (0.2118)}: límite superior del intervalo de confianza (\emph{confidence interval upper bound}) de la correlación meta-analizada
+  \texttt{ci.ub\ (0.2118)}: límite superior del intervalo de confianza (\emph{confidence interval upper bound}) de la correlación meta-analizada (en valores \emph{z} de Fisher)
 \item
   Nivel de significación (\texttt{***}): representación con asteriscos (o un punto) del nivel de significación
 \item
-  \texttt{Signif.\ codes:\ 0\ ’***’\ 0.001\ ’**’\ 0.01\ ’*’\ 0.05\ ’.’\ 0.1\ ’\ ’\ 1}: Clave para interpretar los niveles de significación. Aunque puede parecer complejo, básicamente, quiere decir que tres asteriscos (\texttt{***}) representan un valor \emph{p} entre 0 y 0.001 (\emph{p} \textless{} .001); dos asteriscos (\texttt{**}) un valor \emph{p} entre 0.001 y 0.01 (\emph{p} \textless{} .01); un asterisco (\texttt{*}) un valor \emph{p} entre 0.01 y 0.05 (\emph{p} \textless{} .05); un punto (\texttt{.}) un valor \emph{p} entre 0.05 y 0.01 (\emph{p} \textless{} .1, que ya no es significativo); y si no hay ningún símbolo, un valor \emph{p} entre 0.1 y 1 (\emph{p} \textgreater{} .1, no significativo)
+  \texttt{Signif.\ codes:\ 0\ ’***’\ 0.001\ ’**’\ 0.01\ ’*’\ 0.05\ ’.’\ 0.1\ ’\ ’\ 1}: Clave para interpretar los niveles de significación. Aunque puede parecer complejo, básicamente, quiere decir que tres asteriscos (\texttt{***}) representan un valor \emph{p} entre 0 y 0.001 (lo que comúnmente se representa como \emph{p} \textless{} .001); dos asteriscos (\texttt{**}) un valor \emph{p} entre 0.001 y 0.01 (\emph{p} \textless{} .01); un asterisco (\texttt{*}) un valor \emph{p} entre 0.01 y 0.05 (\emph{p} \textless{} .05); un punto (\texttt{.}) un valor \emph{p} entre 0.05 y 0.01 (\emph{p} \textless{} .1, que ya no es significativo); y si no hay ningún símbolo, un valor \emph{p} entre 0.1 y 1 (\emph{p} \textgreater{} .1, no significativo)
 \end{itemize}
 
 En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (coeficiente de correlación transformado en \emph{z} de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (\emph{Z} = 4.7501, \(p\) \textless{} .0001), y nos muestra el intervalo de confianza al 95\% (o IC 95\%); los intervalos de confianza (en este caso al 95\%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (\emph{z} = .0881) y superior (\emph{z} = .2118) de estos intervalos de confianza.
@@ -516,13 +516,13 @@ En este caso, el meta-análisis nos sugiere que en efecto existe una asociación
 Esto se podría resumir, por ejemplo, como:
 
 \begin{quote}
-El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055; \(\tau\) = 0.0901; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%).
+El resultado meta-analizado sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055; \(\tau\) = 0.0901; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%).
 \end{quote}
 
 \hypertarget{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}{%
 \subsubsection{\texorpdfstring{Alternativa: Reportar el estimado como \emph{r} de Pearson en vez de \emph{z} de Fisher}{Alternativa: Reportar el estimado como r de Pearson en vez de z de Fisher}}\label{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}}
 
-Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pearson en vez de la transformación a \emph{z} de Fisher, puedes transformar los valores \emph{z} de Fisher de vuelta a \emph{r} de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función \texttt{tanh}, que calcula la tangente hiperbólica (o la función \texttt{fisherz2r} del paquete \texttt{psych} (\protect\hyperlink{ref-revellePsych2021}{Revelle, 2021})). Por ejemplo, para transformar el estimado de nuestro meta-análisis a \emph{r} de Pearson, solo debo usar alguna de esas funciones, y agregar el valor \emph{z} (0.1499 en nuestro caso) como único argumento:
+Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pearson en vez de la transformación a \emph{z} de Fisher, puedes transformar los valores \emph{z} de Fisher de vuelta a \emph{r} de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función \texttt{tanh}, que calcula la tangente hiperbólica, o la función \texttt{fisherz2r} del paquete \texttt{psych} (\protect\hyperlink{ref-revellePsych2021}{Revelle, 2021}). Por ejemplo, para transformar el estimado de nuestro meta-análisis a \emph{r} de Pearson, solo debo usar alguna de esas funciones, y agregar el valor \emph{z} (0.1499 en nuestro caso) como único argumento:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -553,13 +553,13 @@ Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pe
 
 Cualquiera de estas opciones nos da un valor de \emph{r} = 0.1487872, muy similar al obtenido (\emph{z} = 0.1499). Esto se debe a que, para coeficientes \emph{r} de Pearson entre -0.4 y 0.4, la transformación a valores \emph{z} de Fisher produce resultados muy similares (Fig. \ref{fig:rvsz}).
 
-Por supuesto, si decides reportar los resultados de tu meta-análisis en coeficientes \emph{r} de Pearson, siempre puedes hacer lo mismo con el error estándar y los límites del intervalo de confianza al 95\% (todos valores en \emph{z} de Fisher, pues fue el tamaño de efecto que meta-analizamos).
-
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/rvsz-1.pdf}
 \caption{\label{fig:rvsz}Asociación entre coeficientes de correlación \emph{r} de Pearson (eje \emph{X}), y su transformación a \emph{z} de Fisher (eje \emph{Y}). La línea naranja representa la asociación entre valores \emph{r} y \emph{z}; como referencia, la línea negra punteada representa igualdad entre ejes (\emph{y} = \emph{x}). Como se puede ver, cuando \emph{r} está aproximadamente entre -0.4 y 0.4 (rectángulo gris), los valores \emph{r} y \emph{z} son casi idénticos. Para valores más extremos, el valor de \emph{z} se aleja progresivamente del valor de \emph{r} (hasta el infinito).}
 \end{figure}
+
+Por supuesto, si decides reportar los resultados de tu meta-análisis en coeficientes \emph{r} de Pearson, siempre puedes hacer lo mismo con el error estándar y los límites del intervalo de confianza al 95\% (todos valores en \emph{z} de Fisher, pues fue el tamaño de efecto que meta-analizamos).
 
 \hypertarget{muxe1s-informaciuxf3n-sobre-heterogeneidad}{%
 \subsection{Más información sobre heterogeneidad}\label{muxe1s-informaciuxf3n-sobre-heterogeneidad}}
@@ -599,7 +599,9 @@ El resultado meta-analizado sugiere que en efecto existe una asociación positiv
 \hypertarget{diagnuxf3stico-de-influencia}{%
 \subsection{Diagnóstico de influencia}\label{diagnuxf3stico-de-influencia}}
 
-Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que nuestro meta-análisis sea dependiente principalmente de un único estudio.}. Para esto, podemos usar la función \texttt{influence} del paquete \texttt{metafor}, cuyo resultado, en este caso, asignaré a un objeto llamado \texttt{inf.res}.
+Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que nuestro meta-análisis sea dependiente principalmente de un único estudio.}. Para esto, se suele usar la técnica conocida como \emph{leave-one-out}, que se refiere al resultado del meta-análisis cuando se excluye cada estudio; al estimar cómo y cuánto cambia el resultado del modelo de meta-análisis al excluir cada estudio, podemos estimar su influencia en el resultado. Dicho de otra manera, si al excluir un estudio el resultado cambia mucho, sabemos que ese estudio tiene gran influencia en el meta-análisis y sería mejor excluirlo.
+
+Para hacer un análisis de influencia, podemos usar la función \texttt{influence} del paquete \texttt{metafor}, cuyo resultado, en este caso, asignaré a un objeto llamado \texttt{inf.res}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -647,7 +649,7 @@ Esto me muestra gran cantidad de información de cada estudio (en este caso, lo 
 \item
   \texttt{dffits}: diferencia de ajuste(s) (en inglés \emph{difference in fit(s)}). Es una medida diagnóstica de la influencia de cada punto en una regresión (en este caso, cada estudio en un meta-análisis) propuesta originalmente por Belsley, Kuh y Welsch (\protect\hyperlink{ref-belsleyRegressionDiagnosticsIdentifying1980}{1980})
 \item
-  \texttt{cook.d}: Distancia de Cook (en inglés, \emph{Cook's distance}). Es otra medida diagnóstica de la influencia, propuesta originalmente por Cook (\protect\hyperlink{ref-cookDetectionInfluentialObservation1977}{Cook, 1977}). Es conceptualmente idéntica a DFFITS (\texttt{dffits}), y he hecho existe una fórmula para convertir una medida en la otra (\protect\hyperlink{ref-Henry2003}{Henry et al., 2003}). Aunque no hay un acuerdo absoluto respecto, comúnmente se asume que valores mayores a 1 (\(D_{i} > 1\)), representan puntos altamente influyentes en un modelo (\protect\hyperlink{ref-cookResidualsInfluenceRegression1982}{Cook \& Weisberg, 1982}), que probablemente deban ser excluidos
+  \texttt{cook.d}: Distancia de Cook (en inglés, \emph{Cook's distance}). Es otra medida diagnóstica de la influencia, propuesta originalmente por Cook (\protect\hyperlink{ref-cookDetectionInfluentialObservation1977}{1977}). Es conceptualmente idéntica a DFFITS (\texttt{dffits}), y he hecho existe una fórmula para convertir una medida en la otra (\protect\hyperlink{ref-Henry2003}{Henry et al., 2003}). Aunque no hay un acuerdo absoluto respecto, comúnmente se asume que valores mayores a 1 (\(D_{i} > 1\)), representan puntos altamente influyentes en un modelo (\protect\hyperlink{ref-cookResidualsInfluenceRegression1982}{Cook \& Weisberg, 1982}), que probablemente deban ser excluidos
 \item
   \texttt{cov.r}: relación (o proporción) de covarianza. Es el determinante de la matriz de varianza-covarianza de las estimaciones de los parámetros basadas en el conjunto de datos, cuando cada estudio se elimina del meta-análisis, dividido por el mismo determinante de la matriz de varianza-covarianza cuando se incluyen todos los estudios. Básicamente, un valor menor a 1 indica que la eliminación de ese estudio produce estimaciones más precisas de los coeficientes del modelo
 \item
@@ -655,16 +657,16 @@ Esto me muestra gran cantidad de información de cada estudio (en este caso, lo 
 \item
   \texttt{QE.del}: similar al resultado anterior, este se refiere al estadístico \(Q\) obtenido cuando se excluye cada estudio
 \item
-  \texttt{hat}: los valores \emph{hat} (\(h_{i}\)) son una medida estandarizada de la distancia de cada punto a la media de la variable predictora. Mientras valores cercanos a 0 indican que no hay un valor preocupante, valores cercanos a 1, aunque no indican directamente alta influencia de algún punto,ciertamente nos indican que vale la pena investigar más. Los valores \emph{hat} están abiertos a la interpretación, pero un valor de corte que es común es el doble de la media de los todos valores \emph{hat} (\(\overline{h}\)); cualquier estudio con un valor mayor debe ser examinado con cuidado
+  \texttt{hat}: los valores \emph{hat} (\(h\)) son una medida estandarizada de la distancia de cada punto a la media de la variable predictora. Mientras valores cercanos a 0 indican que no hay un valor preocupante, valores cercanos a 1, aunque no indican directamente alta influencia de algún punto, ciertamente nos indican que vale la pena investigar más. Los valores \emph{hat} están abiertos a la interpretación, pero un valor de corte que es común es el doble de la media de los todos valores \emph{hat} (\(\overline{h}\)); cualquier estudio con un valor mayor debe ser examinado con cuidado
 \item
-  \texttt{weight}:
+  \texttt{weight}: peso asignado a cada estudio
 \item
-  \texttt{dfbs}:
+  \texttt{dfbs}: el valor de \texttt{dfbs} (o \emph{DFBETAS}) indica cuántas desviaciones estándar cambia el coeficiente estimado después de excluir cada estudio del modelo de meta-análisis
 \item
-  \texttt{inf}: por suerte, esta columna \texttt{inf} resume esta información por nosotros. Cualquier estudio que se considere influyente, teniendo en cuenta la diferencia de ajuste, la distancia de Cook, los valores \emph{hat} o DFBETAS, será señalado acá como influyente, usando asteriscos.
+  \texttt{inf}: por suerte, esta columna \texttt{inf} resume esta información por nosotros. Cualquier estudio que se considere influyente, teniendo en cuenta la diferencia de ajuste, la distancia de Cook, los valores \emph{hat} o \emph{DFBETAS}, será señalado acá como influyente, usando asteriscos.
 \end{itemize}
 
-Sin embargo, lo más importante ahora es mirar la última columna, llamada \texttt{inf}. Si ahí aparecieran asteriscos para algún estudio meta-analizado(que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
+Aunque hay mucha información, lo más importante ahora es mirar la última columna, llamada \texttt{inf}. Si ahí aparecieran asteriscos para algún estudio meta-analizado(que no es nuestro caso), sugeriría que ese estudio es particularmente influyente y podría ser necesario eliminarlo del meta-análisis.
 
 Por último, podemos también ver ésta información que tenemos guardada en el objeto \texttt{inf.res}, de manera gráfica, usando la función \texttt{plot} (Fig. \ref{fig:infplot}).
 
@@ -677,7 +679,7 @@ Por último, podemos también ver ésta información que tenemos guardada en el 
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/infplot-1.pdf}
-\caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis.}
+\caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje X representan cada estudio, como lo definimos en columna \texttt{study\_id} de la Tabla \ref{tab:estructuramod}. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis.}
 \end{figure}
 
 \hypertarget{forest-plot-diagrama-de-bosque}{%
@@ -694,7 +696,7 @@ Para hacer un diagrama de bosque (\emph{forest plot}) con \href{https://www.meta
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/for-plot1-1.pdf}
-\caption{\label{fig:for-plot1}Forest plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza, y el tamaño de muestra (representado por el tamaño del cuadrado). Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante.}
+\caption{\label{fig:for-plot1}Forest plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante.}
 \end{figure}
 
 Como se puede ver en las Figuras \ref{fig:for-plot1}, \ref{fig:for-plot2} y \ref{fig:for-plot3b} (que son versiones del mismo \emph{forest plot}), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre -0.09 y 0.37), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en algunos son prácticamente 0 o incluso negativas.

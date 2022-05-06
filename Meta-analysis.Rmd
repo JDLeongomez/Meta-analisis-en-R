@@ -168,7 +168,7 @@ dat
 
 Por supuesto, la salida de la consola no es la más clara, pero para una versión más legible, se puede usar la función `View`, y el nombre de la base de datos o tabla como argumento (en este caso `View(dat)`). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión, más limpio y fácil de leer.
 
-Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16. A continuación, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna.
+Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. A continuación, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna.
 
 ```{r molloy2014}
 dat <- get(data(dat.molloy2014)) %>%
@@ -189,7 +189,7 @@ kable(dat,
            footnote_as_chunk = TRUE)
 ```
 
-Por supuesto, la columna `authors` tiene los autores de cada estudio a meta-analizar, y la columna `year` el año de publicación. La columna `ni` contiene los tamaños de muestra de cada estudio, y la columna `ri` los coeficientes de correlación de Pearson.
+Por supuesto, la columna `authors` tiene los autores de cada estudio a meta-analizar, y la columna `year` el año de publicación. La columna `ni` contiene el tamaño de muestra de cada estudio, y la columna `ri` el coeficiente de correlación de Pearson.
 
 Adicionalmente, en este ejemplo tenemos una serie de posibles moderadores:
 
@@ -278,7 +278,7 @@ De todos estos, los más comúnmente reportados son $\tau^2$, $\tau$, $I^2$ y $Q
 
 -   $Q$: aunque no es sensible al tamaño de muestra, es sensible al número de estudios meta-analizados. Tiene la ventaja de ser un test de hipótesis, y como tal, puede ser interpretado a partir de su valor *p*.
 
--   $\tau^2$: no tiene problemas de sensibilidad a los tamaños de muestra o número de estudios meta-analizados, pero es más difícil de interpretar. $\tau^2$ es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio. Para más información, ver Borenstein et al. [-@borensteinIdentifyingQuantifyingHeterogeneity2009].
+-   $\tau^2$: no tiene problemas de sensibilidad a los tamaños de muestra o número de estudios meta-analizados, pero es más difícil de interpretar. $\tau^2$ es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio [para más información, ver @borensteinIdentifyingQuantifyingHeterogeneity2009].
 
 En nuestro caso, el estadístico $Q$ sugiere que hay una heterogeneidad significativa en los estudios meta-analizados ($p$ = 0.0009). $I^2$, sugiere una heterogeneidad moderada, lo que quiere decir que se estima que más de la mitad (61.73%) de la varianza se deriva de diferencias en los tamaños de efecto.
 
@@ -286,31 +286,31 @@ Más abajo, el *output* de la consola de R nos muestra los resultados de nuestro
 
 Esta parte nos provee varios resultados:
 
--   `Estimate (0.1499)`: estimado de la correlación entre concienciación y adherencia a la medicación
+-   `Estimate (0.1499)`: estimado de la correlación entre concienciación y adherencia a la medicación, en este caso en valores *z* de Fisher, pues así transformamos los coeficientes de cada estudio
 
--   `se (0.0316)`: error estándar del estimado de la asociación
+-   `se (0.0316)`: error estándar del estimado de la asociación (en valores *z* de Fisher)
 
--   `zval (4.7501)`: estadístico *Z* (mayúscula) que comprueba la media de una distribución. No se debe confundir con la transformación de coeficientes de correlación a *z* de Fisher (minúscula); este estadístico no nos provee una estimación de la asociación entre las variables correlacionadas, sino, de manera similar a una prueba *t*, nos sugiere si nuestra media (para el caso, el resultado de nuestro meta-análisis), se diferencia de 0 (o una correlación nula). Cuando *Z* es mayor a 1.96 (o menor a -1.96), nuestro resultado en el 5% extremo de la distribución *Z* y sería significativo con un $\alpha$ tradicional de 0.05 (dos colas)
+-   `zval (4.7501)`: estadístico *Z* (mayúscula) que comprueba la media de una distribución. No se debe confundir con la transformación de coeficientes de correlación a *z* de Fisher (minúscula); este estadístico no nos provee una estimación de la asociación entre las variables correlacionadas, sino, de manera similar a una prueba *t*, nos sugiere si nuestra media (para el caso, el resultado de nuestro meta-análisis), se diferencia de 0 (o una correlación nula). Cuando *Z* es mayor a 1.96 (o menor a -1.96), nuestro resultado está en el 5% extremo de la distribución *Z* y sería significativo con un $\alpha$ tradicional de 0.05 (dos colas)
 
 -   `pval (<.0001)`: valor *p* de la correlación meta-analizada
 
--   `ci.lb (0.0881)`: límite inferior del intervalo de confianza (*confidence interval lower bound*) de la correlación meta-analizada
+-   `ci.lb (0.0881)`: límite inferior del intervalo de confianza (*confidence interval lower bound*) de la correlación meta-analizada (en valores *z* de Fisher)
 
--   `ci.ub (0.2118)`: límite superior del intervalo de confianza (*confidence interval upper bound*) de la correlación meta-analizada
+-   `ci.ub (0.2118)`: límite superior del intervalo de confianza (*confidence interval upper bound*) de la correlación meta-analizada (en valores *z* de Fisher)
 
 -   Nivel de significación (`***`): representación con asteriscos (o un punto) del nivel de significación
 
--   `Signif. codes: 0 ’***’ 0.001 ’**’ 0.01 ’*’ 0.05 ’.’ 0.1 ’ ’ 1`: Clave para interpretar los niveles de significación. Aunque puede parecer complejo, básicamente, quiere decir que tres asteriscos (`***`) representan un valor *p* entre 0 y 0.001 (*p* \< .001); dos asteriscos (`**`) un valor *p* entre 0.001 y 0.01 (*p* \< .01); un asterisco (`*`) un valor *p* entre 0.01 y 0.05 (*p* \< .05); un punto (`.`) un valor *p* entre 0.05 y 0.01 (*p* \< .1, que ya no es significativo); y si no hay ningún símbolo, un valor *p* entre 0.1 y 1 (*p* > .1, no significativo)
+-   `Signif. codes: 0 ’***’ 0.001 ’**’ 0.01 ’*’ 0.05 ’.’ 0.1 ’ ’ 1`: Clave para interpretar los niveles de significación. Aunque puede parecer complejo, básicamente, quiere decir que tres asteriscos (`***`) representan un valor *p* entre 0 y 0.001 (lo que comúnmente se representa como *p* \< .001); dos asteriscos (`**`) un valor *p* entre 0.001 y 0.01 (*p* \< .01); un asterisco (`*`) un valor *p* entre 0.01 y 0.05 (*p* \< .05); un punto (`.`) un valor *p* entre 0.05 y 0.01 (*p* \< .1, que ya no es significativo); y si no hay ningún símbolo, un valor *p* entre 0.1 y 1 (*p* > .1, no significativo)
 
 En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (coeficiente de correlación transformado en *z* de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (*Z* = 4.7501, $p$ < .0001), y nos muestra el intervalo de confianza al 95% (o IC 95%); los intervalos de confianza (en este caso al 95%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (*z* = .0881) y superior (*z* = .2118) de estos intervalos de confianza.
 
 Esto se podría resumir, por ejemplo, como:
 
-> El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%).
+> El resultado meta-analizado sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%).
 
 ### Alternativa: Reportar el estimado como *r* de Pearson en vez de *z* de Fisher
 
-Para reportar la correlación, si prefieres reportar coeficientes *r* de Pearson en vez de la transformación a *z* de Fisher, puedes transformar los valores *z* de Fisher de vuelta a *r* de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función `tanh`, que calcula la tangente hiperbólica (o la función `fisherz2r` del paquete `psych` [@revellePsych2021]). Por ejemplo, para transformar el estimado de nuestro meta-análisis a *r* de Pearson, solo debo usar alguna de esas funciones, y agregar el valor *z* (0.1499 en nuestro caso) como único argumento:
+Para reportar la correlación, si prefieres reportar coeficientes *r* de Pearson en vez de la transformación a *z* de Fisher, puedes transformar los valores *z* de Fisher de vuelta a *r* de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función `tanh`, que calcula la tangente hiperbólica, o la función `fisherz2r` del paquete `psych` [@revellePsych2021]. Por ejemplo, para transformar el estimado de nuestro meta-análisis a *r* de Pearson, solo debo usar alguna de esas funciones, y agregar el valor *z* (0.1499 en nuestro caso) como único argumento:
 
 ```{r message = FALSE}
 tanh(0.1499)
@@ -319,8 +319,6 @@ fisherz2r(0.1499)
 ```
 
 Cualquiera de estas opciones nos da un valor de *r* = 0.1487872, muy similar al obtenido (*z* = 0.1499). Esto se debe a que, para coeficientes *r* de Pearson entre -0.4 y 0.4, la transformación a valores *z* de Fisher produce resultados muy similares (Fig. \@ref(fig:rvsz)). 
-
-Por supuesto, si decides reportar los resultados de tu meta-análisis en coeficientes *r* de Pearson, siempre puedes hacer lo mismo con el error estándar y los límites del intervalo de confianza al 95% (todos valores en *z* de Fisher, pues fue el tamaño de efecto que meta-analizamos).
 
 ```{r rvsz, echo = FALSE, message = FALSE, warning = FALSE, fig.height = 4, fig.cap = "Asociación entre coeficientes de correlación *r* de Pearson (eje *X*), y su transformación a *z* de Fisher (eje *Y*). La línea naranja representa la asociación entre valores *r* y *z*; como referencia, la línea negra punteada representa igualdad entre ejes (*y* = *x*). Como se puede ver, cuando *r* está aproximadamente entre -0.4 y 0.4 (rectángulo gris), los valores *r* y *z* son casi idénticos. Para valores más extremos, el valor de *z* se aleja progresivamente del valor de *r* (hasta el infinito)."}
 
@@ -348,6 +346,8 @@ ggplot(rVsz, aes(x = r, y = z)) +
   theme_tq()
 ```
 
+Por supuesto, si decides reportar los resultados de tu meta-análisis en coeficientes *r* de Pearson, siempre puedes hacer lo mismo con el error estándar y los límites del intervalo de confianza al 95% (todos valores en *z* de Fisher, pues fue el tamaño de efecto que meta-analizamos).
+
 ## Más información sobre heterogeneidad
 
 Es importante tener en cuenta que la heterogeneidad no es un *supuesto* que se deba cumplir al hacer un meta-análisis, y por ende una heterogeneidad moderada o alta no invalida sus resultados. Sencillamente es información útil que se debe reportar y tener en cuenta al interpretar el resultado de un meta-análisis. En este caso, la presencia de heterogeneidad sugiere que los estudios meta-analizados varían y no suelen reportar resultados similares.
@@ -368,7 +368,9 @@ Estos intervalos de confianza que también pueden ser reportados junto a sus cor
 
 ## Diagnóstico de influencia
 
-Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado[^3]. Para esto, podemos usar la función `influence` del paquete `metafor`, cuyo resultado, en este caso, asignaré a un objeto llamado `inf.res`.
+Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado[^3]. Para esto, se suele usar la técnica conocida como *leave-one-out*, que se refiere al resultado del meta-análisis cuando se excluye cada estudio; al estimar cómo y cuánto cambia el resultado del modelo de meta-análisis al excluir cada estudio, podemos estimar su influencia en el resultado. Dicho de otra manera, si al excluir un estudio el resultado cambia mucho, sabemos que ese estudio tiene gran influencia en el meta-análisis y sería mejor excluirlo. 
+
+Para hacer un análisis de influencia, podemos usar la función `influence` del paquete `metafor`, cuyo resultado, en este caso, asignaré a un objeto llamado `inf.res`.
 
 [^3]: Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un *n* de 100, pero el otro tiene un *n* de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que nuestro meta-análisis sea dependiente principalmente de un único estudio.
 
@@ -388,7 +390,7 @@ Esto me muestra gran cantidad de información de cada estudio (en este caso, lo 
 
 -   `dffits`: diferencia de ajuste(s) (en inglés *difference in fit(s)*). Es una medida diagnóstica de la influencia de cada punto en una regresión (en este caso, cada estudio en un meta-análisis) propuesta originalmente por Belsley, Kuh y Welsch [-@belsleyRegressionDiagnosticsIdentifying1980]
 
--   `cook.d`: Distancia de Cook (en inglés, *Cook's distance*). Es otra medida diagnóstica de la influencia, propuesta originalmente por Cook [@cookDetectionInfluentialObservation1977]. Es conceptualmente idéntica a DFFITS (`dffits`), y he hecho existe una fórmula para convertir una medida en la otra [@Henry2003]. Aunque no hay un acuerdo absoluto respecto, comúnmente se asume que valores mayores a 1 ($D_{i} > 1$), representan puntos altamente influyentes en un modelo [@cookResidualsInfluenceRegression1982], que probablemente deban ser excluidos
+-   `cook.d`: Distancia de Cook (en inglés, *Cook's distance*). Es otra medida diagnóstica de la influencia, propuesta originalmente por Cook [-@cookDetectionInfluentialObservation1977]. Es conceptualmente idéntica a DFFITS (`dffits`), y he hecho existe una fórmula para convertir una medida en la otra [@Henry2003]. Aunque no hay un acuerdo absoluto respecto, comúnmente se asume que valores mayores a 1 ($D_{i} > 1$), representan puntos altamente influyentes en un modelo [@cookResidualsInfluenceRegression1982], que probablemente deban ser excluidos
 
 -   `cov.r`: relación (o proporción) de covarianza. Es el determinante de la matriz de varianza-covarianza de las estimaciones de los parámetros basadas en el conjunto de datos, cuando cada estudio se elimina del meta-análisis, dividido por el mismo determinante de la matriz de varianza-covarianza cuando se incluyen todos los estudios. Básicamente, un valor menor a 1 indica que la eliminación de ese estudio produce estimaciones más precisas de los coeficientes del modelo
 
@@ -396,19 +398,19 @@ Esto me muestra gran cantidad de información de cada estudio (en este caso, lo 
 
 -   `QE.del`: similar al resultado anterior, este se refiere al estadístico $Q$ obtenido cuando se excluye cada estudio
 
--   `hat`: los valores *hat* ($h_{i}$) son una medida estandarizada de la distancia de cada punto a la media de la variable predictora. Mientras valores cercanos a 0 indican que no hay un valor preocupante, valores cercanos a 1, aunque no indican directamente alta influencia de algún punto,ciertamente nos indican que vale la pena investigar más. Los valores *hat* están abiertos a la interpretación, pero un valor de corte que es común es el doble de la media de los todos valores *hat* ($\overline{h}$); cualquier estudio con un valor mayor debe ser examinado con cuidado
+-   `hat`: los valores *hat* ($h$) son una medida estandarizada de la distancia de cada punto a la media de la variable predictora. Mientras valores cercanos a 0 indican que no hay un valor preocupante, valores cercanos a 1, aunque no indican directamente alta influencia de algún punto, ciertamente nos indican que vale la pena investigar más. Los valores *hat* están abiertos a la interpretación, pero un valor de corte que es común es el doble de la media de los todos valores *hat* ($\overline{h}$); cualquier estudio con un valor mayor debe ser examinado con cuidado
 
--   `weight`: 
+-   `weight`: peso asignado a cada estudio
 
--   `dfbs`: 
+-   `dfbs`: el valor de `dfbs` (o *DFBETAS*) indica cuántas desviaciones estándar cambia el coeficiente estimado después de excluir cada estudio del modelo de meta-análisis 
 
--   `inf`: por suerte, esta columna `inf` resume esta información por nosotros. Cualquier estudio que se considere influyente, teniendo en cuenta la diferencia de ajuste, la distancia de Cook, los valores *hat* o DFBETAS, será señalado acá como influyente, usando asteriscos.
+-   `inf`: por suerte, esta columna `inf` resume esta información por nosotros. Cualquier estudio que se considere influyente, teniendo en cuenta la diferencia de ajuste, la distancia de Cook, los valores *hat* o *DFBETAS*, será señalado acá como influyente, usando asteriscos.
 
-Sin embargo, lo más importante ahora es mirar la última columna, llamada `inf`. Si ahí aparecieran asteriscos para algún estudio meta-analizado(que no es nuestro caso), sugeriría que ese estudio es particularmente influyente.
+Aunque hay mucha información, lo más importante ahora es mirar la última columna, llamada `inf`. Si ahí aparecieran asteriscos para algún estudio meta-analizado(que no es nuestro caso), sugeriría que ese estudio es particularmente influyente y podría ser necesario eliminarlo del meta-análisis.
 
 Por último, podemos también ver ésta información que tenemos guardada en el objeto `inf.res`, de manera gráfica, usando la función `plot` (Fig. \@ref(fig:infplot)).
 
-```{r infplot, fig.height = 4.5, fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis."}
+```{r infplot, fig.height = 7, fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje X representan cada estudio, como lo definimos en columna \\texttt{study\\_id} de la Tabla \\@ref(tab:estructuramod). En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis."}
 plot(inf.res)
 ```
 
@@ -420,7 +422,7 @@ Para hacer un diagrama de bosque (*forest plot*) con [`metafor`](https://www.met
 forest(res)
 ```
 
-```{r for-plot1, echo = FALSE, fig.height = 5.5, fig.cap = "Forest plot básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza, y el tamaño de muestra (representado por el tamaño del cuadrado). Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
+```{r for-plot1, echo = FALSE, fig.height = 5.5, fig.cap = "Forest plot básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
 par(mar = c(4,0,0,0))
 forest(res)
 ```
