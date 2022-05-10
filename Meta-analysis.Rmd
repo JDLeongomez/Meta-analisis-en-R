@@ -117,7 +117,7 @@ Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicolog�
 ```
 Esta guía contiene todo el código y explicaciones, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando principalmente los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. Incluye explicaciones básicas para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa) e interpretación de los resultados, así como creación de *forest plots* y *funnel plots* para meta-análisis de correlaciones simples o con moderadores. Adicionalmente, incluye estrategias para detectar posibles sesgos de publicación usando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], así como para determinar el poder estadístico de un meta-análisis usando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022]. 
 
-**Nota:** Está guía está parcialmente basada en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene pasos adicionales o alternativos, así como citas a fuentes primarias, e información complementaria y detallada que he agregado. Como tal, asume un manejo básico de R, así como una comprensión general de los principios del meta-análisis. Sin embargo, de ser necesario y como preámbulo, recomiendo ver [este video introductorio](https://youtu.be/ntBbkOn9D_o) al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
+**Nota:** Está guía está parcialmente basada en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene pasos adicionales o alternativos, así como citas a fuentes primarias, e información complementaria y más detallada. Como tal, asume un manejo básico de R, así como una comprensión de correlaciones y regresiones, y un entendimiento general de los principios del meta-análisis. Sin embargo, de ser necesario y como preámbulo, recomiendo ver [este video introductorio](https://youtu.be/ntBbkOn9D_o) al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
 
 [![Investigación Abierta](images%5CLogo-IA-Rectangulo.pdf)](https://www.youtube.com/c/InvestigaciónAbierta)
 
@@ -129,7 +129,7 @@ Esta guía contiene todo el código y explicaciones, paso a paso, para hacer un 
 \textbf{Cita esta guía como } \hrulefill 
 
 \begin{hangparas}{.25in}{1}
-Leongómez, J. D. (2022). \textit{Meta-análisis de correlaciones en R: Guía práctica.} Zenodo. \url{https://doi.org/10.5281/zenodo.5640182}
+Leongómez, J. D. (2022). Meta-análisis de correlaciones en R: Guía práctica. \textit{Zenodo}. \url{https://doi.org/10.5281/zenodo.5640182}
 \end{hangparas}
 \newpage
 
@@ -394,7 +394,7 @@ Esto me muestra gran cantidad de información de cada estudio (en este caso, lo 
 
 -   `cov.r`: relación (o proporción) de covarianza. Es el determinante de la matriz de varianza-covarianza de las estimaciones de los parámetros basadas en el conjunto de datos, cuando cada estudio se elimina del meta-análisis, dividido por el mismo determinante de la matriz de varianza-covarianza cuando se incluyen todos los estudios. Básicamente, un valor menor a 1 indica que la eliminación de ese estudio produce estimaciones más precisas de los coeficientes del modelo
 
--   `tau2.del`: es la cantidad de heterogeneidad (residual) $\tau^2$ cuando se elimina cada estudio
+-   `tau2.del`: es la heterogeneidad (residual) $\tau^2$ cuando se elimina cada estudio
 
 -   `QE.del`: similar al resultado anterior, este se refiere al estadístico $Q$ obtenido cuando se excluye cada estudio
 
@@ -406,7 +406,7 @@ Esto me muestra gran cantidad de información de cada estudio (en este caso, lo 
 
 -   `inf`: por suerte, esta columna `inf` resume esta información por nosotros. Cualquier estudio que se considere influyente, teniendo en cuenta la diferencia de ajuste, la distancia de Cook, los valores *hat* o *DFBETAS*, será señalado acá como influyente, usando asteriscos.
 
-Aunque hay mucha información, lo más importante ahora es mirar la última columna, llamada `inf`. Si ahí aparecieran asteriscos para algún estudio meta-analizado(que no es nuestro caso), sugeriría que ese estudio es particularmente influyente y podría ser necesario eliminarlo del meta-análisis.
+Aunque hay mucha información, lo más importante ahora es mirar la última columna, llamada `inf`. Si ahí aparecieran asteriscos para algún estudio meta-analizado (que no es nuestro caso), sugeriría que ese estudio es particularmente influyente y podría ser necesario eliminarlo del meta-análisis.
 
 Por último, podemos también ver ésta información que tenemos guardada en el objeto `inf.res`, de manera gráfica, usando la función `plot` (Fig. \@ref(fig:infplot)).
 
@@ -427,7 +427,7 @@ par(mar = c(4,0,0,0))
 forest(res)
 ```
 
-Como se puede ver en las Figuras \@ref(fig:for-plot1), \@ref(fig:for-plot2) y \@ref(fig:for-plot3b) (que son versiones del mismo *forest plot*), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre `r min(dat$ri)` y `r max(dat$ri)`), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en algunos son prácticamente 0 o incluso negativas.
+Como se puede ver en las Figuras \@ref(fig:for-plot1), \@ref(fig:for-plot2) y \@ref(fig:for-plot3b) (que son versiones del mismo *forest plot*), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre `r min(dat$ri)` y `r max(dat$ri)`), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en otros casos son prácticamente 0 o incluso negativas.
 
 Para una versión más completa y anotada, también usando el *plot* básico de [`metafor`](https://www.metafor-project.org/doku.php), pero agregando encabezados de cada columna en español, nombres de los estudios meta-analizados[^4] así como una columna con los pesos dados a cada estudio, y detalles del modelo final[^5], podemos hacer algo como esto:
 
@@ -454,7 +454,7 @@ text(x = 1, y = 18, labels = "Peso", pos = 2)
 text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
 ```
 
-```{r for-plot2, echo = FALSE, fig.height = 5, fig.cap = "Forest plot anotado, creado con [metafor](https://www.metafor-project.org/doku.php). En esta versión agregué algunos encabezados en español, así como estadísticos generales del modelo de meta-análisis. Modelo EA se refiere al modelo meta-analizado, de efectos aleatorios."}
+```{r for-plot2, echo = FALSE, fig.height = 5, fig.cap = "*Forest plot* anotado, creado con [metafor](https://www.metafor-project.org/doku.php). En esta versión agregué algunos encabezados en español, así como estadísticos generales del modelo de meta-análisis. Modelo EA se refiere al modelo meta-analizado, de efectos aleatorios."}
 # forest plot con anotaciones adicionales
 par(mar = c(4,0,0,0))
 forest(res, cex = 0.75, xlim = c(-1.6, 1.6),
@@ -474,7 +474,7 @@ text(x = 1, y = 18, labels = "Peso", pos = 2)
 text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
 ```
 
-O, para una incluso más sofisticada, se puede usar la función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html).
+O, para un *forest plot* incluso más sofisticado, se puede usar la función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html).
 
 ```{r eval = FALSE}
 # A. Variante "classic" (no tiene que ser definida, pues es la opción por defecto)
@@ -509,7 +509,7 @@ viz_forest(res,
            x_trans_function = tanh)
 ```
 
-Con el código anterior genero las siguientes tres versiones del mismo *forest plot* usando diferentes variantes y escalas de colores, y transformando de vuelta los coeficientes de *z* de Fisher a *r* de Pearson.
+Con el código anterior genero las siguientes tres versiones del mismo *forest plot* (Fig. \@ref(fig:for-plot3b)) usando diferentes variantes y escalas de colores, y transformando de vuelta los coeficientes de *z* de Fisher a *r* de Pearson (con el argumento `x_trans_function = tanh`).
 
 Por supuesto, es cuestión de gusto cuál usar.
 
@@ -527,7 +527,7 @@ ggarrange(p.classic,
           labels = c("A"))
 ```
 
-```{r for-plot3b, echo = FALSE, fig.height = 6, warning = FALSE, fig.cap = 'Variantes de forest plots creados con  [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). **A.** Variante clásica (opción por defecto). **B.** Variante "thick" y escala de colores "Greens". **C.** Variante "rain" y escala de colores "Oranges".'}
+```{r for-plot3b, echo = FALSE, fig.height = 6, warning = FALSE, fig.cap = 'Variantes de *forest plots* creados con  [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). **A.** Variante clásica (opción por defecto). **B.** Variante "thick" y escala de colores "Greens". **C.** Variante "rain" y escala de colores "Oranges".'}
 p.thick <- viz_forest(res, 
                       study_labels = paste(dat$authors, dat$year, sep = ", "),
                       xlab = "Correlación", 
@@ -555,21 +555,21 @@ ggarrange(p.thick, p.rain,
 
 ## *Funnel plot* (diagrama de embudo) y sesgo de estudios pequeños
 
-En este punto, es en donde más errores se cometen. Las pruebas más comunes para evaluar sesgos de publicación, son la evaluación de la asimatría en el *funnel plot* (diagrama de embudo), y la regresión (o test) de Egger [@eggerBiasMetaanalysisDetected1997].
+En este punto, es en donde más errores se cometen. Las pruebas más comunes para evaluar sesgos de publicación, son la evaluación de la asimetría en el *funnel plot* (diagrama de embudo), y la regresión (o test) de Egger [@eggerBiasMetaanalysisDetected1997].
 
-El principal error que la mayoría de los investigadores (meta-analistas) cometen, es que simplemente basándose en éstos métodos, concluyen que un meta-análisis tiene (o no) riesgo de sufrir de un sesgo de publicación. Sin embargo, estos métodos, no son pruebas exclusivas de sesgo de publicación, sino de sesgo de estudios de tamaño muestral pequeño [ver e.g. @schwarzerSmallStudyEffectsMetaAnalysis2015], que pueden incluir sesgo de publicación, pero no se centran exclusivamente en éste.
+Sin embargo, el principal error que la mayoría de los investigadores (meta-analistas) cometen, es que simplemente basándose en éstos métodos, concluyen que un meta-análisis tiene (o no) riesgo de sufrir de un sesgo de publicación^[Por supuesto, yo mismo soy culpable de haber hecho esto en el pasado, incluyendo algunos comentarios en mi video sobre meta-análisis en *jamovi* [@leongomezMetaanalysis2021].]. Sin embargo, estos métodos, no son pruebas exclusivas de sesgo de publicación, sino de sesgo de estudios de tamaño muestral pequeño [ver e.g. @schwarzerSmallStudyEffectsMetaAnalysis2015], que pueden incluir sesgo de publicación, pero no se centran exclusivamente en éste.
 
-A pesar de esto, tanto la regresión de Egger como el *funnel plot*, son intersantes dado que el sesgo de estudios pequeños es importante.
+A pesar de esto, tanto la regresión de Egger como el *funnel plot*, son interesantes dado que el sesgo de estudios pequeños es importante.
 
 ### *Funnel plot*
 
-Para crear un *funnel plot* con [`metafor`](https://www.metafor-project.org/doku.php), de nuestro meta-análisis, solo tenemos que usar la función `funnel`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`). Con esto, he generado la Figura \@ref(fig:funnel-plot1).
+Para crear un *funnel plot* con [`metafor`](https://www.metafor-project.org/doku.php), de nuestro meta-análisis, solo tenemos que usar la función `funnel`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`). Con esto, generamos la Figura \@ref(fig:funnel-plot1).
 
 ```{r eval = FALSE}
 funnel(res)
 ```
 
-```{r funnel-plot1, echo = FALSE, fig.height = 5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo."}
+```{r funnel-plot1, echo = FALSE, fig.height = 5, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo."}
 par(mar = c(4,4,0,1))
 funnel(res)
 ```
@@ -582,16 +582,16 @@ funnel(res,
        ylab = "Error estándar")
 ```
 
-```{r funnel-plot1a, echo = FALSE, fig.height = 5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php), con tpitulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste."}
+```{r funnel-plot1a, echo = FALSE, fig.height = 5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php), con títulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste."}
 par(mar = c(4,4,0,1))
 funnel(res, 
        xlab = "Coeficiente de correlación transformado en z de Fisher",
        ylab = "Error estándar")
 ```
 
-De nuevo, se puede usar el paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función [`viz_funnel`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-funnel-plots-with-viz_funnel). Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regresión de Egger (`egger = TRUE`; ver sección \@ref(reg-egger), más adelante), transformando los tamaños de efecto de regreso a $r$ de Pearson (`x_trans_function = tanh`), y con los títulos de los ejes en español (Fig. \@ref(fig:funnel-plot2)).
+De nuevo, para una versión más sofisticada, se puede usar el paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función [`viz_funnel`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-funnel-plots-with-viz_funnel). Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regresión de Egger (`egger = TRUE`; ver sección \@ref(reg-egger), más adelante), transformando los tamaños de efecto de regreso a $r$ de Pearson (`x_trans_function = tanh`), y con los títulos de los ejes en español (Fig. \@ref(fig:funnel-plot2)).
 
-```{r funnel-plot2, fig.height = 4.5, warning = FALSE, fig.cap = "Funnel plot creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5% (i.e. $p$ > 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1% (i.e. $p$ > 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger."}
+```{r funnel-plot2, fig.height = 4.5, warning = FALSE, fig.cap = "*Funnel plot* creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5% (i.e. $p$ > 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1% (i.e. $p$ > 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger."}
 viz_funnel(res, 
            egger = TRUE,
            x_trans_function = tanh,
@@ -601,39 +601,29 @@ viz_funnel(res,
 
 Alternativamente, el paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) tiene la función [`viz_sunset`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#sunset-power-enhanced-funnel-plots), que permite además mostrar el poder estadístico (o potencia) de los estudios meta-analizados para detectar un efecto de interés mediante una prueba de Wald de dos colas. De ser necesario, para entender las bases del poder estadístico, recomiendo ver [esta serie de videos](https://youtube.com/playlist?list = PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x) [@leongomezPoderRvid2020] y/o, para mayor profundidad, leer [esta guía](https://doi.org/10.5281/zenodo.3988776) [@leongomezAnalisisPoderEstadistico2020] que publiqué anteriormente.
 
-A continuación, muestro dos versiones de *funnel plots* creados con la función `viz_sunset` (Fig. \@ref(fig:funnel-plot3)). En ambos casos, agregué el efecto *real* encontrado con el meta-análisis (`contours = TRUE`), y transformé los tamaños de efecto de regreso a $r$ de Pearson (`x_trans_function = tanh`).
+A continuación, muestro dos versiones de *funnel plots* creados con la función `viz_sunset` (Fig. \@ref(fig:funnel-plot3)). En ambos casos, agregué el efecto *real* estimado a partir del meta-análisis (`contours = TRUE`), y transformé los tamaños de efecto de regreso a $r$ de Pearson (`x_trans_function = tanh`).
 
 ```{r eval = FALSE}
 # A. Escala de poder discreta
 viz_sunset(res,
            contours = TRUE,
-           x_trans_function = tanh,
-           ylab = "Error estándar",
-           xlab = "Coeficiente de correlación")
+           x_trans_function = tanh)
 
 # B. Escala de poder contínua
 viz_sunset(res, 
            contours = TRUE,
            x_trans_function = tanh, 
-           power_contours = "continuous",
-           ylab = "Error estándar",
-           xlab = "Coeficiente de correlación") +
-  labs(fill = "Poder")
-
+           power_contours = "continuous")
 ```
 
 ```{r funnel-plot3, message = TRUE, echo = FALSE, fig.height = 8.5, fig.width = 6, warning = FALSE, fig.cap = "Dos versiones de funnel plot creados con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función viz-sunset, que estima el poder de cada estudio para detectar un efecto de interés. **A.** Poder representado por bandas dicretas de color. **B.** Poder representado de manera contínua en una escala de color. En ambos casos, y tal como en la Fig. \\@ref(fig:funnel-plot2), el efecto real está representado como una línea vertical, y el triángulo a partir de su inicio representa el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis."}
 p.suna <- viz_sunset(res, 
                      contours = TRUE,
-                     x_trans_function = tanh,
-                     ylab = "Error estándar",
-                     xlab = "Coeficiente de correlación")
+                     x_trans_function = tanh)
 p.sunb <- viz_sunset(res, 
                      contours = TRUE,
                      x_trans_function = tanh,
-                     power_contours = "continuous",
-                     ylab = "Error estándar",
-                     xlab = "Coeficiente de correlación")
+                     power_contours = "continuous")
   
 ggarrange(p.suna, p.sunb,
           labels = "AUTO",
@@ -643,10 +633,6 @@ ggarrange(p.suna, p.sunb,
 ### Regresión de Egger {#reg-egger}
 
 Para hacer una prueba formal de sesgo de estudios pequeños [@sternePublicationRelatedBias2000; @schwarzerSmallStudyEffectsMetaAnalysis2015], podemos hacer una prueba o regresión de Egger [@eggerBiasMetaanalysisDetected1997]. En [`metafor`](https://www.metafor-project.org/doku.php), esto se hace con la función `regtest`, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (`res`).
-
-```{r echo = FALSE}
-regegger <- regtest(res)
-```
 
 ```{r eval = FALSE}
 regtest(res)
@@ -660,19 +646,41 @@ regtest(res)
 
 Con base en esto, y la inspección visual subjetiva del *funnel plot*, muchos investigadores concluyen que no hay sesgo de publicación. Sin embargo, como mencioné antes, estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (más adelante, en la sección \@ref(sesgo-pub), explicaré cómo evaluar si hay sesgo de publicación).
 
-### Método *trim and fill* (recorte y relleno)
+## Sesgo de publicación (*publication bias*) {#sesgo-pub}
+
+Existen diferentes opciones para estimar el sesgo de publicación de un meta-análisis. En esta sección, me centraré en dos: el método de recorte y relleno (*trim and fill*), y la estimación del modelo de función de peso.
+
+### Método *trim and fill* (recorte y relleno) {#trim-fill}
+
+El método de recorte y relleno (*trim and fill*) es una técnica no paramétrica para aumentar datos [@duvalNonparametricTrimFill2000; @duvalTrimFillSimple2000; ver también @duvalTrimFillMethod2005]. Este método puede utilizarse para estimar y ajustar el número y los resultados de los estudios que faltan en un meta-análisis, con base en el escrutinio de un lado de un diagrama de embudo (*funnel plot*) para estimar la asimetría que se supone que se debe al sesgo de publicación. 
+
+Básicamente, el método aumenta los datos observados para que el gráfico de embudo sea más simétrico, y vuelve a calcular la estimación del meta-análisis con base en los datos completos. 
+
+Aunque muy útil, es importante tener en cuenta que método de recorte y relleno (*trim and fill*) tiene algunas limitaciones que deben considerarse:
+
+-  No debe considerarse como una forma de obtener una estimación más "válida" del efecto o resultado global (a partir del meta-análisis), sino como una forma de examinar qué tan sensibles son los resultados a un mecanismo de selección particular (es decir, una forma particular de sesgo de publicación). 
+
+-  Es importante tener en cuenta que este método no se puede usar en modelos con moderadores, como los que explico en la sección \@ref(met-moderation).
+
+En [`metafor`](https://www.metafor-project.org/doku.php), el método de recorte y relleno (*trim and fill*) se hace simplemente con la función `trimfill`, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (`res`). En este caso, asignaré el resultado de esta función a un objeto que llamaré `tf`.
 
 ```{r}
-trimfill(res)
+tf <- trimfill(res)
+tf
 ```
 
-```{r fig.cap = "En negro los estudios meta-analizados; en blanco, los estudios *rellenados*."}
-funnel(trimfill(res), 
+Para crear un *funnel plot* con [`metafor`](https://www.metafor-project.org/doku.php) del meta-análisis con el método de recorte y relleno (*trim and fill*), solo tenemos que usar la función `funnel`, usando
+como argumento el objeto al que asignamos los resultados del método de recorte y relleno (`tf`). Con esto, generamos la Figura \@ref(fig:tf-plot1).
+
+```{r tf-plot1, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php) usando el método de recorte y relleno (*trim and fill*). En negro los estudios meta-analizados; en blanco, los estudios *rellenados*."}
+funnel(tf, 
        xlab = "Coeficiente de correlación transformado en z de Fisher",
        ylab = "Error estándar")
 ```
 
-```{r}
+De nuevo, alternativamente podemos usar la función `viz_funnel` del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), para crear este *funnel plot* representando los estudios *rellenados* con el método de recorte y relleno. Sin embargo, para esto usaremos como argumento el meta-análisis original (`res`), pero agregando los argumentos `trim_and_fill = TRUE` y `trim_and_fill_side = "left"` ("left" dado que sabemos que los estudios *faltantes* están a la izquierda del *funnel plot*). 
+
+```{r tf-plot2, fig.cap = "creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) usando el método de recorte y relleno (*trim and fill*). En negro los estudios meta-analizados; en blanco, los estudios *rellenados*."}
 viz_funnel(res, 
            contours_col = "Oranges",
            trim_and_fill = TRUE, 
@@ -684,7 +692,38 @@ viz_funnel(res,
   geom_vline(xintercept = 0, linetype = "dotted")
 ```
 
-# Meta-análisis de correlación con moderador
+### Estimación del modelo de función de peso
+
+Para determinar el sesgo de publicación, se puede usar la función `weightfunct` del paquete `weightr` [@coburnWeightr2019], que nos permite "estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges [-@veveaGeneralLinearModel1995] como la versión modificada presentada en Vevea y Woods [-@veveaPublicationBiasResearch2005]", como se describe en la [documentación](https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct) de la función `weightfunct`.
+
+```{r message = FALSE}
+library(weightr)
+```
+
+En este caso, usaré esta función, asignando el resultado a un objeto que llamaré `wf`.
+
+```{r}
+wf <- weightfunct(effect = dat$yi, v = dat$vi, table = TRUE)
+wf
+```
+
+El modelo tradicional nos da un estimado muy similar al des estudio original (0.1486), dado que usa un método ligeramente diferente.
+
+Nos da valores de heterogeneidad $\tau^2$, $\tau$ y $Q$.
+
+Pero lo más importante, es que nos da los resultado del meta-análisis, ajustando los pesos dados a cada efecto, de cada estudio meta-analizado.
+
+Lo que esta función hace es lo que se conoce como *selection models* (modelos de selección). Básicamente, da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores $p$ (ver SESGO DE PUBLICACIÓN); estudios con valores $p$ mayores a 0.05 (o 0.10), tienen menos probabilidad de ser publicados que estudios con $p < 0.05$.
+
+La función `weightfunct` incrementa el peso de estudios que tienen menos probabilidad de ser publicados, y reduce el peso de estudios con mayor probabilidad de ser publicados. Por esto, al usar ésta técnica, estás asumiendo que de hecho, en el efecto que tratas de encontrar en tu meta-análisis, de hecho hay un sesgo de publicación, lo que a menudo es una suposición bastante justa.
+
+Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el meta-análisis original nos daba como resultado un efecto de \~0.15, esta técnica nos estima un efecto de \~0.09. Básicamente, a *encogido* nuestro tamaño de efecto.
+
+Al final el *Likelihood ratio test* (algo así como "Prueba de cociente de probabilidades"), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí basándose en la relación de su verosimilitud. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
+
+Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es \< 0.10; significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el *funnel plot* (Figs. \@ref(fig:funnel-plot1), \@ref(fig:funnel-plot1a) \@ref(fig:funnel-plot2) y \@ref(fig:funnel-plot3)) y la regresión de Egger (sección \@ref(reg-egger)), sugerían lo contrario.
+
+# Meta-análisis de correlación con moderador {#met-moderation}
 
 ## Ejemplo 1: Moderación de la edad promedio de los participantes
 
@@ -791,37 +830,6 @@ res.mes
 En éste caso, a diferencia de los ejemplos de moderación anteriores, la variable moderadora (`controls`) sí tiene un efecto significativo, como se puede ver en la columna `pval` para el efecto de `factor(controls)none` (`r scales::pvalue(res.mes$pval[2])`), y en los asteriscos que aparecen al final de esa fila (`***`).
 
 Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como describí en la sección \@ref(plot-mod).
-
-# Sesgo de publicación (*publication bias*) {#sesgo-pub}
-
-Para determinar el sesgo de publicación, se puede usar la función `weightfunct` del paquete `weightr` [@coburnWeightr2019], que nos permite "estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges [-@veveaGeneralLinearModel1995] como la versión modificada presentada en Vevea y Woods [-@veveaPublicationBiasResearch2005]", como se describe en la [documentación](https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct) de la función `weightfunct`.
-
-```{r message = FALSE}
-library(weightr)
-```
-
-En este caso, usaré esta función, asignando el resultado a un objeto que llamaré `wf`.
-
-```{r}
-wf <- weightfunct(effect = dat$yi, v = dat$vi, table = TRUE)
-wf
-```
-
-El modelo tradicional nos da un estimado muy similar al des estudio original (0.1486), dado que usa un método ligeramente diferente.
-
-Nos da valores de heterogeneidad $\tau^2$, $\tau$ y $Q$.
-
-Pero lo más importante, es que nos da los resultado del meta-análisis, ajustando los pesos dados a cada efecto, de cada estudio meta-analizado.
-
-Lo que esta función hace es lo que se conoce como *selection models* (modelos de selección). Básicamente, da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores $p$ (ver SESGO DE PUBLICACIÓN); estudios con valores $p$ mayores a 0.05 (o 0.10), tienen menos probabilidad de ser publicados que estudios con $p < 0.05$.
-
-La función `weightfunct` incrementa el peso de estudios que tienen menos probabilidad de ser publicados, y reduce el peso de estudios con mayor probabilidad de ser publicados. Por esto, al usar ésta técnica, estás asumiendo que de hecho, en el efecto que tratas de encontrar en tu meta-análisis, de hecho hay un sesgo de publicación, lo que a menudo es una suposición bastante justa.
-
-Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el meta-análisis original nos daba como resultado un efecto de \~0.15, esta técnica nos estima un efecto de \~0.09. Básicamente, a *encogido* nuestro tamaño de efecto.
-
-Al final el *Likelihood ratio test* (algo así como "Prueba de cociente de probabilidades"), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí basándose en la relación de su verosimilitud. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
-
-Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es \< 0.10; significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el *funnel plot* (Figs. \@ref(fig:funnel-plot1), \@ref(fig:funnel-plot1a) \@ref(fig:funnel-plot2) y \@ref(fig:funnel-plot3)) y la regresión de Egger (sección \@ref(reg-egger)), sugerían lo contrario.
 
 # Poder estadístico del meta-análisis
 
