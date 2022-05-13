@@ -1,5 +1,5 @@
 ---
-title: 'Meta-análisis de correlaciones en R:'
+title: 'Meta-análisis de correlaciones y meta-regresión en R:'
 subtitle: 'Guía práctica'
 author:
   - name: Juan David Leongómez \orcidlink{0000-0002-0092-6298}
@@ -179,7 +179,8 @@ dat <- get(data(dat.molloy2014)) %>%
               "a_measure",
               "c_measure",
               "quality"), 
-            as.factor) 
+            as.factor) %>% 
+  mutate(controls = fct_relevel(controls, "none", "multiple"))
 ```
 
 Con esto, la base de datos tiene ahora la siguiente estructura (Tabla \@ref(tab:estructuramod)):
@@ -822,42 +823,56 @@ regplot(res.modage,
 
 ```{r}
 # Calcular efecto ajustado para diferentes edades
-predict(res.modage, newmods = seq(20, 80, by = 10)) %>% 
+pred.res.modage <- predict(res.modage, newmods = seq(20, 80, by = 10)) %>% 
   as_tibble() %>% 
   mutate(meanage = seq(20, 80, by = 10)) %>% 
   select(7, 1:6)
+pred.res.modage
 ```
 
 ## Ejemplo 2: Moderación de las controles usados en cada estudio meta-analizado
 
-Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.mes`. 
+Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.contr`. 
 
 ```{r}
-res.mes <- rma(yi = yi, vi = vi, mods = ~controls, data = dat)
-res.mes
+res.contr <- rma(yi = yi, vi = vi, mods = ~controls, data = dat)
+res.contr
 
+regplot(res.contr,
+        ylab = "Coeficiente de correlación transformado en z de Fisher",
+        xlab = "Controles (0 = ninguno; 1 = múltiples)")
 
-regplot(res.mes)
-
-bla <- predict(res.mes, newmods = c(0, 1)) %>% 
+pred.res.contr <- predict(res.contr, newmods = c(0, 1)) %>% 
   as_tibble() %>% 
   mutate(controls = levels(dat$controls)) %>% 
   rename(yi = pred) %>% 
-  select(7, 1:6)
+  select(9, 1:8)
 
-ggplot(dat, aes(x= controls, y = yi)) +
-  geom_point(aes(size = ni),
+ggplot(dat, aes(x = controls, y = yi)) +
+  geom_point(aes(size = ni, color = ni),
              alpha = 0.5) +
-  geom_errorbar(data = bla,
+  scale_color_viridis_c(option = "inferno", guide = "legend") +
+  scale_size_continuous(range = c(1, 10)) +
+  guides(color = guide_legend(), 
+         size = guide_legend()) +
+  scale_x_discrete(labels=c("none" = "Ninguno", 
+                            "multiple" = "Múltiples")) +
+  labs(x = "Controles", 
+       y = " Coeficiente de correlación \n transformado en z de Fisher ") +
+  geom_errorbar(data = pred.res.contr,
                 mapping = aes(ymin = ci.lb, ymax = ci.ub),
                 width = 0.1,
                 color = "black") +
-  geom_point(data = bla,
+  geom_point(data = pred.res.contr,
              shape = 21, size = 3,
-             color = "black", fill = "white")
+             color = "black", fill = "white") +
+  labs(color = "Tamaño de muestra",
+       size = "Tamaño de muestra") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
 ```
 
-En éste caso, a diferencia de los ejemplos de moderación anteriores, la variable moderadora (`controls`) sí tiene un efecto significativo, como se puede ver en la columna `pval` para el efecto de `controlsnone` (`r scales::pvalue(res.mes$pval[2])`), y en los asteriscos que aparecen al final de esa fila (`***`).
+En éste caso, a diferencia del ejemplo de moderación anteriores, la variable moderadora (`controls`) sí tiene un efecto significativo, como se puede ver en la columna `pval` para el efecto de `controlsnone` (`r scales::pvalue(res.contr$pval[2])`), y en los asteriscos que aparecen al final de esa fila (`***`).
 
 Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como describí en la sección \@ref(plot-mod).
 

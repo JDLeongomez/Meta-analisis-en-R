@@ -37,7 +37,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={Meta-análisis de correlaciones en R:},
+  pdftitle={Meta-análisis de correlaciones y meta-regresión en R:},
   pdfauthor={Juan David Leongómez },
   colorlinks=true,
   linkcolor={iacoldark},
@@ -156,7 +156,7 @@
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 
-\title{Meta-análisis de correlaciones en R:}
+\title{Meta-análisis de correlaciones y meta-regresión en R:}
 \usepackage{etoolbox}
 \makeatletter
 \providecommand{\subtitle}[1]{% add subtitle to \maketitle
@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{12 mayo, 2022}
+\date{13 mayo, 2022}
 
 \begin{document}
 \maketitle
@@ -307,7 +307,8 @@ Voy a volver a cargar la base de datos (sobrescribiendo el objeto \texttt{dat}),
               \StringTok{"a\_measure"}\NormalTok{,}
               \StringTok{"c\_measure"}\NormalTok{,}
               \StringTok{"quality"}\NormalTok{), }
-\NormalTok{            as.factor) }
+\NormalTok{            as.factor) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{fct\_relevel}\NormalTok{(controls, }\StringTok{"none"}\NormalTok{, }\StringTok{"multiple"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -443,7 +444,7 @@ Q(df = 15) = 38.1595, p-val = 0.0009
 
 Model Results:
 
-estimate      se    zval    pval   ci.lb   ci.ub     <U+200B> 
+estimate      se    zval    pval   ci.lb   ci.ub 
   0.1499  0.0316  4.7501  <.0001  0.0881  0.2118  *** 
 
 ---
@@ -946,7 +947,7 @@ Q(df = 17) = 46.3990, p-val = 0.0002
 
 Model Results:
 
-estimate      se    zval    pval   ci.lb   ci.ub     <U+200B> 
+estimate      se    zval    pval   ci.lb   ci.ub 
   0.1288  0.0333  3.8628  0.0001  0.0635  0.1942  *** 
 
 ---
@@ -1119,7 +1120,7 @@ QM(df = 1) = 1.4286, p-val = 0.2320
 
 Model Results:
 
-         estimate      se     zval    pval    ci.lb   ci.ub   <U+200B> 
+         estimate      se     zval    pval    ci.lb   ci.ub 
 intrcpt    0.2741  0.1090   2.5147  0.0119   0.0605  0.4877  * 
 meanage   -0.0024  0.0020  -1.1952  0.2320  -0.0063  0.0015    
 
@@ -1201,25 +1202,26 @@ Cuando tenemos un modelo con moderador, también podemos ver la asociación entr
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Calcular efecto ajustado para diferentes edades}
-\FunctionTok{predict}\NormalTok{(res.modage, }\AttributeTok{newmods =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{pred.res.modage }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.modage, }\AttributeTok{newmods =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{meanage =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{select}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{)}
+\NormalTok{pred.res.modage}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
                 \begin{verbatim} # A tibble: 7 x 7
-  meanage   pred     se   ci.lb ci.ub    pi.lb pi.ub
-    <dbl>  <dbl>  <dbl>   <dbl> <dbl>    <dbl> <dbl>
-1      20 0.226  0.0713  0.0863 0.366  0.00921 0.443
-2      30 0.202  0.0538  0.0966 0.307  0.00551 0.398
-3      40 0.178  0.0389  0.102  0.254 -0.00455 0.360
-4      50 0.154  0.0307  0.0937 0.214 -0.0225  0.330
-5      60 0.130  0.0344  0.0625 0.197 -0.0491  0.309
-6      70 0.106  0.0472  0.0134 0.198 -0.0840  0.296
-7      80 0.0819 0.0639 -0.0434 0.207 -0.126   0.290
+     cr.lb   pred     se   ci.lb ci.ub    pi.lb pi.ub
+     <dbl>  <dbl>  <dbl>   <dbl> <dbl>    <dbl> <dbl>
+1  0.00921 0.226  0.0713  0.0863 0.366  0.00921 0.443
+2  0.00551 0.202  0.0538  0.0966 0.307  0.00551 0.398
+3 -0.00455 0.178  0.0389  0.102  0.254 -0.00455 0.360
+4 -0.0225  0.154  0.0307  0.0937 0.214 -0.0225  0.330
+5 -0.0491  0.130  0.0344  0.0625 0.197 -0.0491  0.309
+6 -0.0840  0.106  0.0472  0.0134 0.198 -0.0840  0.296
+7 -0.126   0.0819 0.0639 -0.0434 0.207 -0.126   0.290
  \end{verbatim}
                 \end{footnotesize}
                 \end{ROut}
@@ -1227,12 +1229,12 @@ Cuando tenemos un modelo con moderador, también podemos ver la asociación entr
 \hypertarget{ejemplo-2-moderaciuxf3n-de-las-controles-usados-en-cada-estudio-meta-analizado}{%
 \subsection{Ejemplo 2: Moderación de las controles usados en cada estudio meta-analizado}\label{ejemplo-2-moderaciuxf3n-de-las-controles-usados-en-cada-estudio-meta-analizado}}
 
-Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre concienciación (\emph{conscientiousness}) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado \texttt{res.mes}.
+Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre concienciación (\emph{conscientiousness}) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado \texttt{res.contr}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{res.mes }\OtherTok{\textless{}{-}} \FunctionTok{rma}\NormalTok{(}\AttributeTok{yi =}\NormalTok{ yi, }\AttributeTok{vi =}\NormalTok{ vi, }\AttributeTok{mods =} \SpecialCharTok{\textasciitilde{}}\NormalTok{controls, }\AttributeTok{data =}\NormalTok{ dat)}
-\NormalTok{res.mes}
+\NormalTok{res.contr }\OtherTok{\textless{}{-}} \FunctionTok{rma}\NormalTok{(}\AttributeTok{yi =}\NormalTok{ yi, }\AttributeTok{vi =}\NormalTok{ vi, }\AttributeTok{mods =} \SpecialCharTok{\textasciitilde{}}\NormalTok{controls, }\AttributeTok{data =}\NormalTok{ dat)}
+\NormalTok{res.contr}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1255,9 +1257,9 @@ QM(df = 1) = 20.1221, p-val < .0001
 
 Model Results:
 
-              estimate      se    zval    pval    ci.lb   ci.ub     <U+200B> 
-intrcpt         0.0167  0.0296  0.5635  0.5731  -0.0413  0.0746      
-controlsnone    0.1621  0.0361  4.4858  <.0001   0.0913  0.2329  *** 
+                  estimate      se     zval    pval    ci.lb    ci.ub 
+intrcpt             0.1788  0.0208   8.6044  <.0001   0.1380   0.2195  *** 
+controlsmultiple   -0.1621  0.0361  -4.4858  <.0001  -0.2329  -0.0913  *** 
 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1267,7 +1269,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{regplot}\NormalTok{(res.mes)}
+\FunctionTok{regplot}\NormalTok{(res.contr,}
+        \AttributeTok{ylab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
+        \AttributeTok{xlab =} \StringTok{"Controles (0 = ninguno; 1 = múltiples)"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1275,28 +1279,40 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{bla }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.mes, }\AttributeTok{newmods =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{pred.res.contr }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.contr, }\AttributeTok{newmods =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{levels}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{controls)) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{rename}\NormalTok{(}\AttributeTok{yi =}\NormalTok{ pred) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{select}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{)}
+  \FunctionTok{select}\NormalTok{(}\DecValTok{9}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{)}
 
-\FunctionTok{ggplot}\NormalTok{(dat, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{ controls, }\AttributeTok{y =}\NormalTok{ yi)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{size =}\NormalTok{ ni),}
+\FunctionTok{ggplot}\NormalTok{(dat, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ controls, }\AttributeTok{y =}\NormalTok{ yi)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{size =}\NormalTok{ ni, }\AttributeTok{color =}\NormalTok{ ni),}
              \AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{data =}\NormalTok{ bla,}
+  \FunctionTok{scale\_color\_viridis\_c}\NormalTok{(}\AttributeTok{option =} \StringTok{"inferno"}\NormalTok{, }\AttributeTok{guide =} \StringTok{"legend"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_size\_continuous}\NormalTok{(}\AttributeTok{range =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{10}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{guides}\NormalTok{(}\AttributeTok{color =} \FunctionTok{guide\_legend}\NormalTok{(), }
+         \AttributeTok{size =} \FunctionTok{guide\_legend}\NormalTok{()) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"none"} \OtherTok{=} \StringTok{"Ninguno"}\NormalTok{, }
+                            \StringTok{"multiple"} \OtherTok{=} \StringTok{"Múltiples"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Controles"}\NormalTok{, }
+       \AttributeTok{y =} \StringTok{" Coeficiente de correlación }\SpecialCharTok{\textbackslash{}n}\StringTok{ transformado en z de Fisher "}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr,}
                 \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ ci.lb, }\AttributeTok{ymax =}\NormalTok{ ci.ub),}
                 \AttributeTok{width =} \FloatTok{0.1}\NormalTok{,}
                 \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{data =}\NormalTok{ bla,}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr,}
              \AttributeTok{shape =} \DecValTok{21}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{,}
-             \AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"white"}\NormalTok{)}
+             \AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{color =} \StringTok{"Tamaño de muestra"}\NormalTok{,}
+       \AttributeTok{size =} \StringTok{"Tamaño de muestra"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-27-2.pdf}
 
-En éste caso, a diferencia de los ejemplos de moderación anteriores, la variable moderadora (\texttt{controls}) sí tiene un efecto significativo, como se puede ver en la columna \texttt{pval} para el efecto de \texttt{controlsnone} (\textless0.001), y en los asteriscos que aparecen al final de esa fila (\texttt{***}).
+En éste caso, a diferencia del ejemplo de moderación anteriores, la variable moderadora (\texttt{controls}) sí tiene un efecto significativo, como se puede ver en la columna \texttt{pval} para el efecto de \texttt{controlsnone} (\textless0.001), y en los asteriscos que aparecen al final de esa fila (\texttt{***}).
 
 Por supuesto, \emph{forest plots} y \emph{funnel plots} pueden ser creados, tal y como describí en la sección \ref{plot-mod}.
 
@@ -1497,7 +1513,7 @@ To cite package 'dplyr' in publications use:
 
   Hadley Wickham, Romain François, Lionel Henry and Kirill Müller
   (2022). dplyr: A Grammar of Data Manipulation. R package version
-  1.0.9. https://CRAN.R-project.org/package=dplyr
+  1.0.8. https://CRAN.R-project.org/package=dplyr
 
 A BibTeX entry for LaTeX users is
 
@@ -1505,7 +1521,7 @@ A BibTeX entry for LaTeX users is
     title = {dplyr: A Grammar of Data Manipulation},
     author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
     year = {2022},
-    note = {R package version 1.0.9},
+    note = {R package version 1.0.8},
     url = {https://CRAN.R-project.org/package=dplyr},
   }
  \end{verbatim}
