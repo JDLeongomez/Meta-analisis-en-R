@@ -168,12 +168,18 @@ dat
 
 Por supuesto, la salida de la consola no es la más clara, pero para una versión más legible, se puede usar la función `View`, y el nombre de la base de datos o tabla como argumento (en este caso `View(dat)`). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión, más limpio y fácil de leer.
 
-Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. A continuación, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna.
+Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. A continuación, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna. Finalmente, las columnas de variables que son factores (`controls`, `design`, `a_measure`, `c_measure` y `quality`), pueden ser definidas como tal, para evitar pasos adicionales más adelante. En este caso, .
 
 ```{r molloy2014}
 dat <- get(data(dat.molloy2014)) %>%
-  mutate(study_id = 1:16)  %>% #crear columna study_id y agregar npúmero del 1 al 16
-  select(study_id, authors:quality) #mover study_id como primera columna
+  mutate(study_id = 1:16)  %>% #crear columna study_id y agregar número del 1 al 16
+  select(study_id, authors:quality) %>% #mover study_id como primera columna
+  mutate_at(c("controls", # Transformar variables en factores
+              "design",
+              "a_measure",
+              "c_measure",
+              "quality"), 
+            as.factor) 
 ```
 
 Con esto, la base de datos tiene ahora la siguiente estructura (Tabla \@ref(tab:estructuramod)):
@@ -723,7 +729,11 @@ Al final el *Likelihood ratio test* (algo así como "Prueba de cociente de proba
 
 Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es \< 0.10; significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el *funnel plot* (Figs. \@ref(fig:funnel-plot1), \@ref(fig:funnel-plot1a) \@ref(fig:funnel-plot2) y \@ref(fig:funnel-plot3)) y la regresión de Egger (sección \@ref(reg-egger)), sugerían lo contrario.
 
-# Meta-análisis de correlación con moderador {#met-moderation}
+# Meta-análisis de correlación con moderador (meta-regresión) {#met-moderation}
+
+\textcolor{red}{Incluir moderadores en nuestro meta-análisis (i.e. hacer una meta-regresión), es una fusión de principios de regresión meta-analíticos y lineales, que sirva para explorar la heterogeneidad. Con esto, podemos saber si existe una asociación lineal entre el resultado de nuestro meta-análisis y una o más covariables.}
+
+\textcolor{red}{La meta-regresión desempeña un papel fundamental en la consideración de los efectos de las covariables, especialmente en presencia de variables categóricas que pueden utilizarse para el análisis de subgrupos.}
 
 ## Ejemplo 1: Moderación de la edad promedio de los participantes
 
@@ -743,7 +753,7 @@ Los resultados, son los siguientes:
 res.modage
 ```
 
-Los resultados, que tienen la misma organización que los del análisis sin moderadores (sección \@ref(meta-cor)) resultado nos muestra que, a pesar de la gran diferencia de edad entre estudios, la edad no tiene un efecto significativo, como se puede ver en la columna `pval` para el efecto de `meanage` (`r round(res.modage$pval[2], 4)`).
+Los resultados, que tienen la misma organización que los del análisis sin moderadores (sección \@ref(meta-cor)) resultado nos muestra que, a pesar de la gran diferencia de edad entre estudios, la edad no tiene un efecto significativo, como se puede ver en la sección "`Test of Moderators (coefficient 2)`" (al final nos muestra el valor *p* como "\texttt{p-val =  0.2320}"), así como los resultados para el efecto de `meanage` en la tabla `Model Results` (donde nos da el mismo resultado: "\texttt{0.2320}").
 
 ### *Forest plot* y *funnel plot* {#plot-mod}
 
@@ -782,19 +792,21 @@ text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
 
 Es importante tener en cuenta que la función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) tendrá problemas para crear un *forest plot* de un meta-análisis con moderadores).
 
-De manera similar, podemos obtener un *funnel plot* de nuestro meta-análisis con moderador, pero éste nos mostrará, en vez de los coeficientes de correlación (transformados a $z$ de Fisher), los valores residuales de cada estudio (es decir, qué tanto se alejan del resultado de nuestro meta-análisis; Fig. \@ref(fig:funnel-plot1)):
+De manera similar, podemos obtener un *funnel plot* de nuestro meta-análisis con moderador. Es importante tener en cuenta que tanto el paquete `weightr` como el paquete `metafor` tienen funciones llamadas `funnel`. Dado que cargamos el paquete `weightr` después, R por defecto intentará intentará crear el *funnel plot* con la función `funnel` del paquete `weightr`, en vez de la función `funnel` del paquete `metafor`. Para evitar este error, tenemos dos opciones: podemos pedirle a R explícitamente que use la función `funnel` del paquete `metafor` con el comando `metafor::funnel`, o podemos pedirle a R que elimine el paquete de la memoria con la función `detach("package:metameta", unload = TRUE)`. En este caso, usaré la primera opción.
+
+Este *funnel plot*, a diferencia los los anteriores, nos mostrará los valores residuales de cada estudio (es decir, qué tanto se alejan del resultado de nuestro meta-análisis, que tiene un valor residual de 0; Fig. \@ref(fig:funnel-plot1)), en vez de los coeficientes de correlación (transformados a $z$ de Fisher).
 
 ```{r eval = FALSE}
-funnel(res.modage,
-       xlab = "Valor residual",
-       ylab = "Error estándar")
+metafor::funnel(res.modage,
+                xlab = "Valor residual",
+                ylab = "Error estándar")
 ```
 
-```{r funnel-plot-mod1, echo = FALSE, fig.height = 5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador, y con títulos de los ejes en español. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste."}
+```{r funnel-plot-mod1, echo = FALSE, fig.height = 5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador, y con títulos de los ejes en español. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. **Nota**: Para evitar confunción entre las funciones `funnel` de los paquetes `weightr` y `metafor`, en este caso he usado el comando \\texttt{metafor::funnel} para pedirle a R explícitamente que use la función `funnel` del paquete `metafor`."}
 par(mar = c(4,4,0,1))
-funnel(res.modage,
-       xlab = "Valor residual",
-       ylab = "Error estándar")
+metafor::funnel(res.modage,
+                xlab = "Valor residual",
+                ylab = "Error estándar")
 ```
 
 ### *Meta-Analytic Scatter Plot* (Gráfico de dispersión meta-analítico)
@@ -802,32 +814,50 @@ funnel(res.modage,
 Cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función `regplot` hace precisamente esto (Fig. \@ref(fig:reg-plot)).
 
 ```{r reg-plot, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{age}, edad) con intervalo de confianza del 95%."}
-regplot(res.modage)
+regplot(res.modage,
+        ylab = "Coeficiente de correlación transformado en z de Fisher",
+        xlab = "Edad promedio del estudio")
 ```
 
-## Ejemplo 2: Moderación de la calidad de los estudios meta-analizados
-
-La base de datos con tiene una medida de calidad metodológica de los estudios (variable `quality`). Dicha calidad, también podría moderar la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, puedo hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.modq` para diferenciarlo de los demás.
 
 ```{r}
-res.modq <- rma(yi = yi, vi = vi, mods = ~quality, data = dat)
-res.modq
+# Calcular efecto ajustado para diferentes edades
+predict(res.modage, newmods = seq(20, 80, by = 10)) %>% 
+  as_tibble() %>% 
+  mutate(meanage = seq(20, 80, by = 10)) %>% 
+  select(7, 1:6)
 ```
 
-De nuevo, encontramos que éste moderador (`quality`), al igual que la edad promedio (`meanage`), no tiene un efecto significativo, como se puede ver en la columna `pval` para el efecto de `quality` (`r round(res.modq$pval[2], 4)`).
+## Ejemplo 2: Moderación de las controles usados en cada estudio meta-analizado
 
-Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como describí en la sección \@ref(plot-mod).
-
-## Ejemplo 3: Moderación de las controles usados en cada estudio meta-analizado
-
-Como último ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.mes`. Son embargo, dado que la variable que contiene esta información (`controls`) es un factor, pero no está definido como tal, debo hacerlo en la usando la función `factor` al ingresar el argumento `mods` (i.e. `mods = ~factor(controls)`).
+Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.mes`. 
 
 ```{r}
-res.mes <- rma(yi = yi, vi = vi, mods = ~factor(controls), data = dat)
+res.mes <- rma(yi = yi, vi = vi, mods = ~controls, data = dat)
 res.mes
+
+
+regplot(res.mes)
+
+bla <- predict(res.mes, newmods = c(0, 1)) %>% 
+  as_tibble() %>% 
+  mutate(controls = levels(dat$controls)) %>% 
+  rename(yi = pred) %>% 
+  select(7, 1:6)
+
+ggplot(dat, aes(x= controls, y = yi)) +
+  geom_point(aes(size = ni),
+             alpha = 0.5) +
+  geom_errorbar(data = bla,
+                mapping = aes(ymin = ci.lb, ymax = ci.ub),
+                width = 0.1,
+                color = "black") +
+  geom_point(data = bla,
+             shape = 21, size = 3,
+             color = "black", fill = "white")
 ```
 
-En éste caso, a diferencia de los ejemplos de moderación anteriores, la variable moderadora (`controls`) sí tiene un efecto significativo, como se puede ver en la columna `pval` para el efecto de `factor(controls)none` (`r scales::pvalue(res.mes$pval[2])`), y en los asteriscos que aparecen al final de esa fila (`***`).
+En éste caso, a diferencia de los ejemplos de moderación anteriores, la variable moderadora (`controls`) sí tiene un efecto significativo, como se puede ver en la columna `pval` para el efecto de `controlsnone` (`r scales::pvalue(res.mes$pval[2])`), y en los asteriscos que aparecen al final de esa fila (`***`).
 
 Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como describí en la sección \@ref(plot-mod).
 
