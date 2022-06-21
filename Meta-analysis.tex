@@ -137,7 +137,7 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \usepackage{svg} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18}
+\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \usepackage{svg} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{13 mayo, 2022}
+\date{21 junio, 2022}
 
 \begin{document}
 \maketitle
@@ -444,7 +444,7 @@ Q(df = 15) = 38.1595, p-val = 0.0009
 
 Model Results:
 
-estimate      se    zval    pval   ci.lb   ci.ub 
+estimate      se    zval    pval   ci.lb   ci.ub     <U+200B> 
   0.1499  0.0316  4.7501  <.0001  0.0881  0.2118  *** 
 
 ---
@@ -686,7 +686,7 @@ Por último, podemos también ver ésta información que tenemos guardada en el 
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/infplot-1.pdf}
-\caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje X representan cada estudio, como lo definimos en columna \texttt{study\_id} de la Tabla \ref{tab:estructuramod}. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis.}
+\caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje \emph{X} representan cada estudio, como lo definimos en columna \texttt{study\_id} de la Tabla \ref{tab:estructuramod}. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis.}
 \end{figure}
 
 \hypertarget{forest-plot-diagrama-de-bosque}{%
@@ -947,7 +947,7 @@ Q(df = 17) = 46.3990, p-val = 0.0002
 
 Model Results:
 
-estimate      se    zval    pval   ci.lb   ci.ub 
+estimate      se    zval    pval   ci.lb   ci.ub     <U+200B> 
   0.1288  0.0333  3.8628  0.0001  0.0635  0.1942  *** 
 
 ---
@@ -992,7 +992,7 @@ De nuevo, alternativamente podemos usar la función \texttt{viz\_funnel} del paq
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/tf-plot2-1.pdf}
-\caption{\label{fig:tf-plot2}creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz} usando el método de recorte y relleno (\emph{trim and fill}). En negro los estudios meta-analizados; en blanco, los estudios \emph{rellenados}.}
+\caption{\label{fig:tf-plot2}\emph{Funnel plot} creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz} usando el método de recorte y relleno (\emph{trim and fill}). En negro los estudios meta-analizados; en blanco, los estudios \emph{rellenados}.}
 \end{figure}
 
 \hypertarget{estimaciuxf3n-del-modelo-de-funciuxf3n-de-peso}{%
@@ -1057,17 +1057,17 @@ p-values <0.025              9
                 \end{footnotesize}
                 \end{ROut}
 
-El modelo tradicional nos da un estimado muy similar al des estudio original (0.1486), dado que usa un método ligeramente diferente.
+El modelo tradicional nos da un estimado muy similar (pero no idéntico) al del estudio original (0.1486), dado que usa un método ligeramente diferente.
 
-Nos da valores de heterogeneidad \(\tau^2\), \(\tau\) y \(Q\).
+Como antes, también nos da valores de heterogeneidad \(\tau^2\), \(\tau\) y \(Q\).
 
 Pero lo más importante, es que nos da los resultado del meta-análisis, ajustando los pesos dados a cada efecto, de cada estudio meta-analizado.
 
-Lo que esta función hace es lo que se conoce como \emph{selection models} (modelos de selección). Básicamente, da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores \(p\) (ver SESGO DE PUBLICACIÓN); estudios con valores \(p\) mayores a 0.05 (o 0.10), tienen menos probabilidad de ser publicados que estudios con \(p < 0.05\).
+Lo que esta función hace es lo que se conoce como \emph{selection models} (modelos de selección). Básicamente, da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores \(p\) (\protect\hyperlink{ref-coburnPublicationBiasFunction2015}{Coburn \& Vevea, 2015}; para una descripción sencilla y general, ver por ejemplo \protect\hyperlink{ref-SesgoPublicacion2008}{{``{Acerca del sesgo de publicación en literatura sobre antidepresivos},''} 2008}) publicados que estudios con \(p < 0.05\).
 
 La función \texttt{weightfunct} incrementa el peso de estudios que tienen menos probabilidad de ser publicados, y reduce el peso de estudios con mayor probabilidad de ser publicados. Por esto, al usar ésta técnica, estás asumiendo que de hecho, en el efecto que tratas de encontrar en tu meta-análisis, de hecho hay un sesgo de publicación, lo que a menudo es una suposición bastante justa.
 
-Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el meta-análisis original nos daba como resultado un efecto de \textasciitilde0.15, esta técnica nos estima un efecto de \textasciitilde0.09. Básicamente, a \emph{encogido} nuestro tamaño de efecto.
+Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el meta-análisis original nos daba como resultado un efecto de \textasciitilde0.15, esta técnica nos estima un efecto de \textasciitilde0.09. Básicamente, ha \emph{encogido} nuestro tamaño de efecto.
 
 Al final el \emph{Likelihood ratio test} (algo así como ``Prueba de cociente de probabilidades''), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí basándose en la relación de su verosimilitud. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
 
@@ -1080,10 +1080,10 @@ Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es 
 
 \textcolor{red}{La meta-regresión desempeña un papel fundamental en la consideración de los efectos de las covariables, especialmente en presencia de variables categóricas que pueden utilizarse para el análisis de subgrupos.}
 
-\hypertarget{ejemplo-1-moderaciuxf3n-de-la-edad-promedio-de-los-participantes}{%
-\subsection{Ejemplo 1: Moderación de la edad promedio de los participantes}\label{ejemplo-1-moderaciuxf3n-de-la-edad-promedio-de-los-participantes}}
+\hypertarget{ex.mod1}{%
+\subsection{Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes)}\label{ex.mod1}}
 
-Primero, y como ejemplo, vamos a ver si la edad (en nuestros datos, \texttt{meanage}) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios\footnote{De hecho, mientras que en el estudio de Axelsson et al.~(2009) la edad promedio fue de 22, en el estudio de Jerant et al.~(2011) la edad promedio fue de 78.6.}, lo que podría moderar (afectar) la asociación entre concienciación (\emph{conscientiousness}) y adherencia a la medicación prescrita.
+Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, \texttt{meanage}) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios\footnote{De hecho, mientras que en el estudio de Axelsson et al.~(2009) la edad promedio fue de 22, en el estudio de Jerant et al.~(2011) la edad promedio fue de 78.6.}, lo que podría moderar (afectar) la asociación entre concienciación (\emph{conscientiousness}) y adherencia a la medicación prescrita.
 
 Para esto, de nuevo podemos usar la función \texttt{rma} de paquete \texttt{metafor} y de la misma manera que en la sección \ref{meta-cor}, pero agregando nuestra variable moderadora (\texttt{meanage}) al argumento \texttt{mods}. En este caso voy a asignar a un objeto llamado \texttt{res.modage}, para diferenciarlo del objeto \texttt{res} al que asigné el meta-análisis básico, sin moderadores.
 
@@ -1120,7 +1120,7 @@ QM(df = 1) = 1.4286, p-val = 0.2320
 
 Model Results:
 
-         estimate      se     zval    pval    ci.lb   ci.ub 
+         estimate      se     zval    pval    ci.lb   ci.ub   <U+200B> 
 intrcpt    0.2741  0.1090   2.5147  0.0119   0.0605  0.4877  * 
 meanage   -0.0024  0.0020  -1.1952  0.2320  -0.0063  0.0015    
 
@@ -1130,12 +1130,89 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
                 \end{footnotesize}
                 \end{ROut}
 
-Los resultados, que tienen la misma organización que los del análisis sin moderadores (sección \ref{meta-cor}) resultado nos muestra que, a pesar de la gran diferencia de edad entre estudios, la edad no tiene un efecto significativo, como se puede ver en la sección ``\texttt{Test\ of\ Moderators\ (coefficient\ 2)}'' (al final nos muestra el valor \emph{p} como ``\texttt{p-val =  0.2320}''), así como los resultados para el efecto de \texttt{meanage} en la tabla \texttt{Model\ Results} (donde nos da el mismo resultado: ``\texttt{0.2320}'').
+Los resultados, que tienen la misma organización que los del análisis sin moderadores (sección \ref{meta-cor}). Este resultado nos muestra que, a pesar de la gran diferencia de edad entre estudios, la edad no tiene un efecto significativo, como se puede ver en la sección ``\texttt{Test\ of\ Moderators\ (coefficient\ 2)}'' (al final nos muestra el valor \emph{p} como ``\texttt{p-val =  0.2320}''), así como los resultados para el efecto de \texttt{meanage} en la tabla \texttt{Model\ Results} (donde nos da el mismo resultado: ``\texttt{0.2320}'').
+
+\hypertarget{pred-mods}{%
+\subsubsection{Más información e interpretación de la moderación}\label{pred-mods}}
+
+Para más información, podemos \emph{predecir} el efecto (en este caso, la correlación entre la concienciación y la adherencia a la medicación), a diferentes edades, usando la función \texttt{predict}.
+
+En este ejemplo, como argumentos de esta función incluiré el objeto que contiene el meta-análisis con la edad como variable moderadora (\texttt{res.modage}), y los los valores para los cuales quiero saber el coeficiente de correlación predicho (argumento \texttt{newmods}); en este ejemplo voy a usar ``\texttt{seq(20,\ 80,\ by\ =\ 10)}'', lo que produce la secuencia de números de 20 a 80, cada 10 (es decir: \textbf{20}, \textbf{30}, \textbf{40}, \textbf{50}, \textbf{60}, \textbf{70}, \textbf{80}), que serán las edades para las cuales obtendré el coeficiente de correlación estimado por el modelo\footnote{Escogí edades entre 20 y 80 como referencia, pues están cerca al rango de valores de de las edades promedio de los estudios meta-analizados (22 a 78.6), y con edades cada 10 años, para obtener un número manejable pero informativo de predicciones.}.
+
+Adicionalmente, voy a convertir esta tabla a un objeto clase \texttt{data.frame} (\texttt{as.data.frame()}), crearé una nueva variable llamada \texttt{meanage} que contiene las edades para las cuales he calculado la predicción (\texttt{mutate(meanageage\ =\ seq(20,\ 80,\ by\ =\ 10))}\footnote{Para agregar los valores de la variable moderadora para los cuales se hace la predicción, alternativamente se puede agregar el argumento \texttt{addx\ =\ TRUE} a la función \texttt{predict} (en este caso, por ejemplo, \texttt{predict(res.modage,\ newmods\ =\ seq(20,\ 80,\ by\ =\ 10),\ addx\ =\ TRUE)}). Sin embargo, para evitar crear columnas adicionales y tener una tabla en un formato más sencillo y claro, he decidido crear la columna \texttt{meanage} manualmente. Si usara el argumento \texttt{addx\ =\ TRUE}, crearía las columnas \texttt{X.intrcpt} con el intercepto, y \texttt{X.meanage}con los valores de \texttt{meanage}.}), y reorganizado el orden de las columnas (\texttt{select(7,\ 1:6)}). Asignaré esta tabla a un objeto llamado \texttt{pred.res.modage}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calcular efecto ajustado para diferentes edades}
+\NormalTok{pred.res.modage }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.modage, }\AttributeTok{newmods =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{as.data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{meanage =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{)}
+\CommentTok{\# Ver la tabla}
+\NormalTok{pred.res.modage}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
+                \begin{verbatim}   meanage       pred         se       ci.lb     ci.ub        pi.lb     pi.ub
+1      20 0.22601916 0.07127543  0.08632189 0.3657164  0.009206504 0.4428318
+2      30 0.20199184 0.05378900  0.09656735 0.3074163  0.005505903 0.3984778
+3      40 0.17796453 0.03891725  0.10168811 0.2542409 -0.004547093 0.3604761
+4      50 0.15393721 0.03072582  0.09371572 0.2141587 -0.022468650 0.3303431
+5      60 0.12990990 0.03437769  0.06253086 0.1972889 -0.049065895 0.3088857
+6      70 0.10588258 0.04719960  0.01337307 0.1983921 -0.083986872 0.2957520
+7      80 0.08185527 0.06389057 -0.04336795 0.2070785 -0.125926480 0.2896370
+ \end{verbatim}
+                \end{footnotesize}
+                \end{ROut}
+
+Con esto, el objeto \texttt{pred.res.modage}, al que he asignado esta predicción, tiene las siguientes columnas:
+
+\begin{itemize}
+\item
+  \textbf{\texttt{meanage}}: edad promedio de los participantes de los estudios metaanalizados
+\item
+  \textbf{\texttt{pred}}: valor del efecto predicho (en este caso, coeficiente de correlación transformado en \emph{z} de Fisher), para cada edad promedio
+\item
+  \textbf{\texttt{se}} (\emph{standard error}): error estándar del efecto predicho
+\item
+  \textbf{\texttt{ci.lb}} (\emph{confidence interval lower bound}): límite inferior del intervalo de confianza al 95\% del efecto predicho
+\item
+  \textbf{\texttt{ci.ub}} (\emph{confidence interval upper bound}): límite superior del intervalo de confianza al 95\% del efecto predicho
+\item
+  \textbf{\texttt{pi.lb}} (\emph{prediction interval lower bound}): límite inferior del intervalo de predicción, y
+\item
+  \textbf{\texttt{pi.ub}} (\emph{prediction interval upper bound}): límite superior del intervalo de predicción
+\end{itemize}
+
+Las columnas \texttt{age} (edad) y \texttt{pred} (efecto predicho), me muestran que para estudios donde los participantes son más jóvenes en promedio, se esperaría una correlación más fuerte; por ejemplo, mientras que para estudios con personas de 20 años de edad en promedio se esperaría una correlación de \emph{z} = 0.226, para estudios participantes con una edad promedio de 80 años, el modelo estima un efecto de \emph{z} = 0.082. En otras palabras, en nuestra muestra de estudios, la asociación entre concienciación y adherencia a la medicación tiende a reducirse ligeramente con la edad promedio de la muestra.
+
+Sin embargo, este efecto moderador de la edad \underline{no es significativo}, por lo que no tenemos evidencia suficiente que nos sugiera que es real, más allá de nuestra muestra de estudios.
+
+\hypertarget{meta-analytic-scatter-plot-gruxe1fico-de-dispersiuxf3n-meta-analuxedtico}{%
+\paragraph{\texorpdfstring{\emph{Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{Meta-Analytic Scatter Plot (Gráfico de dispersión meta-analítico)}}\label{meta-analytic-scatter-plot-gruxe1fico-de-dispersiuxf3n-meta-analuxedtico}}
+
+Alternativamente, cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función \texttt{regplot} hace precisamente esto (Fig. \ref{fig:reg-plot1}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{regplot}\NormalTok{(res.modage,}
+        \AttributeTok{ylab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
+        \AttributeTok{xlab =} \StringTok{"Edad promedio del estudio"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/reg-plot1-1.pdf}
+\caption{\label{fig:reg-plot1}Gráfico de dispersión meta-analítico (\emph{Meta-Analytic Scatter Plot}). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \texttt{meanage}, edad promedio), que por supuesto coincide con las predicciones del objeto \texttt{pred.res.modage} (Output 11, en la sección \ref{pred-mods}); la banda gris demilimata por líneas punteadas representa el intervalo de confianza del 95\%.}
+\end{figure}
 
 \hypertarget{plot-mod}{%
 \subsubsection{\texorpdfstring{\emph{Forest plot} y \emph{funnel plot}}{Forest plot y funnel plot}}\label{plot-mod}}
 
-Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \emph{funnel plots}, siguiendo los ejemplos y código de la sección \ref{meta-cor}. Para el \emph{forest plot}, hago a continuación un ejemplo anotado y mejorado (Fig. \ref{fig:for-plot-mod1}, con un código similar al usado como ejemplo en la Fig. \ref{fig:for-plot2}). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto \emph{real} como producto del meta-análisis.
+Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \emph{funnel plots}, siguiendo los ejemplos y código de la sección \ref{meta-cor}. Para el \emph{forest plot}, hago a continuación un ejemplo anotado y mejorado\footnote{La función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-forest-plots-with-function-viz_forest}{\texttt{viz\_forest}} del paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} no puede crear un \emph{forest plot} de un meta-análisis ajustado con \texttt{metafor} cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, solo podrá hacer el \emph{forest plot} si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.} (Fig. \ref{fig:for-plot-mod1}, con un código similar al usado como ejemplo en la Fig. \ref{fig:for-plot2}). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto \emph{real} como producto del meta-análisis.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1160,8 +1237,6 @@ Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \em
 \caption{\label{fig:for-plot-mod1}Forest plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo la edad promedio de los participantes como moderador. En la ilustración gráfica, además de los efectos originales, se puede ver el efecto de cada estudio estimado cuando se incluye el moderador como polígonos (diamantes) de color gris. Sin embargo, ya no obtenemos una fila al final representando el efecto promediado del meta-análisis, ya que no tenemos un solo efecto.}
 \end{figure}
 
-Es importante tener en cuenta que la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-forest-plots-with-function-viz_forest}{\texttt{viz\_forest}} del paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} tendrá problemas para crear un \emph{forest plot} de un meta-análisis con moderadores).
-
 De manera similar, podemos obtener un \emph{funnel plot} de nuestro meta-análisis con moderador. Es importante tener en cuenta que tanto el paquete \texttt{weightr} como el paquete \texttt{metafor} tienen funciones llamadas \texttt{funnel}. Dado que cargamos el paquete \texttt{weightr} después, R por defecto intentará intentará crear el \emph{funnel plot} con la función \texttt{funnel} del paquete \texttt{weightr}, en vez de la función \texttt{funnel} del paquete \texttt{metafor}. Para evitar este error, tenemos dos opciones: podemos pedirle a R explícitamente que use la función \texttt{funnel} del paquete \texttt{metafor} con el comando \texttt{metafor::funnel}, o podemos pedirle a R que elimine el paquete de la memoria con la función \texttt{detach("package:metameta",\ unload\ =\ TRUE)}. En este caso, usaré la primera opción.
 
 Este \emph{funnel plot}, a diferencia los los anteriores, nos mostrará los valores residuales de cada estudio (es decir, qué tanto se alejan del resultado de nuestro meta-análisis, que tiene un valor residual de 0; Fig. \ref{fig:funnel-plot1}), en vez de los coeficientes de correlación (transformados a \(z\) de Fisher).
@@ -1180,54 +1255,8 @@ Este \emph{funnel plot}, a diferencia los los anteriores, nos mostrará los valo
 \caption{\label{fig:funnel-plot-mod1}Funnel plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo la edad promedio de los participantes como moderador, y con títulos de los ejes en español. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. \textbf{Nota}: Para evitar confunción entre las funciones \texttt{funnel} de los paquetes \texttt{weightr} y \texttt{metafor}, en este caso he usado el comando \texttt{metafor::funnel} para pedirle a R explícitamente que use la función \texttt{funnel} del paquete \texttt{metafor}.}
 \end{figure}
 
-\hypertarget{meta-analytic-scatter-plot-gruxe1fico-de-dispersiuxf3n-meta-analuxedtico}{%
-\subsubsection{\texorpdfstring{\emph{Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{Meta-Analytic Scatter Plot (Gráfico de dispersión meta-analítico)}}\label{meta-analytic-scatter-plot-gruxe1fico-de-dispersiuxf3n-meta-analuxedtico}}
-
-Cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función \texttt{regplot} hace precisamente esto (Fig. \ref{fig:reg-plot}).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{regplot}\NormalTok{(res.modage,}
-        \AttributeTok{ylab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
-        \AttributeTok{xlab =} \StringTok{"Edad promedio del estudio"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-\centering
-\includegraphics{Meta-analysis_files/figure-latex/reg-plot-1.pdf}
-\caption{\label{fig:reg-plot}Gráfico de dispersión meta-analítico (\emph{Meta-Analytic Scatter Plot}). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso). La línea negra representa el efecto previsto en función del predictor (en este caso \texttt{age}, edad) con intervalo de confianza del 95\%.}
-\end{figure}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Calcular efecto ajustado para diferentes edades}
-\NormalTok{pred.res.modage }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.modage, }\AttributeTok{newmods =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{meanage =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{select}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{)}
-\NormalTok{pred.res.modage}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{ROut}{Consola de R: Output~\thetcbcounter}
-                \begin{footnotesize}
-                \begin{verbatim} # A tibble: 7 x 7
-     cr.lb   pred     se   ci.lb ci.ub    pi.lb pi.ub
-     <dbl>  <dbl>  <dbl>   <dbl> <dbl>    <dbl> <dbl>
-1  0.00921 0.226  0.0713  0.0863 0.366  0.00921 0.443
-2  0.00551 0.202  0.0538  0.0966 0.307  0.00551 0.398
-3 -0.00455 0.178  0.0389  0.102  0.254 -0.00455 0.360
-4 -0.0225  0.154  0.0307  0.0937 0.214 -0.0225  0.330
-5 -0.0491  0.130  0.0344  0.0625 0.197 -0.0491  0.309
-6 -0.0840  0.106  0.0472  0.0134 0.198 -0.0840  0.296
-7 -0.126   0.0819 0.0639 -0.0434 0.207 -0.126   0.290
- \end{verbatim}
-                \end{footnotesize}
-                \end{ROut}
-
-\hypertarget{ejemplo-2-moderaciuxf3n-de-las-controles-usados-en-cada-estudio-meta-analizado}{%
-\subsection{Ejemplo 2: Moderación de las controles usados en cada estudio meta-analizado}\label{ejemplo-2-moderaciuxf3n-de-las-controles-usados-en-cada-estudio-meta-analizado}}
+\hypertarget{ejemplo-2-moderaciuxf3n-de-una-variable-categuxf3rica-controles-usados-en-cada-estudio-meta-analizado}{%
+\subsection{Ejemplo 2: Moderación de una variable categórica (controles usados en cada estudio meta-analizado)}\label{ejemplo-2-moderaciuxf3n-de-una-variable-categuxf3rica-controles-usados-en-cada-estudio-meta-analizado}}
 
 Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre concienciación (\emph{conscientiousness}) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado \texttt{res.contr}.
 
@@ -1257,7 +1286,7 @@ QM(df = 1) = 20.1221, p-val < .0001
 
 Model Results:
 
-                  estimate      se     zval    pval    ci.lb    ci.ub 
+                  estimate      se     zval    pval    ci.lb    ci.ub     <U+200B> 
 intrcpt             0.1788  0.0208   8.6044  <.0001   0.1380   0.2195  *** 
 controlsmultiple   -0.1621  0.0361  -4.4858  <.0001  -0.2329  -0.0913  *** 
 
@@ -1267,6 +1296,36 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
                 \end{footnotesize}
                 \end{ROut}
 
+En éste caso, a diferencia del ejemplo de moderación anteriores, la variable moderadora (\texttt{controls}) sí tiene un efecto significativo, como se puede ver en la columna \texttt{pval} para el efecto de \texttt{controlsnone} (\textless0.001), y en los asteriscos que aparecen al final de esa fila (\texttt{***}).
+
+\hypertarget{pred-mods2}{%
+\subsubsection{Más información e interpretación de la moderación}\label{pred-mods2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pred.res.contr }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.contr, }\AttributeTok{newmods =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{as.data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{levels}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{controls)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{rename}\NormalTok{(}\AttributeTok{yi =}\NormalTok{ pred) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{)}
+\NormalTok{pred.res.contr}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
+                \begin{verbatim}   controls         yi         se       ci.lb      ci.ub       pi.lb      pi.ub
+1     none 0.17875537 0.02077498  0.13803716 0.21947359  0.13803524 0.21947551
+2 multiple 0.01666156 0.02956599 -0.04128671 0.07460983 -0.04128806 0.07461118
+ \end{verbatim}
+                \end{footnotesize}
+                \end{ROut}
+
+\hypertarget{meta-analytic-scatter-plot-gruxe1fico-de-dispersiuxf3n-meta-analuxedtico-1}{%
+\paragraph{\texorpdfstring{\emph{Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{Meta-Analytic Scatter Plot (Gráfico de dispersión meta-analítico)}}\label{meta-analytic-scatter-plot-gruxe1fico-de-dispersiuxf3n-meta-analuxedtico-1}}
+
+Al igual que en el ejemplo de meta-análisis con moderación de una variable continua (sección @ref(ex.mod1)), es posible hacer un gráfico de dispersión meta-analítico (\emph{meta-analytic scatter plot}) usando la función \texttt{regplot} del paquete \texttt{metafor}. Sin embargo, dado que la variable moderadora es categórica, el modelo genera variables \emph{dummy} asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningún control; 1 = múltiples controles). Por esto, en el ejemplo a continuación agregué a la descripción del eje \(X\) esta información.
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{regplot}\NormalTok{(res.contr,}
@@ -1275,44 +1334,62 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-27-1.pdf}
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/reg-plot2-1.pdf}
+\caption{\label{fig:reg-plot2}Gráfico de dispersión meta-analítico (\emph{Meta-Analytic Scatter Plot}) básico de \href{https://www.metafor-project.org/doku.php}{metafor} creado con la función \texttt{regplot}. El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \texttt{controls}, controles). La banda gris demilimata por líneas punteadas representa el intervalo de confianza del 95\%. Dado que la variable moderadora es categórica, el modelo genera variables \emph{dummy} asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningúun control; 1 = múltiples controles), tal y como se describe en el eje \emph{X}. Para una versión más apropiada, ver Fig. \ref{fig:reg-plot3}.}
+\end{figure}
+
+Aunque la figura \ref{fig:reg-plot2} presenta información correcta, tal vez no es la más adecuada ni la más clara cuando se trata de representar meta-análisis con moderadores categóricos. Por ejemplo, a pesar de que nuestro moderador es un factor (controles) con dos niveles (ninguno, múltiples), en el eje \(X\) se representa como una variable continua con valores entre 0 y 1, que además tiene valores intermedios (0.2, 2.4, 0.6, 0.8) que en nuestro caso no tienen sentido.
+
+Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versión más adecuada usando, por ejemplo, \texttt{ggplot2}. El código siguiente permite crear una figura bastante sofisticada usando éste paquete.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pred.res.contr }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.contr, }\AttributeTok{newmods =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{as\_tibble}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{levels}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{controls)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{rename}\NormalTok{(}\AttributeTok{yi =}\NormalTok{ pred) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{select}\NormalTok{(}\DecValTok{9}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{8}\NormalTok{)}
-
+\CommentTok{\# Definir base de datos, así como ejes X (controls) y Y (yi)}
 \FunctionTok{ggplot}\NormalTok{(dat, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ controls, }\AttributeTok{y =}\NormalTok{ yi)) }\SpecialCharTok{+}
+  \CommentTok{\# Agregar puntos para cada estudio, con tamaño y color según tamaño de muestra (ni)}
   \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{size =}\NormalTok{ ni, }\AttributeTok{color =}\NormalTok{ ni),}
              \AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_color\_viridis\_c}\NormalTok{(}\AttributeTok{option =} \StringTok{"inferno"}\NormalTok{, }\AttributeTok{guide =} \StringTok{"legend"}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\# Definir escala de colores}
+  \FunctionTok{scale\_colour\_gradient}\NormalTok{(}\AttributeTok{low =} \StringTok{"red"}\NormalTok{,}
+                        \AttributeTok{high =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\# Definir rango de tamaño de los puntos}
   \FunctionTok{scale\_size\_continuous}\NormalTok{(}\AttributeTok{range =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{10}\NormalTok{)) }\SpecialCharTok{+}
+  \CommentTok{\# Combinar leyendas de colores y tamaños de puntos en una sola leyenda}
   \FunctionTok{guides}\NormalTok{(}\AttributeTok{color =} \FunctionTok{guide\_legend}\NormalTok{(), }
          \AttributeTok{size =} \FunctionTok{guide\_legend}\NormalTok{()) }\SpecialCharTok{+}
+  \CommentTok{\# Traducir etiquetas del eje X en español}
   \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"none"} \OtherTok{=} \StringTok{"Ninguno"}\NormalTok{, }
                             \StringTok{"multiple"} \OtherTok{=} \StringTok{"Múltiples"}\NormalTok{)) }\SpecialCharTok{+}
+  \CommentTok{\# Cambiar títulos de ejes a español}
   \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Controles"}\NormalTok{, }
-       \AttributeTok{y =} \StringTok{" Coeficiente de correlación }\SpecialCharTok{\textbackslash{}n}\StringTok{ transformado en z de Fisher "}\NormalTok{) }\SpecialCharTok{+}
+       \AttributeTok{y =} \StringTok{"Coeficiente de correlación }\SpecialCharTok{\textbackslash{}n}\StringTok{transformado en z de Fisher "}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\# Agregar barras de error para cada categoría, con base en predicción hecha en sección 4.2.1}
   \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr,}
                 \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ ci.lb, }\AttributeTok{ymax =}\NormalTok{ ci.ub),}
                 \AttributeTok{width =} \FloatTok{0.1}\NormalTok{,}
                 \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\# Agregar puntos blancos representando predicción para cada categoría hecha en sección 4.2.1}
   \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr,}
              \AttributeTok{shape =} \DecValTok{21}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{,}
              \AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{color =} \StringTok{"Tamaño de muestra"}\NormalTok{,}
-       \AttributeTok{size =} \StringTok{"Tamaño de muestra"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
+  \CommentTok{\# Cambiar tptitulo de leyenda}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{color =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{,}
+       \AttributeTok{size =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-27-2.pdf}
+El código anterior puede verse algo confuso para quien no haya usado \texttt{ggplot2} antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación\footnote{Debido a sus enormes y numerosas posibilidades, \texttt{ggplot2} es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía, y posiblemente requeriría múltiples tutoriales independientes. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este \href{https://rpubs.com/anlope10/562981}{tutorial} (\protect\hyperlink{ref-lopezpenarandaTutorialGgplot22019}{López Peñaranda, 2019}) o ver este \href{https://youtu.be/BUzTAr_QqKs}{video} (\protect\hyperlink{ref-datademiaAprendeGgplot22018}{Datademia, 2018}).}. Este código produce la figura \ref{fig:reg-plot3}.
 
-En éste caso, a diferencia del ejemplo de moderación anteriores, la variable moderadora (\texttt{controls}) sí tiene un efecto significativo, como se puede ver en la columna \texttt{pval} para el efecto de \texttt{controlsnone} (\textless0.001), y en los asteriscos que aparecen al final de esa fila (\texttt{***}).
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/reg-plot3-1.pdf}
+\caption{\label{fig:reg-plot3}Gráfico de dispersión meta-analítico (\emph{Meta-Analytic Scatter Plot}) creado manualmente con \href{https://ggplot2.tidyverse.org/}{ggplot2} para hacer una mejor representación de un moderador categírico. Los puntos de colores representan el coeficiente de correlación en función de la presencia o ausencia de controles. El tamaño de los puntos es proporcional al tamaño de muestra de los estudios inluidos en el meta-análisis (puntos más grandes y azules para los estudios con mayor tamaño de muestra). Los puntos blancos superpuetos representan el efecto estimado para cada categoría, y las barras de error representan los intervalos de confianza del 95\%.}
+\end{figure}
+
+\hypertarget{plot-mod2}{%
+\subsubsection{\texorpdfstring{\emph{Forest plot} y \emph{funnel plot}}{Forest plot y funnel plot}}\label{plot-mod2}}
 
 Por supuesto, \emph{forest plots} y \emph{funnel plots} pueden ser creados, tal y como describí en la sección \ref{plot-mod}.
 
@@ -1490,7 +1567,7 @@ Acá he usado principalmente una ruta para hacer meta-análisis basada en el paq
 
 Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro \emph{Doing meta-analysis with R: a hands-on guide} (\protect\hyperlink{ref-harrer2021doing}{Harrer et al., 2021}) se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} (\protect\hyperlink{ref-Harrer2019dmetar}{Harrer et al., 2019}), que contiene opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}).
 
-De manera importante, los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), o \emph{p-curve} (curva de valores \(p\)), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
+De manera importante, los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), y \emph{p-curve} o curva de valores \(p\) (\protect\hyperlink{ref-simonsohnPCurveEffectSize2014}{Simonsohn et al., 2014}), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
 
 \hypertarget{citas-y-referencias-de-paquetes-de-r}{%
 \subsection*{Citas y referencias de paquetes de R}\label{citas-y-referencias-de-paquetes-de-r}}
@@ -1513,7 +1590,7 @@ To cite package 'dplyr' in publications use:
 
   Hadley Wickham, Romain François, Lionel Henry and Kirill Müller
   (2022). dplyr: A Grammar of Data Manipulation. R package version
-  1.0.8. https://CRAN.R-project.org/package=dplyr
+  1.0.9. https://CRAN.R-project.org/package=dplyr
 
 A BibTeX entry for LaTeX users is
 
@@ -1521,7 +1598,7 @@ A BibTeX entry for LaTeX users is
     title = {dplyr: A Grammar of Data Manipulation},
     author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
     year = {2022},
-    note = {R package version 1.0.8},
+    note = {R package version 1.0.9},
     url = {https://CRAN.R-project.org/package=dplyr},
   }
  \end{verbatim}
@@ -1536,6 +1613,9 @@ A BibTeX entry for LaTeX users is
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-SesgoPublicacion2008}{}}%
+{Acerca del sesgo de publicación en literatura sobre antidepresivos}. (2008). \emph{Revista Colombiana de Psiquiatría}, \emph{37}(1), 8--10. \url{http://ref.scielo.org/sp52pr}
+
 \leavevmode\vadjust pre{\hypertarget{ref-BalduzziMeta2019}{}}%
 Balduzzi, S., Rücker, G., \& Schwarzer, G. (2019). How to perform a meta-analysis with {R}: A practical tutorial. \emph{Evidence-Based Mental Health}, \emph{22}, 153--160. \url{https://doi.org/10.1136/ebmental-2019-300117}
 
@@ -1545,6 +1625,9 @@ Belsley, D. A., Kuh, E., \& Welsch, R. E. (1980). \emph{Regression {Diagnostics}
 \leavevmode\vadjust pre{\hypertarget{ref-borensteinIdentifyingQuantifyingHeterogeneity2009}{}}%
 Borenstein, M., Hedges, L. V., Higgns, J. P. T., \& Rothstein, H. R. (2009). Identifying and {Quantifying Heterogeneity}. In \emph{Introduction to {Meta}-{Analysis}} (pp. 107--125). Wiley. \url{https://doi.org/10.1002/9780470743386.ch16}
 
+\leavevmode\vadjust pre{\hypertarget{ref-coburnPublicationBiasFunction2015}{}}%
+Coburn, K. M., \& Vevea, J. L. (2015). Publication bias as a function of study characteristics. \emph{Psychological Methods}, \emph{20}(3), 310--330. \url{https://doi.org/10.1037/met0000046}
+
 \leavevmode\vadjust pre{\hypertarget{ref-coburnWeightr2019}{}}%
 Coburn, K. M., \& Vevea, J. L. (2019). \emph{Weightr: Estimating weight-function models for publication bias}. \url{https://CRAN.R-project.org/package=weightr}
 
@@ -1553,6 +1636,9 @@ Cook, R. D. (1977). Detection of {Influential Observation} in {Linear Regression
 
 \leavevmode\vadjust pre{\hypertarget{ref-cookResidualsInfluenceRegression1982}{}}%
 Cook, R. D., \& Weisberg, S. (1982). \emph{Residuals and {Influence} in {Regression}}. {New York: Chapman and Hall}. \url{https://hdl.handle.net/11299/37076}
+
+\leavevmode\vadjust pre{\hypertarget{ref-datademiaAprendeGgplot22018}{}}%
+Datademia. (2018). \emph{Aprende {Ggplot2} en {R} \emph{{[}video{]}}}. YouTube. \url{https://youtu.be/BUzTAr_QqKs}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-duvalTrimFillMethod2005}{}}%
 Duval, S. (2005). The {Trim} and {Fill Method}. In H. R. Rothstein, A. J. Sutton, \& M. Borenstein (Eds.), \emph{Publication {Bias} in {Meta-Analysis}} (pp. 127--144). {John Wiley \& Sons}. \url{https://doi.org/10.1002/0470870168.ch8}
@@ -1585,19 +1671,22 @@ John, O. P., \& Srivastava, S. (1999). The {Big Five Trait} taxonomy: {History},
 Kossmeier, M., Tran, U. S., \& Voracek, M. (2020). \emph{{metaviz: Forest Plots, Funnel Plots, and Visual Funnel Plot Inference for Meta-Analysis}}. \url{https://CRAN.R-project.org/package=metaviz}
 
 \leavevmode\vadjust pre{\hypertarget{ref-leongomezMetaanalysis2021}{}}%
-Leongómez, J. D. (2021). \emph{Hacer meta-análisis en jamovi es muy fácil}. {[}Video{]}. YouTube. \url{https://youtu.be/ntBbkOn9D_o}.
+Leongómez, J. D. (2021). \emph{Hacer meta-análisis en jamovi es muy fácil \emph{{[}video{]}}}. YouTube. \url{https://youtu.be/ntBbkOn9D_o}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-leongomezAnalisisPoderEstadistico2020}{}}%
 Leongómez, J. D. (2020a). \emph{Análisis de poder estadístico y cálculo de tamaño de muestra en {R}: {Guía} práctica}. {Zenodo}. \url{https://doi.org/10.5281/zenodo.3988776}
 
 \leavevmode\vadjust pre{\hypertarget{ref-leongomezPoderRvid2020}{}}%
-Leongómez, J. D. (2020b). \emph{Poder estadístico y tamaño de muestra en {R}}. {[}Serie de Videos{]}. YouTube. \url{https://youtube.com/playlist?list=PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}.
+Leongómez, J. D. (2020b). \emph{Poder estadístico y tamaño de muestra en {R} \emph{{[}serie de videos{]}}}. YouTube. \url{https://youtube.com/playlist?list=PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-lopezpenarandaTutorialGgplot22019}{}}%
+López Peñaranda, A. (2019). \emph{Tutorial de ggplot2}. RPubs. \url{https://rpubs.com/anlope10/562981}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-molloy2013}{}}%
 Molloy, G. J., O'Carroll, R. E., \& Ferguson, E. (2013). Conscientiousness and medication adherence: A meta-analysis. \emph{Annals of Behavioral Medicine}, \emph{47}(1), 92--101. \url{https://doi.org/10.1007/s12160-013-9524-4}
 
 \leavevmode\vadjust pre{\hypertarget{ref-quintanaHowPerformMetaanalysis2021}{}}%
-Quintana, D. S. (2021). \emph{{How to Perform a Meta-Analysis in R}}. {[}Video{]}. YouTube. \url{https://youtu.be/lH4VZMTEZSc}.
+Quintana, D. S. (2021). \emph{{How to Perform a Meta-Analysis in R} \emph{{[}video{]}}}. YouTube. \url{https://youtu.be/lH4VZMTEZSc}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-quintanaMetameta2022}{}}%
 Quintana, D. S. (2022). \emph{Metameta: A suite of tools to re-evaluate published meta-analyses}. \url{https://github.com/dsquintana/metameta}
@@ -1616,6 +1705,9 @@ Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015b). Small-{Study Effects} i
 
 \leavevmode\vadjust pre{\hypertarget{ref-sedgwickMetaanalysesWhatHeterogeneity2015}{}}%
 Sedgwick, P. (2015). Meta-analyses: What is heterogeneity? \emph{BMJ}, \emph{350}, h1435. \url{https://doi.org/10.1136/bmj.h1435}
+
+\leavevmode\vadjust pre{\hypertarget{ref-simonsohnPCurveEffectSize2014}{}}%
+Simonsohn, U., Nelson, L. D., \& Simmons, J. P. (2014). P-{Curve} and {Effect Size}: {Correcting} for {Publication Bias Using Only Significant Results}. \emph{Perspectives on Psychological Science}, \emph{9}(6), 666--681. \url{https://doi.org/10.1177/1745691614553988}
 
 \leavevmode\vadjust pre{\hypertarget{ref-sternePublicationRelatedBias2000}{}}%
 Sterne, J. A. C., Gavaghan, D., \& Egger, M. (2000). Publication and related bias in meta-analysis. \emph{Journal of Clinical Epidemiology}, \emph{53}(11), 1119--1129. \url{https://doi.org/10.1016/S0895-4356(00)00242-0}
