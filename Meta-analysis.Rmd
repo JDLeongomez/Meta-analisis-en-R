@@ -823,6 +823,83 @@ power.plot$fp_plot +
                               "es1"  = 1))
 ```
 
+## TODAS LAS COMBINACIONES POSIBLES
+
+Ver acá https://www.dsquintana.blog/combinatorial-meta-analysis/
+
+```{r}
+l_one <- leave1out(res)
+l_one
+```
+
+### combinatorial meta-analysis
+
+The number of analyses to be conducted can be calculated using the formula 2^k - 1, with k representing the number of studies. So for a meta-analysis with 16 studies, you will perform 65535 meta-analyses, that is 2^16 - 1.
+
+To visualise this enormous number of summary effect size estimates, we'll put together a Graphical Display of Study Heterogeneity (GOSH) plot, using the following script, but before running the script, I should warn you that this could take some time to create 65535 models (it took about 10 minutes on my 2015 MacBook Pro).
+
+```{r cache = TRUE}
+gp <- gosh(res)
+```
+
+Here's a visualisation of the summary effects of 65535 models (horizontal axis), plotted against the model's heterogeneity (vertical axis).
+
+```{r}
+plot(gp, breaks = 100,
+     labels = c("Coeficiente de correlación transformado en z de Fisher", 
+                expression(paste("I"^"2"))))
+```
+
+By extracting the list of effect sizes, it's straightforward to calculate the mean effect size, which is 0.15.
+
+```{r}
+mgosh <- gp$res
+mean_est <- mean(mgosh$estimate, na.rm = TRUE)
+```
+
+The effect sizes range from about 0.05 to 0.25, demonstrating how the choice of included studies influences the summary effect size estimate.
+
+Now let's see what happens when we add in some artificial outliers, using this script:
+
+```{r}
+dat_mo <- get(data(dat.molloy2014)) 
+dat_mo <- escalc(measure = "ZCOR", 
+                ri = ri, ni = ni, data = dat_mo)
+
+dat_mo[12,11] = 0.7 
+dat_mo[15,11] = 0.6 
+
+res_mo <- rma.uni(yi, vi, data=dat_mo) 
+
+forest(res_mo)
+```
+
+You can see the introduced outliers in the forest plot (studies 12 and 15).
+
+Now let's run the combinatorial meta-analysis and create a GOSH plot:
+
+```{r cache = TRUE}
+gp_mo <- gosh(res_mo)
+```
+
+Y el plot 
+
+```{r}
+plot(gp_mo, breaks = 100)
+```
+
+There is a clear cluster of large effect sizes with high heterogeneity in the top right of the plot. We can specifically highlight the meta-analysis models that included the potential outlier studies:
+
+```{r fig.cap = "Se puede ver en las distribuciones del eje X (distribuciones arriba) cómo los meta análisis que incluyen ese estudio tienden a arrojar estimados más fuertes para la asociación, sesgando el resultado hacia valores más extremos."}
+plot(gp_mo, out = 12, breaks = 100,
+     labels = c("Coeficiente de correlación transformado en z de Fisher", 
+                expression(paste("I"^"2"))))
+```
+
+There's a noticeable shift in the distribution of meta-analysis model summary effect size estimates that include study 12.
+
+Ultimately, combinatorial meta-analysis paired with GOSH plots demonstrate how your analysis choices influence your meta-analysis outcomes and conclusions.
+
 # Meta-análisis de correlación con moderador (meta-regresión) {#met-moderation}
 
 \textcolor{red}{Incluir moderadores en nuestro meta-análisis (i.e. hacer una meta-regresión), es una fusión de principios de regresión meta-analíticos y lineales, que sirva para explorar la heterogeneidad. Con esto, podemos saber si existe una asociación lineal entre el resultado de nuestro meta-análisis y una o más covariables.}

@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{22 junio, 2022}
+\date{28 junio, 2022}
 
 \begin{document}
 \maketitle
@@ -1251,6 +1251,162 @@ Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.pl
 \includegraphics{Meta-analysis_files/figure-latex/fire-plot2-1.pdf}
 \caption{\label{fig:fire-plot2}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis, con el texto traducido a español y con la leyenda en una escala discreta para facilitar su lectura. \emph{Observado} hace referencia al tamaño de efecto observado en nuestro meta-análisis original (en este caso, 0.15).}
 \end{figure}
+
+\hypertarget{todas-las-combinaciones-posibles}{%
+\subsection{TODAS LAS COMBINACIONES POSIBLES}\label{todas-las-combinaciones-posibles}}
+
+Ver acá \url{https://www.dsquintana.blog/combinatorial-meta-analysis/}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{l\_one }\OtherTok{\textless{}{-}} \FunctionTok{leave1out}\NormalTok{(res)}
+\NormalTok{l\_one}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
+                \begin{verbatim} 
+   estimate     se   zval   pval  ci.lb  ci.ub       Q     Qp   tau2      I2 
+1    0.1483 0.0336 4.4157 0.0000 0.0825 0.2142 37.7109 0.0006 0.0091 64.9684 
+2    0.1500 0.0354 4.2355 0.0000 0.0806 0.2194 36.7672 0.0008 0.0100 62.2717 
+3    0.1418 0.0315 4.5064 0.0000 0.0801 0.2035 35.3930 0.0013 0.0075 61.1741 
+4    0.1379 0.0308 4.4739 0.0000 0.0775 0.1984 33.5886 0.0024 0.0068 58.1050 
+5    0.1441 0.0323 4.4550 0.0000 0.0807 0.2075 36.5396 0.0009 0.0082 62.8995 
+6    0.1566 0.0326 4.8119 0.0000 0.0928 0.2205 37.1703 0.0007 0.0084 63.5769 
+7    0.1489 0.0342 4.3555 0.0000 0.0819 0.2160 37.6797 0.0006 0.0094 65.1901 
+8    0.1599 0.0334 4.7841 0.0000 0.0944 0.2254 36.1484 0.0010 0.0084 61.4011 
+9    0.1455 0.0324 4.4863 0.0000 0.0819 0.2091 37.0495 0.0007 0.0083 63.4803 
+10   0.1647 0.0291 5.6601 0.0000 0.1077 0.2218 25.0661 0.0339 0.0047 43.6587 
+11   0.1586 0.0317 5.0069 0.0000 0.0965 0.2207 35.6617 0.0012 0.0077 61.6732 
+12   0.1353 0.0296 4.5647 0.0000 0.0772 0.1934 31.9021 0.0041 0.0059 55.0102 
+13   0.1592 0.0324 4.9100 0.0000 0.0956 0.2227 36.3291 0.0009 0.0080 62.0683 
+14   0.1514 0.0353 4.2858 0.0000 0.0821 0.2206 37.7339 0.0006 0.0100 63.6942 
+15   0.1432 0.0330 4.3432 0.0000 0.0786 0.2078 35.8385 0.0011 0.0083 62.6114 
+16   0.1552 0.0329 4.7203 0.0000 0.0908 0.2196 37.7017 0.0006 0.0087 64.3368 
+       H2 
+1  2.8546 
+2  2.6505 
+3  2.5756 
+4  2.3869 
+5  2.6954 
+6  2.7455 
+7  2.8727 
+8  2.5907 
+9  2.7382 
+10 1.7749 
+11 2.6091 
+12 2.2227 
+13 2.6363 
+14 2.7544 
+15 2.6746 
+16 2.8040 
+ \end{verbatim}
+                \end{footnotesize}
+                \end{ROut}
+
+\hypertarget{combinatorial-meta-analysis}{%
+\subsubsection{combinatorial meta-analysis}\label{combinatorial-meta-analysis}}
+
+The number of analyses to be conducted can be calculated using the formula 2\^{}k - 1, with k representing the number of studies. So for a meta-analysis with 16 studies, you will perform 65535 meta-analyses, that is 2\^{}16 - 1.
+
+To visualise this enormous number of summary effect size estimates, we'll put together a Graphical Display of Study Heterogeneity (GOSH) plot, using the following script, but before running the script, I should warn you that this could take some time to create 65535 models (it took about 10 minutes on my 2015 MacBook Pro).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gp }\OtherTok{\textless{}{-}} \FunctionTok{gosh}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Fitting 65535 models (based on all possible subsets).
+\end{verbatim}
+
+Here's a visualisation of the summary effects of 65535 models (horizontal axis), plotted against the model's heterogeneity (vertical axis).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(gp, }\AttributeTok{breaks =} \DecValTok{100}\NormalTok{,}
+     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{, }
+                \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"I"}\SpecialCharTok{\^{}}\StringTok{"2"}\NormalTok{))))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-29-1.pdf}
+
+By extracting the list of effect sizes, it's straightforward to calculate the mean effect size, which is 0.15.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mgosh }\OtherTok{\textless{}{-}}\NormalTok{ gp}\SpecialCharTok{$}\NormalTok{res}
+\NormalTok{mean\_est }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(mgosh}\SpecialCharTok{$}\NormalTok{estimate, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The effect sizes range from about 0.05 to 0.25, demonstrating how the choice of included studies influences the summary effect size estimate.
+
+Now let's see what happens when we add in some artificial outliers, using this script:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dat\_mo }\OtherTok{\textless{}{-}} \FunctionTok{get}\NormalTok{(}\FunctionTok{data}\NormalTok{(dat.molloy2014)) }
+\NormalTok{dat\_mo }\OtherTok{\textless{}{-}} \FunctionTok{escalc}\NormalTok{(}\AttributeTok{measure =} \StringTok{"ZCOR"}\NormalTok{, }
+                \AttributeTok{ri =}\NormalTok{ ri, }\AttributeTok{ni =}\NormalTok{ ni, }\AttributeTok{data =}\NormalTok{ dat\_mo)}
+
+\NormalTok{dat\_mo[}\DecValTok{12}\NormalTok{,}\DecValTok{11}\NormalTok{] }\OtherTok{=} \FloatTok{0.7} 
+\NormalTok{dat\_mo[}\DecValTok{15}\NormalTok{,}\DecValTok{11}\NormalTok{] }\OtherTok{=} \FloatTok{0.6} 
+
+\NormalTok{res\_mo }\OtherTok{\textless{}{-}} \FunctionTok{rma.uni}\NormalTok{(yi, vi, }\AttributeTok{data=}\NormalTok{dat\_mo) }
+
+\FunctionTok{forest}\NormalTok{(res\_mo)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-31-1.pdf}
+
+You can see the introduced outliers in the forest plot (studies 12 and 15).
+
+Now let's run the combinatorial meta-analysis and create a GOSH plot:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gp\_mo }\OtherTok{\textless{}{-}} \FunctionTok{gosh}\NormalTok{(res\_mo)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Fitting 65535 models (based on all possible subsets).
+\end{verbatim}
+
+Y el plot
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(gp\_mo, }\AttributeTok{breaks =} \DecValTok{100}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-33-1.pdf}
+
+There is a clear cluster of large effect sizes with high heterogeneity in the top right of the plot. We can specifically highlight the meta-analysis models that included the potential outlier studies:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(gp\_mo, }\AttributeTok{out =} \DecValTok{12}\NormalTok{, }\AttributeTok{breaks =} \DecValTok{100}\NormalTok{,}
+     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{, }
+                \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"I"}\SpecialCharTok{\^{}}\StringTok{"2"}\NormalTok{))))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-34-1.pdf}
+\caption{\label{fig:unnamed-chunk-34}Se puede ver en las distribuciones del eje X (distribuciones arriba) cómo los meta análisis que incluyen ese estudio tienden a arrojar estimados más fuertes para la asociación, sesgando el resultado hacia valores más extremos.}
+\end{figure}
+
+There's a noticeable shift in the distribution of meta-analysis model summary effect size estimates that include study 12.
+
+Ultimately, combinatorial meta-analysis paired with GOSH plots demonstrate how your analysis choices influence your meta-analysis outcomes and conclusions.
 
 \hypertarget{met-moderation}{%
 \section{Meta-análisis de correlación con moderador (meta-regresión)}\label{met-moderation}}
