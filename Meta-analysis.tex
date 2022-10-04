@@ -34,18 +34,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Meta-análisis de correlaciones y meta-regresión en R:},
-  pdfauthor={Juan David Leongómez },
-  colorlinks=true,
-  linkcolor={iacoldark},
-  filecolor={Maroon},
-  citecolor={Blue},
-  urlcolor={blue},
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=2cm]{geometry}
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -155,6 +143,18 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Meta-análisis de correlaciones y meta-regresión en R:},
+  pdfauthor={Juan David Leongómez },
+  colorlinks=true,
+  linkcolor={iacoldark},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={blue},
+  pdfcreator={LaTeX via pandoc}}
 
 \title{Meta-análisis de correlaciones y meta-regresión en R:}
 \usepackage{etoolbox}
@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{28 junio, 2022}
+\date{04 octubre, 2022}
 
 \begin{document}
 \maketitle
@@ -299,15 +299,15 @@ Voy a volver a cargar la base de datos (sobrescribiendo el objeto \texttt{dat}),
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{get}\NormalTok{(}\FunctionTok{data}\NormalTok{(dat.molloy2014)) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{study\_id =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{)  }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\#crear columna study\_id y agregar número del 1 al 16}
-  \FunctionTok{select}\NormalTok{(study\_id, authors}\SpecialCharTok{:}\NormalTok{quality) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\#mover study\_id como primera columna}
+\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{get}\NormalTok{(}\FunctionTok{data}\NormalTok{(dat.molloy2014)) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{study\_id =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{)  }\SpecialCharTok{|\textgreater{}} \CommentTok{\#crear columna study\_id y agregar número del 1 al 16}
+  \FunctionTok{select}\NormalTok{(study\_id, authors}\SpecialCharTok{:}\NormalTok{quality) }\SpecialCharTok{|\textgreater{}} \CommentTok{\#mover study\_id como primera columna}
   \FunctionTok{mutate\_at}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"controls"}\NormalTok{, }\CommentTok{\# Transformar variables en factores}
               \StringTok{"design"}\NormalTok{,}
               \StringTok{"a\_measure"}\NormalTok{,}
               \StringTok{"c\_measure"}\NormalTok{,}
               \StringTok{"quality"}\NormalTok{), }
-\NormalTok{            as.factor) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{            as.factor) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{fct\_relevel}\NormalTok{(controls, }\StringTok{"none"}\NormalTok{, }\StringTok{"multiple"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -444,7 +444,7 @@ Q(df = 15) = 38.1595, p-val = 0.0009
 
 Model Results:
 
-estimate      se    zval    pval   ci.lb   ci.ub     <U+200B> 
+estimate      se    zval    pval   ci.lb   ci.ub      
   0.1499  0.0316  4.7501  <.0001  0.0881  0.2118  *** 
 
 ---
@@ -947,7 +947,7 @@ Q(df = 17) = 46.3990, p-val = 0.0002
 
 Model Results:
 
-estimate      se    zval    pval   ci.lb   ci.ub     <U+200B> 
+estimate      se    zval    pval   ci.lb   ci.ub      
   0.1288  0.0333  3.8628  0.0001  0.0635  0.1942  *** 
 
 ---
@@ -1112,8 +1112,8 @@ En este caso, voy a asumir un \emph{efecto real} de \(r = 0.15\), tal como en nu
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat.power }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(dat) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{select}\NormalTok{(yi, ci.lb, ci.ub) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{dat.power }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(dat) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{select}\NormalTok{(yi, ci.lb, ci.ub) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{rename}\NormalTok{(}\AttributeTok{lower =}\NormalTok{ ci.lb, }\AttributeTok{upper =}\NormalTok{ ci.ub)}
 
 \NormalTok{power }\OtherTok{\textless{}{-}} \FunctionTok{mapower\_ul}\NormalTok{(}\AttributeTok{dat =}\NormalTok{ dat.power, }\AttributeTok{observed\_es =} \FloatTok{0.15}\NormalTok{, }\AttributeTok{name =} \StringTok{"Molloy et al. 2014"}\NormalTok{)}
@@ -1455,7 +1455,7 @@ QM(df = 1) = 1.4286, p-val = 0.2320
 
 Model Results:
 
-         estimate      se     zval    pval    ci.lb   ci.ub   <U+200B> 
+         estimate      se     zval    pval    ci.lb   ci.ub    
 intrcpt    0.2741  0.1090   2.5147  0.0119   0.0605  0.4877  * 
 meanage   -0.0024  0.0020  -1.1952  0.2320  -0.0063  0.0015    
 
@@ -1479,10 +1479,10 @@ Adicionalmente, voy a convertir esta tabla a un objeto clase \texttt{data.frame}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Calcular efecto ajustado para diferentes edades}
-\NormalTok{pred.res.modage }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.modage, }\AttributeTok{newmods =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{as.data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{mutate\_all}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(., }\DecValTok{3}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{meanage =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{pred.res.modage }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.modage, }\AttributeTok{newmods =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{as.data.frame}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate\_all}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(., }\DecValTok{3}\NormalTok{)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{meanage =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{select}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{)}
 \CommentTok{\# Ver la tabla}
 \NormalTok{pred.res.modage}
@@ -1622,7 +1622,7 @@ QM(df = 1) = 20.1221, p-val < .0001
 
 Model Results:
 
-                  estimate      se     zval    pval    ci.lb    ci.ub     <U+200B> 
+                  estimate      se     zval    pval    ci.lb    ci.ub      
 intrcpt             0.1788  0.0208   8.6044  <.0001   0.1380   0.2195  *** 
 controlsmultiple   -0.1621  0.0361  -4.4858  <.0001  -0.2329  -0.0913  *** 
 
@@ -1639,11 +1639,11 @@ En éste caso, a diferencia del ejemplo de moderación anteriores, la variable m
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pred.res.contr }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.contr, }\AttributeTok{newmods =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{as.data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{mutate\_all}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(., }\DecValTok{3}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{levels}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{controls)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{rename}\NormalTok{(}\AttributeTok{yi =}\NormalTok{ pred) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{pred.res.contr }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.contr, }\AttributeTok{newmods =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{as.data.frame}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate\_all}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(., }\DecValTok{3}\NormalTok{)) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{levels}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{controls)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{rename}\NormalTok{(}\AttributeTok{yi =}\NormalTok{ pred) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{select}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{)}
 \NormalTok{pred.res.contr}
 \end{Highlighting}
@@ -1765,9 +1765,9 @@ Por ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamD
                 \begin{verbatim} 
 To cite package 'dplyr' in publications use:
 
-  Hadley Wickham, Romain François, Lionel Henry and Kirill Müller
-  (2022). dplyr: A Grammar of Data Manipulation. R package version
-  1.0.9. https://CRAN.R-project.org/package=dplyr
+  Wickham H, François R, Henry L, Müller K (2022). _dplyr: A Grammar of
+  Data Manipulation_. R package version 1.0.10,
+  <https://CRAN.R-project.org/package=dplyr>.
 
 A BibTeX entry for LaTeX users is
 
@@ -1775,7 +1775,7 @@ A BibTeX entry for LaTeX users is
     title = {dplyr: A Grammar of Data Manipulation},
     author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
     year = {2022},
-    note = {R package version 1.0.9},
+    note = {R package version 1.0.10},
     url = {https://CRAN.R-project.org/package=dplyr},
   }
  \end{verbatim}

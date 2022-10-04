@@ -175,15 +175,15 @@ Por supuesto, la salida de la consola no es la más clara, pero para una versió
 Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. A continuación, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna. Finalmente, las columnas de variables que son factores (`controls`, `design`, `a_measure`, `c_measure` y `quality`), pueden ser definidas como tal, para evitar pasos adicionales más adelante. En este caso, .
 
 ```{r molloy2014}
-dat <- get(data(dat.molloy2014)) %>%
-  mutate(study_id = 1:16)  %>% #crear columna study_id y agregar número del 1 al 16
-  select(study_id, authors:quality) %>% #mover study_id como primera columna
+dat <- get(data(dat.molloy2014)) |>
+  mutate(study_id = 1:16)  |> #crear columna study_id y agregar número del 1 al 16
+  select(study_id, authors:quality) |> #mover study_id como primera columna
   mutate_at(c("controls", # Transformar variables en factores
               "design",
               "a_measure",
               "c_measure",
               "quality"), 
-            as.factor) %>% 
+            as.factor) |> 
   mutate(controls = fct_relevel(controls, "none", "multiple"))
 ```
 
@@ -193,8 +193,8 @@ Con esto, la base de datos tiene ahora la siguiente estructura (Tabla \@ref(tab:
 kable(dat, 
       linesep = "",
       booktabs = TRUE,
-      caption = "Estructura de la base de datos con estudios numerados") %>% 
-  kable_styling(latex_options = c("HOLD_position", "scale_down")) %>% 
+      caption = "Estructura de la base de datos con estudios numerados") |> 
+  kable_styling(latex_options = c("HOLD_position", "scale_down")) |> 
   footnote(general = "Datos tomados de Molloy et al. (2013).",
            general_title = "Nota:",
            footnote_as_chunk = TRUE)
@@ -234,14 +234,14 @@ Esta función agrega dos nuevas variables: `yi`, que es el tamaño de efecto (en
 kable(dat, 
       linesep = "",
       booktabs = TRUE,
-      caption = "Estructura de la base de datos, con transformación de los r de Pearon a z de Fisher") %>% 
-  kable_styling(latex_options = c("HOLD_position", "scale_down")) %>% 
+      caption = "Estructura de la base de datos, con transformación de los r de Pearon a z de Fisher") |> 
+  kable_styling(latex_options = c("HOLD_position", "scale_down")) |> 
   footnote(general = "Las nuevas columnas creadas usando la función \\\\texttt{escalc} 
            (\\\\texttt{yi} como tamaño de efecto y \\\\texttt{vi} como varianza) están 
            resaltadas en naranja",
            general_title = "Nota:",
            footnote_as_chunk = TRUE,
-           escape = FALSE) %>% 
+           escape = FALSE) |> 
   column_spec(12:13, background = "#f68212")
 ```
 
@@ -337,7 +337,7 @@ library(tidyquant)
 
 rVsz <- tibble(r = c(seq(-0.999, -0.901, by = 0.001), 
                      seq(-0.9, 0.9, by = 0.01), 
-                     seq(0.901, 0.999, by = 0.001))) %>%
+                     seq(0.901, 0.999, by = 0.001))) |>
   mutate(z = atanh(r))
   
 ggplot(rVsz, aes(x = r, y = z)) +
@@ -769,8 +769,8 @@ Como datos, necesitamos no solamente los tamaños de efecto a meta-analizar ($r$
 En este caso, voy a asumir un *efecto real* de $r = 0.15$, tal como en nuestro meta-análisis original. Sin embargo, el *efecto real* no es algo que podamos saber (es, de hecho, lo que queremos acercarnos a conocer a través del meta-análisis), así que la función `mapower_ul` del paquete `metameta` calcula el poder de cada meta-análisis para un rango de posibles efectos reales.
 
 ```{r}
-dat.power <- summary(dat) %>%
-  select(yi, ci.lb, ci.ub) %>%
+dat.power <- summary(dat) |>
+  select(yi, ci.lb, ci.ub) |>
   rename(lower = ci.lb, upper = ci.ub)
 
 power <- mapower_ul(dat = dat.power, observed_es = 0.15, name = "Molloy et al. 2014")
@@ -940,10 +940,10 @@ Adicionalmente, voy a convertir esta tabla a un objeto clase `data.frame` (`as.d
 
 ```{r pred-mod1}
 # Calcular efecto ajustado para diferentes edades
-pred.res.modage <- predict(res.modage, newmods = seq(20, 80, by = 10)) %>% 
-  as.data.frame() %>% 
-  mutate_all(~round(., 3)) %>% 
-  mutate(meanage = seq(20, 80, by = 10)) %>% 
+pred.res.modage <- predict(res.modage, newmods = seq(20, 80, by = 10)) |> 
+  as.data.frame() |> 
+  mutate_all(~round(., 3)) |> 
+  mutate(meanage = seq(20, 80, by = 10)) |> 
   select(7, 1:6)
 # Ver la tabla
 pred.res.modage
@@ -1047,11 +1047,11 @@ En éste caso, a diferencia del ejemplo de moderación anteriores, la variable m
 ### Más información e interpretación de la moderación {#pred-mods2}
 
 ```{r}
-pred.res.contr <- predict(res.contr, newmods = c(0, 1)) %>% 
-  as.data.frame() %>% 
-  mutate_all(~round(., 3)) %>%
-  mutate(controls = levels(dat$controls)) %>% 
-  rename(yi = pred) %>% 
+pred.res.contr <- predict(res.contr, newmods = c(0, 1)) |> 
+  as.data.frame() |> 
+  mutate_all(~round(., 3)) |>
+  mutate(controls = levels(dat$controls)) |> 
+  rename(yi = pred) |> 
   select(7, 1:6)
 pred.res.contr
 ```
