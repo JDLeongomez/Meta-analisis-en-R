@@ -902,15 +902,19 @@ Ultimately, combinatorial meta-analysis paired with GOSH plots demonstrate how y
 
 # Meta-análisis de correlación con moderador (meta-regresión) {#met-moderation}
 
-\textcolor{red}{Incluir moderadores en nuestro meta-análisis (i.e. hacer una meta-regresión), es una fusión de principios de regresión meta-analíticos y lineales, que sirva para explorar la heterogeneidad. Con esto, podemos saber si existe una asociación lineal entre el resultado de nuestro meta-análisis y una o más covariables.}
+\textcolor{red}{Incluir moderadores en nuestro meta-análisis (i.e. hacer una meta-regresión), nos permite determinar si existe una asociación lineal entre el resultado de nuestro meta-análisis, y una o más covariables. En otras palabras, nos permite saber si el efecto que estamos meta-analizando (en este caso, el coeficiente de correlación), cambia dependiendo de otra variable. Imaginemos, por ejemplo, que estamos mirando la relación entre la estatura y el peso de las personas, pero que encontramos que los diferentes estudios que vamos a meta-analizar tienen resultados diferentes; esto se podría deber a que esta asociación (entre estatura y peso), está afectada (i.e. moderada) por otra variable. Por ejemplo:} 
 
-\textcolor{red}{La meta-regresión desempeña un papel fundamental en la consideración de los efectos de las covariables, especialmente en presencia de variables categóricas que pueden utilizarse para el análisis de subgrupos.}
+-   \textcolor{red}{Podría estar moderada por una variable continua como la edad, lo que significaría que la correlación entre estatura y peso cambia con la edad}
+
+-   \textcolor{red}{Podría estar moderada por una variable categórica como el sexo, lo que significaría que la correlación entre estatura y peso es diferente, por ejemplo, para hombres, mujeres y personas intersexuales}
+
+\textcolor{red}{Para ilustrar cómo incluir moderadores en nuestro meta-análisis, tanto continuos como categóricos, y cómo interpretar los resultados, seguiré usando los mismos datos de} @molloy2013, \textcolor{red}{de estudios que que examinan la asociación entre la asociación entre concienciación} (*conscientiousness*).
 
 ## Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes) {#ex.mod1}
 
 Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^10], lo que podría moderar (afectar) la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita.
 
-[^10]: De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
+[^10]: De hecho, hay diferencias extremas en la edad promedio entre diferentes estudios meta-analizados: mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
 
 Para esto, de nuevo podemos usar la función `rma` de paquete `metafor` y de la misma manera que en la sección \@ref(meta-cor), pero agregando nuestra variable moderadora (`meanage`) al argumento `mods`. En este caso voy a asignar a un objeto llamado `res.modage`, para diferenciarlo del objeto `res` al que asigné el meta-análisis básico, sin moderadores.
 
