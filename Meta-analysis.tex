@@ -34,18 +34,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Meta-análisis de correlaciones y meta-regresión en R:},
-  pdfauthor={Juan David Leongómez },
-  colorlinks=true,
-  linkcolor={iacoldark},
-  filecolor={Maroon},
-  citecolor={Blue},
-  urlcolor={blue},
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=2cm]{geometry}
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -155,6 +143,18 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Meta-análisis de correlaciones y meta-regresión en R:},
+  pdfauthor={Juan David Leongómez },
+  colorlinks=true,
+  linkcolor={iacoldark},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={blue},
+  pdfcreator={LaTeX via pandoc}}
 
 \title{Meta-análisis de correlaciones y meta-regresión en R:}
 \usepackage{etoolbox}
@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{28 junio, 2022}
+\date{10 enero, 2023}
 
 \begin{document}
 \maketitle
@@ -444,7 +444,7 @@ Q(df = 15) = 38.1595, p-val = 0.0009
 
 Model Results:
 
-estimate      se    zval    pval   ci.lb   ci.ub     <U+200B> 
+estimate      se    zval    pval   ci.lb   ci.ub      
   0.1499  0.0316  4.7501  <.0001  0.0881  0.2118  *** 
 
 ---
@@ -947,7 +947,7 @@ Q(df = 17) = 46.3990, p-val = 0.0002
 
 Model Results:
 
-estimate      se    zval    pval   ci.lb   ci.ub     <U+200B> 
+estimate      se    zval    pval   ci.lb   ci.ub      
   0.1288  0.0333  3.8628  0.0001  0.0635  0.1942  *** 
 
 ---
@@ -1306,7 +1306,7 @@ Ver acá \url{https://www.dsquintana.blog/combinatorial-meta-analysis/}
                 \end{ROut}
 
 \hypertarget{combinatorial-meta-analysis}{%
-\subsubsection{combinatorial meta-analysis}\label{combinatorial-meta-analysis}}
+\subsubsection{Combinatorial meta-analysis}\label{combinatorial-meta-analysis}}
 
 The number of analyses to be conducted can be calculated using the formula 2\^{}k - 1, with k representing the number of studies. So for a meta-analysis with 16 studies, you will perform 65535 meta-analyses, that is 2\^{}16 - 1.
 
@@ -1455,7 +1455,7 @@ QM(df = 1) = 1.4286, p-val = 0.2320
 
 Model Results:
 
-         estimate      se     zval    pval    ci.lb   ci.ub   <U+200B> 
+         estimate      se     zval    pval    ci.lb   ci.ub    
 intrcpt    0.2741  0.1090   2.5147  0.0119   0.0605  0.4877  * 
 meanage   -0.0024  0.0020  -1.1952  0.2320  -0.0063  0.0015    
 
@@ -1622,7 +1622,7 @@ QM(df = 1) = 20.1221, p-val < .0001
 
 Model Results:
 
-                  estimate      se     zval    pval    ci.lb    ci.ub     <U+200B> 
+                  estimate      se     zval    pval    ci.lb    ci.ub      
 intrcpt             0.1788  0.0208   8.6044  <.0001   0.1380   0.2195  *** 
 controlsmultiple   -0.1621  0.0361  -4.4858  <.0001  -0.2329  -0.0913  *** 
 
@@ -1765,9 +1765,9 @@ Por ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamD
                 \begin{verbatim} 
 To cite package 'dplyr' in publications use:
 
-  Hadley Wickham, Romain François, Lionel Henry and Kirill Müller
-  (2022). dplyr: A Grammar of Data Manipulation. R package version
-  1.0.9. https://CRAN.R-project.org/package=dplyr
+  Wickham H, François R, Henry L, Müller K (2022). _dplyr: A Grammar of
+  Data Manipulation_. R package version 1.0.10,
+  <https://CRAN.R-project.org/package=dplyr>.
 
 A BibTeX entry for LaTeX users is
 
@@ -1775,7 +1775,7 @@ A BibTeX entry for LaTeX users is
     title = {dplyr: A Grammar of Data Manipulation},
     author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
     year = {2022},
-    note = {R package version 1.0.9},
+    note = {R package version 1.0.10},
     url = {https://CRAN.R-project.org/package=dplyr},
   }
  \end{verbatim}

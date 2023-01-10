@@ -832,7 +832,7 @@ l_one <- leave1out(res)
 l_one
 ```
 
-### combinatorial meta-analysis
+### Combinatorial meta-analysis
 
 The number of analyses to be conducted can be calculated using the formula 2^k - 1, with k representing the number of studies. So for a meta-analysis with 16 studies, you will perform 65535 meta-analyses, that is 2^16 - 1.
 
