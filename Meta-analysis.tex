@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{10 enero, 2023}
+\date{26 enero, 2023}
 
 \begin{document}
 \maketitle
@@ -186,7 +186,7 @@
               title=#2,#1}
 
 \begin{center}
-Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. Email: \href{mailto:jleongomez@unbosque.edu.co}{jleongomez@unbosque.edu.co}. Web: \href{https://jdleongomez.info/es}{jdleongomez.info}.
+\textit{\textbf{EvoCo}: Laboratorio de Evolución y Comportamiento Humano}, Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. Email: \href{mailto:jleongomez@unbosque.edu.co}{jleongomez@unbosque.edu.co}. Web: \href{https://jdleongomez.info/es}{jdleongomez.info}.
 
 \vfill
 \textbf{Descripción}
@@ -199,9 +199,9 @@ Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicolog�
 
 Esta guía contiene todo el código y explicaciones, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando principalmente los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}). Incluye explicaciones básicas para la transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher (y viceversa) e interpretación de los resultados, así como creación de \emph{forest plots} y \emph{funnel plots} para meta-análisis de correlaciones simples o con moderadores. Adicionalmente, incluye estrategias para detectar posibles sesgos de publicación usando el paquete \href{https://www.r-pkg.org/pkg/weightr}{\texttt{weightr}} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}), así como para determinar el poder estadístico de un meta-análisis usando \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{\texttt{metameta}} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}).
 
-\textbf{Nota:} Está guía está parcialmente basada en \href{https://youtu.be/lH4VZMTEZSc}{este video}, creado por Daniel S. Quintana (\protect\hyperlink{ref-quintanaHowPerformMetaanalysis2021}{2021}), pero contiene pasos adicionales o alternativos, así como citas a fuentes primarias, e información complementaria y más detallada. Como tal, asume un manejo básico de R, así como una comprensión de correlaciones y regresiones, y un entendimiento general de los principios del meta-análisis. Sin embargo, de ser necesario y como preámbulo, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video introductorio} al meta-análisis en \emph{jamovi} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}) que publiqué anteriormente en mi canal de YouTube \href{https://www.youtube.com/c/InvestigaciónAbierta}{\emph{Investigación Abierta}}.
+\textbf{Nota:} Está guía está parcialmente basada en \href{https://youtu.be/lH4VZMTEZSc}{este video}, creado por Daniel S. Quintana (\protect\hyperlink{ref-quintanaHowPerformMetaanalysis2021}{2021}), pero contiene pasos adicionales o alternativos, así como citas a fuentes primarias, e información complementaria y más detallada. Como tal, asume un manejo básico de R, así como una comprensión de correlaciones y regresiones, y un entendimiento general de los principios del meta-análisis. Sin embargo, de ser necesario y como preámbulo, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video introductorio al meta-análisis en \emph{jamovi}} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}) que publiqué anteriormente en mi canal de YouTube \href{https://www.youtube.com/@InvestigacionAbierta}{\emph{Investigación Abierta}}.
 
-\href{https://www.youtube.com/c/InvestigaciónAbierta}{\includegraphics{images/Logo-IA-Rectangulo.pdf}}
+\href{https://www.youtube.com/@InvestigacionAbierta}{\includegraphics{images/Logo-IA-Rectangulo.pdf}}
 
 \par
 \endgroup
@@ -210,7 +210,7 @@ Esta guía contiene todo el código y explicaciones, paso a paso, para hacer un 
 \textbf{Cita esta guía como } \hrulefill 
 
 \begin{hangparas}{.25in}{1}
-Leongómez, J. D. (2022). Meta-análisis de correlaciones en R: Guía práctica. \textit{Zenodo}. \url{https://doi.org/10.5281/zenodo.5640182}
+Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R: Guía práctica. \textit{Zenodo}. \url{https://doi.org/10.5281/zenodo.5640182}
 \end{hangparas}
 \newpage
 
@@ -1076,14 +1076,14 @@ Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es 
 \hypertarget{poder-estaduxedstico-del-meta-anuxe1lisis}{%
 \subsection{Poder estadístico del meta-análisis}\label{poder-estaduxedstico-del-meta-anuxe1lisis}}
 
-En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso 0.15 para el meta-análisis original ``\texttt{res}'', o 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}''). Para este ejemplo, asumiré que el efecto \emph{real} es el encontrado en nuestro análisis original (0.15), pues este efecto es más mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
+En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso 0.15 para el meta-análisis original ``\texttt{res}'', o 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}''). Para este ejemplo, asumiré que el efecto \emph{real} es el encontrado en nuestro análisis original (0.15), pues este efecto es mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
 
-Para hacer esto, usaré el paquete \texttt{metameta} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}), que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos \emph{reales}.
+Para hacer esto, usaré el paquete \texttt{metameta} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}, \protect\hyperlink{ref-quintanaGuideMetaPower}{en prensa}), que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos \emph{reales}.
 
 \hypertarget{instalaciuxf3n-de-metameta}{%
 \subsubsection{\texorpdfstring{Instalación de \texttt{metameta}}{Instalación de metameta}}\label{instalaciuxf3n-de-metameta}}
 
-El paquete \texttt{metameta} se debe instalar desde GitHub\footnote{\href{https://github.com/}{GitHub} es un repositorio abierto para para proyectos de código abierto en el que, entre otras cosas, suelen estar alojados todos los paquetes de R incluso en versiones de desarrollador. Por supuesto, a diferencia de \href{https://cran.r-project.org/}{CRAN}, GitHub no es ni mucho menos específico para paquetes de R.} ya que, al día de hoy, no está aún disponible en CRAN.
+El paquete \texttt{metameta} se debe instalar desde GitHub\footnote{\href{https://github.com/}{GitHub} es un repositorio abierto para para proyectos de código abierto en el que, entre otras cosas, suelen estar alojados todos los paquetes de R incluso en versiones de desarrollador. Por supuesto, a diferencia de \href{https://cran.r-project.org/}{CRAN}, GitHub es un repositorio de código general, no específico para paquetes de R.} ya que, al día de hoy, no está aún disponible en CRAN.
 
 Para esto, debemos tener instalado el paquete \texttt{devtools}, y usar la función \texttt{install\_github} que nos permite instalar paquetes directamente desde GitHub.
 
@@ -1867,6 +1867,9 @@ Quintana, D. S. (2021). \emph{{How to Perform a Meta-Analysis in R} \emph{{[}vid
 
 \leavevmode\vadjust pre{\hypertarget{ref-quintanaMetameta2022}{}}%
 Quintana, D. S. (2022). \emph{Metameta: A suite of tools to re-evaluate published meta-analyses}. \url{https://github.com/dsquintana/metameta}
+
+\leavevmode\vadjust pre{\hypertarget{ref-quintanaGuideMetaPower}{}}%
+Quintana, D. S. (en prensa). A guide for calculating study-level statistical power for meta-analyses. \emph{{Advances in Methods and Practices in Psychological Science}}. \url{https://doi.org/10.31219/osf.io/js79t}
 
 \leavevmode\vadjust pre{\hypertarget{ref-revellePsych2021}{}}%
 Revelle, W. (2021). \emph{Psych: Procedures for psychological, psychometric, and personality research}. Northwestern University. \url{https://CRAN.R-project.org/package=psych}

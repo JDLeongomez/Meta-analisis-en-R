@@ -106,7 +106,7 @@ library(kableExtra)
 
 ```{=latex}
 \begin{center}
-Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. Email: \href{mailto:jleongomez@unbosque.edu.co}{jleongomez@unbosque.edu.co}. Web: \href{https://jdleongomez.info/es}{jdleongomez.info}.
+\textit{\textbf{EvoCo}: Laboratorio de Evolución y Comportamiento Humano}, Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. Email: \href{mailto:jleongomez@unbosque.edu.co}{jleongomez@unbosque.edu.co}. Web: \href{https://jdleongomez.info/es}{jdleongomez.info}.
 
 \vfill
 \textbf{Descripción}
@@ -119,9 +119,9 @@ Laboratorio de Análisis del Comportamiento Humano (LACH), Facultad de Psicolog�
 ```
 Esta guía contiene todo el código y explicaciones, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando principalmente los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. Incluye explicaciones básicas para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa) e interpretación de los resultados, así como creación de *forest plots* y *funnel plots* para meta-análisis de correlaciones simples o con moderadores. Adicionalmente, incluye estrategias para detectar posibles sesgos de publicación usando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], así como para determinar el poder estadístico de un meta-análisis usando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022]. 
 
-**Nota:** Está guía está parcialmente basada en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene pasos adicionales o alternativos, así como citas a fuentes primarias, e información complementaria y más detallada. Como tal, asume un manejo básico de R, así como una comprensión de correlaciones y regresiones, y un entendimiento general de los principios del meta-análisis. Sin embargo, de ser necesario y como preámbulo, recomiendo ver [este video introductorio](https://youtu.be/ntBbkOn9D_o) al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/c/InvestigaciónAbierta).
+**Nota:** Está guía está parcialmente basada en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene pasos adicionales o alternativos, así como citas a fuentes primarias, e información complementaria y más detallada. Como tal, asume un manejo básico de R, así como una comprensión de correlaciones y regresiones, y un entendimiento general de los principios del meta-análisis. Sin embargo, de ser necesario y como preámbulo, recomiendo ver [este video introductorio al meta-análisis en *jamovi*](https://youtu.be/ntBbkOn9D_o) [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/@InvestigacionAbierta).
 
-[![Investigación Abierta](images%5CLogo-IA-Rectangulo.pdf)](https://www.youtube.com/c/InvestigaciónAbierta)
+[![Investigación Abierta](images%5CLogo-IA-Rectangulo.pdf)](https://www.youtube.com/@InvestigacionAbierta)
 
 ```{=latex}
 \par
@@ -131,7 +131,7 @@ Esta guía contiene todo el código y explicaciones, paso a paso, para hacer un 
 \textbf{Cita esta guía como } \hrulefill 
 
 \begin{hangparas}{.25in}{1}
-Leongómez, J. D. (2022). Meta-análisis de correlaciones en R: Guía práctica. \textit{Zenodo}. \url{https://doi.org/10.5281/zenodo.5640182}
+Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R: Guía práctica. \textit{Zenodo}. \url{https://doi.org/10.5281/zenodo.5640182}
 \end{hangparas}
 \newpage
 
@@ -738,15 +738,15 @@ Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es 
 
 ## Poder estadístico del meta-análisis
 
-En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso `r round(min(res$beta[1]), 2)` para el meta-análisis original "`res`", o `r round(wf$output_adj$par[2], 2)` el meta-análisis con pesos ajustados "`wf`"). Para este ejemplo, asumiré que el efecto *real* es el encontrado en nuestro análisis original (`r round(min(res$beta[1]), 2)`), pues este efecto es más mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
+En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso `r round(min(res$beta[1]), 2)` para el meta-análisis original "`res`", o `r round(wf$output_adj$par[2], 2)` el meta-análisis con pesos ajustados "`wf`"). Para este ejemplo, asumiré que el efecto *real* es el encontrado en nuestro análisis original (`r round(min(res$beta[1]), 2)`), pues este efecto es mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
 
-Para hacer esto, usaré el paquete `metameta` [@quintanaMetameta2022], que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos *reales*.
+Para hacer esto, usaré el paquete `metameta` [@quintanaGuideMetaPower;@quintanaMetameta2022], que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos *reales*.
 
 ### Instalación de `metameta`
 
 El paquete `metameta` se debe instalar desde GitHub[^8] ya que, al día de hoy, no está aún disponible en CRAN.
 
-[^8]: [GitHub](https://github.com/) es un repositorio abierto para para proyectos de código abierto en el que, entre otras cosas, suelen estar alojados todos los paquetes de R incluso en versiones de desarrollador. Por supuesto, a diferencia de [CRAN](https://cran.r-project.org/), GitHub no es ni mucho menos específico para paquetes de R.
+[^8]: [GitHub](https://github.com/) es un repositorio abierto para para proyectos de código abierto en el que, entre otras cosas, suelen estar alojados todos los paquetes de R incluso en versiones de desarrollador. Por supuesto, a diferencia de [CRAN](https://cran.r-project.org/), GitHub es un repositorio de código general, no específico para paquetes de R.
 
 Para esto, debemos tener instalado el paquete `devtools`, y usar la función `install_github` que nos permite instalar paquetes directamente desde GitHub.
 
