@@ -109,7 +109,7 @@ library(kableExtra)
 \textit{\textbf{EvoCo}: Laboratorio de Evolución y Comportamiento Humano}, Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. Email: \href{mailto:jleongomez@unbosque.edu.co}{jleongomez@unbosque.edu.co}. Web: \href{https://jdleongomez.info/es}{jdleongomez.info}.
 
 \vfill
-\textbf{Descripción}
+\textbf{Resumen}
 \end{center}
 
 \par
@@ -117,11 +117,23 @@ library(kableExtra)
 \leftskip3em
 \rightskip\leftskip
 ```
-Esta guía contiene todo el código y explicaciones, paso a paso, para hacer un meta-análisis de coeficientes de correlación en R, usando principalmente los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. Incluye explicaciones básicas para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa) e interpretación de los resultados, así como creación de *forest plots* y *funnel plots* para meta-análisis de correlaciones simples o con moderadores. Adicionalmente, incluye estrategias para detectar posibles sesgos de publicación usando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], así como para determinar el poder estadístico de un meta-análisis usando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022]. 
 
-**Nota:** Está guía está parcialmente basada en [este video](https://youtu.be/lH4VZMTEZSc), creado por Daniel S. Quintana [-@quintanaHowPerformMetaanalysis2021], pero contiene pasos adicionales o alternativos, así como citas a fuentes primarias, e información complementaria y más detallada. Como tal, asume un manejo básico de R, así como una comprensión de correlaciones y regresiones, y un entendimiento general de los principios del meta-análisis. Sin embargo, de ser necesario y como preámbulo, recomiendo ver [este video introductorio al meta-análisis en *jamovi*](https://youtu.be/ntBbkOn9D_o) [@leongomezMetaanalysis2021] que publiqué anteriormente en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/@InvestigacionAbierta).
+El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo estudiantes, profesionales e investigadores carecen de conocimientos prácticos para llevar a cabo un meta-análisis. Esta guía presenta una serie de herramientas para realizar meta-análisis de correlaciones en R, ilustradas a partir de ejemplos. Incluye desde análisis simples y su interpretación hasta análisis con moderadores (meta-regresión), usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. También incluye explicaciones para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa), creación de gráficos de bosque (*forest plots*) y gráficos de embudo (*funnel plots*), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], y para determinar el poder estadístico de un meta-análisis utilizando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022].
+
+```{=latex}
+\par
+\endgroup
+
+\par
+\begingroup
+\leftskip3em
+\rightskip\leftskip
+\footnotesize
+```
 
 [![Investigación Abierta](images%5CLogo-IA-Rectangulo.pdf)](https://www.youtube.com/@InvestigacionAbierta)
+
+**Nota:** Está guía está inspirada en [este video](https://youtu.be/lH4VZMTEZSc) de @quintanaHowPerformMetaanalysis2021, pero contiene pasos adicionales y alternativos, citas a fuentes primarias, e información complementaria más detallada. Asume un manejo básico de R, comprensión de correlaciones y regresiones, y un entendimiento de los principios del meta-análisis. De ser necesario, recomiendo ver [este video](https://youtu.be/ntBbkOn9D_o) introductorio al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/@InvestigacionAbierta).
 
 ```{=latex}
 \par
@@ -144,21 +156,22 @@ Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R
 
 # Base de datos de ejemplo
 
-Para los ejemplos usados en ésta guía, usaré la base de datos `dat.molloy2014`, tomada de Molloy et al. [-@molloy2013].
+Para los ejemplos usados en ésta guía, usaré la base de datos `dat.molloy2014`, tomada de @molloy2013. Esta base de datos viene incluida con el paquete `metafor` de R.
 
-Esta base de datos viene incluida con el paquete `metafor` de R. Básicamente, Molloy et al. [-@molloy2013] estudiaron si existe una asociación entre la concienciación (*conscientiousness*[^1]) y la adherencia a la medicación. En otras palabras, ¿las personas más *concienciadas* tienden a cumplir más con la medicación prescrita?
+Básicamente, @molloy2013 estudiaron si existe una asociación entre la concienciación (*conscientiousness*[^1]) y la adherencia a la medicación. En otras palabras, ¿las personas más *concienciadas* tienden a cumplir más con la medicación prescrita?
 
-[^1]: Para una definición detallada, ver @johnBigFiveTrait1999
+[^1]: Para una definición detallada del concepto de concienciación, ver @johnBigFiveTrait1999.
 
-Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: `metafor` [@viechtbauer2010] y `metaviz` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `dplyr` [@WickhamDplyr2021] para manipular y organizar la base de datos.
+Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: `metafor` [@viechtbauer2010] y `metaviz` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `dplyr` [@WickhamDplyr2021] y `forecats` [@Wickhamforcats2022] para manipular y organizar la base de datos.
 
 ```{r eval = FALSE}
 library(metafor)
 library(metaviz)
 library(dplyr)
+library(forcats)
 ```
 
-Como ya hemos cargado el paquete `metafor`, ya podemos cargar la base de datos `dat.molloy2014`. En éste caso, para poder *llamarla* cuando sea necesario, la asignaré a un objeto llamado `dat`.
+Como ya hemos cargado el paquete `metafor`, ya podemos cargar la base de datos `dat.molloy2014`. En éste caso, para poder *llamarla* cuando sea necesario, la asignaré a un objeto que llamaré simplemente `dat`.
 
 ```{r}
 dat <- get(data(dat.molloy2014))
@@ -170,9 +183,36 @@ Tras asignar la base de datos a este objeto (`dat`), la base de datos se puede v
 dat
 ```
 
-Por supuesto, la salida de la consola no es la más clara, pero para una versión más legible, se puede usar la función `View`, y el nombre de la base de datos o tabla como argumento (en este caso `View(dat)`). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión, más limpio y fácil de leer.
+## Variables de la base de datos
 
-Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. A continuación, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna. Finalmente, las columnas de variables que son factores (`controls`, `design`, `a_measure`, `c_measure` y `quality`), pueden ser definidas como tal, para evitar pasos adicionales más adelante. En este caso, .
+Por favor mira la base de datos, y familiarízate con sus columnas. ¿Qué información contiene cada variable? Explicaré cada una a continuación.
+
+Primero, hay unas columnas que contienen información absolutamente necesaria para poder hacer un meta-análisis: 
+
+-   `authors`: los autores de cada estudio a meta-analizar
+-   `year`: año de publicación de cada estudio
+-   `ni`: tamaño de muestra de cada estudio
+-   `ri`: coeficiente de correlación de Pearson de cada estudio
+
+Esas son las variables más importantes y son necesarias para hacer un meta-análisis de correlación simple: alguna columna o columnas con información que permita identificar cada estudio (en este caso `authors` y `year`), una una columna con el tamaño de muestra de cada estudio (en este caso, `ni`), y finalmente columna con los coeficientes de correlación (en este caso la columna `ri`). Si tu meta-análisis no requiere moderadores, con una estructura como esta sería suficiente.
+
+Después hay unas columnas que contienen variables específicas para este este ejemplo, y que son una serie de posibles moderadores que agrupan características de los estudios a meta-analizar:
+
+-   `controls`: cantidad de variables controladas (ninguna o múltiples)
+
+-   `design`: si se utilizó un diseño transversal o prospectivo
+
+-   `a_measure`: tipo de medida de adherencia (autoinforme u otro tipo de medida más "objetivo")
+
+-   `c_measure`: tipo de medida de concienciación (si se midió con alguna versión del inventario de personalidad NEO o con alguna otra escala)
+
+-   `meanage`: edad promedio de la muestra
+
+-   `quality`: calidad metodológica (la calidad metodológica fue calificada por los autores en una escala de 1 a 4, donde las puntuaciones más altas indican una mayor calidad; para información respecto a cómo se obtuvo esta puntuación, ver el artículo original de @molloy2013.
+
+Por supuesto, la salida de la consola no es la más clara, pero para una versión más legible, se puede usar la función `View`, y el nombre de la base de datos o tabla como argumento (en este caso `View(dat)`). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión (y no como sale en la consola de R), para que sean más fáciles de leer.
+
+Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. Después, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna. Finalmente, las columnas de variables que son factores (`controls`, `design`, `a_measure`, `c_measure` y `quality`), pueden ser definidas como tal, para evitar pasos adicionales más adelante. En este caso, .
 
 ```{r molloy2014}
 dat <- get(data(dat.molloy2014)) %>%
@@ -199,22 +239,6 @@ kable(dat,
            general_title = "Nota:",
            footnote_as_chunk = TRUE)
 ```
-
-Por supuesto, la columna `authors` tiene los autores de cada estudio a meta-analizar, y la columna `year` el año de publicación. La columna `ni` contiene el tamaño de muestra de cada estudio, y la columna `ri` el coeficiente de correlación de Pearson.
-
-Adicionalmente, en este ejemplo tenemos una serie de posibles moderadores:
-
--   `controls`: cantidad de variables controladas (ninguna o múltiples)
-
--   `design`: si se utilizó un diseño transversal o prospectivo
-
--   `a_measure`: tipo de medida de adherencia (autoinforme u otro tipo de medida más "objetivo")
-
--   `c_measure`: tipo de medida de concienciación (si se midió con alguna versión del inventario de personalidad NEO o con alguna otra escala)
-
--   `meanage`: edad promedio de la muestra
-
--   `quality`: calidad metodológica (la calidad metodológica fue calificada por los autores en una escala de 1 a 4, donde las puntuaciones más altas indican una mayor calidad; para información respecto a cómo se obtuvo esta puntuación, ver el artículo original de Molloy et al. [-@molloy2013]
 
 # Preparación de los datos: transformación de coeficientes *r* de Pearson a *z* de Fisher
 
@@ -399,9 +423,9 @@ Esto me muestra gran cantidad de información de cada estudio (en este caso, lo 
 
 -   `rstudent`: residuo estandarizados externamente. Esto **no** corresponde al coeficiente de correlación de cada estudio, sino a la diferencia entre el tamaño de efecto observado en cada estudio, y la predicción de dicho valor cuando dicho estudio se elimina del meta-análisis
 
--   `dffits`: diferencia de ajuste(s) (en inglés *difference in fit(s)*). Es una medida diagnóstica de la influencia de cada punto en una regresión (en este caso, cada estudio en un meta-análisis) propuesta originalmente por Belsley, Kuh y Welsch [-@belsleyRegressionDiagnosticsIdentifying1980]
+-   `dffits`: diferencia de ajuste(s) (en inglés *difference in fit(s)*). Es una medida diagnóstica de la influencia de cada punto en una regresión (en este caso, cada estudio en un meta-análisis) propuesta originalmente por @belsleyRegressionDiagnosticsIdentifying1980
 
--   `cook.d`: Distancia de Cook (en inglés, *Cook's distance*). Es otra medida diagnóstica de la influencia, propuesta originalmente por Cook [-@cookDetectionInfluentialObservation1977]. Es conceptualmente idéntica a DFFITS (`dffits`), y he hecho existe una fórmula para convertir una medida en la otra [@Henry2003]. Aunque no hay un acuerdo absoluto respecto, comúnmente se asume que valores mayores a 1 ($D_{i} > 1$), representan puntos altamente influyentes en un modelo [@cookResidualsInfluenceRegression1982], que probablemente deban ser excluidos
+-   `cook.d`: Distancia de Cook (en inglés, *Cook's distance*). Es otra medida diagnóstica de la influencia, propuesta originalmente por @cookDetectionInfluentialObservation1977. Es conceptualmente idéntica a DFFITS (`dffits`), y he hecho existe una fórmula para convertir una medida en la otra [@Henry2003]. Aunque no hay un acuerdo absoluto respecto, comúnmente se asume que valores mayores a 1 ($D_{i} > 1$), representan puntos altamente influyentes en un modelo [@cookResidualsInfluenceRegression1982], que probablemente deban ser excluidos
 
 -   `cov.r`: relación (o proporción) de covarianza. Es el determinante de la matriz de varianza-covarianza de las estimaciones de los parámetros basadas en el conjunto de datos, cuando cada estudio se elimina del meta-análisis, dividido por el mismo determinante de la matriz de varianza-covarianza cuando se incluyen todos los estudios. Básicamente, un valor menor a 1 indica que la eliminación de ese estudio produce estimaciones más precisas de los coeficientes del modelo
 
@@ -671,9 +695,9 @@ Básicamente, el método aumenta los datos observados para que el gráfico de em
 
 Aunque muy útil, es importante tener en cuenta que método de recorte y relleno (*trim and fill*) tiene algunas limitaciones que deben considerarse:
 
--  No debe considerarse como una forma de obtener una estimación más "válida" del efecto o resultado global (a partir del meta-análisis), sino como una forma de examinar qué tan sensibles son los resultados a un mecanismo de selección particular (es decir, una forma particular de sesgo de publicación). 
+-  No debe considerarse como una forma de obtener una estimación más "válida" del efecto o resultado global (a partir del meta-análisis), sino como una forma de examinar qué tan sensibles son los resultados a un mecanismo de selección particular (es decir, una forma particular de sesgo de publicación)
 
--  Es importante tener en cuenta que este método no se puede usar en modelos con moderadores, como los que explico en la sección \@ref(met-moderation).
+-  Es importante tener en cuenta que este método no se puede usar en modelos con moderadores, como los que explico en la sección \@ref(met-moderation)
 
 En [`metafor`](https://www.metafor-project.org/doku.php), el método de recorte y relleno (*trim and fill*) se hace simplemente con la función `trimfill`, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (`res`). En este caso, asignaré el resultado de esta función a un objeto que llamaré `tf`.
 
@@ -705,9 +729,13 @@ viz_funnel(res,
   geom_vline(xintercept = 0, linetype = "dotted")
 ```
 
+El resultado nos muestra que el análisis aumentó dos estudios hipotéticos a la izquierda. Es decir, sugiere que hay *cierto* nivel de sesgo de publicación. De hecho, la estimación del efecto al aumentar estos estudios hipotéticos para que la distribución sea realmente simétrica, disminuye a 0.1288, algo menor que el 0.1499 que nos sugería el análisis inicial. 
+
+Si quieres profundizar en el método de recorte y relleno (*trim and fill*), su interpretación, así como sus fortalezas y limitaciones, te recomiendo leer el artículo de @shiTrimandfill2019 al respecto.
+
 ### Estimación del modelo de función de peso
 
-Para determinar el sesgo de publicación, se puede usar la función `weightfunct` del paquete `weightr` [@coburnWeightr2019], que nos permite "estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea y Hedges [-@veveaGeneralLinearModel1995] como la versión modificada presentada en Vevea y Woods [-@veveaPublicationBiasResearch2005]", como se describe en la [documentación](https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct) de la función `weightfunct`.
+Para determinar el sesgo de publicación, se puede usar la función `weightfunct` del paquete `weightr` [@coburnWeightr2019], que nos permite "estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en @veveaGeneralLinearModel1995 como la versión modificada presentada en @veveaPublicationBiasResearch2005", como se describe en la [documentación](https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct) de la función `weightfunct`.
 
 ```{r message = FALSE}
 library(weightr)
@@ -1139,9 +1167,15 @@ Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como des
 
 \newpage
 
+# Referencias
+
+<div id="refs"></div>
+
 # APÉNDICES {.unnumbered}
 
-## Alternativas a `metafor` {.unnumbered}
+# (APPENDIX) Appendix {-}  
+
+# Alternativas a `metafor`
 
 Acá he usado principalmente una ruta para hacer meta-análisis basada en el paquete `metafor`, acompañado de `metaviz` para visualizaciones, `weightr` para ajustar pesos y detectar sesgos de publicación, y `metameta` para estimar el poder estadístico de un meta-análisis.
 
@@ -1149,7 +1183,7 @@ Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El li
 
 De manera importante, los objetos generados por `meta` al realizar un meta-análisis permiten hacer otros análisis como *risk of bias* (riesgo de sesgo), inferencia multi-modelo, detección de *outliers* (valores atípicos), y *p-curve* o curva de valores $p$ [@simonsohnPCurveEffectSize2014], así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete [`dmetar`](http://dmetar.protectlab.org/), y en especial la página [*Get Started*](https://dmetar.protectlab.org/articles/dmetar.html).
 
-## Citas y referencias de paquetes de R {.unnumbered}
+# Citas y referencias de paquetes de R
 
 Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función `citation` en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato `BibTex` que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia (alternativamente nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente).
 
@@ -1159,6 +1193,9 @@ Por ejemplo, en ésta guía usé `dplyr` [@WickhamDplyr2021] para manipular los 
 citation("dplyr")
 ```
 
-\newpage
+# Paquetes de R y versiones usados para crear este documento (para garantizar reproducibilidad)
 
-# Referencias
+```{r echo = FALSE}
+library(pander)
+pander(sessionInfo(), locale = FALSE)
+```

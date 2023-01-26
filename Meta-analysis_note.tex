@@ -1,0 +1,371 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  bookmarksnumbered]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=2cm]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{237,237,237}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.75,0.01,0.01}{\textbf{\colorbox[rgb]{0.97,0.90,0.90}{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.79,0.38,0.79}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.00,0.34,0.68}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.69,0.50,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.39,0.29,0.61}{\textbf{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.57,0.30,0.62}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.54,0.53,0.53}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.00,0.58,1.00}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.67,0.33,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.12,0.11,0.11}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.00,0.34,0.68}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.69,0.50,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.38,0.47,0.50}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.75,0.01,0.01}{\underline{#1}}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.58,1.00}{\textbf{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.69,0.50,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.39,0.29,0.61}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{1.00,0.33,0.00}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.69,0.50,0.00}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.12,0.11,0.11}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.12,0.11,0.11}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.12,0.11,0.11}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.43,0.16}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.00,0.43,0.16}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.34,0.68}{\colorbox[rgb]{0.88,0.91,0.97}{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.24,0.68,0.91}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{1.00,0.33,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.75,0.01,0.01}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.34,0.68}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.75,0.01,0.01}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.75,0.01,0.01}{#1}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \usepackage{svg} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Meta-análisis de correlaciones y meta-regresión en R:},
+  pdfauthor={Juan David Leongómez },
+  colorlinks=true,
+  linkcolor={iacoldark},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Meta-análisis de correlaciones y meta-regresión en R:}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Guía práctica}
+\author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
+\date{26 enero, 2023}
+
+\begin{document}
+\maketitle
+
+\newtcolorbox[auto counter]{ROut}[2][]{
+                lower separated=false,
+                colback=white,
+                colframe=iacol,
+                fonttitle=\bfseries,
+                colbacktitle=iacol,
+                coltitle=black,
+                boxrule=1pt,
+                sharp corners,
+                breakable,
+                enhanced,
+                attach boxed title to top left={yshift=-0.1in,xshift=0.15in},
+                boxed title style={boxrule=0pt,colframe=white,},
+              title=#2,#1}
+
+\begin{center}
+\textit{\textbf{EvoCo}: Laboratorio de Evolución y Comportamiento Humano}, Facultad de Psicología, Universidad El Bosque, Bogotá, Colombia. Email: \href{mailto:jleongomez@unbosque.edu.co}{jleongomez@unbosque.edu.co}. Web: \href{https://jdleongomez.info/es}{jdleongomez.info}.
+
+\vfill
+\textbf{Descripción}
+\end{center}
+
+\par
+\begingroup
+\leftskip3em
+\rightskip\leftskip
+
+El meta-análisis es un método muy utilizado para sintetizar datos de distintos estudios. Sin embargo, estudiantes e investigadores carecen con frecuencia de conocimientos prácticos para hacer un meta-análisis. Esta guía presenta una serie de herramientas y para hacer meta-análisis de correlaciones en R: desde análisis simples y su interpretación, hasta hasta análisis con moderadores, con base en ejemplos. Todos los análisis se hacen principalmente usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}). Incluye además explicaciones para la transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher (y viceversa), así como creación de \emph{forest plots} y \emph{funnel plots}, análisis de heterogeneidad y diagnósticos de influencia, y estrategias para detectar posibles sesgos de publicación usando el paquete \href{https://www.r-pkg.org/pkg/weightr}{\texttt{weightr}} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}), así como para determinar el poder estadístico de un meta-análisis usando \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{\texttt{metameta}} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}).
+
+El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo los estudiantes e investigadores carecen de conocimientos prácticos para llevar a cabo un meta-análisis. Esta guía presenta una serie de herramientas y ejemplos para realizar meta-análisis de correlaciones en R, desde análisis simples y su interpretación hasta análisis con moderadores (meta-regresión). Los análisis se realizan principalmente utilizando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}). También se incluyen explicaciones para la transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher (y viceversa), creación de gráficos de bosque (\emph{forest plots}) y gráficos de embudo (\emph{funnel plots}), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete \href{https://www.r-pkg.org/pkg/weightr}{\texttt{weightr}} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}), así como para determinar el poder estadístico de un meta-análisis utilizando \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{\texttt{metameta}} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}).
+
+\begin{small}
+
+\textbf{Nota}: Está guía está parcialmente basada en \href{https://youtu.be/lH4VZMTEZSc}{este video} de \cite{quintanaHowPerformMetaanalysis2021}, pero contiene pasos adicionales o alternativos, así como citas a fuentes primarias, e información complementaria y más detallada. Como tal, asume un manejo básico de R, así como una comprensión de correlaciones y regresiones, y un entendimiento general de los principios del meta-análisis. Sin embargo, de ser necesario y como preámbulo, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video introductorio al meta-análisis en \textit{jamovi}} \cite{leongomezMetaanalysis2021} que publiqué anteriormente en mi canal de YouTube \href{https://www.youtube.com/@InvestigacionAbierta}{\textit{Investigación Abierta}}.
+
+\end{small}
+
+\href{https://www.youtube.com/@InvestigacionAbierta}{\includegraphics{images/Logo-IA-Rectangulo.pdf}}
+
+\par
+\endgroup
+\vfill
+
+\textbf{Cita esta guía como } \hrulefill 
+
+\begin{hangparas}{.25in}{1}
+Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R: Guía práctica. \textit{Zenodo}. \url{https://doi.org/10.5281/zenodo.5640182}
+\end{hangparas}
+\newpage
+
+{\hypersetup{hidelinks}
+ \setcounter{tocdepth}{5}
+ \tableofcontents
+}
+\newpage
+
+\hypertarget{base-de-datos-de-ejemplo}{%
+\section{Base de datos de ejemplo}\label{base-de-datos-de-ejemplo}}
+
+Para los ejemplos usados en ésta guía, usaré la base de datos \texttt{dat.molloy2014}, tomada de Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}). Esta base de datos viene incluida con el paquete \texttt{metafor} de R.
+
+Básicamente, Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}) estudiaron si existe una asociación entre la concienciación (\emph{conscientiousness}\footnote{Para una definición detallada del concepto de concienciación, ver John \& Srivastava (\protect\hyperlink{ref-johnBigFiveTrait1999}{1999}).}) y la adherencia a la medicación. En otras palabras, ¿las personas más \emph{concienciadas} tienden a cumplir más con la medicación prescrita?
+
+Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: \texttt{metafor} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \texttt{metaviz} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}) para hacer e ilustrar los resultados del meta-análisis, así como \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) y \texttt{forecats} (\protect\hyperlink{ref-Wickhamforcats2022}{Wickham, 2022}) para manipular y organizar la base de datos.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(metafor)}
+\FunctionTok{library}\NormalTok{(metaviz)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(forcats)}
+\end{Highlighting}
+\end{Shaded}
+
+Como ya hemos cargado el paquete \texttt{metafor}, ya podemos cargar la base de datos \texttt{dat.molloy2014}. En éste caso, para poder \emph{llamarla} cuando sea necesario, la asignaré a un objeto que sencillamente llamaré \texttt{dat}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{get}\NormalTok{(}\FunctionTok{data}\NormalTok{(dat.molloy2014))}
+\end{Highlighting}
+\end{Shaded}
+
+\newpage
+
+\hypertarget{referencias}{%
+\section{Referencias}\label{referencias}}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-BalduzziMeta2019}{}}%
+Balduzzi, S., Rücker, G., \& Schwarzer, G. (2019). How to perform a meta-analysis with {R}: A practical tutorial. \emph{Evidence-Based Mental Health}, \emph{22}, 153--160. \url{https://doi.org/10.1136/ebmental-2019-300117}
+
+\leavevmode\vadjust pre{\hypertarget{ref-coburnWeightr2019}{}}%
+Coburn, K. M., \& Vevea, J. L. (2019). \emph{Weightr: Estimating weight-function models for publication bias}. \url{https://CRAN.R-project.org/package=weightr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-harrer2021doing}{}}%
+Harrer, M., Cuijpers, P., A, F. T., \& Ebert, D. D. (2021). \emph{{Doing Meta-Analysis With {R}: A Hands-On Guide}} (1st ed.). Chapman \& Hall/CRC Press. \url{https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/}
+
+\leavevmode\vadjust pre{\hypertarget{ref-Harrer2019dmetar}{}}%
+Harrer, M., Cuijpers, P., Furukawa, T., \& Ebert, D. D. (2019). \emph{{dmetar: Companion R Package For The Guide 'Doing Meta-Analysis in R'}}. \url{http://dmetar.protectlab.org/}
+
+\leavevmode\vadjust pre{\hypertarget{ref-johnBigFiveTrait1999}{}}%
+John, O. P., \& Srivastava, S. (1999). The {Big Five Trait} taxonomy: {History}, measurement, and theoretical perspectives. In L. A. Pervin \& O. P. John (Eds.), \emph{Handbook of personality: {Theory} and research, 2nd ed} (pp. 102--138). {Guilford Press}. \url{http://jenni.uchicago.edu/econ-psych-traits/John_Srivastava_1995_big5.pdf}
+
+\leavevmode\vadjust pre{\hypertarget{ref-KossmeierMetaviz}{}}%
+Kossmeier, M., Tran, U. S., \& Voracek, M. (2020). \emph{{metaviz: Forest Plots, Funnel Plots, and Visual Funnel Plot Inference for Meta-Analysis}}. \url{https://CRAN.R-project.org/package=metaviz}
+
+\leavevmode\vadjust pre{\hypertarget{ref-molloy2013}{}}%
+Molloy, G. J., O'Carroll, R. E., \& Ferguson, E. (2013). Conscientiousness and medication adherence: A meta-analysis. \emph{Annals of Behavioral Medicine}, \emph{47}(1), 92--101. \url{https://doi.org/10.1007/s12160-013-9524-4}
+
+\leavevmode\vadjust pre{\hypertarget{ref-quintanaMetameta2022}{}}%
+Quintana, D. S. (2022). \emph{Metameta: A suite of tools to re-evaluate published meta-analyses}. \url{https://github.com/dsquintana/metameta}
+
+\leavevmode\vadjust pre{\hypertarget{ref-schwarzerMetaAnalysis2015}{}}%
+Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015). \emph{Meta-{Analysis} with {R}}. {Springer International Publishing}. \url{https://doi.org/10.1007/978-3-319-21416-0}
+
+\leavevmode\vadjust pre{\hypertarget{ref-simonsohnPCurveEffectSize2014}{}}%
+Simonsohn, U., Nelson, L. D., \& Simmons, J. P. (2014). P-{Curve} and {Effect Size}: {Correcting} for {Publication Bias Using Only Significant Results}. \emph{Perspectives on Psychological Science}, \emph{9}(6), 666--681. \url{https://doi.org/10.1177/1745691614553988}
+
+\leavevmode\vadjust pre{\hypertarget{ref-viechtbauer2010}{}}%
+Viechtbauer, W. (2010). Conducting meta-analyses in {R} with the metafor package. \emph{Journal of Statistical Software}, \emph{36}(3). \url{https://doi.org/10.18637/jss.v036.i03}
+
+\leavevmode\vadjust pre{\hypertarget{ref-Wickhamforcats2022}{}}%
+Wickham, H. (2022). \emph{Forcats: Tools for working with categorical variables (factors)}. \url{https://CRAN.R-project.org/package=forcats}
+
+\leavevmode\vadjust pre{\hypertarget{ref-WickhamDplyr2021}{}}%
+Wickham, H., François, R., Henry, L., \& Müller, K. (2021). \emph{Dplyr: A grammar of data manipulation}. \url{https://CRAN.R-project.org/package=dplyr}
+
+\end{CSLReferences}
+
+\hypertarget{apuxe9ndices}{%
+\section*{APÉNDICES}\label{apuxe9ndices}}
+\addcontentsline{toc}{section}{APÉNDICES}
+
+\hypertarget{appendix-appendix}{%
+\appendix}
+
+
+\hypertarget{alternativas-a-metafor}{%
+\section{\texorpdfstring{Alternativas a \texttt{metafor}}{Alternativas a metafor}}\label{alternativas-a-metafor}}
+
+Acá he usado principalmente una ruta para hacer meta-análisis basada en el paquete \texttt{metafor}, acompañado de \texttt{metaviz} para visualizaciones, \texttt{weightr} para ajustar pesos y detectar sesgos de publicación, y \texttt{metameta} para estimar el poder estadístico de un meta-análisis.
+
+Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro \emph{Doing meta-analysis with R: a hands-on guide} (\protect\hyperlink{ref-harrer2021doing}{Harrer et al., 2021}) se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} (\protect\hyperlink{ref-Harrer2019dmetar}{Harrer et al., 2019}), que contiene opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015}).
+
+De manera importante, los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), y \emph{p-curve} o curva de valores \(p\) (\protect\hyperlink{ref-simonsohnPCurveEffectSize2014}{Simonsohn et al., 2014}), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
+
+\hypertarget{citas-y-referencias-de-paquetes-de-r}{%
+\section{Citas y referencias de paquetes de R}\label{citas-y-referencias-de-paquetes-de-r}}
+
+Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función \texttt{citation} en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato \texttt{BibTex} que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia (alternativamente nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente).
+
+Por ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) para manipular los datos, y usando la función \texttt{citation}, obtengo esta información:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{citation}\NormalTok{(}\StringTok{"dplyr"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
+                \begin{verbatim} 
+To cite package 'dplyr' in publications use:
+
+  Wickham H, François R, Henry L, Müller K (2022). _dplyr: A Grammar of
+  Data Manipulation_. R package version 1.0.10,
+  <https://CRAN.R-project.org/package=dplyr>.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {dplyr: A Grammar of Data Manipulation},
+    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
+    year = {2022},
+    note = {R package version 1.0.10},
+    url = {https://CRAN.R-project.org/package=dplyr},
+  }
+ \end{verbatim}
+                \end{footnotesize}
+                \end{ROut}
+
+\hypertarget{paquetes-de-r-y-versiones-usados-para-crear-este-documento-para-garantizar-reproducibilidad}{%
+\section{Paquetes de R y versiones usados para crear este documento (para garantizar reproducibilidad)}\label{paquetes-de-r-y-versiones-usados-para-crear-este-documento-para-garantizar-reproducibilidad}}
+
+\textbf{R version 4.2.2 (2022-10-31 ucrt)}
+
+\textbf{Platform:} x86\_64-w64-mingw32/x64 (64-bit)
+
+\textbf{attached base packages:}
+\emph{stats}, \emph{graphics}, \emph{grDevices}, \emph{utils}, \emph{datasets}, \emph{methods} and \emph{base}
+
+\textbf{other attached packages:}
+\emph{pander(v.0.6.5)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.5.0)}, \emph{forcats(v.0.5.2)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.0.10)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.3)}, \emph{tidyr(v.1.2.1)}, \emph{tibble(v.3.1.8)}, \emph{ggplot2(v.3.4.0)}, \emph{tidyverse(v.1.3.2)}, \emph{metafor(v.3.8-1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.0)} and \emph{knitr(v.1.41)}
+
+\textbf{loaded via a namespace (and not attached):}
+\emph{httr(v.1.4.4)}, \emph{viridisLite(v.0.4.1)}, \emph{jsonlite(v.1.8.4)}, \emph{carData(v.3.0-5)}, \emph{modelr(v.0.1.10)}, \emph{assertthat(v.0.2.1)}, \emph{googlesheets4(v.1.0.1)}, \emph{cellranger(v.1.1.0)}, \emph{yaml(v.2.3.6)}, \emph{pillar(v.1.8.1)}, \emph{backports(v.1.4.1)}, \emph{lattice(v.0.20-45)}, \emph{glue(v.1.6.2)}, \emph{digest(v.0.6.31)}, \emph{ggsignif(v.0.6.4)}, \emph{rvest(v.1.0.3)}, \emph{colorspace(v.2.0-3)}, \emph{htmltools(v.0.5.4)}, \emph{pkgconfig(v.2.0.3)}, \emph{broom(v.1.0.2)}, \emph{haven(v.2.5.1)}, \emph{bookdown(v.0.31)}, \emph{webshot(v.0.5.4)}, \emph{scales(v.1.2.1)}, \emph{svglite(v.2.1.1)}, \emph{tzdb(v.0.3.0)}, \emph{timechange(v.0.2.0)}, \emph{googledrive(v.2.0.0)}, \emph{generics(v.0.1.3)}, \emph{car(v.3.1-1)}, \emph{ellipsis(v.0.3.2)}, \emph{withr(v.2.5.0)}, \emph{cli(v.3.6.0)}, \emph{magrittr(v.2.0.3)}, \emph{crayon(v.1.5.2)}, \emph{readxl(v.1.4.1)}, \emph{evaluate(v.0.19)}, \emph{fs(v.1.5.2)}, \emph{fansi(v.1.0.3)}, \emph{nlme(v.3.1-160)}, \emph{rstatix(v.0.7.1)}, \emph{xml2(v.1.3.3)}, \emph{tools(v.4.2.2)}, \emph{hms(v.1.1.2)}, \emph{gargle(v.1.2.1)}, \emph{lifecycle(v.1.0.3)}, \emph{munsell(v.0.5.0)}, \emph{reprex(v.2.0.2)}, \emph{compiler(v.4.2.2)}, \emph{systemfonts(v.1.0.4)}, \emph{rlang(v.1.0.6)}, \emph{grid(v.4.2.2)}, \emph{rstudioapi(v.0.14)}, \emph{rmarkdown(v.2.19)}, \emph{gtable(v.0.3.1)}, \emph{abind(v.1.4-5)}, \emph{DBI(v.1.1.3)}, \emph{R6(v.2.5.1)}, \emph{lubridate(v.1.9.0)}, \emph{fastmap(v.1.1.0)}, \emph{utf8(v.1.2.2)}, \emph{mathjaxr(v.1.6-0)}, \emph{stringi(v.1.7.12)}, \emph{Rcpp(v.1.0.9)}, \emph{vctrs(v.0.5.1)}, \emph{dbplyr(v.2.3.0)}, \emph{tidyselect(v.1.2.0)} and \emph{xfun(v.0.36)}
+
+\end{document}
