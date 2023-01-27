@@ -118,7 +118,7 @@ library(kableExtra)
 \rightskip\leftskip
 ```
 
-El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo estudiantes, profesionales e investigadores carecen de conocimientos prácticos para llevar a cabo un meta-análisis. Esta guía presenta una serie de herramientas para realizar meta-análisis de correlaciones en R, ilustradas a partir de ejemplos. Incluye desde análisis simples y su interpretación hasta análisis con moderadores (meta-regresión), usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. También incluye explicaciones para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa), creación de gráficos de bosque (*forest plots*) y gráficos de embudo (*funnel plots*), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], y para determinar el poder estadístico de un meta-análisis utilizando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022].
+El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo estudiantes, profesionales e investigadores carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una batería de herramientas para realizar meta-análisis de correlaciones en R, ilustradas a partir de un ejemplo real. Incluye desde análisis simples y su interpretación hasta análisis con moderadores (meta-regresión), usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. También incluye explicaciones para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa), creación de gráficos de bosque (*forest plots*) y gráficos de embudo (*funnel plots*), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], y para determinar el poder estadístico de un meta-análisis utilizando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022].
 
 ```{=latex}
 \par
@@ -401,7 +401,7 @@ Estos intervalos de confianza que también pueden ser reportados junto a sus cor
 
 > El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055, IC 95% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%, IC 95% [25.2799%, 88.2545%]).
 
-## Diagnóstico de influencia
+## Diagnóstico de influencia {#diag-inf}
 
 Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado[^4]. Para esto, se suele usar la técnica conocida como *leave-one-out*, que se refiere al resultado del meta-análisis cuando se excluye cada estudio; al estimar cómo y cuánto cambia el resultado del modelo de meta-análisis al excluir cada estudio, podemos estimar su influencia en el resultado. Dicho de otra manera, si al excluir un estudio el resultado cambia mucho, sabemos que ese estudio tiene gran influencia en el meta-análisis y sería mejor excluirlo. 
 
@@ -457,7 +457,7 @@ Para hacer un diagrama de bosque (*forest plot*) con [`metafor`](https://www.met
 forest(res)
 ```
 
-```{r for-plot1, echo = FALSE, fig.height = 5.5, fig.cap = "Forest plot básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
+```{r for-plot1, echo = FALSE, fig.height = 5.5, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
 par(mar = c(4,0,0,0))
 forest(res)
 ```
@@ -619,7 +619,7 @@ funnel(res,
        ylab = "Error estándar")
 ```
 
-```{r funnel-plot1a, echo = FALSE, fig.height = 5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php), con títulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste."}
+```{r funnel-plot1a, echo = FALSE, fig.height = 5, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php), con títulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste."}
 par(mar = c(4,4,0,1))
 funnel(res, 
        xlab = "Coeficiente de correlación transformado en z de Fisher",
@@ -653,7 +653,7 @@ viz_sunset(res,
            power_contours = "continuous")
 ```
 
-```{r funnel-plot3, message = TRUE, echo = FALSE, fig.height = 8.5, fig.width = 6, warning = FALSE, fig.cap = "Dos versiones de funnel plot creados con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función viz-sunset, que estima el poder de cada estudio para detectar un efecto de interés. **A.** Poder representado por bandas dicretas de color. **B.** Poder representado de manera contínua en una escala de color. En ambos casos, y tal como en la Fig. \\@ref(fig:funnel-plot2), el efecto real está representado como una línea vertical, y el triángulo a partir de su inicio representa el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis."}
+```{r funnel-plot3, message = TRUE, echo = FALSE, fig.height = 8.5, fig.width = 6, warning = FALSE, fig.cap = "Dos versiones de *funnel plot* creados con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función viz-sunset, que estima el poder de cada estudio para detectar un efecto de interés. **A.** Poder representado por bandas dicretas de color. **B.** Poder representado de manera contínua en una escala de color. En ambos casos, y tal como en la Fig. \\@ref(fig:funnel-plot2), el efecto real está representado como una línea vertical, y el triángulo a partir de su inicio representa el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis."}
 p.suna <- viz_sunset(res, 
                      contours = TRUE,
                      x_trans_function = tanh)
@@ -851,58 +851,73 @@ power.plot$fp_plot +
                               "es1"  = 1))
 ```
 
-## TODAS LAS COMBINACIONES POSIBLES
+## Analizar todas las posibles combinaciones de estudios
 
 Ver acá https://www.dsquintana.blog/combinatorial-meta-analysis/
 
-```{r}
-l_one <- leave1out(res)
-l_one
+### *Leave-one-out* {#leave-one-out}
+
+La técnica de *leave-one-out* no solo se puede hacer como parte de un diagnóstico de influencia (como se muestra en la sección \@ref(diag-inf)), sino que también se puede hacer para ver la estimación del efecto meta-analizado al excluir cada uno de los estudios de nuestra base de datos.
+
+Hacerlo solo requiere usar la función `leave1out` del paquete `metafor`, usando como argumento el resultado de nuestro meta-análisis original (en este caso, `res`):
+
+```{r echo = false}
+l1o_res <- leave1out(res)
 ```
 
-### Combinatorial meta-analysis
+```{r eval = false}
+leave1out(res)
+```
 
-The number of analyses to be conducted can be calculated using the formula 2^k - 1, with k representing the number of studies. So for a meta-analysis with 16 studies, you will perform 65535 meta-analyses, that is 2^16 - 1.
+Como puedes ver, nos crea una tabla con las columnas `estimate`, `se`, `zval`, `pval`, `ci.lb`, `ci.ub`, `Q`, `Qp`, `tau2`, `I2` y `H2` (explicadas en la sección \@ref(meta-interp)). Sin embargo, tenemos 16 filas, cada una de las cuales corresponde a los resultados cuando se excluye cada estudio del meta-análisis.
 
-To visualise this enormous number of summary effect size estimates, we'll put together a Graphical Display of Study Heterogeneity (GOSH) plot, using the following script, but before running the script, I should warn you that this could take some time to create 65535 models (it took about 10 minutes on my 2015 MacBook Pro).
+### Meta-análisis combinatorio
+
+Aunque la técnica de *leave-one-out* es útil para determinar la influencia de cada estudio en un meta-análisis (como se explica en las secciones \@ref(diag-inf) y \@ref(leave-one-out)), tiene limitaciones, pues no nos dice nada de cuánto cambia la estimación del efecto meta-analizado cuando excluimos 2 o más estudios. XXXXXXXXX SIGO ACÁ XXXXXXX 
+
+**EXPLICAR LAS VENTAJAS DE HACER TODAS LAS COMBINACIONES POSIBLES**
+
+El número de análisis a realizar puede calcularse usando la fórmula $2^k - 1$, donde $k$ es el número de estudios meta-analizados. Como en nuestro ejemplo estamos meta-analizando 16 estudios, realizarás $2^{16} - 1$ análisis. Es decir, un total de 65535 modelos. Ten en cuenta que ajustar estos 65535 podría bastante tiempo (en mi portátil, que tiene un procesador Intel Core i7-9750H, tardó poco más de 5 minutos, pero puede variar mucho según las características de tu equipo).
+
+Para visualizar esta enorme cantidad de estimaciones de tamaño de efecto, lo mejor es hacer un *visualización gráfica de la heterogeneidad de los estudios* (en inglés, *Graphical Display of Study Heterogeneity* o simplemente *GOSH*), una técnica propuesta por @olkinGOSHGraphicalDisplay2012. 
+
+En R, esto se puede hacer con la función `gosh` del paquete `metafor`, agregando como único argumento el resultado de nuestro meta-análisis original (en nuestro caso, `res`). Voy a asignar el resultado de este análisis a un objeto que llamaré `gp`
 
 ```{r cache = TRUE}
 gp <- gosh(res)
 ```
 
-Here's a visualisation of the summary effects of 65535 models (horizontal axis), plotted against the model's heterogeneity (vertical axis).
+Para graficar los los 65535 modelos, podemos usar la función `plot`, agregando como argumento el resultado de la función `gosh`(`gp` en este caso). En este ejemplo, adicionalmente, usaré el argumento `breaks` para definir el número de puntos de corte (y número de barras) de los histogramas, así como el argumento `labels` para poner los títulos de los ejes en español.
 
-```{r}
-plot(gp, breaks = 100,
+```{r gosh1, message = FALSE, fig.cap = "*GOSH plot* creado con la función  [`gosh`](https://www.metafor-project.org/doku.php/plots:gosh_plot) del paquete [`metafor`](https://www.metafor-project.org/doku.php). Un *GOSH plot* (en inglés, *Graphical Display of Study Heterogeneity* o simplemente *GOSH*) es una visualización gráfica de la heterogeneidad de todos los posibles modelos de meta-análisis ajustados a partir de todas las combinaciones posibles de estudios de nuestra base de datos. Un *GOSH plot* muestra los efectos estimados para cada uno de los modelos en el eje horizontal, y su respectiva heterogeneidad en el eje vertical. Las distribuciones de los efectos (parte superior de la gráfica) y las heterogeneidades (lado derecho de la gráfica) estan representadas como densidades e histogramas."}
+plot(gp, 
+     breaks = 100,
      labels = c("Coeficiente de correlación transformado en z de Fisher", 
                 expression(paste("I"^"2"))))
 ```
 
-By extracting the list of effect sizes, it's straightforward to calculate the mean effect size, which is 0.15.
+Como puedes ver, los tamaños del efecto suelen estar entre aproximadamente 0.05 y 0.25. Esto es una variación muy grande, que demuestra cómo la elección de los estudios incluidos influye en la estimación del tamaño del efecto que nos dará nuestro meta-análisis.
+
+Para ilustrar mejor esto, podemos a cambiar artificialmente nuestra base de datos, para que contengo valores atípicos. 
+
+Para hacer esto, voy a agregar valores atípicos, cambiando manualmente el tamaño de efecto de 2 de los estudios (en este caso, los estudios 12 y 15, que pasan de tener valores *z* de Fisher de 0.39 y 0.24, a otro mayores, de 0.7 y 0.6, respectivamente). Esta base de datos alterada por supuesto ya no tendía validez para realizar ningún análisis, pues 2 de nuestros resultados son literalmente inventados. Sin embargo, nos permite ver qué sucede cuando una base de datos contiene valores atípicos.
+
+Dado que no quiero afectar nuestra base de datos (`dat`), voy a crear una copia en un objeto llamado `dat_mo`, y después sí cambiar los tamaños de efecto de los estudios 12 y 15 de esa base de datos.
 
 ```{r}
-mgosh <- gp$res
-mean_est <- mean(mgosh$estimate, na.rm = TRUE)
+dat_mo <- dat
+dat_mo$yi[12] = 0.7 
+dat_mo$yi[15] = 0.6 
 ```
 
-The effect sizes range from about 0.05 to 0.25, demonstrating how the choice of included studies influences the summary effect size estimate.
-
-Now let's see what happens when we add in some artificial outliers, using this script:
+Voy a hacer un meta-análisis de esta nueva base de datos alterada (`dat_mo`), y representar los resultados en un *forest plot* (diagrama de bosque).
 
 ```{r}
-dat_mo <- get(data(dat.molloy2014)) 
-dat_mo <- escalc(measure = "ZCOR", 
-                ri = ri, ni = ni, data = dat_mo)
-
-dat_mo[12,11] = 0.7 
-dat_mo[15,11] = 0.6 
-
-res_mo <- rma.uni(yi, vi, data=dat_mo) 
-
+res_mo <- rma.uni(yi, vi, data = dat_mo) 
 forest(res_mo)
 ```
 
-You can see the introduced outliers in the forest plot (studies 12 and 15).
+Los valores atípicos introducidos son claramente visibles en el *forest plot* (diagrama de bosque). (estudios 12 y 15).
 
 Now let's run the combinatorial meta-analysis and create a GOSH plot:
 
@@ -1028,7 +1043,7 @@ text(x = 1, y = 18, labels = "Peso", pos = 2)
 text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
 ```
 
-```{r for-plot-mod1, echo = FALSE, warning = FALSE, fig.height = 3.5, fig.cap = "Forest plot básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador. En la ilustración gráfica, además de los efectos originales, se puede ver el efecto de cada estudio estimado cuando se incluye el moderador como polígonos (diamantes) de color gris. Sin embargo, ya no obtenemos una fila al final representando el efecto promediado del meta-análisis, ya que no tenemos un solo efecto."}
+```{r for-plot-mod1, echo = FALSE, warning = FALSE, fig.height = 3.5, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador. En la ilustración gráfica, además de los efectos originales, se puede ver el efecto de cada estudio estimado cuando se incluye el moderador como polígonos (diamantes) de color gris. Sin embargo, ya no obtenemos una fila al final representando el efecto promediado del meta-análisis, ya que no tenemos un solo efecto."}
 # forest plot con anotaciones adicionales
 par(mar = c(4,0,0,0))
 forest(res.modage,  cex = 0.75, xlim = c(-1.6, 1.6),
@@ -1054,7 +1069,7 @@ metafor::funnel(res.modage,
                 ylab = "Error estándar")
 ```
 
-```{r funnel-plot-mod1, echo = FALSE, fig.height = 5, fig.cap = "Funnel plot básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador, y con títulos de los ejes en español. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. **Nota**: Para evitar confunción entre las funciones `funnel` de los paquetes `weightr` y `metafor`, en este caso he usado el comando \\texttt{metafor::funnel} para pedirle a R explícitamente que use la función `funnel` del paquete `metafor`."}
+```{r funnel-plot-mod1, echo = FALSE, fig.height = 5, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo la edad promedio de los participantes como moderador, y con títulos de los ejes en español. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. **Nota**: Para evitar confunción entre las funciones `funnel` de los paquetes `weightr` y `metafor`, en este caso he usado el comando \\texttt{metafor::funnel} para pedirle a R explícitamente que use la función `funnel` del paquete `metafor`."}
 par(mar = c(4,4,0,1))
 metafor::funnel(res.modage,
                 xlab = "Valor residual",
@@ -1164,6 +1179,52 @@ ggplot(dat, aes(x = controls, y = yi)) +
 ### *Forest plot* y *funnel plot* {#plot-mod2}
 
 Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como describí en la sección \@ref(plot-mod).
+
+# Conclusiones y recomendaciones generales
+
+Hacer un meta-análisis de correlación en R no es complejo. Sin embargo, la confiabilidad del resultado que te proporcione, dependerá de varios aspectos. 
+
+Primero, debes tener hacer una selección de artículos buena y no sesgada. Esto típicamente incluye:
+
+1) Formular la pregunta de investigación clara, con base en teoría
+
+2) Identificar la bibliografía pertinente
+
+3) Extraer y consolidar los datos de los estudios (en el caso de correlaciones, cuando menos *r* y *n*)
+
+Con esto deberías ya poder hacer una base de datos para un meta-análisis de correlación simple. Mientras tengas en tu base de datos algún identificador de cada estudio, el tamaño de efecto (*r*) y el tamaño de muestra (*n*), tendrías todo lo necesario para hacerlo. Por ejemplo:
+
+| estudio       | ri   | ni  |
+|---------------|------|-----|
+| Autores (año) | 0.25 | 425 |
+| Autores (año) | 0.65 | 45  |
+| Autores (año) | 0.12 | 235 |
+
+Adicionalmente, podrías tomar o extraer información de posibles variables moderadoras; por ejemplo, si los estudios se pudieran agrupar según metodología usada o población estudiada, y sospechas que estas variables afectan la correlación encontrada en cada estudio, podrías agregar esta información en una o más variables.
+
+Una vez tengas tu base de datos lista, deberías, cuando menos:
+
+1. Hacer el meta-análisis
+
+  * Reportar información sobre heterogeneidad
+  
+  * Incluir un diagnóstico de influencia
+  
+  * Reportar los resultados usando un *forest plot* (diagrama de bosque)
+  
+  * Mostrar la distribución de los resultados en un *funnel plot* (diagrama de embudo) y estimar el sesgo de estudios pequeños 
+  
+2. Estimar si hay evidencia de sesgo de publicación
+
+  * Puedes usar el método *trim and fill* (recorte y relleno) o, lo que es mejor, hacer una estimación del modelo de función de peso
+
+Adicionalmente, podrías:
+
+3. Estimar el poder estadístico del meta-análisis y los estudios meta-analizados
+
+4. Hacer un meta-análisis combinatorio)
+
+
 
 \newpage
 

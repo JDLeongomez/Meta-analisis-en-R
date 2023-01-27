@@ -197,7 +197,7 @@
 \leftskip3em
 \rightskip\leftskip
 
-El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo estudiantes, profesionales e investigadores carecen de conocimientos prácticos para llevar a cabo un meta-análisis. Esta guía presenta una serie de herramientas para realizar meta-análisis de correlaciones en R, ilustradas a partir de ejemplos. Incluye desde análisis simples y su interpretación hasta análisis con moderadores (meta-regresión), usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}). También incluye explicaciones para la transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher (y viceversa), creación de gráficos de bosque (\emph{forest plots}) y gráficos de embudo (\emph{funnel plots}), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete \href{https://www.r-pkg.org/pkg/weightr}{\texttt{weightr}} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}), y para determinar el poder estadístico de un meta-análisis utilizando \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{\texttt{metameta}} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}).
+El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo estudiantes, profesionales e investigadores carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una batería de herramientas para realizar meta-análisis de correlaciones en R, ilustradas a partir de un ejemplo real. Incluye desde análisis simples y su interpretación hasta análisis con moderadores (meta-regresión), usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}). También incluye explicaciones para la transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher (y viceversa), creación de gráficos de bosque (\emph{forest plots}) y gráficos de embudo (\emph{funnel plots}), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete \href{https://www.r-pkg.org/pkg/weightr}{\texttt{weightr}} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}), y para determinar el poder estadístico de un meta-análisis utilizando \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{\texttt{metameta}} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}).
 
 \par
 \endgroup
@@ -247,7 +247,7 @@ Primero, debemos cargar los principales paquetes que usaré a lo largo de esta g
 \end{Highlighting}
 \end{Shaded}
 
-Como ya hemos cargado el paquete \texttt{metafor}, ya podemos cargar la base de datos \texttt{dat.molloy2014}. En éste caso, para poder \emph{llamarla} cuando sea necesario, la asignaré a un objeto que sencillamente llamaré \texttt{dat}.
+Como ya hemos cargado el paquete \texttt{metafor}, ya podemos cargar la base de datos \texttt{dat.molloy2014}. En éste caso, para poder \emph{llamarla} cuando sea necesario, la asignaré a un objeto que llamaré simplemente \texttt{dat}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -732,7 +732,7 @@ Para hacer un diagrama de bosque (\emph{forest plot}) con \href{https://www.meta
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/for-plot1-1.pdf}
-\caption{\label{fig:for-plot1}Forest plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante.}
+\caption{\label{fig:for-plot1}\emph{Forest plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante.}
 \end{figure}
 
 Como se puede ver en las Figuras \ref{fig:for-plot1}, \ref{fig:for-plot2} y \ref{fig:for-plot3b} (que son versiones del mismo \emph{forest plot}), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre -0.09 y 0.37), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en otros casos son prácticamente 0 o incluso negativas.
@@ -854,7 +854,7 @@ O, si queremos cambiar los títulos de los ejes, por ejemplo escribiéndolos en 
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/funnel-plot1a-1.pdf}
-\caption{\label{fig:funnel-plot1a}Funnel plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}, con títulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher) en el eje \emph{X}, así como su error estándar en el eje \emph{Y}. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste.}
+\caption{\label{fig:funnel-plot1a}\emph{Funnel plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}, con títulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher) en el eje \emph{X}, así como su error estándar en el eje \emph{Y}. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste.}
 \end{figure}
 
 De nuevo, para una versión más sofisticada, se puede usar el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}}, usando la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-funnel-plots-with-viz_funnel}{\texttt{viz\_funnel}}. Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regresión de Egger (\texttt{egger\ =\ TRUE}; ver sección \ref{reg-egger}, más adelante), transformando los tamaños de efecto de regreso a \(r\) de Pearson (\texttt{x\_trans\_function\ =\ tanh}), y con los títulos de los ejes en español (Fig. \ref{fig:funnel-plot2}).
@@ -897,7 +897,7 @@ A continuación, muestro dos versiones de \emph{funnel plots} creados con la fun
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/funnel-plot3-1.pdf}
-\caption{\label{fig:funnel-plot3}Dos versiones de funnel plot creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}, usando la función viz-sunset, que estima el poder de cada estudio para detectar un efecto de interés. \textbf{A.} Poder representado por bandas dicretas de color. \textbf{B.} Poder representado de manera contínua en una escala de color. En ambos casos, y tal como en la Fig. \ref{fig:funnel-plot2}, el efecto real está representado como una línea vertical, y el triángulo a partir de su inicio representa el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis.}
+\caption{\label{fig:funnel-plot3}Dos versiones de \emph{funnel plot} creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}, usando la función viz-sunset, que estima el poder de cada estudio para detectar un efecto de interés. \textbf{A.} Poder representado por bandas dicretas de color. \textbf{B.} Poder representado de manera contínua en una escala de color. En ambos casos, y tal como en la Fig. \ref{fig:funnel-plot2}, el efecto real está representado como una línea vertical, y el triángulo a partir de su inicio representa el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis.}
 \end{figure}
 
 \hypertarget{reg-egger}{%
@@ -1285,8 +1285,8 @@ Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.pl
 \caption{\label{fig:fire-plot2}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis, con el texto traducido a español y con la leyenda en una escala discreta para facilitar su lectura. \emph{Observado} hace referencia al tamaño de efecto observado en nuestro meta-análisis original (en este caso, 0.15).}
 \end{figure}
 
-\hypertarget{todas-las-combinaciones-posibles}{%
-\subsection{TODAS LAS COMBINACIONES POSIBLES}\label{todas-las-combinaciones-posibles}}
+\hypertarget{analizar-todas-las-posibles-combinaciones-de-estudios}{%
+\subsection{Analizar todas las posibles combinaciones de estudios}\label{analizar-todas-las-posibles-combinaciones-de-estudios}}
 
 Ver acá \url{https://www.dsquintana.blog/combinatorial-meta-analysis/}
 
@@ -1338,12 +1338,16 @@ Ver acá \url{https://www.dsquintana.blog/combinatorial-meta-analysis/}
                 \end{footnotesize}
                 \end{ROut}
 
-\hypertarget{combinatorial-meta-analysis}{%
-\subsubsection{Combinatorial meta-analysis}\label{combinatorial-meta-analysis}}
+\hypertarget{meta-anuxe1lisis-combinatorio}{%
+\subsubsection{Meta-análisis combinatorio}\label{meta-anuxe1lisis-combinatorio}}
 
-The number of analyses to be conducted can be calculated using the formula 2\^{}k - 1, with k representing the number of studies. So for a meta-analysis with 16 studies, you will perform 65535 meta-analyses, that is 2\^{}16 - 1.
+\textbf{EXPLICAR LAS VENTAJAS DE HACER TODAS LAS COMBINACIONES POSIBLES}
 
-To visualise this enormous number of summary effect size estimates, we'll put together a Graphical Display of Study Heterogeneity (GOSH) plot, using the following script, but before running the script, I should warn you that this could take some time to create 65535 models (it took about 10 minutes on my 2015 MacBook Pro).
+El número de análisis a realizar puede calcularse usando la fórmula \(2^k - 1\), donde \(k\) es el número de estudios meta-analizados. Como en nuestro ejemplo estamos meta-analizando 16 estudios, realizarás \(2^{16} - 1\) análisis. Es decir, un total de 65535 modelos. Ten en cuenta que ajustar estos 65535 podría bastante tiempo (en mi portátil, que tiene un procesador Intel Core i7-9750H, tardó poco más de 5 minutos, pero puede variar mucho según las características de tu equipo).
+
+Para visualizar esta enorme cantidad de estimaciones de tamaño de efecto, lo mejor es hacer un \emph{visualización gráfica de la heterogeneidad de los estudios} (en inglés, \emph{Graphical Display of Study Heterogeneity} o simplemente \emph{GOSH}), una técnica propuesta por Olkin et al. (\protect\hyperlink{ref-olkinGOSHGraphicalDisplay2012}{2012}).
+
+En R, esto se puede hacer con la función \texttt{gosh} del paquete \texttt{metafor}, agregando como único argumento el resultado de nuestro meta-análisis original (en nuestro caso, \texttt{res}). Voy a asignar el resultado de este análisis a un objeto que llamaré \texttt{gp}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1355,49 +1359,51 @@ To visualise this enormous number of summary effect size estimates, we'll put to
 Fitting 65535 models (based on all possible subsets).
 \end{verbatim}
 
-Here's a visualisation of the summary effects of 65535 models (horizontal axis), plotted against the model's heterogeneity (vertical axis).
+Para graficar los los 65535 modelos, podemos usar la función \texttt{plot}, agregando como argumento el resultado de la función \texttt{gosh}(\texttt{gp} en este caso). En este ejemplo, adicionalmente, usaré el argumento \texttt{breaks} para definir el número de puntos de corte (y número de barras) de los histogramas, así como el argumento \texttt{labels} para poner los títulos de los ejes en español.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(gp, }\AttributeTok{breaks =} \DecValTok{100}\NormalTok{,}
+\FunctionTok{plot}\NormalTok{(gp, }
+     \AttributeTok{breaks =} \DecValTok{100}\NormalTok{,}
      \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{, }
                 \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"I"}\SpecialCharTok{\^{}}\StringTok{"2"}\NormalTok{))))}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-29-1.pdf}
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/gosh1-1.pdf}
+\caption{\label{fig:gosh1}\emph{GOSH plot} creado con la función \href{https://www.metafor-project.org/doku.php/plots:gosh_plot}{\texttt{gosh}} del paquete \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}. Un \emph{GOSH plot} es una visualización gráfica de la heterogeneidad de los estudios (en inglés, \emph{Graphical Display of Study Heterogeneity} o simplemente \emph{GOSH}). Muestra los efectos estimados para cada uno de los modelos en el eje horizontal, y la heterogeneidad de cada modelo en el eje vertical. Las distribuciones de los efectos (parte superior de la gráfica) y las heterogeneidades (lado derecho de la gráfica) estan representadas como densidades e histogramas.}
+\end{figure}
 
-By extracting the list of effect sizes, it's straightforward to calculate the mean effect size, which is 0.15.
+Como puedes ver, los tamaños del efecto suelen estar entre aproximadamente 0.05 y 0.25. Esto es una variación muy grande, que demuestra cómo la elección de los estudios incluidos influye en la estimación del tamaño del efecto que nos dará nuestro meta-análisis.
+
+Para ilustrar mejor esto, podemos a cambiar artificialmente nuestra base de datos, para que contengo valores atípicos.
+
+Para hacer esto, voy a agregar valores atípicos, cambiando manualmente el tamaño de efecto de 2 de los estudios (en este caso, los estudios 12 y 15, que pasan de tener valores \emph{z} de Fisher de 0.39 y 0.24, a otro mayores, de 0.7 y 0.6, respectivamente). Esta base de datos alterada por supuesto ya no tendía validez para realizar ningún análisis, pues 2 de nuestros resultados son literalmente inventados. Sin embargo, nos permite ver qué sucede cuando una base de datos contiene valores atípicos.
+
+Dado que no quiero afectar nuestra base de datos (\texttt{dat}), voy a crear una copia en un objeto llamado \texttt{dat\_mo}, y después sí cambiar los tamaños de efecto de los estudios 12 y 15 de esa base de datos.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mgosh }\OtherTok{\textless{}{-}}\NormalTok{ gp}\SpecialCharTok{$}\NormalTok{res}
-\NormalTok{mean\_est }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(mgosh}\SpecialCharTok{$}\NormalTok{estimate, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{dat\_mo }\OtherTok{\textless{}{-}}\NormalTok{ dat}
+\NormalTok{dat\_mo}\SpecialCharTok{$}\NormalTok{yi[}\DecValTok{12}\NormalTok{] }\OtherTok{=} \FloatTok{0.7} 
+\NormalTok{dat\_mo}\SpecialCharTok{$}\NormalTok{yi[}\DecValTok{15}\NormalTok{] }\OtherTok{=} \FloatTok{0.6} 
 \end{Highlighting}
 \end{Shaded}
 
-The effect sizes range from about 0.05 to 0.25, demonstrating how the choice of included studies influences the summary effect size estimate.
-
-Now let's see what happens when we add in some artificial outliers, using this script:
+Voy a hacer un meta-análisis de esta nueva base de datos alterada (\texttt{dat\_mo}), y representar los resultados en un \emph{forest plot} (diagrama de bosque).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat\_mo }\OtherTok{\textless{}{-}} \FunctionTok{get}\NormalTok{(}\FunctionTok{data}\NormalTok{(dat.molloy2014)) }
-\NormalTok{dat\_mo }\OtherTok{\textless{}{-}} \FunctionTok{escalc}\NormalTok{(}\AttributeTok{measure =} \StringTok{"ZCOR"}\NormalTok{, }
-                \AttributeTok{ri =}\NormalTok{ ri, }\AttributeTok{ni =}\NormalTok{ ni, }\AttributeTok{data =}\NormalTok{ dat\_mo)}
-
-\NormalTok{dat\_mo[}\DecValTok{12}\NormalTok{,}\DecValTok{11}\NormalTok{] }\OtherTok{=} \FloatTok{0.7} 
-\NormalTok{dat\_mo[}\DecValTok{15}\NormalTok{,}\DecValTok{11}\NormalTok{] }\OtherTok{=} \FloatTok{0.6} 
-
-\NormalTok{res\_mo }\OtherTok{\textless{}{-}} \FunctionTok{rma.uni}\NormalTok{(yi, vi, }\AttributeTok{data=}\NormalTok{dat\_mo) }
-
+\NormalTok{res\_mo }\OtherTok{\textless{}{-}} \FunctionTok{rma.uni}\NormalTok{(yi, vi, }\AttributeTok{data =}\NormalTok{ dat\_mo) }
 \FunctionTok{forest}\NormalTok{(res\_mo)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-31-1.pdf}
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-30-1.pdf}
 
-You can see the introduced outliers in the forest plot (studies 12 and 15).
+Los valores atípicos introducidos son claramente visibles en el \emph{forest plot} (diagrama de bosque). (estudios 12 y 15).
 
 Now let's run the combinatorial meta-analysis and create a GOSH plot:
 
@@ -1419,7 +1425,7 @@ Y el plot
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-33-1.pdf}
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-32-1.pdf}
 
 There is a clear cluster of large effect sizes with high heterogeneity in the top right of the plot. We can specifically highlight the meta-analysis models that included the potential outlier studies:
 
@@ -1433,8 +1439,8 @@ There is a clear cluster of large effect sizes with high heterogeneity in the to
 
 \begin{figure}
 \centering
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-34-1.pdf}
-\caption{\label{fig:unnamed-chunk-34}Se puede ver en las distribuciones del eje X (distribuciones arriba) cómo los meta análisis que incluyen ese estudio tienden a arrojar estimados más fuertes para la asociación, sesgando el resultado hacia valores más extremos.}
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-33-1.pdf}
+\caption{\label{fig:unnamed-chunk-33}Se puede ver en las distribuciones del eje X (distribuciones arriba) cómo los meta análisis que incluyen ese estudio tienden a arrojar estimados más fuertes para la asociación, sesgando el resultado hacia valores más extremos.}
 \end{figure}
 
 There's a noticeable shift in the distribution of meta-analysis model summary effect size estimates that include study 12.
@@ -1603,7 +1609,7 @@ Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \em
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/for-plot-mod1-1.pdf}
-\caption{\label{fig:for-plot-mod1}Forest plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo la edad promedio de los participantes como moderador. En la ilustración gráfica, además de los efectos originales, se puede ver el efecto de cada estudio estimado cuando se incluye el moderador como polígonos (diamantes) de color gris. Sin embargo, ya no obtenemos una fila al final representando el efecto promediado del meta-análisis, ya que no tenemos un solo efecto.}
+\caption{\label{fig:for-plot-mod1}\emph{Forest plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo la edad promedio de los participantes como moderador. En la ilustración gráfica, además de los efectos originales, se puede ver el efecto de cada estudio estimado cuando se incluye el moderador como polígonos (diamantes) de color gris. Sin embargo, ya no obtenemos una fila al final representando el efecto promediado del meta-análisis, ya que no tenemos un solo efecto.}
 \end{figure}
 
 De manera similar, podemos obtener un \emph{funnel plot} de nuestro meta-análisis con moderador. Es importante tener en cuenta que tanto el paquete \texttt{weightr} como el paquete \texttt{metafor} tienen funciones llamadas \texttt{funnel}. Dado que cargamos el paquete \texttt{weightr} después, R por defecto intentará intentará crear el \emph{funnel plot} con la función \texttt{funnel} del paquete \texttt{weightr}, en vez de la función \texttt{funnel} del paquete \texttt{metafor}. Para evitar este error, tenemos dos opciones: podemos pedirle a R explícitamente que use la función \texttt{funnel} del paquete \texttt{metafor} con el comando \texttt{metafor::funnel}, o podemos pedirle a R que elimine el paquete de la memoria con la función \texttt{detach("package:metameta",\ unload\ =\ TRUE)}. En este caso, usaré la primera opción.
@@ -1621,7 +1627,7 @@ Este \emph{funnel plot}, a diferencia los los anteriores, nos mostrará los valo
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/funnel-plot-mod1-1.pdf}
-\caption{\label{fig:funnel-plot-mod1}Funnel plot básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo la edad promedio de los participantes como moderador, y con títulos de los ejes en español. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. \textbf{Nota}: Para evitar confunción entre las funciones \texttt{funnel} de los paquetes \texttt{weightr} y \texttt{metafor}, en este caso he usado el comando \texttt{metafor::funnel} para pedirle a R explícitamente que use la función \texttt{funnel} del paquete \texttt{metafor}.}
+\caption{\label{fig:funnel-plot-mod1}\emph{Funnel plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo la edad promedio de los participantes como moderador, y con títulos de los ejes en español. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. \textbf{Nota}: Para evitar confunción entre las funciones \texttt{funnel} de los paquetes \texttt{weightr} y \texttt{metafor}, en este caso he usado el comando \texttt{metafor::funnel} para pedirle a R explícitamente que use la función \texttt{funnel} del paquete \texttt{metafor}.}
 \end{figure}
 
 \hypertarget{ejemplo-2-moderaciuxf3n-de-una-variable-categuxf3rica-controles-usados-en-cada-estudio-meta-analizado}{%
@@ -1763,6 +1769,83 @@ El código anterior puede verse algo confuso para quien no haya usado \texttt{gg
 
 Por supuesto, \emph{forest plots} y \emph{funnel plots} pueden ser creados, tal y como describí en la sección \ref{plot-mod}.
 
+\hypertarget{conclusiones-y-recomendaciones-generales}{%
+\section{Conclusiones y recomendaciones generales}\label{conclusiones-y-recomendaciones-generales}}
+
+Hacer un meta-análisis de correlación en R no es complejo. Sin embargo, la confiabilidad del resultado que te proporcione, dependerá de varios aspectos.
+
+Primero, debes tener hacer una selección de artículos buena y no sesgada. Esto típicamente incluye:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  Formular la pregunta de investigación clara, con base en teoría
+\item
+  Identificar la bibliografía pertinente
+\item
+  Extraer y consolidar los datos de los estudios (en el caso de correlaciones, cuando menos \emph{r} y \emph{n})
+\end{enumerate}
+
+Con esto deberías ya poder hacer una base de datos para un meta-análisis de correlación simple. Mientras tengas en tu base de datos algún identificador de cada estudio, el tamaño de efecto (\emph{r}) y el tamaño de muestra (\emph{n}), tendrías todo lo necesario para hacerlo. Por ejemplo:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule()
+estudio & ri & ni \\
+\midrule()
+\endhead
+Autores (año) & 0.25 & 425 \\
+Autores (año) & 0.65 & 45 \\
+Autores (año) & 0.12 & 235 \\
+\bottomrule()
+\end{longtable}
+
+Adicionalmente, podrías tomar o extraer información de posibles variables moderadoras; por ejemplo, si los estudios se pudieran agrupar según metodología usada o población estudiada, y sospechas que estas variables afectan la correlación encontrada en cada estudio, podrías agregar esta información en una o más variables.
+
+Una vez tengas tu base de datos lista, deberías, cuando menos:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Hacer el meta-análisis
+\end{enumerate}
+
+\begin{itemize}
+\item
+  Reportar información sobre heterogeneidad
+\item
+  Incluir un diagnóstico de influencia
+\item
+  Reportar los resultados usando un \emph{forest plot} (diagrama de bosque)
+\item
+  Mostrar la distribución de los resultados en un \emph{funnel plot} (diagrama de embudo) y estimar el sesgo de estudios pequeños
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Estimar si hay evidencia de sesgo de publicación
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Puedes usar el método \emph{trim and fill} (recorte y relleno) o, lo que es mejor, hacer una estimación del modelo de función de peso
+\end{itemize}
+
+Adicionalmente, podrías:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item
+  Estimar el poder estadístico del meta-análisis y los estudios meta-analizados
+\item
+  Hacer un meta-análisis combinatorio)
+\end{enumerate}
+
 \newpage
 
 \hypertarget{referencias}{%
@@ -1841,6 +1924,9 @@ López Peñaranda, A. (2019). \emph{Tutorial de ggplot2}. RPubs. \url{https://rp
 
 \leavevmode\vadjust pre{\hypertarget{ref-molloy2013}{}}%
 Molloy, G. J., O'Carroll, R. E., \& Ferguson, E. (2013). Conscientiousness and medication adherence: A meta-analysis. \emph{Annals of Behavioral Medicine}, \emph{47}(1), 92--101. \url{https://doi.org/10.1007/s12160-013-9524-4}
+
+\leavevmode\vadjust pre{\hypertarget{ref-olkinGOSHGraphicalDisplay2012}{}}%
+Olkin, I., Dahabreh, I. J., \& Trikalinos, T. A. (2012). {GOSH} \textendash{} a graphical display of study heterogeneity. \emph{Research Synthesis Methods}, \emph{3}(3), 214--223. \url{https://doi.org/10.1002/jrsm.1053}
 
 \leavevmode\vadjust pre{\hypertarget{ref-quintanaHowPerformMetaanalysis2021}{}}%
 Quintana, D. S. (2021). \emph{{How to Perform a Meta-Analysis in R} \emph{{[}video{]}}}. YouTube. \url{https://youtu.be/lH4VZMTEZSc}.
