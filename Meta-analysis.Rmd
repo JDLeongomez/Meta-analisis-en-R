@@ -861,11 +861,11 @@ La técnica de *leave-one-out* no solo se puede hacer como parte de un diagnóst
 
 Hacerlo solo requiere usar la función `leave1out` del paquete `metafor`, usando como argumento el resultado de nuestro meta-análisis original (en este caso, `res`):
 
-```{r echo = false}
+```{r echo = FALSE}
 l1o_res <- leave1out(res)
 ```
 
-```{r eval = false}
+```{r eval = FALSE}
 leave1out(res)
 ```
 

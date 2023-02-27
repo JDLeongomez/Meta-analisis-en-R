@@ -6,7 +6,9 @@ meta_plot(ri = dat$ri, ni = dat$ni)
 
 meta_plot(ri = dat$ri, ni = dat$ni, nr_lines = "summary")
 
-puniform(ri = dat$ri, ni = dat$ni, side = "right", method = "LNP")
+puniform(ri = dat$ri, ni = dat$ni, side = "right", method = "P",
+         plot = TRUE)
+
 
 
 
@@ -14,6 +16,6 @@ puniform(ri = dat$ri, ni = dat$ni, side = "right", method = "LNP")
 
 library(PublicationBias)
 
-pval_plot(dat$yi, dat$vi, alpha.select = 0.05)
+pval_plot(dat$yi, dat$vi)
 
-significance_funnel( yi = dat$yi, vi = dat$vi, favor.positive = TRUE, alpha.select = 0.50, plot.pooled = TRUE )
+significance_funnel(yi = dat$yi, vi = dat$vi, favor_positive = TRUE, plot_pooled = TRUE)
