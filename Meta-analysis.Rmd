@@ -133,7 +133,9 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 
 [![Investigación Abierta](images%5CLogo-IA-Rectangulo.pdf)](https://www.youtube.com/@InvestigacionAbierta)
 
-**Nota:** Está guía está inspirada en [este video](https://youtu.be/lH4VZMTEZSc) de @quintanaHowPerformMetaanalysis2021, pero contiene pasos adicionales y alternativos, citas a fuentes primarias, e información complementaria más detallada. Asume un manejo básico de R, comprensión de correlaciones y regresiones, y un entendimiento de los principios del meta-análisis. De ser necesario, recomiendo ver [este video](https://youtu.be/ntBbkOn9D_o) introductorio al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/@InvestigacionAbierta).
+**Conocimientos necesarios:** Esta guía asume (1) un manejo básico de R, (2) comprensión de correlaciones y regresiones, y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver [este video](https://youtu.be/ntBbkOn9D_o) introductorio al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/@InvestigacionAbierta).
+
+**Nota:** Está guía está inspirada en [este video](https://youtu.be/lH4VZMTEZSc) de @quintanaHowPerformMetaanalysis2021 y sus ejemplos, pero contiene pasos adicionales y alternativos, citas a fuentes primarias, e información complementaria más detallada. 
 
 ```{=latex}
 \par
