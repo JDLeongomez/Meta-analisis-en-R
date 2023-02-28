@@ -164,12 +164,13 @@ Básicamente, @molloy2013 estudiaron si existe una asociación entre la concienc
 
 [^1]: Para una definición detallada del concepto de concienciación, ver @johnBigFiveTrait1999.
 
-Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: `metafor` [@viechtbauer2010] y `metaviz` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `dplyr` [@WickhamDplyr2021] y `forecats` [@Wickhamforcats2022] para manipular y organizar la base de datos.
+Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: `metafor` [@viechtbauer2010] y `metaviz` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `dplyr` [@WickhamDplyr2021], `magrittr` [@magrittrcite] y `forecats` [@Wickhamforcats2022] para manipular y organizar la base de datos.
 
 ```{r eval = FALSE}
 library(metafor)
 library(metaviz)
 library(dplyr)
+library(magrittr)
 library(forcats)
 ```
 
@@ -218,7 +219,7 @@ Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para o
 
 ```{r molloy2014}
 dat <- get(data(dat.molloy2014)) %>%
-  mutate(study_id = 1:16)  %>% #crear columna study_id y agregar número del 1 al 16
+  mutate(study_id = 1:16)  %>% #crear columna study_id y agregar números del 1 al 16
   select(study_id, authors:quality) %>% #mover study_id como primera columna
   mutate_at(c("controls", # Transformar variables en factores
               "design",
@@ -248,7 +249,7 @@ Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar
 
 [^2]: Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (*r*), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significación para coeficientes *r*. La transformación de Fisher de valores *r* a *z* ---que es la [tangente hiperbólica inversa](https://es.wikipedia.org/wiki/Tangente_hiperb%C3%B3lica) de *r*--- resuelve este problema, pues los coeficientes *z* tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de *r* [para una demostración en español, ver @sanchez-brunoTransformacionFisherPara2005].
 
-Para transformar los coeficientes *r* de Pearson a coeficientes *z* de Fisher, usaré la función `escalc` del paquete `metafor`. Los argumentos que requiere esta función, además del tipo de transformación a realizar (en este caso `measure = "ZCOR"`), son los coeficientes de correlación (`ri`), el tamaño de muestra de cada correlación (`ni`), y la base de datos que contiene estos valores (`data`). En nuestro caso, las columnas donde están estos valores, tienen los mismos nombres (`ri`, `ni`). En este ejemplo, asignaré el resultado de esta función al mismo objeto `dat`, que contiene la base de datos, para sobrescribirlo y no crear objetos adicionales.
+Para transformar los coeficientes *r* de Pearson a coeficientes *z* de Fisher, usaré la función `escalc` del paquete `metafor`, que sirve para calcular diversos tamaños de efecto que se utilizan comúnmente en meta-análisis. Los argumentos que requiere esta función, además del tipo de transformación a realizar (en este caso `measure = "ZCOR"`), son los coeficientes de correlación (`ri`), el tamaño de muestra de cada correlación (`ni`), y la base de datos que contiene estos valores (`data`). En nuestro caso, las columnas donde están estos valores, tienen los mismos nombres (`ri`, `ni`). En este ejemplo, asignaré el resultado de esta función al mismo objeto `dat`, que contiene la base de datos, para sobrescribirlo y no crear objetos adicionales.
 
 ```{r}
 dat <- escalc(measure = "ZCOR", ri = ri, ni = ni, data = dat)
