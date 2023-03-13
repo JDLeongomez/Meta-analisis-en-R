@@ -1,0 +1,38 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Base de datos de ejemplo}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Variables de la base de datos}{4}{subsection.1.1}%
+\contentsline {section}{\numberline {2}Preparación de los datos: transformación de coeficientes \emph {r} de Pearson a \emph {z} de Fisher}{5}{section.2}%
+\contentsline {section}{\numberline {3}Hacer el meta-análisis}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Interpretación de los resultados del meta-análisis}{6}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}Alternativa: Reportar el estimado como \emph {r} de Pearson en vez de \emph {z} de Fisher}{8}{subsubsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.2}Más información sobre heterogeneidad}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Diagnóstico de influencia}{10}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}\emph {Forest plot} (diagrama de bosque)}{12}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}\emph {Funnel plot} (diagrama de embudo) y sesgo de estudios pequeños}{16}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}\emph {Funnel plot}}{17}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}Regresión de Egger}{21}{subsubsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.6}Sesgo de publicación (\emph {publication bias})}{21}{subsection.3.6}%
+\contentsline {subsubsection}{\numberline {3.6.1}Método \emph {trim and fill} (recorte y relleno)}{21}{subsubsection.3.6.1}%
+\contentsline {subsubsection}{\numberline {3.6.2}Estimación del modelo de función de peso}{23}{subsubsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.7}Poder estadístico del meta-análisis}{25}{subsection.3.7}%
+\contentsline {subsubsection}{\numberline {3.7.1}Instalación de \texttt {metameta}}{25}{subsubsection.3.7.1}%
+\contentsline {subsubsection}{\numberline {3.7.2}Análisis de poder}{25}{subsubsection.3.7.2}%
+\contentsline {subsubsection}{\numberline {3.7.3}Visualización del análisis de poder (\emph {Firepower plot})}{26}{subsubsection.3.7.3}%
+\contentsline {subsection}{\numberline {3.8}Analizar todas las posibles combinaciones de estudios}{28}{subsection.3.8}%
+\contentsline {subsubsection}{\numberline {3.8.1}\emph {Leave-one-out}}{28}{subsubsection.3.8.1}%
+\contentsline {subsubsection}{\numberline {3.8.2}Meta-análisis combinatorio}{28}{subsubsection.3.8.2}%
+\contentsline {section}{\numberline {4}Meta-análisis de correlación con moderador (meta-regresión)}{32}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes)}{32}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}Más información e interpretación de la moderación}{33}{subsubsection.4.1.1}%
+\contentsline {paragraph}{\numberline {4.1.1.1}\emph {Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{34}{paragraph.4.1.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.2}\emph {Forest plot} y \emph {funnel plot}}{35}{subsubsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.2}Ejemplo 2: Moderación de una variable categórica (controles usados en cada estudio meta-analizado)}{37}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Más información e interpretación de la moderación}{38}{subsubsection.4.2.1}%
+\contentsline {paragraph}{\numberline {4.2.1.1}\emph {Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{38}{paragraph.4.2.1.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}\emph {Forest plot} y \emph {funnel plot}}{41}{subsubsection.4.2.2}%
+\contentsline {section}{\numberline {5}Conclusiones y recomendaciones generales}{41}{section.5}%
+\contentsline {section}{\numberline {6}Referencias}{43}{section.6}%
+\contentsline {section}{APÉNDICES}{44}{section*.24}%
+\contentsline {section}{\numberline {A}Alternativas a \texttt {metafor}}{44}{appendix.Alph1}%
+\contentsline {section}{\numberline {B}Citas y referencias de paquetes de R}{45}{appendix.Alph2}%
+\contentsline {section}{\numberline {C}Paquetes de R y versiones usados para crear este documento (para garantizar reproducibilidad)}{45}{appendix.Alph3}%

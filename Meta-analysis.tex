@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{28 febrero, 2023}
+\date{13 marzo, 2023}
 
 \begin{document}
 \maketitle
@@ -258,7 +258,7 @@ Como ya hemos cargado el paquete \texttt{metafor}, ya podemos cargar la base de 
 \end{Highlighting}
 \end{Shaded}
 
-Tras asignar la base de datos a este objeto (\texttt{dat}), la base de datos se puede ver en la consola de R sencillamente usando como comando el nombre que le dimos al objeto al que lo asignamos (en este caso, \texttt{dat}).
+Tras asignar la base de datos a este objeto (\texttt{dat}), la base de datos se puede ver como \emph{output}\footnote{En R y otros lenguajes de programación, se llama ``\emph{output}'' a la \emph{salida} o resultado visible de una función o proceso, en este caso en la consola (que en RStudio es normalmente el panel que está a la izquierda en la parte inferior).} en la consola de R sencillamente usando como comando el nombre que le dimos al objeto al que lo asignamos (en este caso, \texttt{dat}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -314,7 +314,6 @@ Por favor mira la base de datos, y familiarízate con sus columnas. ¿Qué infor
 Primero, hay unas columnas que contienen información absolutamente necesaria para poder hacer un meta-análisis:
 
 \begin{itemize}
-\tightlist
 \item
   \texttt{authors}: los autores de cada estudio a meta-analizar
 \item
@@ -325,26 +324,26 @@ Primero, hay unas columnas que contienen información absolutamente necesaria pa
   \texttt{ri}: coeficiente de correlación de Pearson de cada estudio
 \end{itemize}
 
-Esas son las variables más importantes y son necesarias para hacer un meta-análisis de correlación simple: alguna columna o columnas con información que permita identificar cada estudio (en este caso \texttt{authors} y \texttt{year}), una una columna con el tamaño de muestra de cada estudio (en este caso, \texttt{ni}), y finalmente columna con los coeficientes de correlación (en este caso la columna \texttt{ri}). Si tu meta-análisis no requiere moderadores, con una estructura como esta sería suficiente.
+Esas son las variables más importantes y son necesarias para hacer un meta-análisis de correlación simple: alguna columna o columnas con información que permita identificar cada estudio (en este caso \texttt{authors} y \texttt{year}), una columna con el tamaño de muestra de cada estudio (en este caso, \texttt{ni}), y finalmente una columna con los coeficientes de correlación (en este caso la columna \texttt{ri}). Si tu meta-análisis no requiere moderadores, con una estructura como esta sería suficiente.
 
 Después hay unas columnas que contienen variables específicas para este este ejemplo, y que son una serie de posibles moderadores que agrupan características de los estudios a meta-analizar:
 
 \begin{itemize}
 \item
-  \texttt{controls}: cantidad de variables controladas (ninguna o múltiples)
+  \texttt{controls}: cantidad de variables controladas (``\texttt{none}'': ninguna o ``\texttt{multiple}'': múltiples)
 \item
-  \texttt{design}: si se utilizó un diseño transversal o prospectivo
+  \texttt{design}: si se utilizó un diseño transversal (``\texttt{cross-section}'') o prospectivo (``\texttt{prospective}'') (para más información acerca de estos tipos de diseño, ver por ejemplo \protect\hyperlink{ref-Manterola2019}{Manterola et al., 2019})
 \item
-  \texttt{a\_measure}: tipo de medida de adherencia (autoinforme u otro tipo de medida más ``objetivo'')
+  \texttt{a\_measure}: tipo de medida de adherencia (``\texttt{self-report}'': autoinforme u ``\texttt{other}'': otro tipo de medida más \emph{objetivo})
 \item
   \texttt{c\_measure}: tipo de medida de concienciación (si se midió con alguna versión del inventario de personalidad NEO o con alguna otra escala)
 \item
-  \texttt{meanage}: edad promedio de la muestra
+  \texttt{meanage}: edad promedio de la muestra de cada estudio
 \item
-  \texttt{quality}: calidad metodológica (la calidad metodológica fue calificada por los autores en una escala de 1 a 4, donde las puntuaciones más altas indican una mayor calidad; para información respecto a cómo se obtuvo esta puntuación, ver el artículo original de Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}).
+  \texttt{quality}: calidad metodológica (la calidad metodológica fue calificada por los autores del meta-análisis en una escala de 1 a 4, donde las puntuaciones más altas indican una mayor calidad; para información respecto a cómo se obtuvo esta puntuación, ver el artículo original de Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}).
 \end{itemize}
 
-Por supuesto, la salida de la consola no es la más clara, pero para una versión más legible, se puede usar la función \texttt{View}, y el nombre de la base de datos o tabla como argumento (en este caso \texttt{View(dat)}). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión (y no como sale en la consola de R), para que sean más fáciles de leer.
+Por supuesto, el \emph{output} de la consola no es la forma más clara de ver la base de datos, pero para una versión más legible, se puede usar la función \texttt{View}, y el nombre de la base de datos o tabla como argumento (en este caso \texttt{View(dat)}). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión (y no como sale en la consola de R), para que sean más fáciles de leer.
 
 Voy a volver a cargar la base de datos (sobrescribiendo el objeto \texttt{dat}), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada \texttt{study\_id}, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. Después, reorganizaré las columnas para que \texttt{study\_id} sea la primera, en vez de la última columna. Finalmente, las columnas de variables que son factores (\texttt{controls}, \texttt{design}, \texttt{a\_measure}, \texttt{c\_measure} y \texttt{quality}), pueden ser definidas como tal, para evitar pasos adicionales más adelante. En este caso, .
 
@@ -1897,6 +1896,9 @@ Leongómez, J. D. (2020b). \emph{Poder estadístico y tamaño de muestra en {R} 
 \leavevmode\vadjust pre{\hypertarget{ref-lopezpenarandaTutorialGgplot22019}{}}%
 López Peñaranda, A. (2019). \emph{Tutorial de ggplot2}. RPubs. \url{https://rpubs.com/anlope10/562981}.
 
+\leavevmode\vadjust pre{\hypertarget{ref-Manterola2019}{}}%
+Manterola, C., Quiroz, G., Salazar, P., \& García, N. (2019). Metodología de los tipos y diseños de estudio más frecuentemente utilizados en investigación clínica. \emph{Revista Médica Clínica Las Condes}, \emph{30}(1), 36--49. https://doi.org/\url{https://doi.org/10.1016/j.rmclc.2018.11.005}
+
 \leavevmode\vadjust pre{\hypertarget{ref-molloy2013}{}}%
 Molloy, G. J., O'Carroll, R. E., \& Ferguson, E. (2013). Conscientiousness and medication adherence: A meta-analysis. \emph{Annals of Behavioral Medicine}, \emph{47}(1), 92--101. \url{https://doi.org/10.1007/s12160-013-9524-4}
 
@@ -1988,17 +1990,17 @@ Por ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamD
                 \begin{verbatim} 
 To cite package 'dplyr' in publications use:
 
-  Wickham H, François R, Henry L, Müller K (2022). _dplyr: A Grammar of
-  Data Manipulation_. R package version 1.0.10,
+  Wickham H, François R, Henry L, Müller K, Vaughan D (2023). _dplyr: A
+  Grammar of Data Manipulation_. R package version 1.1.0,
   <https://CRAN.R-project.org/package=dplyr>.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {dplyr: A Grammar of Data Manipulation},
-    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
-    year = {2022},
-    note = {R package version 1.0.10},
+    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller and Davis Vaughan},
+    year = {2023},
+    note = {R package version 1.1.0},
     url = {https://CRAN.R-project.org/package=dplyr},
   }
  \end{verbatim}
@@ -2016,9 +2018,9 @@ A BibTeX entry for LaTeX users is
 \emph{stats}, \emph{graphics}, \emph{grDevices}, \emph{utils}, \emph{datasets}, \emph{methods} and \emph{base}
 
 \textbf{other attached packages:}
-\emph{pander(v.0.6.5)}, \emph{metameta(v.0.1.1)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.12.2)}, \emph{zoo(v.1.8-11)}, \emph{lubridate(v.1.9.0)}, \emph{timechange(v.0.2.0)}, \emph{psych(v.2.2.9)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.5.0)}, \emph{forcats(v.0.5.2)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.0.10)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.3)}, \emph{tidyr(v.1.2.1)}, \emph{tibble(v.3.1.8)}, \emph{ggplot2(v.3.4.0)}, \emph{tidyverse(v.1.3.2)}, \emph{metafor(v.3.8-1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.0)} and \emph{knitr(v.1.41)}
+\emph{pander(v.0.6.5)}, \emph{metameta(v.0.2)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.13.0)}, \emph{zoo(v.1.8-11)}, \emph{psych(v.2.2.9)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.6.0)}, \emph{lubridate(v.1.9.2)}, \emph{forcats(v.1.0.0)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.1.0)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.4)}, \emph{tidyr(v.1.3.0)}, \emph{tibble(v.3.1.8)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.2.0.0)}, \emph{metafor(v.3.8-1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-1)}, \emph{robumeta(v.2.0)} and \emph{knitr(v.1.42)}
 
 \textbf{loaded via a namespace (and not attached):}
-\emph{nlme(v.3.1-160)}, \emph{fs(v.1.5.2)}, \emph{RColorBrewer(v.1.1-3)}, \emph{webshot(v.0.5.4)}, \emph{httr(v.1.4.4)}, \emph{tools(v.4.2.2)}, \emph{backports(v.1.4.1)}, \emph{utf8(v.1.2.2)}, \emph{R6(v.2.5.1)}, \emph{mgcv(v.1.8-41)}, \emph{DBI(v.1.1.3)}, \emph{colorspace(v.2.0-3)}, \emph{withr(v.2.5.0)}, \emph{gridExtra(v.2.3)}, \emph{tidyselect(v.1.2.0)}, \emph{mnormt(v.2.1.1)}, \emph{curl(v.5.0.0)}, \emph{compiler(v.4.2.2)}, \emph{cli(v.3.6.0)}, \emph{rvest(v.1.0.3)}, \emph{xml2(v.1.3.3)}, \emph{labeling(v.0.4.2)}, \emph{bookdown(v.0.31)}, \emph{quadprog(v.1.5-8)}, \emph{systemfonts(v.1.0.4)}, \emph{digest(v.0.6.31)}, \emph{rmarkdown(v.2.19)}, \emph{svglite(v.2.1.1)}, \emph{pkgconfig(v.2.0.3)}, \emph{htmltools(v.0.5.4)}, \emph{highr(v.0.10)}, \emph{dbplyr(v.2.3.0)}, \emph{fastmap(v.1.1.0)}, \emph{ggthemes(v.4.2.4)}, \emph{rlang(v.1.0.6)}, \emph{readxl(v.1.4.1)}, \emph{rstudioapi(v.0.14)}, \emph{farver(v.2.1.1)}, \emph{generics(v.0.1.3)}, \emph{jsonlite(v.1.8.4)}, \emph{car(v.3.1-1)}, \emph{googlesheets4(v.1.0.1)}, \emph{magrittr(v.2.0.3)}, \emph{Rcpp(v.1.0.9)}, \emph{Quandl(v.2.11.0)}, \emph{munsell(v.0.5.0)}, \emph{fansi(v.1.0.3)}, \emph{abind(v.1.4-5)}, \emph{lifecycle(v.1.0.3)}, \emph{stringi(v.1.7.12)}, \emph{yaml(v.2.3.6)}, \emph{carData(v.3.0-5)}, \emph{mathjaxr(v.1.6-0)}, \emph{grid(v.4.2.2)}, \emph{parallel(v.4.2.2)}, \emph{crayon(v.1.5.2)}, \emph{lattice(v.0.20-45)}, \emph{cowplot(v.1.1.1)}, \emph{splines(v.4.2.2)}, \emph{haven(v.2.5.1)}, \emph{hms(v.1.1.2)}, \emph{pillar(v.1.8.1)}, \emph{ggsignif(v.0.6.4)}, \emph{reprex(v.2.0.2)}, \emph{glue(v.1.6.2)}, \emph{evaluate(v.0.19)}, \emph{modelr(v.0.1.10)}, \emph{vctrs(v.0.5.1)}, \emph{tzdb(v.0.3.0)}, \emph{cellranger(v.1.1.0)}, \emph{gtable(v.0.3.1)}, \emph{assertthat(v.0.2.1)}, \emph{xfun(v.0.36)}, \emph{broom(v.1.0.2)}, \emph{rstatix(v.0.7.1)}, \emph{googledrive(v.2.0.0)}, \emph{viridisLite(v.0.4.1)}, \emph{gargle(v.1.2.1)} and \emph{ellipsis(v.0.3.2)}
+\emph{nlme(v.3.1-160)}, \emph{webshot(v.0.5.4)}, \emph{RColorBrewer(v.1.1-3)}, \emph{httr(v.1.4.4)}, \emph{tools(v.4.2.2)}, \emph{backports(v.1.4.1)}, \emph{utf8(v.1.2.3)}, \emph{R6(v.2.5.1)}, \emph{mgcv(v.1.8-41)}, \emph{colorspace(v.2.1-0)}, \emph{withr(v.2.5.0)}, \emph{tidyselect(v.1.2.0)}, \emph{gridExtra(v.2.3)}, \emph{mnormt(v.2.1.1)}, \emph{curl(v.5.0.0)}, \emph{compiler(v.4.2.2)}, \emph{cli(v.3.6.0)}, \emph{rvest(v.1.0.3)}, \emph{xml2(v.1.3.3)}, \emph{labeling(v.0.4.2)}, \emph{bookdown(v.0.32)}, \emph{quadprog(v.1.5-8)}, \emph{systemfonts(v.1.0.4)}, \emph{digest(v.0.6.31)}, \emph{rmarkdown(v.2.20)}, \emph{svglite(v.2.1.1)}, \emph{pkgconfig(v.2.0.3)}, \emph{htmltools(v.0.5.4)}, \emph{fastmap(v.1.1.0)}, \emph{highr(v.0.10)}, \emph{ggthemes(v.4.2.4)}, \emph{rlang(v.1.0.6)}, \emph{rstudioapi(v.0.14)}, \emph{generics(v.0.1.3)}, \emph{farver(v.2.1.1)}, \emph{jsonlite(v.1.8.4)}, \emph{car(v.3.1-1)}, \emph{magrittr(v.2.0.3)}, \emph{Rcpp(v.1.0.10)}, \emph{Quandl(v.2.11.0)}, \emph{munsell(v.0.5.0)}, \emph{fansi(v.1.0.4)}, \emph{abind(v.1.4-5)}, \emph{lifecycle(v.1.0.3)}, \emph{stringi(v.1.7.12)}, \emph{yaml(v.2.3.7)}, \emph{carData(v.3.0-5)}, \emph{mathjaxr(v.1.6-0)}, \emph{grid(v.4.2.2)}, \emph{parallel(v.4.2.2)}, \emph{lattice(v.0.20-45)}, \emph{cowplot(v.1.1.1)}, \emph{splines(v.4.2.2)}, \emph{hms(v.1.1.2)}, \emph{pillar(v.1.8.1)}, \emph{ggsignif(v.0.6.4)}, \emph{glue(v.1.6.2)}, \emph{evaluate(v.0.20)}, \emph{vctrs(v.0.5.2)}, \emph{tzdb(v.0.3.0)}, \emph{gtable(v.0.3.1)}, \emph{xfun(v.0.37)}, \emph{broom(v.1.0.3)}, \emph{rstatix(v.0.7.2)}, \emph{viridisLite(v.0.4.1)}, \emph{timechange(v.0.2.0)} and \emph{ellipsis(v.0.3.2)}
 
 \end{document}
