@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{13 marzo, 2023}
+\date{14 marzo, 2023}
 
 \begin{document}
 \maketitle
@@ -345,20 +345,21 @@ Después hay unas columnas que contienen variables específicas para este este e
 
 Por supuesto, el \emph{output} de la consola no es la forma más clara de ver la base de datos, pero para una versión más legible, se puede usar la función \texttt{View}, y el nombre de la base de datos o tabla como argumento (en este caso \texttt{View(dat)}). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión (y no como sale en la consola de R), para que sean más fáciles de leer.
 
-Voy a volver a cargar la base de datos (sobrescribiendo el objeto \texttt{dat}), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada \texttt{study\_id}, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. Después, reorganizaré las columnas para que \texttt{study\_id} sea la primera, en vez de la última columna. Finalmente, las columnas de variables que son factores (\texttt{controls}, \texttt{design}, \texttt{a\_measure}, \texttt{c\_measure} y \texttt{quality}), pueden ser definidas como tal, para evitar pasos adicionales más adelante. En este caso, .
+Voy a volver a cargar la base de datos (sobrescribiendo el objeto \texttt{dat}), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada \texttt{study\_id}, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. Después, reorganizaré las columnas para que \texttt{study\_id} sea la primera, en vez de la última columna. Finalmente, las columnas de variables que son factores (\texttt{controls}, \texttt{design}, \texttt{a\_measure}, \texttt{c\_measure} y \texttt{quality}), pueden ser definidas como tal, para evitar pasos adicionales más adelante. En este caso, además, voy a reorganizar los niveles de la variable \texttt{controls} (primero \texttt{none} y después \texttt{multiple}); esto, aunque no es un paso necesario, puede ayudar con la interpretación de resultados.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{get}\NormalTok{(}\FunctionTok{data}\NormalTok{(dat.molloy2014)) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{study\_id =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{)  }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\#crear columna study\_id y agregar números del 1 al 16}
-  \FunctionTok{select}\NormalTok{(study\_id, authors}\SpecialCharTok{:}\NormalTok{quality) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\#mover study\_id como primera columna}
-  \FunctionTok{mutate\_at}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"controls"}\NormalTok{, }\CommentTok{\# Transformar variables en factores}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{study\_id =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{)  }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# crear columna \textquotesingle{}study\_id\textquotesingle{} y agregar números del 1 al 16}
+  \FunctionTok{select}\NormalTok{(study\_id, authors}\SpecialCharTok{:}\NormalTok{quality) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# mover \textquotesingle{}study\_id\textquotesingle{} como primera columna}
+  \FunctionTok{mutate\_at}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"controls"}\NormalTok{, }\CommentTok{\# transformar variables relevantes en factores}
               \StringTok{"design"}\NormalTok{,}
               \StringTok{"a\_measure"}\NormalTok{,}
               \StringTok{"c\_measure"}\NormalTok{,}
               \StringTok{"quality"}\NormalTok{), }
 \NormalTok{            as.factor) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{fct\_relevel}\NormalTok{(controls, }\StringTok{"none"}\NormalTok{, }\StringTok{"multiple"}\NormalTok{))}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{fct\_relevel}\NormalTok{(controls, }\CommentTok{\# reorganizar niveles de la variable \textquotesingle{}controls\textquotesingle{}}
+                                \StringTok{"none"}\NormalTok{, }\StringTok{"multiple"}\NormalTok{))  }
 \end{Highlighting}
 \end{Shaded}
 
@@ -397,7 +398,7 @@ study\_id & authors & year & ni & ri & controls & design & a\_measure & c\_measu
 \hypertarget{preparaciuxf3n-de-los-datos-transformaciuxf3n-de-coeficientes-r-de-pearson-a-z-de-fisher}{%
 \section{\texorpdfstring{Preparación de los datos: transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher}{Preparación de los datos: transformación de coeficientes r de Pearson a z de Fisher}}\label{preparaciuxf3n-de-los-datos-transformaciuxf3n-de-coeficientes-r-de-pearson-a-z-de-fisher}}
 
-Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeños. Por esto, lo mejor es transformar los coeficientes \emph{r} de Pearson a \emph{z} de Fisher (\protect\hyperlink{ref-fisherFrequencyDistributionValues1915}{Fisher, 1915}), que no tienen este problema\footnote{Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (\emph{r}), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significación para coeficientes \emph{r}. La transformación de Fisher de valores \emph{r} a \emph{z} ---que es la \href{https://es.wikipedia.org/wiki/Tangente_hiperb\%C3\%B3lica}{tangente hiperbólica inversa} de \emph{r}--- resuelve este problema, pues los coeficientes \emph{z} tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de \emph{r} (para una demostración en español, ver \protect\hyperlink{ref-sanchez-brunoTransformacionFisherPara2005}{Sánchez-Bruno \& Borges del Rosal, 2005}).}.
+Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeños. Por esto, lo mejor es transformar los coeficientes \emph{r} de Pearson a \emph{z} de Fisher (\protect\hyperlink{ref-fisherFrequencyDistributionValues1915}{1915}), que no tienen este problema\footnote{Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (\emph{r}), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significación para coeficientes \emph{r}. La transformación de Fisher de valores \emph{r} a \emph{z} ---que es la \href{https://es.wikipedia.org/wiki/Tangente_hiperb\%C3\%B3lica}{tangente hiperbólica inversa} de \emph{r}--- resuelve este problema, pues los coeficientes \emph{z} tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de \emph{r} (para una demostración en español, ver \protect\hyperlink{ref-sanchez-brunoTransformacionFisherPara2005}{Sánchez-Bruno \& Borges del Rosal, 2005}).}.
 
 Para transformar los coeficientes \emph{r} de Pearson a coeficientes \emph{z} de Fisher, usaré la función \texttt{escalc} del paquete \texttt{metafor}, que sirve para calcular diversos tamaños de efecto que se utilizan comúnmente en meta-análisis. Los argumentos que requiere esta función, además del tipo de transformación a realizar (en este caso \texttt{measure\ =\ "ZCOR"}), son los coeficientes de correlación (\texttt{ri}), el tamaño de muestra de cada correlación (\texttt{ni}), y la base de datos que contiene estos valores (\texttt{data}). En nuestro caso, las columnas donde están estos valores, tienen los mismos nombres (\texttt{ri}, \texttt{ni}). En este ejemplo, asignaré el resultado de esta función al mismo objeto \texttt{dat}, que contiene la base de datos, para sobrescribirlo y no crear objetos adicionales.
 
@@ -554,13 +555,13 @@ En este caso, el meta-análisis nos sugiere que en efecto existe una asociación
 Esto se podría resumir, por ejemplo, como:
 
 \begin{quote}
-El resultado meta-analizado sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055; \(\tau\) = 0.0901; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%).
+``\textbf{El meta-análisis sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Hubo una heterogeneidad moderada significativa en torno al tamaño medio del efecto en los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055; \(\tau\) = 0.0901; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%).}''
 \end{quote}
 
 \hypertarget{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}{%
 \subsubsection{\texorpdfstring{Alternativa: Reportar el estimado como \emph{r} de Pearson en vez de \emph{z} de Fisher}{Alternativa: Reportar el estimado como r de Pearson en vez de z de Fisher}}\label{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}}
 
-Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pearson en vez de la transformación a \emph{z} de Fisher, puedes transformar los valores \emph{z} de Fisher de vuelta a \emph{r} de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función \texttt{tanh}, que calcula la tangente hiperbólica, o la función \texttt{fisherz2r} del paquete \texttt{psych} (\protect\hyperlink{ref-revellePsych2021}{Revelle, 2021}). Por ejemplo, para transformar el estimado de nuestro meta-análisis a \emph{r} de Pearson, solo debo usar alguna de esas funciones, y agregar el valor \emph{z} (0.1499 en nuestro caso) como único argumento:
+Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pearson en vez de la transformación a \emph{z} de Fisher, puedes transformar los valores \emph{z} de Fisher de vuelta a \emph{r} de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función \texttt{tanh}, que calcula la tangente hiperbólica, o la función \texttt{fisherz2r} del paquete \texttt{psych} (\protect\hyperlink{ref-revellePsych2021}{Revelle, 2021}). Por ejemplo, para transformar el estimado de nuestro meta-análisis a \emph{r} de Pearson, sólo debo usar alguna de esas funciones, y agregar el valor \emph{z} (0.1499 en nuestro caso) como único argumento:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -589,7 +590,7 @@ Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pe
                 \end{footnotesize}
                 \end{ROut}
 
-Cualquiera de estas opciones nos da un valor de \emph{r} = 0.1487872, muy similar al obtenido (\emph{z} = 0.1499). Esto se debe a que, para coeficientes \emph{r} de Pearson entre -0.4 y 0.4, la transformación a valores \emph{z} de Fisher produce resultados muy similares (Fig. \ref{fig:rvsz}).
+Cualquiera de estas opciones nos da un valor de coeficiente de correlación de Pearson (\emph{r} = 0.1487872), muy similar al obtenido como \emph{z} de Fisher (\emph{z} = 0.1499). Esto se debe a que, para coeficientes \emph{r} de Pearson entre -0.4 y 0.4, la transformación a valores \emph{z} de Fisher produce resultados muy similares (Fig. \ref{fig:rvsz}).
 
 \begin{figure}
 \centering
@@ -631,13 +632,13 @@ Para \(\tau^2\), el hecho de que los límites del intervalo de confianza no cruc
 Estos intervalos de confianza que también pueden ser reportados junto a sus correspondientes estadísticos. Entonces, esto se podría resumir, por ejemplo, como:
 
 \begin{quote}
-El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055, IC 95\% {[}0.0017, 0.0378{]}; \(\tau\) = 0.0901, IC 95\% {[}0.0412, 0.1944{]}; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%, IC 95\% {[}25.2799\%, 88.2545\%{]}).
+``\textbf{El meta-análisis sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Hubo una heterogeneidad moderada significativa en torno al tamaño medio del efecto en los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055, IC 95\% {[}0.0017, 0.0378{]}; \(\tau\) = 0.0901, IC 95\% {[}0.0412, 0.1944{]}; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%, IC 95\% {[}25.2799\%, 88.2545\%{]}).}''
 \end{quote}
 
 \hypertarget{diag-inf}{%
 \subsection{Diagnóstico de influencia}\label{diag-inf}}
 
-Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que nuestro meta-análisis sea dependiente principalmente de un único estudio.}. Para esto, se suele usar la técnica conocida como \emph{leave-one-out}, que se refiere al resultado del meta-análisis cuando se excluye cada estudio; al estimar cómo y cuánto cambia el resultado del modelo de meta-análisis al excluir cada estudio, podemos estimar su influencia en el resultado. Dicho de otra manera, si al excluir un estudio el resultado cambia mucho, sabemos que ese estudio tiene gran influencia en el meta-análisis y sería mejor excluirlo.
+Otro aspecto importante de un meta-análisis, es determinar si alguno o algunos de los estudios meta-analizados es o son particularmente influyentes en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que nuestro meta-análisis sea dependiente principalmente de un único estudio.}. Para esto, se suele usar la técnica conocida como \emph{leave-one-out}, que se refiere al resultado del meta-análisis cuando se excluye cada estudio; al estimar cómo y cuánto cambia el resultado del modelo de meta-análisis al excluir cada estudio, podemos estimar su influencia en el resultado. Dicho de otra manera, si al excluir un estudio el resultado cambia mucho, sabemos que ese estudio tiene gran influencia en el meta-análisis y sería mejor excluirlo.
 
 Para hacer un análisis de influencia, podemos usar la función \texttt{influence} del paquete \texttt{metafor}, cuyo resultado, en este caso, asignaré a un objeto llamado \texttt{inf.res}.
 
@@ -679,17 +680,19 @@ Dado que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, debo 
                 \end{footnotesize}
                 \end{ROut}
 
-Esto me muestra gran cantidad de información de cada estudio (en este caso, lo presento como una tabla sin formato, tal cual se ve en la consola de R). Las columnas que incluye son:
+Esto me muestra gran cantidad de datos de cada estudio (en este caso, lo presento como una tabla sin formato, tal cual se ve en la consola de R), y contiene información que puede parecer muy compleja; sin embargo, como verás, la última columna resume la interpretación general de estos resultados de influencia, facilitando muchísimo su interpretación.
+
+Las columnas que incluye son:
 
 \begin{itemize}
 \item
-  \texttt{rstudent}: residuo estandarizados externamente. Esto \textbf{no} corresponde al coeficiente de correlación de cada estudio, sino a la diferencia entre el tamaño de efecto observado en cada estudio, y la predicción de dicho valor cuando dicho estudio se elimina del meta-análisis
+  \texttt{rstudent}: residuos estandarizados externamente. Esto \textbf{no} corresponde al coeficiente de correlación de cada estudio, sino a la diferencia entre el tamaño de efecto observado en cada estudio, y la predicción de dicho valor cuando dicho estudio se elimina del meta-análisis
 \item
   \texttt{dffits}: diferencia de ajuste(s) (en inglés \emph{difference in fit(s)}). Es una medida diagnóstica de la influencia de cada punto en una regresión (en este caso, cada estudio en un meta-análisis) propuesta originalmente por Belsley et al. (\protect\hyperlink{ref-belsleyRegressionDiagnosticsIdentifying1980}{1980})
 \item
-  \texttt{cook.d}: Distancia de Cook (en inglés, \emph{Cook's distance}). Es otra medida diagnóstica de la influencia, propuesta originalmente por Cook (\protect\hyperlink{ref-cookDetectionInfluentialObservation1977}{1977}). Es conceptualmente idéntica a DFFITS (\texttt{dffits}), y he hecho existe una fórmula para convertir una medida en la otra (\protect\hyperlink{ref-Henry2003}{Henry et al., 2003}). Aunque no hay un acuerdo absoluto respecto, comúnmente se asume que valores mayores a 1 (\(D_{i} > 1\)), representan puntos altamente influyentes en un modelo (\protect\hyperlink{ref-cookResidualsInfluenceRegression1982}{Cook \& Weisberg, 1982}), que probablemente deban ser excluidos
+  \texttt{cook.d}: Distancia de Cook (en inglés, \emph{Cook's distance}). Es otra medida diagnóstica de la influencia, propuesta originalmente por Cook (\protect\hyperlink{ref-cookDetectionInfluentialObservation1977}{1977}). Es conceptualmente idéntica a DFFITS (\texttt{dffits}), y de hecho existe una fórmula para convertir una medida en la otra (\protect\hyperlink{ref-Henry2003}{Henry et al., 2003}). Aunque no hay un acuerdo absoluto al respecto, comúnmente se asume que valores mayores a 1 (\(D_{i} > 1\)), representan puntos (o, en este caso, estudios) influyentes en un modelo (\protect\hyperlink{ref-cookResidualsInfluenceRegression1982}{Cook \& Weisberg, 1982}), que probablemente deban ser excluidos
 \item
-  \texttt{cov.r}: relación (o proporción) de covarianza. Es el determinante de la matriz de varianza-covarianza de las estimaciones de los parámetros basadas en el conjunto de datos, cuando cada estudio se elimina del meta-análisis, dividido por el mismo determinante de la matriz de varianza-covarianza cuando se incluyen todos los estudios. Básicamente, un valor menor a 1 indica que la eliminación de ese estudio produce estimaciones más precisas de los coeficientes del modelo
+  \texttt{cov.r}: relación (o proporción) de covarianza. Es el determinante de la matriz de varianza-covarianza de las estimaciones de los parámetros basadas en el conjunto de datos, cuando cada estudio se elimina del meta-análisis, dividido por el mismo determinante de la matriz de varianza-covarianza cuando se incluyen todos los estudios. Sé que suena complejo, pero básicamente, un valor menor a 1 indica que la eliminación de ese estudio produce estimaciones más precisas de los coeficientes del modelo
 \item
   \texttt{tau2.del}: es la heterogeneidad (residual) \(\tau^2\) cuando se elimina cada estudio
 \item
@@ -701,7 +704,7 @@ Esto me muestra gran cantidad de información de cada estudio (en este caso, lo 
 \item
   \texttt{dfbs}: el valor de \texttt{dfbs} (o \emph{DFBETAS}) indica cuántas desviaciones estándar cambia el coeficiente estimado después de excluir cada estudio del modelo de meta-análisis
 \item
-  \texttt{inf}: por suerte, esta columna \texttt{inf} resume esta información por nosotros. Cualquier estudio que se considere influyente, teniendo en cuenta la diferencia de ajuste, la distancia de Cook, los valores \emph{hat} o \emph{DFBETAS}, será señalado acá como influyente, usando asteriscos.
+  \texttt{inf}: por suerte, esta columna \texttt{inf} resume esta información por nosotros. Cualquier estudio que se considere influyente, teniendo en cuenta la diferencia de ajuste, la distancia de Cook, los valores \emph{hat} o \emph{DFBETAS}, será señalado acá como influyente, usando asteriscos
 \end{itemize}
 
 Aunque hay mucha información, lo más importante ahora es mirar la última columna, llamada \texttt{inf}. Si ahí aparecieran asteriscos para algún estudio meta-analizado (que no es nuestro caso), sugeriría que ese estudio es particularmente influyente y podría ser necesario eliminarlo del meta-análisis.
@@ -717,13 +720,13 @@ Por último, podemos también ver ésta información que tenemos guardada en el 
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/infplot-1.pdf}
-\caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje \emph{X} representan cada estudio, como lo definimos en columna \texttt{study\_id} de la Tabla \ref{tab:estructuramod}. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis.}
+\caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje \emph{X} representan cada estudio, como lo definimos en columna \texttt{study\_id} de la Tabla \ref{tab:estructuramod}. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que no es necesario excluir ningún estudio de nuestro meta-análisis.}
 \end{figure}
 
 \hypertarget{forest-plot-diagrama-de-bosque}{%
 \subsection{\texorpdfstring{\emph{Forest plot} (diagrama de bosque)}{Forest plot (diagrama de bosque)}}\label{forest-plot-diagrama-de-bosque}}
 
-Para hacer un diagrama de bosque (\emph{forest plot}) con \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} resumiendo nuestro meta-análisis, solo tenemos que usar la función \texttt{forest}, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (\texttt{res}; esto produce la Fig. \ref{fig:for-plot1}).
+Hacer un diagrama de bosque (\emph{forest plot}) que resuma nuestro meta-análisis usando \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} es muy fácil; sólo tenemos que usar la función \texttt{forest}, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (en nuestro caso, \texttt{res}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -731,15 +734,17 @@ Para hacer un diagrama de bosque (\emph{forest plot}) con \href{https://www.meta
 \end{Highlighting}
 \end{Shaded}
 
+Esto produce la Fig. \ref{fig:for-plot1}.
+
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/for-plot1-1.pdf}
 \caption{\label{fig:for-plot1}\emph{Forest plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante.}
 \end{figure}
 
-Como se puede ver en las Figuras \ref{fig:for-plot1}, \ref{fig:for-plot2} y \ref{fig:for-plot3b} (que son versiones del mismo \emph{forest plot}), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre -0.09 y 0.37), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en otros casos son prácticamente 0 o incluso negativas.
+Como se puede ver en las Figuras \ref{fig:for-plot1}, \ref{fig:for-plot2} y \ref{fig:for-plot3b} (que son versiones del mismo \emph{forest plot}), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre -0.09 y 0.37), y aunque son positivas en la mayoría de los casos, en algunos son prácticamente 0 o incluso negativas.
 
-Para una versión más completa y anotada, también usando el \emph{plot} básico de \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, pero agregando encabezados de cada columna en español, nombres de los estudios meta-analizados\footnote{En este caso, y dado que tenemos la lista de autores y años de publicación en columnas separadas, pegando las columnas \texttt{authors} y \texttt{year} separadas por una coma y un espacio: \texttt{paste(dat\$authors,\ dat\$year,\ sep\ =\ ",\ ")} como argumento \texttt{slab}.} así como una columna con los pesos dados a cada estudio, y detalles del modelo final\footnote{Estas opciones están explicadas \href{https://search.r-project.org/CRAN/refmans/metafor/html/forest.rma.html}{acá}.}, podemos hacer algo como esto:
+Para una versión más completa y anotada, también usando el \emph{plot} básico de \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, pero agregando encabezados de cada columna en español, nombres de los estudios meta-analizados\footnote{En este caso, dado que tenemos los autores y los años de publicación de cada estudio en columnas separadas, pegué las columnas \texttt{authors} y \texttt{year} separadas por una coma y un espacio: \texttt{paste(dat\$authors,\ dat\$year,\ sep\ =\ ",\ ")} como argumento \texttt{slab}.} así como una columna con los pesos dados a cada estudio, y detalles del modelo final\footnote{Estas opciones están explicadas \href{https://search.r-project.org/CRAN/refmans/metafor/html/forest.rma.html}{acá}.}, podemos hacer algo como esto:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -768,7 +773,7 @@ Para una versión más completa y anotada, también usando el \emph{plot} básic
 \caption{\label{fig:for-plot2}\emph{Forest plot} anotado, creado con \href{https://www.metafor-project.org/doku.php}{metafor}. En esta versión agregué algunos encabezados en español, así como estadísticos generales del modelo de meta-análisis. Modelo EA se refiere al modelo meta-analizado, de efectos aleatorios.}
 \end{figure}
 
-O, para un \emph{forest plot} incluso más sofisticado, se puede usar la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-forest-plots-with-function-viz_forest}{\texttt{viz\_forest}} del paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}}.
+O, para un \emph{forest plot} quizás más sofisticado, se puede usar la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-forest-plots-with-function-viz_forest}{\texttt{viz\_forest}} del paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -817,19 +822,24 @@ Por supuesto, es cuestión de gusto cuál usar.
 \caption{\label{fig:for-plot3b}Variantes de \emph{forest plots} creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. \textbf{A.} Variante clásica (opción por defecto). \textbf{B.} Variante ``thick'' y escala de colores ``Greens''. \textbf{C.} Variante ``rain'' y escala de colores ``Oranges''.}
 \end{figure}
 
-\hypertarget{funnel-plot-diagrama-de-embudo-y-sesgo-de-estudios-pequeuxf1os}{%
-\subsection{\texorpdfstring{\emph{Funnel plot} (diagrama de embudo) y sesgo de estudios pequeños}{Funnel plot (diagrama de embudo) y sesgo de estudios pequeños}}\label{funnel-plot-diagrama-de-embudo-y-sesgo-de-estudios-pequeuxf1os}}
+\hypertarget{funnel-plot-diagrama-de-embudo-regresiuxf3n-de-egger-y-sesgo-de-estudios-pequeuxf1os}{%
+\subsection{\texorpdfstring{\emph{Funnel plot} (diagrama de embudo), regresión de Egger y sesgo de estudios pequeños}{Funnel plot (diagrama de embudo), regresión de Egger y sesgo de estudios pequeños}}\label{funnel-plot-diagrama-de-embudo-regresiuxf3n-de-egger-y-sesgo-de-estudios-pequeuxf1os}}
 
-En este punto, es en donde más errores se cometen. Las pruebas más comunes para evaluar sesgos de publicación, son la evaluación de la asimetría en el \emph{funnel plot} (diagrama de embudo), y la regresión (o test) de Egger (\protect\hyperlink{ref-eggerBiasMetaanalysisDetected1997}{Egger et al., 1997}).
+La creación e interpretación del \emph{Funnel plot} es crucial, y aporta información muy importante acerca de un meta-análisis. Sin embargo, es en donde más errores se cometen.
 
-Sin embargo, el principal error que la mayoría de los investigadores (meta-analistas) cometen, es que simplemente basándose en éstos métodos, concluyen que un meta-análisis tiene (o no) riesgo de sufrir de un sesgo de publicación\footnote{Por supuesto, yo mismo soy culpable de haber hecho esto en el pasado, incluyendo algunos comentarios en mi video sobre meta-análisis en \emph{jamovi} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}).}. Sin embargo, estos métodos, no son pruebas exclusivas de sesgo de publicación, sino de sesgo de estudios de tamaño muestral pequeño (ver e.g. \protect\hyperlink{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{Schwarzer et al., 2015b}), que pueden incluir sesgo de publicación, pero no se centran exclusivamente en éste.
+\hypertarget{err-funnel-egger}{%
+\subsubsection{\texorpdfstring{Errores en la interpretación del \emph{Funnel plot} y la regresión de Egger}{Errores en la interpretación del Funnel plot y la regresión de Egger}}\label{err-funnel-egger}}
 
-A pesar de esto, tanto la regresión de Egger como el \emph{funnel plot}, son interesantes dado que el sesgo de estudios pequeños es importante.
+El principal error que la mayoría de los investigadores podemos cometer\footnote{Me incluyo pues por supuesto también soy culpable de haber cometido este error en el pasado, incluyendo algunas ideas que expuse en mi video sobre meta-análisis en \emph{jamovi} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}).}, es concluir que un meta-análisis tiene (o no) riesgo de sufrir de sesgos de publicación, simplemente basándonos en la evaluación de la asimetría en el \emph{funnel plot} y la regresión de Egger (\protect\hyperlink{ref-eggerBiasMetaanalysisDetected1997}{Egger et al., 1997}) (sección \ref{reg-egger}).
+
+Estos métodos, sin embargo, no son pruebas exclusivas de sesgo de publicación, sino de sesgo de estudios de tamaño muestral pequeño (ver e.g. \protect\hyperlink{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{Schwarzer et al., 2015b}), que pueden incluir sesgo de publicación, pero no se centran exclusivamente en esto (explico algunas técnicas específicas para estimar el sesgo de publicación en la sección \ref{sesgo-pub}).
+
+A pesar de esto, tanto la regresión de Egger como el \emph{funnel plot} son interesantes, pues es importante considerar el sesgo que podrían generar estudios con tamaño de muestra pequeño en nuestra estimación del efecto \emph{real} (o, para decirlo más técnicamente, el sesgo que podrían introducir estudios con poder estadístico bajo).
 
 \hypertarget{funnel-plot}{%
 \subsubsection{\texorpdfstring{\emph{Funnel plot}}{Funnel plot}}\label{funnel-plot}}
 
-Para crear un \emph{funnel plot} con \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, de nuestro meta-análisis, solo tenemos que usar la función \texttt{funnel}, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (\texttt{res}). Con esto, generamos la Figura \ref{fig:funnel-plot1}.
+Para crear un \emph{funnel plot} de nuestro meta-análisis con \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} sólo tenemos que usar la función \texttt{funnel}, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (\texttt{res}). Con esto, generamos la Figura \ref{fig:funnel-plot1}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -840,7 +850,7 @@ Para crear un \emph{funnel plot} con \href{https://www.metafor-project.org/doku.
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/funnel-plot1-1.pdf}
-\caption{\label{fig:funnel-plot1}\emph{Funnel plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher) en el eje \emph{X}, así como su error estándar en el eje \emph{Y}. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo.}
+\caption{\label{fig:funnel-plot1}\emph{Funnel plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher) en el eje \emph{X}, así como su error estándar en el eje \emph{Y}. La línea punteada vertical representa el efecto \emph{real} estimado mediante nuestro meta-análisis (\emph{z} = 0.15), así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo.}
 \end{figure}
 
 O, si queremos cambiar los títulos de los ejes, por ejemplo escribiéndolos en español, podemos hacerlo agregando los argumentos \texttt{xlab} (para el eje \(X\)) y/o \texttt{ylab} (para el eje \(Y\)), como se ve en la Figura \ref{fig:funnel-plot1a}.
@@ -856,10 +866,10 @@ O, si queremos cambiar los títulos de los ejes, por ejemplo escribiéndolos en 
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/funnel-plot1a-1.pdf}
-\caption{\label{fig:funnel-plot1a}\emph{Funnel plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}, con títulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher) en el eje \emph{X}, así como su error estándar en el eje \emph{Y}. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste.}
+\caption{\label{fig:funnel-plot1a}\emph{Funnel plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}, con títulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher) en el eje \emph{X}, así como su error estándar en el eje \emph{Y}. La línea punteada vertical representa el efecto \emph{real} estimado mediante nuestro meta-análisis (\emph{z} = 0.15), así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste.}
 \end{figure}
 
-De nuevo, para una versión más sofisticada, se puede usar el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}}, usando la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-funnel-plots-with-viz_funnel}{\texttt{viz\_funnel}}. Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regresión de Egger (\texttt{egger\ =\ TRUE}; ver sección \ref{reg-egger}, más adelante), transformando los tamaños de efecto de regreso a \(r\) de Pearson (\texttt{x\_trans\_function\ =\ tanh}), y con los títulos de los ejes en español (Fig. \ref{fig:funnel-plot2}).
+De nuevo, para una versión más sofisticada, se puede usar el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}}, usando la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-funnel-plots-with-viz_funnel}{\texttt{viz\_funnel}}. Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando sólo la línea de la regresión de Egger (\texttt{egger\ =\ TRUE}; ver sección \ref{reg-egger}, más adelante), transformando los tamaños de efecto de regreso a \(r\) de Pearson (\texttt{x\_trans\_function\ =\ tanh}), y con los títulos de los ejes en español (Fig. \ref{fig:funnel-plot2}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -874,7 +884,7 @@ De nuevo, para una versión más sofisticada, se puede usar el paquete \href{htt
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/funnel-plot2-1.pdf}
-\caption{\label{fig:funnel-plot2}\emph{Funnel plot} creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5\% (i.e.~\(p\) \textgreater{} 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1\% (i.e.~\(p\) \textgreater{} 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger.}
+\caption{\label{fig:funnel-plot2}\emph{Funnel plot} creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5\% (i.e.~\(p\) \textless{} 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1\% (i.e.~\(p\) \textless{} 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger.}
 \end{figure}
 
 Alternativamente, el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} tiene la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#sunset-power-enhanced-funnel-plots}{\texttt{viz\_sunset}}, que permite además mostrar el poder estadístico (o potencia) de los estudios meta-analizados para detectar un efecto de interés mediante una prueba de Wald de dos colas. De ser necesario, para entender las bases del poder estadístico, recomiendo ver \href{https://youtube.com/playlist?list\%20=\%20PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}{esta serie de videos} (\protect\hyperlink{ref-leongomezPoderRvid2020}{Leongómez, 2020b}) y/o, para mayor profundidad, leer \href{https://doi.org/10.5281/zenodo.3988776}{esta guía} (\protect\hyperlink{ref-leongomezAnalisisPoderEstadistico2020}{Leongómez, 2020a}) que publiqué anteriormente.
@@ -905,7 +915,7 @@ A continuación, muestro dos versiones de \emph{funnel plots} creados con la fun
 \hypertarget{reg-egger}{%
 \subsubsection{Regresión de Egger}\label{reg-egger}}
 
-Para hacer una prueba formal de sesgo de estudios pequeños (\protect\hyperlink{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{Schwarzer et al., 2015b}; \protect\hyperlink{ref-sternePublicationRelatedBias2000}{Sterne et al., 2000}), podemos hacer una prueba o regresión de Egger (\protect\hyperlink{ref-eggerBiasMetaanalysisDetected1997}{Egger et al., 1997}). En \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, esto se hace con la función \texttt{regtest}, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (\texttt{res}).
+Para hacer una prueba formal de sesgo de estudios pequeños (\protect\hyperlink{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{Schwarzer et al., 2015b}; \protect\hyperlink{ref-sternePublicationRelatedBias2000}{Sterne et al., 2000}), a partir de la asimetría en el \emph{funnel plot}, podemos hacer una prueba o regresión de Egger (\protect\hyperlink{ref-eggerBiasMetaanalysisDetected1997}{Egger et al., 1997}). En \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, esto se hace con la función \texttt{regtest}, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (\texttt{res}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -913,7 +923,7 @@ Para hacer una prueba formal de sesgo de estudios pequeños (\protect\hyperlink{
 \end{Highlighting}
 \end{Shaded}
 
-Como se puede ver, la prueba de Egger no muestra un resultado significativo (\texttt{z\ =\ 1.0216,\ p\ =\ 0.3070}).
+Como se puede ver, en este caso la prueba de Egger no muestra un resultado significativo (\texttt{Test\ for\ Funnel\ Plot\ Asymmetry:\ z\ =\ 1.0216,\ p\ =\ 0.3070}), lo que sugiere que no hay sesgo de estudios pequeños.
 
 \begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
@@ -929,7 +939,7 @@ Limit Estimate (as sei -> 0):   b = 0.0790 (CI: -0.0686, 0.2266)
                 \end{footnotesize}
                 \end{ROut}
 
-Con base en esto, y la inspección visual subjetiva del \emph{funnel plot}, muchos investigadores concluyen que no hay sesgo de publicación. Sin embargo, como mencioné antes, estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (más adelante, en la sección \ref{sesgo-pub}, explicaré cómo evaluar si hay sesgo de publicación).
+Con base en esto, y la inspección visual subjetiva del \emph{funnel plot}, muchos investigadores podrían concluir, sin sustento adecuado, que en nuestro meta-análisis no hay sesgo de publicación. Sin embargo, como mencioné antes (sección \ref{err-funnel-egger}), estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (en la sección \ref{sesgo-pub} a continuación, explicaré cómo evaluar si hay sesgo de publicación).
 
 \hypertarget{sesgo-pub}{%
 \subsection{\texorpdfstring{Sesgo de publicación (\emph{publication bias})}{Sesgo de publicación (publication bias)}}\label{sesgo-pub}}
@@ -939,15 +949,15 @@ Existen diferentes opciones para estimar el sesgo de publicación de un meta-an�
 \hypertarget{trim-fill}{%
 \subsubsection{\texorpdfstring{Método \emph{trim and fill} (recorte y relleno)}{Método trim and fill (recorte y relleno)}}\label{trim-fill}}
 
-El método de recorte y relleno (\emph{trim and fill}) es una técnica no paramétrica para aumentar datos (\protect\hyperlink{ref-duvalNonparametricTrimFill2000}{Duval \& Tweedie, 2000a}, \protect\hyperlink{ref-duvalTrimFillSimple2000}{2000b}; ver también \protect\hyperlink{ref-duvalTrimFillMethod2005}{Duval, 2005}). Este método puede utilizarse para estimar y ajustar el número y los resultados de los estudios que faltan en un meta-análisis, con base en el escrutinio de un lado de un diagrama de embudo (\emph{funnel plot}) para estimar la asimetría que se supone que se debe al sesgo de publicación.
+El método de recorte y relleno (\emph{trim and fill}) es una técnica no paramétrica para aumentar datos (\protect\hyperlink{ref-duvalNonparametricTrimFill2000}{Duval \& Tweedie, 2000a}, \protect\hyperlink{ref-duvalTrimFillSimple2000}{2000b}; ver también \protect\hyperlink{ref-duvalTrimFillMethod2005}{Duval, 2005}). Este método puede utilizarse para ajustar el número y los resultados de los estudios que se estima faltan en un meta-análisis, con base en el escrutinio de un lado de un diagrama de embudo (\emph{funnel plot}), para evaluar la asimetría que se supone que se debe al sesgo de publicación.
 
-Básicamente, el método aumenta los datos observados para que el gráfico de embudo sea más simétrico, y vuelve a calcular la estimación del meta-análisis con base en los datos completos.
+Básicamente, el método aumenta los estudios observados para que el gráfico de embudo sea más simétrico, y vuelve a calcular la estimación del meta-análisis con base en los datos completos.
 
-Aunque muy útil, es importante tener en cuenta que método de recorte y relleno (\emph{trim and fill}) tiene algunas limitaciones que deben considerarse:
+Aunque muy útil, es importante tener en cuenta que método de recorte y relleno (\emph{trim and fill}) tiene algunas limitaciones que siempre deben considerarse:
 
 \begin{itemize}
 \item
-  No debe considerarse como una forma de obtener una estimación más ``válida'' del efecto o resultado global (a partir del meta-análisis), sino como una forma de examinar qué tan sensibles son los resultados a un mecanismo de selección particular (es decir, una forma particular de sesgo de publicación)
+  No debe ente derse como una forma de obtener una estimación más ``válida'' del efecto \emph{real}, sino como una forma de examinar qué tan sensibles son los resultados a un mecanismo de selección particular (es decir, una forma particular de sesgo de publicación)
 \item
   Es importante tener en cuenta que este método no se puede usar en modelos con moderadores, como los que explico en la sección \ref{met-moderation}
 \end{itemize}
@@ -987,7 +997,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
                 \end{footnotesize}
                 \end{ROut}
 
-Para crear un \emph{funnel plot} con \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} del meta-análisis con el método de recorte y relleno (\emph{trim and fill}), solo tenemos que usar la función \texttt{funnel}, usando
+Esto nos muestra unos resultados equivalentes y muy similares a los de nuestro meta-análisis original (sección \ref{meta-cor}) y que se deben interpretar de manera igual.
+
+Sin embargo, hay unos pequeños cambios. Primero, comienza diciendo que el número estimado de estudios que faltan en el lado izquierdo es 2 (\texttt{Estimated\ number\ of\ missing\ studies\ on\ the\ left\ side:\ 2\ (SE\ =\ 2.7118)}), lo que quiere decir que estimó que faltaban dos estudios al lado izquierdo de nuestro \emph{funnel plot}, y no se recortó ninguno. Por supuesto, al sumar estos dos estudios hipotéticos, el meta-análisis se hace con base en \emph{k} = 18 estudios, en vez de 16 (\texttt{Random-Effects\ Model\ (k\ =\ 18;\ tau\^{}2\ estimator:\ REML)}).
+
+Como los dos estudios hipotéticos que se agregaron están a la izquierda de nuestro \emph{funnel plot}, tienen un tamaño de efecto menor al efecto \emph{real} que estimamos inicialmente de \emph{z} = 0.15. Esto por supuesto hace que el efecto que estimamos usando el método \emph{trim and fill} sea menor (\emph{z} = 0.13, como se ve en los resultados de nuestro meta-análisis (\texttt{Model\ results}: \texttt{Estimate\ (0.1288)}).
+
+Para crear ver esto gráficamente, podemos hacer un \emph{funnel plot} del meta-análisis con el método de recorte y relleno (\emph{trim and fill}) usando \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}. Sólo tenemos que usar la función \texttt{funnel}, usando
 como argumento el objeto al que asignamos los resultados del método de recorte y relleno (\texttt{tf}). Con esto, generamos la Figura \ref{fig:tf-plot1}.
 
 \begin{Shaded}
@@ -1023,7 +1039,7 @@ De nuevo, alternativamente podemos usar la función \texttt{viz\_funnel} del paq
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/tf-plot2-1.pdf}
-\caption{\label{fig:tf-plot2}\emph{Funnel plot} creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz} usando el método de recorte y relleno (\emph{trim and fill}). En negro los estudios meta-analizados; en blanco, los estudios \emph{rellenados}.}
+\caption{\label{fig:tf-plot2}\emph{Funnel plot} creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz} usando el método de recorte y relleno (\emph{trim and fill}). En blanco los estudios meta-analizados; en negro, los estudios \emph{rellenados}.}
 \end{figure}
 
 El resultado nos muestra que el análisis aumentó dos estudios hipotéticos a la izquierda. Es decir, sugiere que hay \emph{cierto} nivel de sesgo de publicación. De hecho, la estimación del efecto al aumentar estos estudios hipotéticos para que la distribución sea realmente simétrica, disminuye a 0.1288, algo menor que el 0.1499 que nos sugería el análisis inicial.
@@ -1237,7 +1253,7 @@ En este caso, voy a asumir un \emph{efecto real} de \(r = 0.15\), tal como en nu
 \hypertarget{visualizaciuxf3n-del-anuxe1lisis-de-poder-firepower-plot}{%
 \subsubsection{\texorpdfstring{Visualización del análisis de poder (\emph{Firepower plot})}{Visualización del análisis de poder (Firepower plot)}}\label{visualizaciuxf3n-del-anuxe1lisis-de-poder-firepower-plot}}
 
-Según esto, nuestro meta-análisis solo tiene un poder estadístico suficiente para detectar de manera confiable efectos mayores a \textasciitilde0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados).
+Según esto, nuestro meta-análisis sólo tiene un poder estadístico suficiente para detectar de manera confiable efectos mayores a \textasciitilde0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1297,7 +1313,7 @@ Ver acá \url{https://www.dsquintana.blog/combinatorial-meta-analysis/}
 
 La técnica de \emph{leave-one-out} no solo se puede hacer como parte de un diagnóstico de influencia (como se muestra en la sección \ref{diag-inf}), sino que también se puede hacer para ver la estimación del efecto meta-analizado al excluir cada uno de los estudios de nuestra base de datos.
 
-Hacerlo solo requiere usar la función \texttt{leave1out} del paquete \texttt{metafor}, usando como argumento el resultado de nuestro meta-análisis original (en este caso, \texttt{res}):
+Hacerlo sólo requiere usar la función \texttt{leave1out} del paquete \texttt{metafor}, usando como argumento el resultado de nuestro meta-análisis original (en este caso, \texttt{res}):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1558,7 +1574,7 @@ Alternativamente, cuando tenemos un modelo con moderador, también podemos ver l
 \hypertarget{plot-mod}{%
 \subsubsection{\texorpdfstring{\emph{Forest plot} y \emph{funnel plot}}{Forest plot y funnel plot}}\label{plot-mod}}
 
-Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \emph{funnel plots}, siguiendo los ejemplos y código de la sección \ref{meta-cor}. Para el \emph{forest plot}, hago a continuación un ejemplo anotado y mejorado\footnote{La función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-forest-plots-with-function-viz_forest}{\texttt{viz\_forest}} del paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} no puede crear un \emph{forest plot} de un meta-análisis ajustado con \texttt{metafor} cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, solo podrá hacer el \emph{forest plot} si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.} (Fig. \ref{fig:for-plot-mod1}, con un código similar al usado como ejemplo en la Fig. \ref{fig:for-plot2}). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto \emph{real} como producto del meta-análisis.
+Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \emph{funnel plots}, siguiendo los ejemplos y código de la sección \ref{meta-cor}. Para el \emph{forest plot}, hago a continuación un ejemplo anotado y mejorado\footnote{La función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-forest-plots-with-function-viz_forest}{\texttt{viz\_forest}} del paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} no puede crear un \emph{forest plot} de un meta-análisis ajustado con \texttt{metafor} cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, sólo podrá hacer el \emph{forest plot} si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.} (Fig. \ref{fig:for-plot-mod1}, con un código similar al usado como ejemplo en la Fig. \ref{fig:for-plot2}). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto \emph{real} como producto del meta-análisis.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1990,17 +2006,17 @@ Por ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamD
                 \begin{verbatim} 
 To cite package 'dplyr' in publications use:
 
-  Wickham H, François R, Henry L, Müller K, Vaughan D (2023). _dplyr: A
-  Grammar of Data Manipulation_. R package version 1.1.0,
+  Wickham H, François R, Henry L, Müller K (2022). _dplyr: A Grammar of
+  Data Manipulation_. R package version 1.0.10,
   <https://CRAN.R-project.org/package=dplyr>.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {dplyr: A Grammar of Data Manipulation},
-    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller and Davis Vaughan},
-    year = {2023},
-    note = {R package version 1.1.0},
+    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
+    year = {2022},
+    note = {R package version 1.0.10},
     url = {https://CRAN.R-project.org/package=dplyr},
   }
  \end{verbatim}
@@ -2018,9 +2034,9 @@ A BibTeX entry for LaTeX users is
 \emph{stats}, \emph{graphics}, \emph{grDevices}, \emph{utils}, \emph{datasets}, \emph{methods} and \emph{base}
 
 \textbf{other attached packages:}
-\emph{pander(v.0.6.5)}, \emph{metameta(v.0.2)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.13.0)}, \emph{zoo(v.1.8-11)}, \emph{psych(v.2.2.9)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.6.0)}, \emph{lubridate(v.1.9.2)}, \emph{forcats(v.1.0.0)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.1.0)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.4)}, \emph{tidyr(v.1.3.0)}, \emph{tibble(v.3.1.8)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.2.0.0)}, \emph{metafor(v.3.8-1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-1)}, \emph{robumeta(v.2.0)} and \emph{knitr(v.1.42)}
+\emph{pander(v.0.6.5)}, \emph{metameta(v.0.1.1)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.12.2)}, \emph{zoo(v.1.8-11)}, \emph{lubridate(v.1.9.0)}, \emph{timechange(v.0.2.0)}, \emph{psych(v.2.2.9)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.5.0)}, \emph{forcats(v.0.5.2)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.0.10)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.3)}, \emph{tidyr(v.1.2.1)}, \emph{tibble(v.3.1.8)}, \emph{ggplot2(v.3.4.0)}, \emph{tidyverse(v.1.3.2)}, \emph{metafor(v.3.8-1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.0)} and \emph{knitr(v.1.41)}
 
 \textbf{loaded via a namespace (and not attached):}
-\emph{nlme(v.3.1-160)}, \emph{webshot(v.0.5.4)}, \emph{RColorBrewer(v.1.1-3)}, \emph{httr(v.1.4.4)}, \emph{tools(v.4.2.2)}, \emph{backports(v.1.4.1)}, \emph{utf8(v.1.2.3)}, \emph{R6(v.2.5.1)}, \emph{mgcv(v.1.8-41)}, \emph{colorspace(v.2.1-0)}, \emph{withr(v.2.5.0)}, \emph{tidyselect(v.1.2.0)}, \emph{gridExtra(v.2.3)}, \emph{mnormt(v.2.1.1)}, \emph{curl(v.5.0.0)}, \emph{compiler(v.4.2.2)}, \emph{cli(v.3.6.0)}, \emph{rvest(v.1.0.3)}, \emph{xml2(v.1.3.3)}, \emph{labeling(v.0.4.2)}, \emph{bookdown(v.0.32)}, \emph{quadprog(v.1.5-8)}, \emph{systemfonts(v.1.0.4)}, \emph{digest(v.0.6.31)}, \emph{rmarkdown(v.2.20)}, \emph{svglite(v.2.1.1)}, \emph{pkgconfig(v.2.0.3)}, \emph{htmltools(v.0.5.4)}, \emph{fastmap(v.1.1.0)}, \emph{highr(v.0.10)}, \emph{ggthemes(v.4.2.4)}, \emph{rlang(v.1.0.6)}, \emph{rstudioapi(v.0.14)}, \emph{generics(v.0.1.3)}, \emph{farver(v.2.1.1)}, \emph{jsonlite(v.1.8.4)}, \emph{car(v.3.1-1)}, \emph{magrittr(v.2.0.3)}, \emph{Rcpp(v.1.0.10)}, \emph{Quandl(v.2.11.0)}, \emph{munsell(v.0.5.0)}, \emph{fansi(v.1.0.4)}, \emph{abind(v.1.4-5)}, \emph{lifecycle(v.1.0.3)}, \emph{stringi(v.1.7.12)}, \emph{yaml(v.2.3.7)}, \emph{carData(v.3.0-5)}, \emph{mathjaxr(v.1.6-0)}, \emph{grid(v.4.2.2)}, \emph{parallel(v.4.2.2)}, \emph{lattice(v.0.20-45)}, \emph{cowplot(v.1.1.1)}, \emph{splines(v.4.2.2)}, \emph{hms(v.1.1.2)}, \emph{pillar(v.1.8.1)}, \emph{ggsignif(v.0.6.4)}, \emph{glue(v.1.6.2)}, \emph{evaluate(v.0.20)}, \emph{vctrs(v.0.5.2)}, \emph{tzdb(v.0.3.0)}, \emph{gtable(v.0.3.1)}, \emph{xfun(v.0.37)}, \emph{broom(v.1.0.3)}, \emph{rstatix(v.0.7.2)}, \emph{viridisLite(v.0.4.1)}, \emph{timechange(v.0.2.0)} and \emph{ellipsis(v.0.3.2)}
+\emph{nlme(v.3.1-160)}, \emph{fs(v.1.5.2)}, \emph{RColorBrewer(v.1.1-3)}, \emph{webshot(v.0.5.4)}, \emph{httr(v.1.4.4)}, \emph{tools(v.4.2.2)}, \emph{backports(v.1.4.1)}, \emph{utf8(v.1.2.2)}, \emph{R6(v.2.5.1)}, \emph{mgcv(v.1.8-41)}, \emph{DBI(v.1.1.3)}, \emph{colorspace(v.2.0-3)}, \emph{withr(v.2.5.0)}, \emph{gridExtra(v.2.3)}, \emph{tidyselect(v.1.2.0)}, \emph{mnormt(v.2.1.1)}, \emph{curl(v.5.0.0)}, \emph{compiler(v.4.2.2)}, \emph{cli(v.3.6.0)}, \emph{rvest(v.1.0.3)}, \emph{xml2(v.1.3.3)}, \emph{labeling(v.0.4.2)}, \emph{bookdown(v.0.31)}, \emph{quadprog(v.1.5-8)}, \emph{systemfonts(v.1.0.4)}, \emph{digest(v.0.6.31)}, \emph{rmarkdown(v.2.19)}, \emph{svglite(v.2.1.1)}, \emph{pkgconfig(v.2.0.3)}, \emph{htmltools(v.0.5.4)}, \emph{highr(v.0.10)}, \emph{dbplyr(v.2.3.0)}, \emph{fastmap(v.1.1.0)}, \emph{ggthemes(v.4.2.4)}, \emph{rlang(v.1.0.6)}, \emph{readxl(v.1.4.1)}, \emph{rstudioapi(v.0.14)}, \emph{farver(v.2.1.1)}, \emph{generics(v.0.1.3)}, \emph{jsonlite(v.1.8.4)}, \emph{car(v.3.1-1)}, \emph{googlesheets4(v.1.0.1)}, \emph{magrittr(v.2.0.3)}, \emph{Rcpp(v.1.0.9)}, \emph{Quandl(v.2.11.0)}, \emph{munsell(v.0.5.0)}, \emph{fansi(v.1.0.3)}, \emph{abind(v.1.4-5)}, \emph{lifecycle(v.1.0.3)}, \emph{stringi(v.1.7.12)}, \emph{yaml(v.2.3.6)}, \emph{carData(v.3.0-5)}, \emph{mathjaxr(v.1.6-0)}, \emph{grid(v.4.2.2)}, \emph{parallel(v.4.2.2)}, \emph{crayon(v.1.5.2)}, \emph{lattice(v.0.20-45)}, \emph{cowplot(v.1.1.1)}, \emph{splines(v.4.2.2)}, \emph{haven(v.2.5.1)}, \emph{hms(v.1.1.2)}, \emph{pillar(v.1.8.1)}, \emph{ggsignif(v.0.6.4)}, \emph{reprex(v.2.0.2)}, \emph{glue(v.1.6.2)}, \emph{evaluate(v.0.19)}, \emph{modelr(v.0.1.10)}, \emph{vctrs(v.0.5.1)}, \emph{tzdb(v.0.3.0)}, \emph{cellranger(v.1.1.0)}, \emph{gtable(v.0.3.1)}, \emph{assertthat(v.0.2.1)}, \emph{xfun(v.0.36)}, \emph{broom(v.1.0.2)}, \emph{rstatix(v.0.7.1)}, \emph{googledrive(v.2.0.0)}, \emph{viridisLite(v.0.4.1)}, \emph{gargle(v.1.2.1)} and \emph{ellipsis(v.0.3.2)}
 
 \end{document}

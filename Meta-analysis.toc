@@ -8,19 +8,20 @@
 \contentsline {subsection}{\numberline {3.2}Más información sobre heterogeneidad}{9}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Diagnóstico de influencia}{10}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}\emph {Forest plot} (diagrama de bosque)}{12}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}\emph {Funnel plot} (diagrama de embudo) y sesgo de estudios pequeños}{16}{subsection.3.5}%
-\contentsline {subsubsection}{\numberline {3.5.1}\emph {Funnel plot}}{17}{subsubsection.3.5.1}%
-\contentsline {subsubsection}{\numberline {3.5.2}Regresión de Egger}{21}{subsubsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5}\emph {Funnel plot} (diagrama de embudo), regresión de Egger y sesgo de estudios pequeños}{16}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}Errores en la interpretación del \emph {Funnel plot} y la regresión de Egger}{16}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}\emph {Funnel plot}}{17}{subsubsection.3.5.2}%
+\contentsline {subsubsection}{\numberline {3.5.3}Regresión de Egger}{21}{subsubsection.3.5.3}%
 \contentsline {subsection}{\numberline {3.6}Sesgo de publicación (\emph {publication bias})}{21}{subsection.3.6}%
 \contentsline {subsubsection}{\numberline {3.6.1}Método \emph {trim and fill} (recorte y relleno)}{21}{subsubsection.3.6.1}%
-\contentsline {subsubsection}{\numberline {3.6.2}Estimación del modelo de función de peso}{23}{subsubsection.3.6.2}%
+\contentsline {subsubsection}{\numberline {3.6.2}Estimación del modelo de función de peso}{24}{subsubsection.3.6.2}%
 \contentsline {subsection}{\numberline {3.7}Poder estadístico del meta-análisis}{25}{subsection.3.7}%
-\contentsline {subsubsection}{\numberline {3.7.1}Instalación de \texttt {metameta}}{25}{subsubsection.3.7.1}%
-\contentsline {subsubsection}{\numberline {3.7.2}Análisis de poder}{25}{subsubsection.3.7.2}%
-\contentsline {subsubsection}{\numberline {3.7.3}Visualización del análisis de poder (\emph {Firepower plot})}{26}{subsubsection.3.7.3}%
+\contentsline {subsubsection}{\numberline {3.7.1}Instalación de \texttt {metameta}}{26}{subsubsection.3.7.1}%
+\contentsline {subsubsection}{\numberline {3.7.2}Análisis de poder}{26}{subsubsection.3.7.2}%
+\contentsline {subsubsection}{\numberline {3.7.3}Visualización del análisis de poder (\emph {Firepower plot})}{27}{subsubsection.3.7.3}%
 \contentsline {subsection}{\numberline {3.8}Analizar todas las posibles combinaciones de estudios}{28}{subsection.3.8}%
-\contentsline {subsubsection}{\numberline {3.8.1}\emph {Leave-one-out}}{28}{subsubsection.3.8.1}%
-\contentsline {subsubsection}{\numberline {3.8.2}Meta-análisis combinatorio}{28}{subsubsection.3.8.2}%
+\contentsline {subsubsection}{\numberline {3.8.1}\emph {Leave-one-out}}{29}{subsubsection.3.8.1}%
+\contentsline {subsubsection}{\numberline {3.8.2}Meta-análisis combinatorio}{29}{subsubsection.3.8.2}%
 \contentsline {section}{\numberline {4}Meta-análisis de correlación con moderador (meta-regresión)}{32}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes)}{32}{subsection.4.1}%
 \contentsline {subsubsection}{\numberline {4.1.1}Más información e interpretación de la moderación}{33}{subsubsection.4.1.1}%

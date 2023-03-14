@@ -220,19 +220,20 @@ Después hay unas columnas que contienen variables específicas para este este e
 
 Por supuesto, el *output* de la consola no es la forma más clara de ver la base de datos, pero para una versión más legible, se puede usar la función `View`, y el nombre de la base de datos o tabla como argumento (en este caso `View(dat)`). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión (y no como sale en la consola de R), para que sean más fáciles de leer.
 
-Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. Después, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna. Finalmente, las columnas de variables que son factores (`controls`, `design`, `a_measure`, `c_measure` y `quality`), pueden ser definidas como tal, para evitar pasos adicionales más adelante. En este caso, .
+Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. Después, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna. Finalmente, las columnas de variables que son factores (`controls`, `design`, `a_measure`, `c_measure` y `quality`), pueden ser definidas como tal, para evitar pasos adicionales más adelante. En este caso, además, voy a reorganizar los niveles de la variable `controls` (primero `none` y después `multiple`); esto, aunque no es un paso necesario, puede ayudar con la interpretación de resultados.
 
 ```{r molloy2014}
 dat <- get(data(dat.molloy2014)) %>%
-  mutate(study_id = 1:16)  %>% #crear columna study_id y agregar números del 1 al 16
-  select(study_id, authors:quality) %>% #mover study_id como primera columna
-  mutate_at(c("controls", # Transformar variables en factores
+  mutate(study_id = 1:16)  %>% # crear columna 'study_id' y agregar números del 1 al 16
+  select(study_id, authors:quality) %>% # mover 'study_id' como primera columna
+  mutate_at(c("controls", # transformar variables relevantes en factores
               "design",
               "a_measure",
               "c_measure",
               "quality"), 
             as.factor) %>% 
-  mutate(controls = fct_relevel(controls, "none", "multiple"))
+  mutate(controls = fct_relevel(controls, # reorganizar niveles de la variable 'controls'
+                                "none", "multiple"))  
 ```
 
 Con esto, la base de datos tiene ahora la siguiente estructura (Tabla \@ref(tab:estructuramod)):
@@ -250,7 +251,7 @@ kable(dat,
 
 # Preparación de los datos: transformación de coeficientes *r* de Pearson a *z* de Fisher
 
-Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeños. Por esto, lo mejor es transformar los coeficientes *r* de Pearson a *z* de Fisher [@fisherFrequencyDistributionValues1915], que no tienen este problema[^3].
+Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeños. Por esto, lo mejor es transformar los coeficientes *r* de Pearson a *z* de Fisher [-@fisherFrequencyDistributionValues1915], que no tienen este problema[^3].
 
 [^3]: Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (*r*), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significación para coeficientes *r*. La transformación de Fisher de valores *r* a *z* ---que es la [tangente hiperbólica inversa](https://es.wikipedia.org/wiki/Tangente_hiperb%C3%B3lica) de *r*--- resuelve este problema, pues los coeficientes *z* tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de *r* [para una demostración en español, ver @sanchez-brunoTransformacionFisherPara2005].
 
@@ -349,11 +350,11 @@ En este caso, el meta-análisis nos sugiere que en efecto existe una asociación
 
 Esto se podría resumir, por ejemplo, como:
 
-> El resultado meta-analizado sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%).
+> "**El meta-análisis sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Hubo una heterogeneidad moderada significativa en torno al tamaño medio del efecto en los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%).**"
 
 ### Alternativa: Reportar el estimado como *r* de Pearson en vez de *z* de Fisher
 
-Para reportar la correlación, si prefieres reportar coeficientes *r* de Pearson en vez de la transformación a *z* de Fisher, puedes transformar los valores *z* de Fisher de vuelta a *r* de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función `tanh`, que calcula la tangente hiperbólica, o la función `fisherz2r` del paquete `psych` [@revellePsych2021]. Por ejemplo, para transformar el estimado de nuestro meta-análisis a *r* de Pearson, solo debo usar alguna de esas funciones, y agregar el valor *z* (0.1499 en nuestro caso) como único argumento:
+Para reportar la correlación, si prefieres reportar coeficientes *r* de Pearson en vez de la transformación a *z* de Fisher, puedes transformar los valores *z* de Fisher de vuelta a *r* de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función `tanh`, que calcula la tangente hiperbólica, o la función `fisherz2r` del paquete `psych` [@revellePsych2021]. Por ejemplo, para transformar el estimado de nuestro meta-análisis a *r* de Pearson, sólo debo usar alguna de esas funciones, y agregar el valor *z* (0.1499 en nuestro caso) como único argumento:
 
 ```{r message = FALSE}
 tanh(0.1499)
@@ -361,7 +362,7 @@ library(psych)
 fisherz2r(0.1499)
 ```
 
-Cualquiera de estas opciones nos da un valor de *r* = 0.1487872, muy similar al obtenido (*z* = 0.1499). Esto se debe a que, para coeficientes *r* de Pearson entre -0.4 y 0.4, la transformación a valores *z* de Fisher produce resultados muy similares (Fig. \@ref(fig:rvsz)). 
+Cualquiera de estas opciones nos da un valor de coeficiente de correlación de Pearson (*r* = 0.1487872), muy similar al obtenido como *z* de Fisher (*z* = 0.1499). Esto se debe a que, para coeficientes *r* de Pearson entre -0.4 y 0.4, la transformación a valores *z* de Fisher produce resultados muy similares (Fig. \@ref(fig:rvsz)). 
 
 ```{r rvsz, echo = FALSE, message = FALSE, warning = FALSE, fig.height = 4, fig.cap = "Asociación entre coeficientes de correlación *r* de Pearson (eje *X*), y su transformación a *z* de Fisher (eje *Y*). La línea naranja representa la asociación entre valores *r* y *z*; como referencia, la línea negra punteada representa igualdad entre ejes (*y* = *x*). Como se puede ver, cuando *r* está aproximadamente entre -0.4 y 0.4 (rectángulo gris), los valores *r* y *z* son casi idénticos. Para valores más extremos, el valor de *z* se aleja progresivamente del valor de *r*."}
 
@@ -407,11 +408,11 @@ Para $\tau^2$, el hecho de que los límites del intervalo de confianza no crucen
 
 Estos intervalos de confianza que también pueden ser reportados junto a sus correspondientes  estadísticos. Entonces, esto se podría resumir, por ejemplo, como:
 
-> El resultado meta-analizado sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Sin embargo, es importante considerar que hay heterogeneidad entre los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055, IC 95% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%, IC 95% [25.2799%, 88.2545%]).
+> "**El meta-análisis sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Hubo una heterogeneidad moderada significativa en torno al tamaño medio del efecto en los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055, IC 95% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%, IC 95% [25.2799%, 88.2545%]).**"
 
 ## Diagnóstico de influencia {#diag-inf}
 
-Otro aspecto importante de un meta-análisis, es determinar si alguno(s) de los estudios meta-analizados es(son) particularmente influyente(s) en nuestro resultado[^5]. Para esto, se suele usar la técnica conocida como *leave-one-out*, que se refiere al resultado del meta-análisis cuando se excluye cada estudio; al estimar cómo y cuánto cambia el resultado del modelo de meta-análisis al excluir cada estudio, podemos estimar su influencia en el resultado. Dicho de otra manera, si al excluir un estudio el resultado cambia mucho, sabemos que ese estudio tiene gran influencia en el meta-análisis y sería mejor excluirlo. 
+Otro aspecto importante de un meta-análisis, es determinar si alguno o algunos de los estudios meta-analizados es o son particularmente influyentes en nuestro resultado[^5]. Para esto, se suele usar la técnica conocida como *leave-one-out*, que se refiere al resultado del meta-análisis cuando se excluye cada estudio; al estimar cómo y cuánto cambia el resultado del modelo de meta-análisis al excluir cada estudio, podemos estimar su influencia en el resultado. Dicho de otra manera, si al excluir un estudio el resultado cambia mucho, sabemos que ese estudio tiene gran influencia en el meta-análisis y sería mejor excluirlo. 
 
 Para hacer un análisis de influencia, podemos usar la función `influence` del paquete `metafor`, cuyo resultado, en este caso, asignaré a un objeto llamado `inf.res`.
 
@@ -427,15 +428,17 @@ Dado que lo asigné a un objeto (`inf.res`), para ver el resultado, debo usar co
 inf.res
 ```
 
-Esto me muestra gran cantidad de información de cada estudio (en este caso, lo presento como una tabla sin formato, tal cual se ve en la consola de R). Las columnas que incluye son:
+Esto me muestra gran cantidad de datos de cada estudio (en este caso, lo presento como una tabla sin formato, tal cual se ve en la consola de R), y contiene información que puede parecer muy compleja; sin embargo, como verás, la última columna resume la interpretación general de estos resultados de influencia, facilitando muchísimo su interpretación. 
 
--   `rstudent`: residuo estandarizados externamente. Esto **no** corresponde al coeficiente de correlación de cada estudio, sino a la diferencia entre el tamaño de efecto observado en cada estudio, y la predicción de dicho valor cuando dicho estudio se elimina del meta-análisis
+Las columnas que incluye son:
+
+-   `rstudent`: residuos estandarizados externamente. Esto **no** corresponde al coeficiente de correlación de cada estudio, sino a la diferencia entre el tamaño de efecto observado en cada estudio, y la predicción de dicho valor cuando dicho estudio se elimina del meta-análisis
 
 -   `dffits`: diferencia de ajuste(s) (en inglés *difference in fit(s)*). Es una medida diagnóstica de la influencia de cada punto en una regresión (en este caso, cada estudio en un meta-análisis) propuesta originalmente por @belsleyRegressionDiagnosticsIdentifying1980
 
--   `cook.d`: Distancia de Cook (en inglés, *Cook's distance*). Es otra medida diagnóstica de la influencia, propuesta originalmente por @cookDetectionInfluentialObservation1977. Es conceptualmente idéntica a DFFITS (`dffits`), y he hecho existe una fórmula para convertir una medida en la otra [@Henry2003]. Aunque no hay un acuerdo absoluto respecto, comúnmente se asume que valores mayores a 1 ($D_{i} > 1$), representan puntos altamente influyentes en un modelo [@cookResidualsInfluenceRegression1982], que probablemente deban ser excluidos
+-   `cook.d`: Distancia de Cook (en inglés, *Cook's distance*). Es otra medida diagnóstica de la influencia, propuesta originalmente por @cookDetectionInfluentialObservation1977. Es conceptualmente idéntica a DFFITS (`dffits`), y de hecho existe una fórmula para convertir una medida en la otra [@Henry2003]. Aunque no hay un acuerdo absoluto al respecto, comúnmente se asume que valores mayores a 1 ($D_{i} > 1$), representan puntos (o, en este caso, estudios) influyentes en un modelo [@cookResidualsInfluenceRegression1982], que probablemente deban ser excluidos
 
--   `cov.r`: relación (o proporción) de covarianza. Es el determinante de la matriz de varianza-covarianza de las estimaciones de los parámetros basadas en el conjunto de datos, cuando cada estudio se elimina del meta-análisis, dividido por el mismo determinante de la matriz de varianza-covarianza cuando se incluyen todos los estudios. Básicamente, un valor menor a 1 indica que la eliminación de ese estudio produce estimaciones más precisas de los coeficientes del modelo
+-   `cov.r`: relación (o proporción) de covarianza. Es el determinante de la matriz de varianza-covarianza de las estimaciones de los parámetros basadas en el conjunto de datos, cuando cada estudio se elimina del meta-análisis, dividido por el mismo determinante de la matriz de varianza-covarianza cuando se incluyen todos los estudios. Sé que suena complejo, pero básicamente, un valor menor a 1 indica que la eliminación de ese estudio produce estimaciones más precisas de los coeficientes del modelo
 
 -   `tau2.del`: es la heterogeneidad (residual) $\tau^2$ cuando se elimina cada estudio
 
@@ -447,34 +450,36 @@ Esto me muestra gran cantidad de información de cada estudio (en este caso, lo 
 
 -   `dfbs`: el valor de `dfbs` (o *DFBETAS*) indica cuántas desviaciones estándar cambia el coeficiente estimado después de excluir cada estudio del modelo de meta-análisis 
 
--   `inf`: por suerte, esta columna `inf` resume esta información por nosotros. Cualquier estudio que se considere influyente, teniendo en cuenta la diferencia de ajuste, la distancia de Cook, los valores *hat* o *DFBETAS*, será señalado acá como influyente, usando asteriscos.
+-   `inf`: por suerte, esta columna `inf` resume esta información por nosotros. Cualquier estudio que se considere influyente, teniendo en cuenta la diferencia de ajuste, la distancia de Cook, los valores *hat* o *DFBETAS*, será señalado acá como influyente, usando asteriscos
 
 Aunque hay mucha información, lo más importante ahora es mirar la última columna, llamada `inf`. Si ahí aparecieran asteriscos para algún estudio meta-analizado (que no es nuestro caso), sugeriría que ese estudio es particularmente influyente y podría ser necesario eliminarlo del meta-análisis.
 
 Por último, podemos también ver ésta información que tenemos guardada en el objeto `inf.res`, de manera gráfica, usando la función `plot` (Fig. \@ref(fig:infplot)).
 
-```{r infplot, fig.height = 7, fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje *X* representan cada estudio, como lo definimos en columna \\texttt{study\\_id} de la Tabla \\@ref(tab:estructuramod). En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que podemos estar tranquilos con nuestro meta-análisis."}
+```{r infplot, fig.height = 7, fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje *X* representan cada estudio, como lo definimos en columna \\texttt{study\\_id} de la Tabla \\@ref(tab:estructuramod). En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que no es necesario excluir ningún estudio de nuestro meta-análisis."}
 plot(inf.res)
 ```
 
 ## *Forest plot* (diagrama de bosque)
 
-Para hacer un diagrama de bosque (*forest plot*) con [`metafor`](https://www.metafor-project.org/doku.php) resumiendo nuestro meta-análisis, solo tenemos que usar la función `forest`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`; esto produce la Fig. \@ref(fig:for-plot1)).
+Hacer un diagrama de bosque (*forest plot*) que resuma nuestro meta-análisis usando  [`metafor`](https://www.metafor-project.org/doku.php) es muy fácil; sólo tenemos que usar la función `forest`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (en nuestro caso, `res`).
 
 ```{r eval = FALSE}
 forest(res)
 ```
+
+Esto produce la Fig. \@ref(fig:for-plot1).
 
 ```{r for-plot1, echo = FALSE, fig.height = 5.5, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
 par(mar = c(4,0,0,0))
 forest(res)
 ```
 
-Como se puede ver en las Figuras \@ref(fig:for-plot1), \@ref(fig:for-plot2) y \@ref(fig:for-plot3b) (que son versiones del mismo *forest plot*), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre `r min(dat$ri)` y `r max(dat$ri)`), y aunque son positivas en la mayoría de los casos (en algunos claramente positivas), en otros casos son prácticamente 0 o incluso negativas.
+Como se puede ver en las Figuras \@ref(fig:for-plot1), \@ref(fig:for-plot2) y \@ref(fig:for-plot3b) (que son versiones del mismo *forest plot*), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre `r min(dat$ri)` y `r max(dat$ri)`), y aunque son positivas en la mayoría de los casos, en algunos son prácticamente 0 o incluso negativas.
 
 Para una versión más completa y anotada, también usando el *plot* básico de [`metafor`](https://www.metafor-project.org/doku.php), pero agregando encabezados de cada columna en español, nombres de los estudios meta-analizados[^6] así como una columna con los pesos dados a cada estudio, y detalles del modelo final[^7], podemos hacer algo como esto:
 
-[^6]: En este caso, y dado que tenemos la lista de autores y años de publicación en columnas separadas, pegando las columnas `authors` y `year` separadas por una coma y un espacio: `paste(dat$authors, dat$year, sep = ", ")` como argumento `slab`.
+[^6]: En este caso, dado que tenemos los autores y los años de publicación de cada estudio en columnas separadas, pegué las columnas `authors` y `year` separadas por una coma y un espacio: `paste(dat$authors, dat$year, sep = ", ")` como argumento `slab`.
 
 [^7]: Estas opciones están explicadas [acá](https://search.r-project.org/CRAN/refmans/metafor/html/forest.rma.html).
 
@@ -517,7 +522,7 @@ text(x = 1, y = 18, labels = "Peso", pos = 2)
 text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
 ```
 
-O, para un *forest plot* incluso más sofisticado, se puede usar la función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html).
+O, para un *forest plot* quizás más sofisticado, se puede usar la función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html).
 
 ```{r eval = FALSE}
 # A. Variante "classic" (no tiene que ser definida, pues es la opción por defecto)
@@ -596,25 +601,29 @@ ggarrange(p.thick, p.rain,
           nrow = 2)
 ```
 
-## *Funnel plot* (diagrama de embudo) y sesgo de estudios pequeños
+## *Funnel plot* (diagrama de embudo), regresión de Egger y sesgo de estudios pequeños
 
-En este punto, es en donde más errores se cometen. Las pruebas más comunes para evaluar sesgos de publicación, son la evaluación de la asimetría en el *funnel plot* (diagrama de embudo), y la regresión (o test) de Egger [@eggerBiasMetaanalysisDetected1997].
+La creación e interpretación del *Funnel plot* es crucial, y aporta información muy importante acerca de un meta-análisis. Sin embargo, es en donde más errores se cometen. 
 
-Sin embargo, el principal error que la mayoría de los investigadores (meta-analistas) cometen, es que simplemente basándose en éstos métodos, concluyen que un meta-análisis tiene (o no) riesgo de sufrir de un sesgo de publicación[^8]. Sin embargo, estos métodos, no son pruebas exclusivas de sesgo de publicación, sino de sesgo de estudios de tamaño muestral pequeño [ver e.g. @schwarzerSmallStudyEffectsMetaAnalysis2015], que pueden incluir sesgo de publicación, pero no se centran exclusivamente en éste.
+### Errores en la interpretación del *Funnel plot* y la regresión de Egger {#err-funnel-egger}
 
-[^8]: Por supuesto, yo mismo soy culpable de haber hecho esto en el pasado, incluyendo algunos comentarios en mi video sobre meta-análisis en *jamovi* [@leongomezMetaanalysis2021].
+El principal error que la mayoría de los investigadores podemos cometer[^8], es concluir que un meta-análisis tiene (o no) riesgo de sufrir de sesgos de publicación, simplemente basándonos en la evaluación de la asimetría en el *funnel plot* y la regresión de Egger [@eggerBiasMetaanalysisDetected1997] (sección \@ref(reg-egger)).
 
-A pesar de esto, tanto la regresión de Egger como el *funnel plot*, son interesantes dado que el sesgo de estudios pequeños es importante.
+Estos métodos, sin embargo, no son pruebas exclusivas de sesgo de publicación, sino de sesgo de estudios de tamaño muestral pequeño [ver e.g. @schwarzerSmallStudyEffectsMetaAnalysis2015], que pueden incluir sesgo de publicación, pero no se centran exclusivamente en esto (explico algunas técnicas específicas para estimar el sesgo de publicación en la sección \@ref(sesgo-pub)).
+
+[^8]: Me incluyo pues por supuesto también soy culpable de haber cometido este error en el pasado, incluyendo algunas ideas que expuse en mi video sobre meta-análisis en *jamovi* [@leongomezMetaanalysis2021].
+
+A pesar de esto, tanto la regresión de Egger como el *funnel plot* son interesantes, pues es importante considerar el sesgo que podrían generar estudios con tamaño de muestra pequeño en nuestra estimación del efecto *real* (o, para decirlo más técnicamente, el sesgo que podrían introducir estudios con poder estadístico bajo).
 
 ### *Funnel plot*
 
-Para crear un *funnel plot* con [`metafor`](https://www.metafor-project.org/doku.php), de nuestro meta-análisis, solo tenemos que usar la función `funnel`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`). Con esto, generamos la Figura \@ref(fig:funnel-plot1).
+Para crear un *funnel plot* de nuestro meta-análisis con [`metafor`](https://www.metafor-project.org/doku.php) sólo tenemos que usar la función `funnel`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`). Con esto, generamos la Figura \@ref(fig:funnel-plot1).
 
 ```{r eval = FALSE}
 funnel(res)
 ```
 
-```{r funnel-plot1, echo = FALSE, fig.height = 5, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo."}
+```{r funnel-plot1, echo = FALSE, fig.height = 5, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto *real* estimado mediante nuestro meta-análisis (*z* = 0.15), así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo."}
 par(mar = c(4,4,0,1))
 funnel(res)
 ```
@@ -627,16 +636,16 @@ funnel(res,
        ylab = "Error estándar")
 ```
 
-```{r funnel-plot1a, echo = FALSE, fig.height = 5, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php), con títulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste."}
+```{r funnel-plot1a, echo = FALSE, fig.height = 5, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php), con títulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto *real* estimado mediante nuestro meta-análisis (*z* = 0.15), así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste."}
 par(mar = c(4,4,0,1))
 funnel(res, 
        xlab = "Coeficiente de correlación transformado en z de Fisher",
        ylab = "Error estándar")
 ```
 
-De nuevo, para una versión más sofisticada, se puede usar el paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función [`viz_funnel`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-funnel-plots-with-viz_funnel). Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando solo la línea de la regresión de Egger (`egger = TRUE`; ver sección \@ref(reg-egger), más adelante), transformando los tamaños de efecto de regreso a $r$ de Pearson (`x_trans_function = tanh`), y con los títulos de los ejes en español (Fig. \@ref(fig:funnel-plot2)).
+De nuevo, para una versión más sofisticada, se puede usar el paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función [`viz_funnel`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-funnel-plots-with-viz_funnel). Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando sólo la línea de la regresión de Egger (`egger = TRUE`; ver sección \@ref(reg-egger), más adelante), transformando los tamaños de efecto de regreso a $r$ de Pearson (`x_trans_function = tanh`), y con los títulos de los ejes en español (Fig. \@ref(fig:funnel-plot2)).
 
-```{r funnel-plot2, fig.height = 4.5, warning = FALSE, fig.cap = "*Funnel plot* creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5% (i.e. $p$ > 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1% (i.e. $p$ > 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger."}
+```{r funnel-plot2, fig.height = 4.5, warning = FALSE, fig.cap = "*Funnel plot* creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5% (i.e. $p$ < 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1% (i.e. $p$ < 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger."}
 viz_funnel(res, 
            egger = TRUE,
            x_trans_function = tanh,
@@ -677,19 +686,19 @@ ggarrange(p.suna, p.sunb,
 
 ### Regresión de Egger {#reg-egger}
 
-Para hacer una prueba formal de sesgo de estudios pequeños [@sternePublicationRelatedBias2000; @schwarzerSmallStudyEffectsMetaAnalysis2015], podemos hacer una prueba o regresión de Egger [@eggerBiasMetaanalysisDetected1997]. En [`metafor`](https://www.metafor-project.org/doku.php), esto se hace con la función `regtest`, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (`res`).
+Para hacer una prueba formal de sesgo de estudios pequeños [@sternePublicationRelatedBias2000; @schwarzerSmallStudyEffectsMetaAnalysis2015], a partir de la asimetría en el *funnel plot*, podemos hacer una prueba o regresión de Egger [@eggerBiasMetaanalysisDetected1997]. En [`metafor`](https://www.metafor-project.org/doku.php), esto se hace con la función `regtest`, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (`res`).
 
 ```{r eval = FALSE}
 regtest(res)
 ```
 
-Como se puede ver, la prueba de Egger no muestra un resultado significativo (`z = 1.0216, p = 0.3070`).
+Como se puede ver, en este caso la prueba de Egger no muestra un resultado significativo (`Test for Funnel Plot Asymmetry: z = 1.0216, p = 0.3070`), lo que sugiere que no hay sesgo de estudios pequeños.
 
 ```{r echo = FALSE}
 regtest(res)
 ```
 
-Con base en esto, y la inspección visual subjetiva del *funnel plot*, muchos investigadores concluyen que no hay sesgo de publicación. Sin embargo, como mencioné antes, estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (más adelante, en la sección \@ref(sesgo-pub), explicaré cómo evaluar si hay sesgo de publicación).
+Con base en esto, y la inspección visual subjetiva del *funnel plot*, muchos investigadores podrían concluir, sin sustento adecuado, que en nuestro meta-análisis no hay sesgo de publicación. Sin embargo, como mencioné antes (sección \@ref(err-funnel-egger)), estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (en la sección \@ref(sesgo-pub) a continuación, explicaré cómo evaluar si hay sesgo de publicación).
 
 ## Sesgo de publicación (*publication bias*) {#sesgo-pub}
 
@@ -697,13 +706,13 @@ Existen diferentes opciones para estimar el sesgo de publicación de un meta-an�
 
 ### Método *trim and fill* (recorte y relleno) {#trim-fill}
 
-El método de recorte y relleno (*trim and fill*) es una técnica no paramétrica para aumentar datos [@duvalNonparametricTrimFill2000; @duvalTrimFillSimple2000; ver también @duvalTrimFillMethod2005]. Este método puede utilizarse para estimar y ajustar el número y los resultados de los estudios que faltan en un meta-análisis, con base en el escrutinio de un lado de un diagrama de embudo (*funnel plot*) para estimar la asimetría que se supone que se debe al sesgo de publicación. 
+El método de recorte y relleno (*trim and fill*) es una técnica no paramétrica para aumentar datos [@duvalNonparametricTrimFill2000; @duvalTrimFillSimple2000; ver también @duvalTrimFillMethod2005]. Este método puede utilizarse para ajustar el número y los resultados de los estudios que se estima faltan en un meta-análisis, con base en el escrutinio de un lado de un diagrama de embudo (*funnel plot*), para evaluar la asimetría que se supone que se debe al sesgo de publicación. 
 
-Básicamente, el método aumenta los datos observados para que el gráfico de embudo sea más simétrico, y vuelve a calcular la estimación del meta-análisis con base en los datos completos. 
+Básicamente, el método aumenta los estudios observados para que el gráfico de embudo sea más simétrico, y vuelve a calcular la estimación del meta-análisis con base en los datos completos. 
 
-Aunque muy útil, es importante tener en cuenta que método de recorte y relleno (*trim and fill*) tiene algunas limitaciones que deben considerarse:
+Aunque muy útil, es importante tener en cuenta que método de recorte y relleno (*trim and fill*) tiene algunas limitaciones que siempre deben considerarse:
 
--  No debe considerarse como una forma de obtener una estimación más "válida" del efecto o resultado global (a partir del meta-análisis), sino como una forma de examinar qué tan sensibles son los resultados a un mecanismo de selección particular (es decir, una forma particular de sesgo de publicación)
+-  No debe ente derse como una forma de obtener una estimación más "válida" del efecto *real*, sino como una forma de examinar qué tan sensibles son los resultados a un mecanismo de selección particular (es decir, una forma particular de sesgo de publicación)
 
 -  Es importante tener en cuenta que este método no se puede usar en modelos con moderadores, como los que explico en la sección \@ref(met-moderation)
 
@@ -714,7 +723,13 @@ tf <- trimfill(res)
 tf
 ```
 
-Para crear un *funnel plot* con [`metafor`](https://www.metafor-project.org/doku.php) del meta-análisis con el método de recorte y relleno (*trim and fill*), solo tenemos que usar la función `funnel`, usando
+Esto nos muestra unos resultados equivalentes y muy similares a los de nuestro meta-análisis original (sección \@ref(meta-cor)) y que se deben interpretar de manera igual. 
+
+Sin embargo, hay unos pequeños cambios. Primero, comienza diciendo que el número estimado de estudios que faltan en el lado izquierdo es 2 (`Estimated number of missing studies on the left side: 2 (SE = 2.7118)`), lo que quiere decir que estimó que faltaban dos estudios al lado izquierdo de nuestro *funnel plot*, y no se recortó ninguno. Por supuesto, al sumar estos dos estudios hipotéticos, el meta-análisis se hace con base en *k* = 18 estudios, en vez de 16 (`Random-Effects Model (k = 18; tau^2 estimator: REML)`).
+
+ Como los dos estudios hipotéticos que se agregaron están a la izquierda de nuestro *funnel plot*, tienen un tamaño de efecto menor al efecto *real* que estimamos inicialmente de *z* = 0.15. Esto por supuesto hace que el efecto que estimamos usando el método *trim and fill* sea menor (*z* = 0.13, como se ve en los resultados de nuestro meta-análisis (`Model results`: `Estimate (0.1288)`).
+
+Para crear ver esto gráficamente, podemos hacer un *funnel plot* del meta-análisis con el método de recorte y relleno (*trim and fill*) usando [`metafor`](https://www.metafor-project.org/doku.php). Sólo tenemos que usar la función `funnel`, usando
 como argumento el objeto al que asignamos los resultados del método de recorte y relleno (`tf`). Con esto, generamos la Figura \@ref(fig:tf-plot1).
 
 ```{r tf-plot1, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php) usando el método de recorte y relleno (*trim and fill*). En negro los estudios meta-analizados; en blanco, los estudios *rellenados*."}
@@ -725,7 +740,7 @@ funnel(tf,
 
 De nuevo, alternativamente podemos usar la función `viz_funnel` del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), para crear este *funnel plot* representando los estudios *rellenados* con el método de recorte y relleno. Sin embargo, para esto usaremos como argumento el meta-análisis original (`res`), pero agregando los argumentos `trim_and_fill = TRUE` y `trim_and_fill_side = "left"` ("left" dado que sabemos que los estudios *faltantes* están a la izquierda del *funnel plot*). 
 
-```{r tf-plot2, fig.cap = "*Funnel plot* creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) usando el método de recorte y relleno (*trim and fill*). En negro los estudios meta-analizados; en blanco, los estudios *rellenados*."}
+```{r tf-plot2, fig.cap = "*Funnel plot* creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) usando el método de recorte y relleno (*trim and fill*). En blanco los estudios meta-analizados; en negro, los estudios *rellenados*."}
 viz_funnel(res, 
            contours_col = "Oranges",
            trim_and_fill = TRUE, 
@@ -821,7 +836,7 @@ power_dat
 
 ### Visualización del análisis de poder (*Firepower plot*)
 
-Según esto, nuestro meta-análisis solo tiene un poder estadístico suficiente para detectar de manera confiable efectos mayores a ~0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados).
+Según esto, nuestro meta-análisis sólo tiene un poder estadístico suficiente para detectar de manera confiable efectos mayores a ~0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados).
 
 ```{r}
 power.plot <- firepower(power_list)
@@ -867,7 +882,7 @@ Ver acá https://www.dsquintana.blog/combinatorial-meta-analysis/
 
 La técnica de *leave-one-out* no solo se puede hacer como parte de un diagnóstico de influencia (como se muestra en la sección \@ref(diag-inf)), sino que también se puede hacer para ver la estimación del efecto meta-analizado al excluir cada uno de los estudios de nuestra base de datos.
 
-Hacerlo solo requiere usar la función `leave1out` del paquete `metafor`, usando como argumento el resultado de nuestro meta-análisis original (en este caso, `res`):
+Hacerlo sólo requiere usar la función `leave1out` del paquete `metafor`, usando como argumento el resultado de nuestro meta-análisis original (en este caso, `res`):
 
 ```{r echo = FALSE}
 l1o_res <- leave1out(res)
@@ -1034,7 +1049,7 @@ regplot(res.modage,
 
 Por supuesto, de estos resultados también puedo crear *forest plots* y *funnel plots*, siguiendo los ejemplos y código de la sección \@ref(meta-cor). Para el *forest plot*, hago a continuación un ejemplo anotado y mejorado[^14] (Fig. \@ref(fig:for-plot-mod1), con un código similar al usado como ejemplo en la Fig. \@ref(fig:for-plot2)). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto *real* como producto del meta-análisis.
 
-[^14]: La función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) no puede crear un *forest plot* de un meta-análisis ajustado con `metafor` cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, solo podrá hacer el *forest plot* si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.
+[^14]: La función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) no puede crear un *forest plot* de un meta-análisis ajustado con `metafor` cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, sólo podrá hacer el *forest plot* si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.
 
 ```{r eval = FALSE}
 # forest plot con anotaciones adicionales
