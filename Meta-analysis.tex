@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{14 marzo, 2023}
+\date{15 marzo, 2023}
 
 \begin{document}
 \maketitle
@@ -944,7 +944,7 @@ Con base en esto, y la inspección visual subjetiva del \emph{funnel plot}, much
 \hypertarget{sesgo-pub}{%
 \subsection{\texorpdfstring{Sesgo de publicación (\emph{publication bias})}{Sesgo de publicación (publication bias)}}\label{sesgo-pub}}
 
-Existen diferentes opciones para estimar el sesgo de publicación de un meta-análisis. En esta sección, me centraré en dos: el método de recorte y relleno (\emph{trim and fill}), y la estimación del modelo de función de peso.
+Existen diferentes opciones para estimar el sesgo de publicación de un meta-análisis. En esta sección, me centraré en dos: primero, el método de recorte y relleno (\emph{trim and fill}; sección \ref{trim-fill}); y segundo, el modelo de función de peso de Vevea y Hedges (sección \ref{vevea-hedges}), que es uno de los modelos de selección más conocidos para la evaluación del sesgo de publicación.
 
 \hypertarget{trim-fill}{%
 \subsubsection{\texorpdfstring{Método \emph{trim and fill} (recorte y relleno)}{Método trim and fill (recorte y relleno)}}\label{trim-fill}}
@@ -1046,10 +1046,18 @@ El resultado nos muestra que el análisis aumentó dos estudios hipotéticos a l
 
 Si quieres profundizar en el método de recorte y relleno (\emph{trim and fill}), su interpretación, así como sus fortalezas y limitaciones, te recomiendo leer el artículo de Shi \& Lin (\protect\hyperlink{ref-shiTrimandfill2019}{2019}) al respecto.
 
-\hypertarget{estimaciuxf3n-del-modelo-de-funciuxf3n-de-peso}{%
-\subsubsection{Estimación del modelo de función de peso}\label{estimaciuxf3n-del-modelo-de-funciuxf3n-de-peso}}
+\hypertarget{vevea-hedges}{%
+\subsubsection{Modelo de función de peso de Vevea y Hedges}\label{vevea-hedges}}
 
-Para determinar el sesgo de publicación, se puede usar la función \texttt{weightfunct} del paquete \texttt{weightr} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}), que nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea \& Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea \& Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005})'', como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}.
+El modelo de función de peso de Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{Vevea \& Hedges, 1995}; \protect\hyperlink{ref-veveaPublicationBiasResearch2005}{Vevea \& Woods, 2005}) es uno de los modelos se selección (en inglés, \emph{selection models}) más conocidos\footnote{El otro modelo de selección muy conocido, es el modelo de Copas y Shi (\protect\hyperlink{ref-copasSensitivityAnalysisPublication2001}{2001}, \protect\hyperlink{ref-copasMetaanalysisFunnelPlots2000}{2000}). Aunque no lo incluyo en ésta guía, es importante mencionar que hay evidencia que muestra que es preferible a métodos como el de \emph{trim and fill} (\protect\hyperlink{ref-schwarzerEmpiricalEvaluationSuggests2010}{Schwarzer et al., 2010}). En R, éste método se puede implementar con la función \texttt{copas} del paquete \texttt{metasens} (\protect\hyperlink{ref-schwarzerMetasensPackage}{Schwarzer et al., 2023}; ver también Capítulo 5 en \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}).}.
+
+Los modelos de selección intentan describir el mecanismo de supresión del efecto y combinarlo con un modelo de tamaño del efecto que describa la distribución de los efectos en ausencia de sesgo de publicación.
+
+El modelo de Vevea y Hedges da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores \(p\) (\protect\hyperlink{ref-coburnPublicationBiasFunction2015}{Coburn \& Vevea, 2015}; para una descripción sencilla y general, ver por ejemplo \protect\hyperlink{ref-SesgoPublicacion2008}{Gómez-Restrepo, 2008}). En particular, es más probable que sean publicados los estudios con resultados \emph{significativo} (típicamente, \(p < 0.05\), usando un \(\alpha\) tradicional de 0.05), en comparación con estudios con resultados no significativos (es decir, con resultados que no permiten rechazar la hipótesis nula). Estos sesgos pueden por supuesto sesgar la literatura publicada, y afectar nuestro meta-análisis.
+
+En R, para estimar el sesgo de publicación de un meta-análisis usando el modelo de función de peso de Vevea y Hedges, se puede usar la función \texttt{weightfunct} del paquete \texttt{weightr} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}).
+
+Esta función que nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea \& Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea \& Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005})'', como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1108,21 +1116,23 @@ p-values <0.025              9
                 \end{footnotesize}
                 \end{ROut}
 
-El modelo tradicional nos da un estimado muy similar (pero no idéntico) al del estudio original (0.1486), dado que usa un método ligeramente diferente.
+Los resultados tienen una estructura similar a los del meta-análisis original (descrito y explicado en la sección \ref{meta-cor}) y a los del meta-análisis usando el método \emph{trim and fill} (sección \ref{trim-fill}). Sin embargo, se organizan en dos partes; primero presenta los resultados del modelo no ajustado (bajo el encabezado \texttt{Unadjusted\ Model\ (k\ =\ 16)}), y después presenta los resultados del modelo con pesos ajustados de acuerdo al modelo de función de peso de Vevea y Hedges (bajo el encabezado \texttt{Adjusted\ Model\ (k\ =\ 16)}).
+
+El modelo no ajustado nos da un estimado muy similar (pero no idéntico) al del estudio original (0.1486), dado que usa un método ligeramente diferente.
 
 Como antes, también nos da valores de heterogeneidad \(\tau^2\), \(\tau\) y \(Q\).
 
-Pero lo más importante, es que nos da los resultado del meta-análisis, ajustando los pesos dados a cada efecto, de cada estudio meta-analizado.
+Pero lo más importante, es que en la segunda parte (el modelo ajustado) los resultado del meta-análisis se calculan de acuerdo con los pesos dados a cada efecto.
 
-Lo que esta función hace es lo que se conoce como \emph{selection models} (modelos de selección). Básicamente, da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores \(p\) (\protect\hyperlink{ref-coburnPublicationBiasFunction2015}{Coburn \& Vevea, 2015}; para una descripción sencilla y general, ver por ejemplo \protect\hyperlink{ref-SesgoPublicacion2008}{{``{Acerca del sesgo de publicación en literatura sobre antidepresivos},''} 2008}) publicados que estudios con \(p < 0.05\).
+Esta técnica, a diferencia del método \emph{trim and fill} no ``recorta'' ni ``rellena'' estudios, por lo que el análisis se hace con el mismo número de estudios (en este caso, 16; por eso en encabezado dice \texttt{Adjusted\ Model\ (k\ =\ 16)}).
 
-La función \texttt{weightfunct} incrementa el peso de estudios que tienen menos probabilidad de ser publicados, y reduce el peso de estudios con mayor probabilidad de ser publicados. Por esto, al usar ésta técnica, estás asumiendo que de hecho, en el efecto que tratas de encontrar en tu meta-análisis, de hecho hay un sesgo de publicación, lo que a menudo es una suposición bastante justa.
+Sin embargo, la función \texttt{weightfunct} incrementa el peso de estudios que tienen menos probabilidad de ser publicados (típicamente resultados no significativos), y reduce el peso de estudios con mayor probabilidad de ser publicados (los que encuentran resultados más extremos). Por esto, al usar ésta técnica, estás asumiendo que, de hecho, en el efecto que tratas de encontrar en tu meta-análisis hay un sesgo de publicación, lo que a menudo es una suposición bastante apropiada.
 
-Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el meta-análisis original nos daba como resultado un efecto de \textasciitilde0.15, esta técnica nos estima un efecto de \textasciitilde0.09. Básicamente, ha \emph{encogido} nuestro tamaño de efecto.
+Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el meta-análisis original nos daba como resultado un efecto de \textasciitilde0.15, esta técnica nos estima un efecto de \textasciitilde0.09. Ha \emph{encogido} nuestro tamaño de efecto, asumiendo que nuestro resultado original estaba sesgado.
 
-Al final el \emph{Likelihood ratio test} (algo así como ``Prueba de cociente de probabilidades''), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí basándose en la relación de su verosimilitud. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
+Al final, está el \emph{Likelihood ratio test} (en español, ``Prueba de la razón de verosimilitud''), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí, con base en la relación de su verosimilitud\footnote{Aunque no voy a entrar en detalles respecto a técnicas de inferencia estadística basadas en verosimilitud, si quieres conocer más acerca de estos métodos, así como de estadística Bayesiana (que tiene mucho que ver con verosimilitud) y frecuentista (la que solemos usar, que hace inferencia a partir de valores \(p\)), con énfasis en las fortalezas y limitaciones de cada enfoque, recomiendo encarecidamente el libro \emph{``Improving Your Statistical Inferences''} de Daniël Lakens (\protect\hyperlink{ref-lakensImprovingYourStatistical2022}{2022}). Este libro, completamente gratuito y abierto, integra además los contenidos de dos cursos gratuitos del mismo autor (\emph{``\href{https://www.coursera.org/learn/statistical-inferences}{Improving Your Statistical Inferences}''} y \emph{``\href{https://www.coursera.org/learn/improving-statistical-questions}{Improving Your Statistical Questions}''}), que también recomiendo hacer a cualquier persona que quiera dedicarse a hacer investigación y use técnicas estadísticas.}. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
 
-Este resultado nos da una tendencia no descartable (p-val = 0.084043, lo que es \textless{} 0.10; significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el \emph{funnel plot} (Figs. \ref{fig:funnel-plot1}, \ref{fig:funnel-plot1a} \ref{fig:funnel-plot2} y \ref{fig:funnel-plot3}) y la regresión de Egger (sección \ref{reg-egger}), sugerían lo contrario.
+Este resultado nos da una tendencia no descartable (\texttt{p-val\ =\ 0.084043}; menor que 0.10 y por tanto significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el \emph{funnel plot} (Figs. \ref{fig:funnel-plot1}, \ref{fig:funnel-plot1a}, \ref{fig:funnel-plot2} y \ref{fig:funnel-plot3}) y la regresión de Egger (sección \ref{reg-egger}), sugerían lo contrario.
 
 \hypertarget{poder-estaduxedstico-del-meta-anuxe1lisis}{%
 \subsection{Poder estadístico del meta-análisis}\label{poder-estaduxedstico-del-meta-anuxe1lisis}}
@@ -1134,7 +1144,7 @@ Para hacer esto, usaré el paquete \texttt{metameta} (\protect\hyperlink{ref-qui
 \hypertarget{instalaciuxf3n-de-metameta}{%
 \subsubsection{\texorpdfstring{Instalación de \texttt{metameta}}{Instalación de metameta}}\label{instalaciuxf3n-de-metameta}}
 
-El paquete \texttt{metameta} se debe instalar desde GitHub\footnote{\href{https://github.com/}{GitHub} es un repositorio abierto para para proyectos de código abierto en el que, entre otras cosas, suelen estar alojados todos los paquetes de R incluso en versiones de desarrollador. Por supuesto, a diferencia de \href{https://cran.r-project.org/}{CRAN}, GitHub es un repositorio de código general, no específico para paquetes de R.} ya que, al día de hoy, no está aún disponible en CRAN.
+El paquete \texttt{metameta} se debe instalar desde GitHub ya que, al día de hoy, no está aún disponible en CRAN\footnote{\href{https://cran.r-project.org/}{CRAN} (siglas de \emph{Comprehensive R Archive Network}) es una red de servidores de todo el mundo que almacenan versiones idénticas y actualizadas del código y la documentación de R (incluyendo el lenguaje mismo de R, paquetes aceptados por el equipo de CRAN, y toda la documentación). Es el repositorio oficial y dedicado a R, desde el que normalmente instalas cualquier paquete. \href{https://github.com/}{GitHub}, en cambio, es un repositorio general y abierto para para proyectos (típicamente programación) en el que, entre otras cosas, suelen estar alojados todos los paquetes de R en versiones de desarrollador, y antes de ser aceptados en CRAN. Por supuesto, a diferencia de CRAN, GitHub es un repositorio de código general, no específico para R.}.
 
 Para esto, debemos tener instalado el paquete \texttt{devtools}, y usar la función \texttt{install\_github} que nos permite instalar paquetes directamente desde GitHub.
 
@@ -1840,9 +1850,6 @@ Adicionalmente, podrías:
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
-\leavevmode\vadjust pre{\hypertarget{ref-SesgoPublicacion2008}{}}%
-{Acerca del sesgo de publicación en literatura sobre antidepresivos}. (2008). \emph{Revista Colombiana de Psiquiatría}, \emph{37}(1), 8--10. \url{http://ref.scielo.org/sp52pr}
-
 \leavevmode\vadjust pre{\hypertarget{ref-magrittrcite}{}}%
 Bache, S. M., \& Wickham, H. (2022). \emph{{magrittr}: A forward-pipe operator for {R}}. \url{https://CRAN.R-project.org/package=magrittr}
 
@@ -1867,6 +1874,12 @@ Cook, R. D. (1977). Detection of {Influential Observation} in {Linear Regression
 \leavevmode\vadjust pre{\hypertarget{ref-cookResidualsInfluenceRegression1982}{}}%
 Cook, R. D., \& Weisberg, S. (1982). \emph{Residuals and {Influence} in {Regression}}. {New York: Chapman and Hall}. \url{https://hdl.handle.net/11299/37076}
 
+\leavevmode\vadjust pre{\hypertarget{ref-copasSensitivityAnalysisPublication2001}{}}%
+Copas, J., \& Shi, J. Q. (2001). A sensitivity analysis for publication bias in systematic reviews. \emph{Statistical Methods in Medical Research}, \emph{10}(4), 251--265. \url{https://doi.org/10.1177/096228020101000402}
+
+\leavevmode\vadjust pre{\hypertarget{ref-copasMetaanalysisFunnelPlots2000}{}}%
+Copas, J., \& Shi, J. Q. (2000). Meta-analysis, funnel plots and sensitivity analysis. \emph{Biostatistics}, \emph{1}(3), 247--262. \url{https://doi.org/10.1093/biostatistics/1.3.247}
+
 \leavevmode\vadjust pre{\hypertarget{ref-datademiaAprendeGgplot22018}{}}%
 Datademia. (2018). \emph{Aprende {Ggplot2} en {R} \emph{{[}video{]}}}. YouTube. \url{https://youtu.be/BUzTAr_QqKs}.
 
@@ -1885,6 +1898,9 @@ Egger, M., Smith, G. D., Schneider, M., \& Minder, C. (1997). {Bias in Meta-Anal
 \leavevmode\vadjust pre{\hypertarget{ref-fisherFrequencyDistributionValues1915}{}}%
 Fisher, R. A. (1915). Frequency {Distribution} of the {Values} of the {Correlation Coefficient} in {Samples} from an {Indefinitely Large Population}. \emph{Biometrika}, \emph{10}(4), 507--521. \url{https://doi.org/10.2307/2331838}
 
+\leavevmode\vadjust pre{\hypertarget{ref-SesgoPublicacion2008}{}}%
+Gómez-Restrepo, C. (2008). {Acerca del sesgo de publicación en literatura sobre antidepresivos}. \emph{Revista Colombiana de Psiquiatría}, \emph{37}(1), 8--10. \url{http://www.scielo.org.co/scielo.php?script=sci_arttext\&pid=S0034-74502008000100001}
+
 \leavevmode\vadjust pre{\hypertarget{ref-harrer2021doing}{}}%
 Harrer, M., Cuijpers, P., A, F. T., \& Ebert, D. D. (2021). \emph{{Doing Meta-Analysis With {R}: A Hands-On Guide}} (1st ed.). Chapman \& Hall/CRC Press. \url{https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/}
 
@@ -1899,6 +1915,9 @@ John, O. P., \& Srivastava, S. (1999). The {Big Five Trait} taxonomy: {History},
 
 \leavevmode\vadjust pre{\hypertarget{ref-KossmeierMetaviz}{}}%
 Kossmeier, M., Tran, U. S., \& Voracek, M. (2020). \emph{{metaviz: Forest Plots, Funnel Plots, and Visual Funnel Plot Inference for Meta-Analysis}}. \url{https://CRAN.R-project.org/package=metaviz}
+
+\leavevmode\vadjust pre{\hypertarget{ref-lakensImprovingYourStatistical2022}{}}%
+Lakens, D. (2022). \emph{Improving {Your Statistical Inferences}}. \url{https://lakens.github.io/statistical_inferences/}
 
 \leavevmode\vadjust pre{\hypertarget{ref-leongomezMetaanalysis2021}{}}%
 Leongómez, J. D. (2021). \emph{Hacer meta-análisis en jamovi es muy fácil \emph{{[}video{]}}}. YouTube. \url{https://youtu.be/ntBbkOn9D_o}.
@@ -1940,7 +1959,13 @@ Sánchez-Bruno, A., \& Borges del Rosal, Á. (2005). {Transformación Z de Fishe
 Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015a). \emph{Meta-{Analysis} with {R}}. {Springer International Publishing}. \url{https://doi.org/10.1007/978-3-319-21416-0}
 
 \leavevmode\vadjust pre{\hypertarget{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{}}%
-Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015b). Small-{Study Effects} in {Meta}-{Analysis}. In G. Schwarzer, J. R. Carpenter, \& G. Rücker (Eds.), \emph{Meta-{Analysis} with {R}} (pp. 107--141). {Springer International Publishing}. \url{https://doi.org/10.1007/978-3-319-21416-0_5}
+Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015b). Small-{Study Effects} in {Meta}-{Analysis}. In \emph{Meta-{Analysis} with {R}} (pp. 107--141). \url{https://doi.org/10.1007/978-3-319-21416-0_5}
+
+\leavevmode\vadjust pre{\hypertarget{ref-schwarzerMetasensPackage}{}}%
+Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2023). \emph{Metasens: Statistical methods for sensitivity analysis in meta-analysis}. \url{https://CRAN.R-project.org/package=metasens}
+
+\leavevmode\vadjust pre{\hypertarget{ref-schwarzerEmpiricalEvaluationSuggests2010}{}}%
+Schwarzer, G., Carpenter, J., \& Rücker, G. (2010). Empirical evaluation suggests {Copas} selection model preferable to trim-and-fill method for selection bias in meta-analysis. \emph{Journal of Clinical Epidemiology}, \emph{63}(3), 282--288. \url{https://doi.org/10.1016/j.jclinepi.2009.05.008}
 
 \leavevmode\vadjust pre{\hypertarget{ref-sedgwickMetaanalysesWhatHeterogeneity2015}{}}%
 Sedgwick, P. (2015). Meta-analyses: What is heterogeneity? \emph{BMJ}, \emph{350}, h1435. \url{https://doi.org/10.1136/bmj.h1435}
