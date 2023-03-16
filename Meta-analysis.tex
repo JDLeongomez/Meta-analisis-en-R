@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{15 marzo, 2023}
+\date{16 marzo, 2023}
 
 \begin{document}
 \maketitle
@@ -1137,9 +1137,14 @@ Este resultado nos da una tendencia no descartable (\texttt{p-val\ =\ 0.084043};
 \hypertarget{poder-estaduxedstico-del-meta-anuxe1lisis}{%
 \subsection{Poder estadístico del meta-análisis}\label{poder-estaduxedstico-del-meta-anuxe1lisis}}
 
-En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso 0.15 para el meta-análisis original ``\texttt{res}'', o 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}''). Para este ejemplo, asumiré que el efecto \emph{real} es el encontrado en nuestro análisis original (0.15), pues este efecto es mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
+En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis.
+Como mencioné anteriormente, de ser necesario, para entender las bases del poder estadístico, recomiendo ver \href{https://youtube.com/playlist?list\%20=\%20PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}{esta serie de videos} (\protect\hyperlink{ref-leongomezPoderRvid2020}{Leongómez, 2020b}) y/o, para mayor profundidad, leer \href{https://doi.org/10.5281/zenodo.3988776}{esta guía} (\protect\hyperlink{ref-leongomezAnalisisPoderEstadistico2020}{Leongómez, 2020a}) que publiqué anteriormente.
 
-Para hacer esto, usaré el paquete \texttt{metameta} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}, \protect\hyperlink{ref-quintanaGuideMetaPower}{in press}), que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos \emph{reales}.
+La idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto \emph{real} estimado mediante nuestro análisis (en nuestro caso \emph{z} = 0.15 para el meta-análisis original ``\texttt{res}'', o \emph{z} = 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}'').
+
+Para este ejemplo, asumiré que el efecto \emph{real} es el estimado en nuestro análisis original (\emph{z} = 0.15), pues este efecto es mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
+
+Para hacer esto, usaré el paquete \texttt{metameta} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}, \protect\hyperlink{ref-quintanaGuideMetaPower}{in press}), que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos \emph{reales} estimados.
 
 \hypertarget{instalaciuxf3n-de-metameta}{%
 \subsubsection{\texorpdfstring{Instalación de \texttt{metameta}}{Instalación de metameta}}\label{instalaciuxf3n-de-metameta}}
@@ -1169,20 +1174,47 @@ Una vez instalado, podemos cargar el paquete.
 
 Como datos, necesitamos no solamente los tamaños de efecto a meta-analizar (\(r\) de Pearson transformado a \emph{z} de Fisher), sino además los intervalos de confianza, tal como fueron reportados en varios de nuestros \emph{Forest plots}.
 
-En este caso, voy a asumir un \emph{efecto real} de \(r = 0.15\), tal como en nuestro meta-análisis original. Sin embargo, el \emph{efecto real} no es algo que podamos saber (es, de hecho, lo que queremos acercarnos a conocer a través del meta-análisis), así que la función \texttt{mapower\_ul} del paquete \texttt{metameta} calcula el poder de cada meta-análisis para un rango de posibles efectos reales.
+Como mencioné, voy a asumir un efecto \emph{real} de \(r = 0.15\), tal como en nuestro meta-análisis original. Sin embargo, el efecto \emph{real} no es algo que podamos saber con absoluta certeza (es, de hecho, lo que queremos acercarnos a conocer a través del meta-análisis), así que la función \texttt{mapower\_ul} del paquete \texttt{metameta} calcula el poder de cada meta-análisis para un rango de posibles efectos reales.
+
+Para esto, la función \texttt{mapower\_ul} requiere una base de datos que contenga información concreta, y con columnas con nombres específicos: el efecto encontrado en cada estudio (en nuestro caso \texttt{yi}, que es la columna en la que guardamos los coeficientes de correlación transformados a \emph{z} de Fisher), así como sus intervalos de confianza. Estas columnas deben llamarse \texttt{yi}, \texttt{lower} y \texttt{upper}, respectivamente.
+
+Esto lo puedo obtener de manera sencilla con la función \texttt{summary}, que agrega a la base de datos (\texttt{dat}) los límites inferior (\texttt{ci.lb}) y superior (\texttt{ci.ub}) de los intervalos de confianza. Sin embargo, aunque la columna con el tamaño de efecto (\texttt{yi}) ya tiene el nombre requerido, debo renombrar las columnas que tienen los límites de los intervalos de confianza (\texttt{ci.lb} y \texttt{ci.ub}) como \texttt{lower} y \texttt{upper}, usando la función \texttt{rename}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat.power }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(dat) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{select}\NormalTok{(yi, ci.lb, ci.ub) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{dat.poder }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(dat) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{rename}\NormalTok{(}\AttributeTok{lower =}\NormalTok{ ci.lb, }\AttributeTok{upper =}\NormalTok{ ci.ub)}
+\end{Highlighting}
+\end{Shaded}
 
-\NormalTok{power }\OtherTok{\textless{}{-}} \FunctionTok{mapower\_ul}\NormalTok{(}\AttributeTok{dat =}\NormalTok{ dat.power, }\AttributeTok{observed\_es =} \FloatTok{0.15}\NormalTok{, }\AttributeTok{name =} \StringTok{"Molloy et al. 2014"}\NormalTok{)}
+Asigné esta versión modificada de la base de datos a un objeto que llamé \texttt{dat.poder}. Ya con esta base de datos lista y con el formato correcto para usar la función \texttt{mapower\_ul}, podemos seguir adelante.
 
-\NormalTok{power\_list }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(power}\SpecialCharTok{$}\NormalTok{power\_median\_dat)}
-\NormalTok{power\_dat }\OtherTok{\textless{}{-}}\NormalTok{ power}\SpecialCharTok{$}\NormalTok{dat}
+La función \texttt{mapower\_ul} requiere que asignemos la base de datos (\texttt{dat.poder}) al argumento \texttt{dat}, el tamaño de efecto que estimamos como efecto \emph{real} (en este caso, 0.15) al argumento \texttt{observed\_es}, así como un nombre que le daremos al meta-análisis al argumento \texttt{name} (en este caso lo llamaré ``Molloy et al.~2014'', pero por supuesto tú puedes darle el nombre que consideres adecuado, siempre entre comillas). Asignaré el resultado de este análisis a un objeto que simplemente llamaré \texttt{poder}.
 
-\NormalTok{power\_list}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{poder }\OtherTok{\textless{}{-}} \FunctionTok{mapower\_ul}\NormalTok{(}\AttributeTok{dat =}\NormalTok{ dat.poder, }\AttributeTok{observed\_es =} \FloatTok{0.15}\NormalTok{, }\AttributeTok{name =} \StringTok{"Molloy et al. 2014"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Como veremos a continuación, éste objeto tiene varios elementos muy importantes.
+
+\hypertarget{poder-mediano-del-meta-anuxe1lisis-para-diferentes-tamauxf1os-de-efecto.}{%
+\paragraph{Poder mediano del meta-análisis para diferentes tamaños de efecto.}\label{poder-mediano-del-meta-anuxe1lisis-para-diferentes-tamauxf1os-de-efecto.}}
+
+El objeto generado por la función \texttt{mapower\_ul} tiene varios elementos. Uno particularmente relevante es la lista de poder mediano estimado para diferentes tamaños de efecto (\texttt{\$power\_median\_dat}), que asignaré como lista a un objeto que llamaré \texttt{lista\_poder} (guardar este objeto es sumamente útil para hacer visualizaciones del análisis de poder, como explico más adelante, en la sección \ref{firepower-plot}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lista\_poder }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(poder}\SpecialCharTok{$}\NormalTok{power\_median\_dat)}
+\end{Highlighting}
+\end{Shaded}
+
+Para ver el objeto, como siempre, solo tengo que llamarlo por el nombre que le haya dado (en este caso, \texttt{lista\_poder}). Muestra el poder estadístico del meta-análisis para detectar diferentes tamaños de efecto (que llama \texttt{es}, por las siglas en inglés de \emph{effect size}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lista\_poder}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1197,31 +1229,77 @@ En este caso, voy a asumir un \emph{efecto real} de \(r = 0.15\), tal como en nu
                 \end{footnotesize}
                 \end{ROut}
 
+Por ejemplo, nos muestra que para detectar un efecto de \emph{z} = 0.1 (\texttt{es01}), se estima un poder de \texttt{0.1762492}; para un poder de \emph{z} = 0.2 (\texttt{es02}), se estima un poder de \texttt{0.5356629}, y continúa así hasta un poder de \emph{z} = 1.0 (\texttt{es1}).
+
+Finalmente, nos muestra el poder estimado para detectar un efecto del tamaño del que estimamos como \emph{real} (en nuestro caso, \emph{z} = 0.15), bajo el encabezado \texttt{es\_observed}. Como se ve, el poder es de tan solo \texttt{0.3364197}, lo que quiere decir que, si el efecto \emph{real} de la asociación entre concienciación y la adherencia a la medicación fuese \emph{z} = 0.15, un meta-análisis como el nuestro sólo detectaría esa correlación como significativa en el 33.64\% de os casos.
+
+Lo que es más, podemos concluir que solo tenemos suficiente poder estadístico para detectar como significativos efectos desde aproximadamente \emph{z} = 0.3 (\texttt{es03} = \texttt{0.8673657}, donde por fin tenemos un poder mayor a 0.8, o lo que es lo mismo, 80\%). Sin embargo, nuestras estimaciones del efecto \emph{real} están por debajo de este umbral, ya que en nuestro meta-análisis original fue de \emph{z} = 0.15 y en el meta-análisis con pesos ajustados fue de \emph{z} = 0.09.
+
+\hypertarget{poder-de-cada-estudio-para-diferentes-tamauxf1os-de-efecto.}{%
+\paragraph{Poder de cada estudio para diferentes tamaños de efecto.}\label{poder-de-cada-estudio-para-diferentes-tamauxf1os-de-efecto.}}
+
+El otro elemento generado es una base de datos modificada que, de manera similar a la lista de poder mediano, contiene el poder estimado para diferentes tamaños de efecto, pero en este caso no como una mediana, sino para cada estudio (\texttt{\$dat}). Asignaré este elemento a un objeto que llamaré \texttt{poder\_full\_dat}.
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{power\_dat}
+\NormalTok{poder\_full\_dat }\OtherTok{\textless{}{-}}\NormalTok{ poder}\SpecialCharTok{$}\NormalTok{dat}
+\NormalTok{poder\_full\_dat}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
-                \begin{verbatim}             yi        lower      upper        sei power_es_observed power_es01
-1   0.18922664 -0.001141888 0.37959517 0.09712680         0.3390835  0.1774836
-2   0.16343992  0.091680539 0.23519930 0.03661193         0.9837035  0.7797623
-3   0.35409253  0.082294427 0.62589063 0.13867250         0.1910727  0.1113715
-4   0.33164711  0.139456828 0.52383739 0.09805627         0.3337559  0.1750148
-5   0.27686382  0.040911886 0.51281576 0.12038364         0.2383028  0.1320187
-6   0.00000000 -0.248915675 0.24891567 0.12699779         0.2188783  0.1234921
-7   0.17682002  0.026937828 0.32670221 0.07647051         0.5006730  0.2576556
-8   0.05004173 -0.059013584 0.15909704 0.05564047         0.7691106  0.4354589
-9   0.26610841  0.001826917 0.53038990 0.13483749         0.1994161  0.1149996
-10  0.01000033 -0.060723775 0.08072444 0.03608373         0.9859910  0.7914240
-11 -0.09024419 -0.359465946 0.17897757 0.13735804         0.1938536  0.1125800
-12  0.38842310  0.179490237 0.59735596 0.10659840         0.2905754  0.1553001
-13  0.00000000 -0.184377902 0.18437790 0.09407036         0.3575910  0.1861296
-14  0.15114044  0.066324499 0.23595637 0.04327344         0.9340134  0.6371865
-15  0.24477411  0.087346017 0.40220221 0.08032046         0.4632371  0.2379950
-16  0.04002135 -0.208894321 0.28893703 0.12699779         0.2188783  0.1234921
+                \begin{verbatim}    study_id             authors year  ni     ri controls          design
+1         1     Axelsson et al. 2009 109  0.187     none cross-sectional
+2         2     Axelsson et al. 2011 749  0.162     none cross-sectional
+3         3        Bruce et al. 2010  55  0.340     none     prospective
+4         4  Christensen et al. 1999 107  0.320     none cross-sectional
+5         5 Christensen & Smith 1995  72  0.270     none     prospective
+6         6        Cohen et al. 2004  65  0.000     none     prospective
+7         7      Dobbels et al. 2005 174  0.175     none cross-sectional
+8         8       Ediger et al. 2007 326  0.050 multiple     prospective
+9         9        Insel et al. 2006  58  0.260     none     prospective
+10       10       Jerant et al. 2011 771  0.010 multiple     prospective
+11       11        Moran et al. 1997  56 -0.090 multiple     prospective
+12       12   O'Cleirigh et al. 2007  91  0.370     none     prospective
+13       13       Penedo et al. 2003 116  0.000     none cross-sectional
+14       14        Quine et al. 2012 537  0.150     none     prospective
+15       15      Stilley et al. 2004 158  0.240     none     prospective
+16       16 Wiebe & Christensen 1997  65  0.040     none     prospective
+     a_measure c_measure meanage quality          yi          vi        sei
+1  self-report     other   22.00       1  0.18922664 0.009433962 0.09712680
+2  self-report       NEO   53.59       1  0.16343992 0.001340483 0.03661193
+3        other       NEO   43.36       2  0.35409253 0.019230769 0.13867250
+4  self-report     other   41.70       1  0.33164711 0.009615385 0.09805627
+5        other       NEO   46.39       2  0.27686382 0.014492754 0.12038364
+6        other       NEO   41.20       2  0.00000000 0.016129032 0.12699779
+7  self-report       NEO   52.30       1  0.17682002 0.005847953 0.07647051
+8  self-report       NEO   41.00       3  0.05004173 0.003095975 0.05564047
+9        other     other   77.00       2  0.26610841 0.018181818 0.13483749
+10       other       NEO   78.60       3  0.01000033 0.001302083 0.03608373
+11       other       NEO   57.20       2 -0.09024419 0.018867925 0.13735804
+12 self-report       NEO   37.90       2  0.38842310 0.011363636 0.10659840
+13 self-report       NEO   39.20       1  0.00000000 0.008849558 0.09407036
+14 self-report     other   69.00       2  0.15114044 0.001872659 0.04327344
+15       other       NEO   46.20       3  0.24477411 0.006451613 0.08032046
+16       other       NEO   56.00       1  0.04002135 0.016129032 0.12699779
+           zi         pval        lower      upper power_es_observed power_es01
+1   1.9482075 5.139014e-02 -0.001141888 0.37959517         0.3390835  0.1774836
+2   4.4640346 8.043057e-06  0.091680539 0.23519930         0.9837035  0.7797623
+3   2.5533975 1.066777e-02  0.082294427 0.62589063         0.1910727  0.1113715
+4   3.3821502 7.192082e-04  0.139456828 0.52383739         0.3337559  0.1750148
+5   2.2998036 2.145935e-02  0.040911886 0.51281576         0.2383028  0.1320187
+6   0.0000000 1.000000e+00 -0.248915675 0.24891567         0.2188783  0.1234921
+7   2.3122218 2.076546e-02  0.026937828 0.32670221         0.5006730  0.2576556
+8   0.8993600 3.684609e-01 -0.059013584 0.15909704         0.7691106  0.4354589
+9   1.9735128 4.843717e-02  0.001826917 0.53038990         0.1994161  0.1149996
+10  0.2771374 7.816746e-01 -0.060723775 0.08072444         0.9859910  0.7914240
+11 -0.6569876 5.111889e-01 -0.359465946 0.17897757         0.1938536  0.1125800
+12  3.6437317 2.687136e-04  0.179490237 0.59735596         0.2905754  0.1553001
+13  0.0000000 1.000000e+00 -0.184377902 0.18437790         0.3575910  0.1861296
+14  3.4926197 4.783072e-04  0.066324499 0.23595637         0.9340134  0.6371865
+15  3.0474131 2.308202e-03  0.087346017 0.40220221         0.4632371  0.2379950
+16  0.3151285 7.526641e-01 -0.208894321 0.28893703         0.2188783  0.1234921
    power_es02 power_es03 power_es04 power_es05 power_es06 power_es07 power_es08
 1   0.5395394  0.8705053  0.9845502  0.9992836  0.9999877  0.9999999  1.0000000
 2   0.9997697  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000  1.0000000
@@ -1260,22 +1338,26 @@ En este caso, voy a asumir un \emph{efecto real} de \(r = 0.15\), tal como en nu
                 \end{footnotesize}
                 \end{ROut}
 
-\hypertarget{visualizaciuxf3n-del-anuxe1lisis-de-poder-firepower-plot}{%
-\subsubsection{\texorpdfstring{Visualización del análisis de poder (\emph{Firepower plot})}{Visualización del análisis de poder (Firepower plot)}}\label{visualizaciuxf3n-del-anuxe1lisis-de-poder-firepower-plot}}
+Básicamente, esta tabla contiene información nos permite evaluar si cada estudio incluido en nuestro meta-análisis tenía o no un poder estadístico suficiente para detectar un rango de tamaños de efecto que, como antes van desde \emph{z} = 0.1 (columna \texttt{power\_es01}), hasta \emph{z} = 1.0 (\texttt{power\_es1}).
+
+También, nos permite ver el poder estadístico de cada estudio para detectar un tamaño de efecto \emph{real} como el que estimamos (\emph{z} = 0.15), en la columna \texttt{power\_es\_observed}. La información de esta columna es análoga a la de los \emph{funnel plot} creados con la función \texttt{viz\_funnel} del paquete \texttt{metaviz} (Figura \ref{fig:funnel-plot3}A y B).
+
+\hypertarget{firepower-plot}{%
+\subsubsection{\texorpdfstring{Visualización del análisis de poder (\emph{Firepower plot})}{Visualización del análisis de poder (Firepower plot)}}\label{firepower-plot}}
 
 Según esto, nuestro meta-análisis sólo tiene un poder estadístico suficiente para detectar de manera confiable efectos mayores a \textasciitilde0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{power.plot }\OtherTok{\textless{}{-}} \FunctionTok{firepower}\NormalTok{(power\_list)}
+\NormalTok{poder.plot }\OtherTok{\textless{}{-}} \FunctionTok{firepower}\NormalTok{(lista\_poder)}
 \end{Highlighting}
 \end{Shaded}
 
-Para ver el \emph{fireplot} que creamos, y ya que lo asigné a un objeto que llamé \texttt{power.plot}, debo correr el objeto para ver el resultado (Fig. \ref{fig:fire-plot1}).
+Para ver el \emph{fireplot} que creamos, y ya que lo asigné a un objeto que llamé \texttt{poder.plot}, debo correr el objeto para ver el resultado (Fig. \ref{fig:fire-plot1}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{power.plot}
+\NormalTok{poder.plot}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1285,11 +1367,11 @@ Para ver el \emph{fireplot} que creamos, y ya que lo asigné a un objeto que lla
 \caption{\label{fig:fire-plot1}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis. \emph{Observed} hace referencia al tamaño de efecto observado en nuestro meta-análisis original; en este caso, 0.15.}
 \end{figure}
 
-Si queremos cambiar los títulos a español, y ya que el objeto \texttt{power.plot} contiene dos elementos (\texttt{dat} y \texttt{fp\_plot}, que es propiamente la gráfica). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto'', el título de la leyenda a ``Poder'', y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.} (Fig. \ref{fig:fire-plot2}). Por ejemplo:
+Si queremos cambiar los títulos a español, y ya que el objeto \texttt{poder.plot} contiene dos elementos (\texttt{dat} y \texttt{fp\_plot}, que es propiamente la gráfica). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto'', el título de la leyenda a ``Poder'', y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.} (Fig. \ref{fig:fire-plot2}). Por ejemplo:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{power.plot}\SpecialCharTok{$}\NormalTok{fp\_plot }\SpecialCharTok{+}
+\NormalTok{poder.plot}\SpecialCharTok{$}\NormalTok{fp\_plot }\SpecialCharTok{+}
   \FunctionTok{xlab}\NormalTok{(}\StringTok{"Tamaño de efecto"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{guides}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{guide\_legend}\NormalTok{(}\AttributeTok{title =} \StringTok{"Poder"}\NormalTok{, }
                              \AttributeTok{reverse =} \ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{+}
@@ -1398,7 +1480,7 @@ Voy a hacer un meta-análisis de esta nueva base de datos alterada (\texttt{dat\
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-31-1.pdf}
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-35-1.pdf}
 
 Los valores atípicos introducidos son claramente visibles en el \emph{forest plot} (diagrama de bosque). (estudios 12 y 15).
 
@@ -1422,7 +1504,7 @@ Y el plot
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-33-1.pdf}
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-37-1.pdf}
 
 There is a clear cluster of large effect sizes with high heterogeneity in the top right of the plot. We can specifically highlight the meta-analysis models that included the potential outlier studies:
 
@@ -1436,8 +1518,8 @@ There is a clear cluster of large effect sizes with high heterogeneity in the to
 
 \begin{figure}
 \centering
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-34-1.pdf}
-\caption{\label{fig:unnamed-chunk-34}Se puede ver en las distribuciones del eje X (distribuciones arriba) cómo los meta análisis que incluyen ese estudio tienden a arrojar estimados más fuertes para la asociación, sesgando el resultado hacia valores más extremos.}
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-38-1.pdf}
+\caption{\label{fig:unnamed-chunk-38}Se puede ver en las distribuciones del eje X (distribuciones arriba) cómo los meta análisis que incluyen ese estudio tienden a arrojar estimados más fuertes para la asociación, sesgando el resultado hacia valores más extremos.}
 \end{figure}
 
 There's a noticeable shift in the distribution of meta-analysis model summary effect size estimates that include study 12.

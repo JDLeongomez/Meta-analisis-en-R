@@ -18,22 +18,24 @@
 \contentsline {subsection}{\numberline {3.7}Poder estadístico del meta-análisis}{26}{subsection.3.7}%
 \contentsline {subsubsection}{\numberline {3.7.1}Instalación de \texttt {metameta}}{26}{subsubsection.3.7.1}%
 \contentsline {subsubsection}{\numberline {3.7.2}Análisis de poder}{26}{subsubsection.3.7.2}%
-\contentsline {subsubsection}{\numberline {3.7.3}Visualización del análisis de poder (\emph {Firepower plot})}{28}{subsubsection.3.7.3}%
-\contentsline {subsection}{\numberline {3.8}Analizar todas las posibles combinaciones de estudios}{29}{subsection.3.8}%
-\contentsline {subsubsection}{\numberline {3.8.1}\emph {Leave-one-out}}{29}{subsubsection.3.8.1}%
-\contentsline {subsubsection}{\numberline {3.8.2}Meta-análisis combinatorio}{29}{subsubsection.3.8.2}%
-\contentsline {section}{\numberline {4}Meta-análisis de correlación con moderador (meta-regresión)}{33}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes)}{33}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1}Más información e interpretación de la moderación}{34}{subsubsection.4.1.1}%
-\contentsline {paragraph}{\numberline {4.1.1.1}\emph {Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{35}{paragraph.4.1.1.1}%
-\contentsline {subsubsection}{\numberline {4.1.2}\emph {Forest plot} y \emph {funnel plot}}{36}{subsubsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.2}Ejemplo 2: Moderación de una variable categórica (controles usados en cada estudio meta-analizado)}{38}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Más información e interpretación de la moderación}{39}{subsubsection.4.2.1}%
-\contentsline {paragraph}{\numberline {4.2.1.1}\emph {Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{39}{paragraph.4.2.1.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}\emph {Forest plot} y \emph {funnel plot}}{42}{subsubsection.4.2.2}%
-\contentsline {section}{\numberline {5}Conclusiones y recomendaciones generales}{42}{section.5}%
-\contentsline {section}{\numberline {6}Referencias}{44}{section.6}%
-\contentsline {section}{APÉNDICES}{45}{section*.24}%
-\contentsline {section}{\numberline {A}Alternativas a \texttt {metafor}}{45}{appendix.Alph1}%
-\contentsline {section}{\numberline {B}Citas y referencias de paquetes de R}{46}{appendix.Alph2}%
-\contentsline {section}{\numberline {C}Paquetes de R y versiones usados para crear este documento (para garantizar reproducibilidad)}{46}{appendix.Alph3}%
+\contentsline {paragraph}{\numberline {3.7.2.1}Poder mediano del meta-análisis para diferentes tamaños de efecto.}{27}{paragraph.3.7.2.1}%
+\contentsline {paragraph}{\numberline {3.7.2.2}Poder de cada estudio para diferentes tamaños de efecto.}{28}{paragraph.3.7.2.2}%
+\contentsline {subsubsection}{\numberline {3.7.3}Visualización del análisis de poder (\emph {Firepower plot})}{29}{subsubsection.3.7.3}%
+\contentsline {subsection}{\numberline {3.8}Analizar todas las posibles combinaciones de estudios}{30}{subsection.3.8}%
+\contentsline {subsubsection}{\numberline {3.8.1}\emph {Leave-one-out}}{31}{subsubsection.3.8.1}%
+\contentsline {subsubsection}{\numberline {3.8.2}Meta-análisis combinatorio}{31}{subsubsection.3.8.2}%
+\contentsline {section}{\numberline {4}Meta-análisis de correlación con moderador (meta-regresión)}{34}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes)}{34}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}Más información e interpretación de la moderación}{35}{subsubsection.4.1.1}%
+\contentsline {paragraph}{\numberline {4.1.1.1}\emph {Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{36}{paragraph.4.1.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.2}\emph {Forest plot} y \emph {funnel plot}}{37}{subsubsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.2}Ejemplo 2: Moderación de una variable categórica (controles usados en cada estudio meta-analizado)}{39}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Más información e interpretación de la moderación}{40}{subsubsection.4.2.1}%
+\contentsline {paragraph}{\numberline {4.2.1.1}\emph {Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{40}{paragraph.4.2.1.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}\emph {Forest plot} y \emph {funnel plot}}{43}{subsubsection.4.2.2}%
+\contentsline {section}{\numberline {5}Conclusiones y recomendaciones generales}{43}{section.5}%
+\contentsline {section}{\numberline {6}Referencias}{45}{section.6}%
+\contentsline {section}{APÉNDICES}{46}{section*.24}%
+\contentsline {section}{\numberline {A}Alternativas a \texttt {metafor}}{46}{appendix.Alph1}%
+\contentsline {section}{\numberline {B}Citas y referencias de paquetes de R}{47}{appendix.Alph2}%
+\contentsline {section}{\numberline {C}Paquetes de R y versiones usados para crear este documento (para garantizar reproducibilidad)}{47}{appendix.Alph3}%

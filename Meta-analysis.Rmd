@@ -803,9 +803,14 @@ Este resultado nos da una tendencia no descartable (`p-val = 0.084043`; menor qu
 
 ## Poder estadístico del meta-análisis
 
-En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis; la idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto meta-analizado (en nuestro caso `r round(min(res$beta[1]), 2)` para el meta-análisis original "`res`", o `r round(wf$output_adj$par[2], 2)` el meta-análisis con pesos ajustados "`wf`"). Para este ejemplo, asumiré que el efecto *real* es el encontrado en nuestro análisis original (`r round(min(res$beta[1]), 2)`), pues este efecto es mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
+En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis. 
+Como mencioné anteriormente, de ser necesario, para entender las bases del poder estadístico, recomiendo ver [esta serie de videos](https://youtube.com/playlist?list = PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x) [@leongomezPoderRvid2020] y/o, para mayor profundidad, leer [esta guía](https://doi.org/10.5281/zenodo.3988776) [@leongomezAnalisisPoderEstadistico2020] que publiqué anteriormente.
 
-Para hacer esto, usaré el paquete `metameta` [@quintanaGuideMetaPower;@quintanaMetameta2022], que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos *reales*.
+La idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto *real* estimado mediante nuestro análisis (en nuestro caso *z* = `r round(min(res$beta[1]), 2)` para el meta-análisis original "`res`", o *z* = `r round(wf$output_adj$par[2], 2)` el meta-análisis con pesos ajustados "`wf`"). 
+
+Para este ejemplo, asumiré que el efecto *real* es el estimado en nuestro análisis original (*z* = `r round(min(res$beta[1]), 2)`), pues este efecto es mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
+
+Para hacer esto, usaré el paquete `metameta` [@quintanaGuideMetaPower;@quintanaMetameta2022], que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos *reales* estimados.
 
 ### Instalación de `metameta`
 
@@ -831,47 +836,84 @@ library(metameta)
 
 Como datos, necesitamos no solamente los tamaños de efecto a meta-analizar ($r$ de Pearson transformado a *z* de Fisher), sino además los intervalos de confianza, tal como fueron reportados en varios de nuestros *Forest plots*.
 
-En este caso, voy a asumir un *efecto real* de $r = 0.15$, tal como en nuestro meta-análisis original. Sin embargo, el *efecto real* no es algo que podamos saber (es, de hecho, lo que queremos acercarnos a conocer a través del meta-análisis), así que la función `mapower_ul` del paquete `metameta` calcula el poder de cada meta-análisis para un rango de posibles efectos reales.
+Como mencioné, voy a asumir un efecto *real* de $r = 0.15$, tal como en nuestro meta-análisis original. Sin embargo, el efecto *real* no es algo que podamos saber con absoluta certeza (es, de hecho, lo que queremos acercarnos a conocer a través del meta-análisis), así que la función `mapower_ul` del paquete `metameta` calcula el poder de cada meta-análisis para un rango de posibles efectos reales.
+
+Para esto, la función `mapower_ul` requiere una base de datos que contenga información concreta, y con columnas con nombres específicos: el efecto encontrado en cada estudio (en nuestro caso `yi`, que es la columna en la que guardamos los coeficientes de correlación transformados a *z* de Fisher), así como sus intervalos de confianza. Estas columnas deben llamarse `yi`, `lower` y `upper`, respectivamente.
+
+Esto lo puedo obtener de manera sencilla con la función `summary`, que agrega a la base de datos (`dat`) los límites inferior (`ci.lb`) y superior (`ci.ub`) de los intervalos de confianza. Sin embargo, aunque la columna con el tamaño de efecto (`yi`) ya tiene el nombre requerido, debo renombrar las columnas que tienen los límites de los intervalos de confianza (`ci.lb` y `ci.ub`) como `lower` y `upper`, usando la función `rename`. 
 
 ```{r}
-dat.power <- summary(dat) %>%
-  select(yi, ci.lb, ci.ub) %>%
+dat.poder <- summary(dat) %>%
   rename(lower = ci.lb, upper = ci.ub)
-
-power <- mapower_ul(dat = dat.power, observed_es = 0.15, name = "Molloy et al. 2014")
-
-power_list <- list(power$power_median_dat)
-power_dat <- power$dat
-
-power_list
-
-power_dat
 ```
 
-### Visualización del análisis de poder (*Firepower plot*)
+Asigné esta versión modificada de la base de datos a un objeto que llamé `dat.poder`. Ya con esta base de datos lista y con el formato correcto para usar la función `mapower_ul`, podemos seguir adelante. 
+
+La función `mapower_ul` requiere que asignemos la base de datos (`dat.poder`) al argumento `dat`, el tamaño de efecto que estimamos como efecto *real* (en este caso, 0.15) al argumento `observed_es`, así como un nombre que le daremos al meta-análisis al argumento `name` (en este caso lo llamaré "Molloy et al. 2014", pero por supuesto tú puedes darle el nombre que consideres adecuado, siempre entre comillas). Asignaré el resultado de este análisis a un objeto que simplemente llamaré `poder`.
+
+```{r}
+poder <- mapower_ul(dat = dat.poder, observed_es = 0.15, name = "Molloy et al. 2014")
+```
+
+Como veremos a continuación, éste objeto tiene varios elementos muy importantes.
+
+#### Poder mediano del meta-análisis para diferentes tamaños de efecto.
+
+El objeto generado por la función `mapower_ul` tiene varios elementos. Uno particularmente relevante es la lista de poder mediano estimado para diferentes tamaños de efecto (`$power_median_dat`), que asignaré como lista a un objeto que llamaré `lista_poder` (guardar este objeto es sumamente útil para hacer visualizaciones del análisis de poder, como explico más adelante, en la sección \@ref(firepower-plot)).
+
+```{r}
+lista_poder <- list(poder$power_median_dat)
+```
+
+Para ver el objeto, como siempre, solo tengo que llamarlo por el nombre que le haya dado (en este caso, `lista_poder`). Muestra el poder estadístico del meta-análisis para detectar diferentes tamaños de efecto (que llama `es`, por las siglas en inglés de *effect size*).
+
+```{r}
+lista_poder
+```
+
+Por ejemplo, nos muestra que para detectar un efecto de *z* = 0.1 (`es01`), se estima un poder de `0.1762492`; para un poder de *z* = 0.2 (`es02`), se estima un poder de `0.5356629`, y continúa así hasta un poder de  *z* = 1.0 (`es1`). 
+
+Finalmente, nos muestra el poder estimado para detectar un efecto del tamaño del que estimamos como *real* (en nuestro caso, *z* = 0.15), bajo el encabezado `es_observed`. Como se ve, el poder es de tan solo `0.3364197`, lo que quiere decir que, si el efecto *real* de la asociación entre concienciación y la adherencia a la medicación fuese *z* = 0.15, un meta-análisis como el nuestro sólo detectaría esa correlación como significativa en el 33.64% de os casos.
+
+Lo que es más, podemos concluir que solo tenemos suficiente poder estadístico para detectar como significativos efectos desde aproximadamente *z* = 0.3 (`es03` = `0.8673657`, donde por fin tenemos un poder mayor a 0.8, o lo que es lo mismo, 80%). Sin embargo, nuestras estimaciones del efecto *real* están por debajo de este umbral, ya que en nuestro meta-análisis original fue de *z* = 0.15 y en el meta-análisis con pesos ajustados fue de *z* = 0.09.
+
+#### Poder de cada estudio para diferentes tamaños de efecto.
+
+El otro elemento generado es una base de datos modificada que, de manera similar a la lista de poder mediano, contiene el poder estimado para diferentes tamaños de efecto, pero en este caso no como una mediana, sino para cada estudio (`$dat`). Asignaré este elemento a un objeto que llamaré `poder_full_dat`.
+
+```{r}
+poder_full_dat <- poder$dat
+poder_full_dat
+```
+
+Básicamente, esta tabla contiene información nos permite evaluar si cada estudio incluido en nuestro meta-análisis tenía o no un poder estadístico suficiente para detectar un rango de tamaños de efecto que, como antes van desde *z* = 0.1 (columna `power_es01`), hasta *z* = 1.0 (`power_es1`). 
+
+También, nos permite ver el poder estadístico de cada estudio para detectar un tamaño de efecto *real* como el que estimamos (*z* = 0.15), en la columna `power_es_observed`. La información de esta columna es análoga a la de los *funnel plot* creados con la función `viz_funnel` del paquete `metaviz` (Figura \@ref(fig:funnel-plot3)A y B).
+
+### Visualización del análisis de poder (*Firepower plot*) {#firepower-plot}
 
 Según esto, nuestro meta-análisis sólo tiene un poder estadístico suficiente para detectar de manera confiable efectos mayores a ~0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados).
 
 ```{r}
-power.plot <- firepower(power_list)
+poder.plot <- firepower(lista_poder)
 ```
 
-Para ver el *fireplot* que creamos, y ya que lo asigné a un objeto que llamé `power.plot`, debo correr el objeto para ver el resultado (Fig. \@ref(fig:fire-plot1)).
+Para ver el *fireplot* que creamos, y ya que lo asigné a un objeto que llamé `poder.plot`, debo correr el objeto para ver el resultado (Fig. \@ref(fig:fire-plot1)).
 
 ```{r eval = FALSE}
-power.plot
+poder.plot
 ```
 
 ```{r fire-plot1, fig.height = 2, echo = FALSE, fig.cap = "Fireplot básico de [metameta](https://www.dsquintana.blog/metameta-r-package-meta-analysis/), para un análisis de poder de nuestro meta-análisis. *Observed* hace referencia al tamaño de efecto observado en nuestro meta-análisis original; en este caso, 0.15."}
-power.plot$fp_plot
+poder.plot$fp_plot
 ```
 
-Si queremos cambiar los títulos a español, y ya que el objeto `power.plot` contiene dos elementos (`dat` y `fp_plot`, que es propiamente la gráfica). Éste último elemento es de clase `ggplot`, por lo que podemos usar funciones de `ggplot2` para cambiar, por ejemplo, el título del eje $X$ a "Tamaño de efecto", el título de la leyenda a "Poder", y el efecto observado de "*Observed*" a "Observado"[^12] (Fig. \@ref(fig:fire-plot2)). Por ejemplo:
+Si queremos cambiar los títulos a español, y ya que el objeto `poder.plot` contiene dos elementos (`dat` y `fp_plot`, que es propiamente la gráfica). Éste último elemento es de clase `ggplot`, por lo que podemos usar funciones de `ggplot2` para cambiar, por ejemplo, el título del eje $X$ a "Tamaño de efecto", el título de la leyenda a "Poder", y el efecto observado de "*Observed*" a "Observado"[^12] (Fig. \@ref(fig:fire-plot2)). Por ejemplo:
 
 [^12]: Para cambiar el título del eje $X$ usé la función `xlab`; para el título de la leyenda la función `guides` (opción `fill = guide_legend`); y para los valores del eje $X$, la función `scale_x_discrete`}.
 
 ```{r fire-plot2, fig.height = 2, message = FALSE, fig.cap = "Fireplot básico de [metameta](https://www.dsquintana.blog/metameta-r-package-meta-analysis/), para un análisis de poder de nuestro meta-análisis, con el texto traducido a español y con la leyenda en una escala discreta para facilitar su lectura. *Observado* hace referencia al tamaño de efecto observado en nuestro meta-análisis original (en este caso, 0.15)."}
-power.plot$fp_plot +
+poder.plot$fp_plot +
   xlab("Tamaño de efecto") +
   guides(fill = guide_legend(title = "Poder", 
                              reverse = TRUE)) +
