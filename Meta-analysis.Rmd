@@ -58,6 +58,12 @@ header-includes:
   \usepackage{orcidlink}
   \definecolor{iacol}{RGB}{246, 130, 18}
   \definecolor{iacoldark}{RGB}{246, 100, 18}
+  \newcommand{\opensupplement}{\setcounter{table}{0}
+    \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0}
+    \renewcommand{\thefigure}{A\arabic{figure}}}
+  \newcommand{\closesupplement}{\setcounter{table}{0}
+    \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0}
+    \renewcommand{\thefigure}{\arabic{figure}}}
 always_allow_html: yes
 csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
 urlcolor: blue
@@ -686,7 +692,11 @@ ggarrange(p.suna, p.sunb,
 
 ### Regresión de Egger {#reg-egger}
 
-Para hacer una prueba formal de sesgo de estudios pequeños [@sternePublicationRelatedBias2000; @schwarzerSmallStudyEffectsMetaAnalysis2015], a partir de la asimetría en el *funnel plot*, podemos hacer una prueba o regresión de Egger [@eggerBiasMetaanalysisDetected1997]. En [`metafor`](https://www.metafor-project.org/doku.php), esto se hace con la función `regtest`, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (`res`).
+Para hacer una prueba formal de sesgo de estudios pequeños [@sternePublicationRelatedBias2000;  @sterneRecommendationsExaminingInterpreting2011; @schwarzerSmallStudyEffectsMetaAnalysis2015], a partir de la asimetría en el *funnel plot*, podemos hacer una prueba o regresión de Egger [@eggerBiasMetaanalysisDetected1997]. 
+
+Es importante tener en cuenta que la regresión de Egger puede carecer de poder para detectar sesgos cuando el número de estudios es pequeño; @sterneRecommendationsExaminingInterpreting2011, de hecho, recomiendan no usar este técnica cuando tenemos menos de 10 estudios ($k < 10$). En nuestro ejemplo, dado que tenemos 16 estudios ($k = 16$), esto no debería ser un problema. 
+
+En [`metafor`](https://www.metafor-project.org/doku.php), podemos hacer una regresión de Egger con la función `regtest`, de nuevo usando como único argumento el objeto al que asignamos el resultado de nuestro meta-análisis (`res`).
 
 ```{r eval = FALSE}
 regtest(res)
@@ -698,7 +708,7 @@ Como se puede ver, en este caso la prueba de Egger no muestra un resultado signi
 regtest(res)
 ```
 
-Con base en esto, y la inspección visual subjetiva del *funnel plot*, muchos investigadores podrían concluir, sin sustento adecuado, que en nuestro meta-análisis no hay sesgo de publicación. Sin embargo, como mencioné antes (sección \@ref(err-funnel-egger)), estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (en la sección \@ref(sesgo-pub) a continuación, explicaré cómo evaluar si hay sesgo de publicación).
+Con base en esto, y la inspección visual subjetiva del *funnel plot*, muchos investigadores podrían concluir, sin sustento adecuado, que en el meta-análisis no hay sesgo de publicación. Sin embargo, como mencioné antes (sección \@ref(err-funnel-egger)), estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (en la sección \@ref(sesgo-pub) a continuación, explicaré cómo evaluar si hay sesgo de publicación).
 
 ## Sesgo de publicación (*publication bias*) {#sesgo-pub}
 
@@ -1315,13 +1325,36 @@ Adicionalmente, podrías:
 
 # (APPENDIX) Appendix {-}  
 
+\opensupplement
+
 # Alternativas a `metafor`
 
 Acá he usado principalmente una ruta para hacer meta-análisis basada en el paquete `metafor`, acompañado de `metaviz` para visualizaciones, `weightr` para ajustar pesos y detectar sesgos de publicación, y `metameta` para estimar el poder estadístico de un meta-análisis.
 
 Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro *Doing meta-analysis with R: a hands-on guide* [@harrer2021doing] se acompaña del paquete [`dmetar`](https://dmetar.protectlab.org/index.html) [@Harrer2019dmetar], que contiene opciones para hacer meta-análisis tanto a partir de `metafor`, como a partir de `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015].
 
-De manera importante, los objetos generados por `meta` al realizar un meta-análisis permiten hacer otros análisis como *risk of bias* (riesgo de sesgo), inferencia multi-modelo, detección de *outliers* (valores atípicos), y *p-curve* o curva de valores $p$ [@simonsohnPCurveEffectSize2014], así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete [`dmetar`](http://dmetar.protectlab.org/), y en especial la página [*Get Started*](https://dmetar.protectlab.org/articles/dmetar.html).
+De manera importante, los objetos generados por `meta` al realizar un meta-análisis permiten hacer otros análisis como *risk of bias* (riesgo de sesgo), inferencia multi-modelo, detección de *outliers* (valores atípicos), y *p-curve* o curva de valores $p$ [@simonsohnPCurveEffectSize2014; @simonsohnPcurveWonYour2019], así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete [`dmetar`](http://dmetar.protectlab.org/), y en especial la página [*Get Started*](https://dmetar.protectlab.org/articles/dmetar.html).
+
+Como ejemplo corto, la curva de valores $p$ (*p-curve*) de nuestro meta-análisis se podría hacer ajustando de nuevo el modelo con la función `metacor` (que hace meta-análisis de correlaciones) del paquete `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015]. Para este ejemplo asignaré el resultado a un objeto que llamaré `res.meta`.
+
+```{r message = FALSE}
+library(dmetar)
+library(meta)
+
+res.meta <- metacor(cor = ri, n = ni, studlab = paste(dat$authors, dat$year), data = dat)
+```
+
+El objeto resultante (`res.meta`), lo puedo pasar directamente como argumento a la función `pcurve` del paquete [`dmetar`](http://dmetar.protectlab.org/), para obtener una gráfica con la curva de valores $p$ (*p-curve*).
+
+```{r eval = FALSE}
+pcurve(res.meta)
+```
+
+Esto produce la Figura \@ref(fig:pcurve-plot).
+
+```{r pcurve-plot, echo = FALSE, fig.cap = "Curva de valores $p$ (*p-curve*) creada con [`dmetar`](http://dmetar.protectlab.org/). Para una ennetder una curva de valores $p$, su relevancia y su interpretación, sugiero leer Simonsohn et al. (2019, 2014), o la  ver el sitio web del paquete [`dmetar`](http://dmetar.protectlab.org/)."}
+knitr::include_graphics("images/pcurve.pdf")
+```
 
 # Citas y referencias de paquetes de R
 

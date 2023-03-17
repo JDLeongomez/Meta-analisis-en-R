@@ -125,7 +125,7 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \usepackage{svg} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18}
+\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 2}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{fontawesome5} \usepackage{svg} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \newcommand{\opensupplement}{\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}} \newcommand{\closesupplement}{\setcounter{table}{0} \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{\arabic{figure}}}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{16 marzo, 2023}
+\date{17 marzo, 2023}
 
 \begin{document}
 \maketitle
@@ -915,7 +915,11 @@ A continuación, muestro dos versiones de \emph{funnel plots} creados con la fun
 \hypertarget{reg-egger}{%
 \subsubsection{Regresión de Egger}\label{reg-egger}}
 
-Para hacer una prueba formal de sesgo de estudios pequeños (\protect\hyperlink{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{Schwarzer et al., 2015b}; \protect\hyperlink{ref-sternePublicationRelatedBias2000}{Sterne et al., 2000}), a partir de la asimetría en el \emph{funnel plot}, podemos hacer una prueba o regresión de Egger (\protect\hyperlink{ref-eggerBiasMetaanalysisDetected1997}{Egger et al., 1997}). En \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, esto se hace con la función \texttt{regtest}, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (\texttt{res}).
+Para hacer una prueba formal de sesgo de estudios pequeños (\protect\hyperlink{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{Schwarzer et al., 2015b}; \protect\hyperlink{ref-sternePublicationRelatedBias2000}{Sterne et al., 2000}, \protect\hyperlink{ref-sterneRecommendationsExaminingInterpreting2011}{2011}), a partir de la asimetría en el \emph{funnel plot}, podemos hacer una prueba o regresión de Egger (\protect\hyperlink{ref-eggerBiasMetaanalysisDetected1997}{Egger et al., 1997}).
+
+Es importante tener en cuenta que la regresión de Egger puede carecer de poder para detectar sesgos cuando el número de estudios es pequeño; Sterne et al. (\protect\hyperlink{ref-sterneRecommendationsExaminingInterpreting2011}{2011}), de hecho, recomiendan no usar este técnica cuando tenemos menos de 10 estudios (\(k < 10\)). En nuestro ejemplo, dado que tenemos 16 estudios (\(k = 16\)), esto no debería ser un problema.
+
+En \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, podemos hacer una regresión de Egger con la función \texttt{regtest}, de nuevo usando como único argumento el objeto al que asignamos el resultado de nuestro meta-análisis (\texttt{res}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -939,7 +943,7 @@ Limit Estimate (as sei -> 0):   b = 0.0790 (CI: -0.0686, 0.2266)
                 \end{footnotesize}
                 \end{ROut}
 
-Con base en esto, y la inspección visual subjetiva del \emph{funnel plot}, muchos investigadores podrían concluir, sin sustento adecuado, que en nuestro meta-análisis no hay sesgo de publicación. Sin embargo, como mencioné antes (sección \ref{err-funnel-egger}), estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (en la sección \ref{sesgo-pub} a continuación, explicaré cómo evaluar si hay sesgo de publicación).
+Con base en esto, y la inspección visual subjetiva del \emph{funnel plot}, muchos investigadores podrían concluir, sin sustento adecuado, que en el meta-análisis no hay sesgo de publicación. Sin embargo, como mencioné antes (sección \ref{err-funnel-egger}), estas pruebas no se centran en el sesgo de publicación sino en el sesgo de estudios pequeños. En otras palabras, con base en esto, lo único que podemos concluir correctamente, es que no hay sesgo de estudios pequeños (en la sección \ref{sesgo-pub} a continuación, explicaré cómo evaluar si hay sesgo de publicación).
 
 \hypertarget{sesgo-pub}{%
 \subsection{\texorpdfstring{Sesgo de publicación (\emph{publication bias})}{Sesgo de publicación (publication bias)}}\label{sesgo-pub}}
@@ -2055,11 +2059,17 @@ Sedgwick, P. (2015). Meta-analyses: What is heterogeneity? \emph{BMJ}, \emph{350
 \leavevmode\vadjust pre{\hypertarget{ref-shiTrimandfill2019}{}}%
 Shi, L., \& Lin, L. (2019). The trim-and-fill method for publication bias: Practical guidelines and recommendations based on a large database of meta-analyses. \emph{Medicine}, \emph{98}(23), e15987. \url{https://doi.org/10.1097/MD.0000000000015987}
 
+\leavevmode\vadjust pre{\hypertarget{ref-simonsohnPcurveWonYour2019}{}}%
+Simonsohn, U., Nelson, L. D., \& Simmons, J. P. (2019). P-curve won't do your laundry, but it will distinguish replicable from non-replicable findings in observational research: {Comment} on {Bruns} \& {Ioannidis} (2016). \emph{PLOS ONE}, \emph{14}(3), e0213454. \url{https://doi.org/10.1371/journal.pone.0213454}
+
 \leavevmode\vadjust pre{\hypertarget{ref-simonsohnPCurveEffectSize2014}{}}%
 Simonsohn, U., Nelson, L. D., \& Simmons, J. P. (2014). P-{Curve} and {Effect Size}: {Correcting} for {Publication Bias Using Only Significant Results}. \emph{Perspectives on Psychological Science}, \emph{9}(6), 666--681. \url{https://doi.org/10.1177/1745691614553988}
 
 \leavevmode\vadjust pre{\hypertarget{ref-sternePublicationRelatedBias2000}{}}%
 Sterne, J. A. C., Gavaghan, D., \& Egger, M. (2000). Publication and related bias in meta-analysis. \emph{Journal of Clinical Epidemiology}, \emph{53}(11), 1119--1129. \url{https://doi.org/10.1016/S0895-4356(00)00242-0}
+
+\leavevmode\vadjust pre{\hypertarget{ref-sterneRecommendationsExaminingInterpreting2011}{}}%
+Sterne, J. A. C., Sutton, A. J., Ioannidis, J. P. A., Terrin, N., Jones, D. R., Lau, J., Carpenter, J., Rucker, G., Harbord, R. M., Schmid, C. H., Tetzlaff, J., Deeks, J. J., Peters, J., Macaskill, P., Schwarzer, G., Duval, S., Altman, D. G., Moher, D., \& Higgins, J. P. T. (2011). Recommendations for examining and interpreting funnel plot asymmetry in meta-analyses of randomised controlled trials. \emph{BMJ}, \emph{343}(1), d4002. \url{https://doi.org/10.1136/bmj.d4002}
 
 \leavevmode\vadjust pre{\hypertarget{ref-veveaGeneralLinearModel1995}{}}%
 Vevea, J. L., \& Hedges, L. V. (1995). A general linear model for estimating effect size in the presence of publication bias. \emph{Psychometrika}, \emph{60}(3), 419--435. \url{https://doi.org/10.1007/BF02294384}
@@ -2086,6 +2096,8 @@ Wickham, H., François, R., Henry, L., \& Müller, K. (2021). \emph{Dplyr: A gra
 \appendix}
 
 
+\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}
+
 \hypertarget{alternativas-a-metafor}{%
 \section{\texorpdfstring{Alternativas a \texttt{metafor}}{Alternativas a metafor}}\label{alternativas-a-metafor}}
 
@@ -2093,7 +2105,34 @@ Acá he usado principalmente una ruta para hacer meta-análisis basada en el paq
 
 Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro \emph{Doing meta-analysis with R: a hands-on guide} (\protect\hyperlink{ref-harrer2021doing}{Harrer et al., 2021}) se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} (\protect\hyperlink{ref-Harrer2019dmetar}{Harrer et al., 2019}), que contiene opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}).
 
-De manera importante, los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), y \emph{p-curve} o curva de valores \(p\) (\protect\hyperlink{ref-simonsohnPCurveEffectSize2014}{Simonsohn et al., 2014}), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
+De manera importante, los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), y \emph{p-curve} o curva de valores \(p\) (\protect\hyperlink{ref-simonsohnPcurveWonYour2019}{Simonsohn et al., 2019}, \protect\hyperlink{ref-simonsohnPCurveEffectSize2014}{2014}), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
+
+Como ejemplo corto, la curva de valores \(p\) (\emph{p-curve}) de nuestro meta-análisis se podría hacer ajustando de nuevo el modelo con la función \texttt{metacor} (que hace meta-análisis de correlaciones) del paquete \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}). Para este ejemplo asignaré el resultado a un objeto que llamaré \texttt{res.meta}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dmetar)}
+\FunctionTok{library}\NormalTok{(meta)}
+
+\NormalTok{res.meta }\OtherTok{\textless{}{-}} \FunctionTok{metacor}\NormalTok{(}\AttributeTok{cor =}\NormalTok{ ri, }\AttributeTok{n =}\NormalTok{ ni, }\AttributeTok{studlab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year), }\AttributeTok{data =}\NormalTok{ dat)}
+\end{Highlighting}
+\end{Shaded}
+
+El objeto resultante (\texttt{res.meta}), lo puedo pasar directamente como argumento a la función \texttt{pcurve} del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, para obtener una gráfica con la curva de valores \(p\) (\emph{p-curve}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pcurve}\NormalTok{(res.meta)}
+\end{Highlighting}
+\end{Shaded}
+
+Esto produce la Figura \ref{fig:pcurve-plot}.
+
+\begin{figure}
+\centering
+\includegraphics{images/pcurve.pdf}
+\caption{\label{fig:pcurve-plot}Curva de valores \(p\) (\emph{p-curve}) creada con \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}. Para una ennetder una curva de valores \(p\), su relevancia y su interpretación, sugiero leer Simonsohn et al.~(2019, 2014), o la ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}.}
+\end{figure}
 
 \hypertarget{citas-y-referencias-de-paquetes-de-r}{%
 \section{Citas y referencias de paquetes de R}\label{citas-y-referencias-de-paquetes-de-r}}
@@ -2113,17 +2152,17 @@ Por ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamD
                 \begin{verbatim} 
 To cite package 'dplyr' in publications use:
 
-  Wickham H, François R, Henry L, Müller K (2022). _dplyr: A Grammar of
-  Data Manipulation_. R package version 1.0.10,
+  Wickham H, François R, Henry L, Müller K, Vaughan D (2023). _dplyr: A
+  Grammar of Data Manipulation_. R package version 1.1.0,
   <https://CRAN.R-project.org/package=dplyr>.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {dplyr: A Grammar of Data Manipulation},
-    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
-    year = {2022},
-    note = {R package version 1.0.10},
+    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller and Davis Vaughan},
+    year = {2023},
+    note = {R package version 1.1.0},
     url = {https://CRAN.R-project.org/package=dplyr},
   }
  \end{verbatim}
@@ -2141,9 +2180,9 @@ A BibTeX entry for LaTeX users is
 \emph{stats}, \emph{graphics}, \emph{grDevices}, \emph{utils}, \emph{datasets}, \emph{methods} and \emph{base}
 
 \textbf{other attached packages:}
-\emph{pander(v.0.6.5)}, \emph{metameta(v.0.1.1)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.12.2)}, \emph{zoo(v.1.8-11)}, \emph{lubridate(v.1.9.0)}, \emph{timechange(v.0.2.0)}, \emph{psych(v.2.2.9)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.5.0)}, \emph{forcats(v.0.5.2)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.0.10)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.3)}, \emph{tidyr(v.1.2.1)}, \emph{tibble(v.3.1.8)}, \emph{ggplot2(v.3.4.0)}, \emph{tidyverse(v.1.3.2)}, \emph{metafor(v.3.8-1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.0)} and \emph{knitr(v.1.41)}
+\emph{pander(v.0.6.5)}, \emph{meta(v.6.2-0)}, \emph{dmetar(v.0.0.9000)}, \emph{metameta(v.0.2)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.13.0)}, \emph{zoo(v.1.8-11)}, \emph{psych(v.2.2.9)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.6.0)}, \emph{lubridate(v.1.9.2)}, \emph{forcats(v.1.0.0)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.1.0)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.4)}, \emph{tidyr(v.1.3.0)}, \emph{tibble(v.3.1.8)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.2.0.0)}, \emph{metafor(v.3.8-1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-1)}, \emph{robumeta(v.2.0)} and \emph{knitr(v.1.42)}
 
 \textbf{loaded via a namespace (and not attached):}
-\emph{nlme(v.3.1-160)}, \emph{fs(v.1.5.2)}, \emph{RColorBrewer(v.1.1-3)}, \emph{webshot(v.0.5.4)}, \emph{httr(v.1.4.4)}, \emph{tools(v.4.2.2)}, \emph{backports(v.1.4.1)}, \emph{utf8(v.1.2.2)}, \emph{R6(v.2.5.1)}, \emph{mgcv(v.1.8-41)}, \emph{DBI(v.1.1.3)}, \emph{colorspace(v.2.0-3)}, \emph{withr(v.2.5.0)}, \emph{gridExtra(v.2.3)}, \emph{tidyselect(v.1.2.0)}, \emph{mnormt(v.2.1.1)}, \emph{curl(v.5.0.0)}, \emph{compiler(v.4.2.2)}, \emph{cli(v.3.6.0)}, \emph{rvest(v.1.0.3)}, \emph{xml2(v.1.3.3)}, \emph{labeling(v.0.4.2)}, \emph{bookdown(v.0.31)}, \emph{quadprog(v.1.5-8)}, \emph{systemfonts(v.1.0.4)}, \emph{digest(v.0.6.31)}, \emph{rmarkdown(v.2.19)}, \emph{svglite(v.2.1.1)}, \emph{pkgconfig(v.2.0.3)}, \emph{htmltools(v.0.5.4)}, \emph{highr(v.0.10)}, \emph{dbplyr(v.2.3.0)}, \emph{fastmap(v.1.1.0)}, \emph{ggthemes(v.4.2.4)}, \emph{rlang(v.1.0.6)}, \emph{readxl(v.1.4.1)}, \emph{rstudioapi(v.0.14)}, \emph{farver(v.2.1.1)}, \emph{generics(v.0.1.3)}, \emph{jsonlite(v.1.8.4)}, \emph{car(v.3.1-1)}, \emph{googlesheets4(v.1.0.1)}, \emph{magrittr(v.2.0.3)}, \emph{Rcpp(v.1.0.9)}, \emph{Quandl(v.2.11.0)}, \emph{munsell(v.0.5.0)}, \emph{fansi(v.1.0.3)}, \emph{abind(v.1.4-5)}, \emph{lifecycle(v.1.0.3)}, \emph{stringi(v.1.7.12)}, \emph{yaml(v.2.3.6)}, \emph{carData(v.3.0-5)}, \emph{mathjaxr(v.1.6-0)}, \emph{grid(v.4.2.2)}, \emph{parallel(v.4.2.2)}, \emph{crayon(v.1.5.2)}, \emph{lattice(v.0.20-45)}, \emph{cowplot(v.1.1.1)}, \emph{splines(v.4.2.2)}, \emph{haven(v.2.5.1)}, \emph{hms(v.1.1.2)}, \emph{pillar(v.1.8.1)}, \emph{ggsignif(v.0.6.4)}, \emph{reprex(v.2.0.2)}, \emph{glue(v.1.6.2)}, \emph{evaluate(v.0.19)}, \emph{modelr(v.0.1.10)}, \emph{vctrs(v.0.5.1)}, \emph{tzdb(v.0.3.0)}, \emph{cellranger(v.1.1.0)}, \emph{gtable(v.0.3.1)}, \emph{assertthat(v.0.2.1)}, \emph{xfun(v.0.36)}, \emph{broom(v.1.0.2)}, \emph{rstatix(v.0.7.1)}, \emph{googledrive(v.2.0.0)}, \emph{viridisLite(v.0.4.1)}, \emph{gargle(v.1.2.1)} and \emph{ellipsis(v.0.3.2)}
+\emph{minqa(v.1.2.5)}, \emph{colorspace(v.2.1-0)}, \emph{ggsignif(v.0.6.4)}, \emph{class(v.7.3-20)}, \emph{ellipsis(v.0.3.2)}, \emph{modeltools(v.0.2-23)}, \emph{mclust(v.6.0.0)}, \emph{rstudioapi(v.0.14)}, \emph{farver(v.2.1.1)}, \emph{ggrepel(v.0.9.3)}, \emph{flexmix(v.2.3-18)}, \emph{fansi(v.1.0.4)}, \emph{mathjaxr(v.1.6-0)}, \emph{xml2(v.1.3.3)}, \emph{splines(v.4.2.2)}, \emph{mnormt(v.2.1.1)}, \emph{robustbase(v.0.95-0)}, \emph{jsonlite(v.1.8.4)}, \emph{nloptr(v.2.0.3)}, \emph{broom(v.1.0.3)}, \emph{kernlab(v.0.9-32)}, \emph{cluster(v.2.1.4)}, \emph{compiler(v.4.2.2)}, \emph{httr(v.1.4.4)}, \emph{backports(v.1.4.1)}, \emph{fastmap(v.1.1.0)}, \emph{cli(v.3.6.0)}, \emph{htmltools(v.0.5.4)}, \emph{tools(v.4.2.2)}, \emph{gtable(v.0.3.1)}, \emph{glue(v.1.6.2)}, \emph{ggthemes(v.4.2.4)}, \emph{Rcpp(v.1.0.10)}, \emph{carData(v.3.0-5)}, \emph{vctrs(v.0.5.2)}, \emph{svglite(v.2.1.1)}, \emph{nlme(v.3.1-160)}, \emph{fpc(v.2.2-10)}, \emph{xfun(v.0.37)}, \emph{lme4(v.1.1-31)}, \emph{rvest(v.1.0.3)}, \emph{timechange(v.0.2.0)}, \emph{CompQuadForm(v.1.4.3)}, \emph{lifecycle(v.1.0.3)}, \emph{rstatix(v.0.7.2)}, \emph{DEoptimR(v.1.0-11)}, \emph{MASS(v.7.3-58.1)}, \emph{hms(v.1.1.2)}, \emph{parallel(v.4.2.2)}, \emph{RColorBrewer(v.1.1-3)}, \emph{yaml(v.2.3.7)}, \emph{curl(v.5.0.0)}, \emph{gridExtra(v.2.3)}, \emph{MuMIn(v.1.47.1)}, \emph{stringi(v.1.7.12)}, \emph{highr(v.0.10)}, \emph{poibin(v.1.5)}, \emph{boot(v.1.3-28)}, \emph{rlang(v.1.0.6)}, \emph{pkgconfig(v.2.0.3)}, \emph{systemfonts(v.1.0.4)}, \emph{prabclus(v.2.3-2)}, \emph{evaluate(v.0.20)}, \emph{lattice(v.0.20-45)}, \emph{labeling(v.0.4.2)}, \emph{cowplot(v.1.1.1)}, \emph{tidyselect(v.1.2.0)}, \emph{magrittr(v.2.0.3)}, \emph{bookdown(v.0.32)}, \emph{R6(v.2.5.1)}, \emph{generics(v.0.1.3)}, \emph{pillar(v.1.8.1)}, \emph{withr(v.2.5.0)}, \emph{mgcv(v.1.8-41)}, \emph{abind(v.1.4-5)}, \emph{nnet(v.7.3-18)}, \emph{car(v.3.1-1)}, \emph{Quandl(v.2.11.0)}, \emph{utf8(v.1.2.3)}, \emph{tzdb(v.0.3.0)}, \emph{rmarkdown(v.2.20)}, \emph{grid(v.4.2.2)}, \emph{netmeta(v.2.7-0)}, \emph{diptest(v.0.76-0)}, \emph{digest(v.0.6.31)}, \emph{webshot(v.0.5.4)}, \emph{stats4(v.4.2.2)}, \emph{munsell(v.0.5.0)}, \emph{viridisLite(v.0.4.1)}, \emph{magic(v.1.6-1)} and \emph{quadprog(v.1.5-8)}
 
 \end{document}
