@@ -1335,24 +1335,30 @@ Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El li
 
 De manera importante, los objetos generados por `meta` al realizar un meta-análisis permiten hacer otros análisis como *risk of bias* (riesgo de sesgo), inferencia multi-modelo, detección de *outliers* (valores atípicos), y *p-curve* o curva de valores $p$ [@simonsohnPCurveEffectSize2014; @simonsohnPcurveWonYour2019], así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete [`dmetar`](http://dmetar.protectlab.org/), y en especial la página [*Get Started*](https://dmetar.protectlab.org/articles/dmetar.html).
 
-Como ejemplo corto, la curva de valores $p$ (*p-curve*) de nuestro meta-análisis se podría hacer ajustando de nuevo el modelo con la función `metacor` (que hace meta-análisis de correlaciones) del paquete `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015]. Para este ejemplo asignaré el resultado a un objeto que llamaré `res.meta`.
+## Ejemplo: curva de valores $p$ (*p-curve*) {#p-curve}
+
+Como ejemplo corto, la curva de valores $p$ (*p-curve*) de nuestro meta-análisis se podría hacer tras ajustar de nuevo el modelo con la función `metacor` (que hace meta-análisis de correlaciones) del paquete `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015]. Para este ejemplo asignaré el resultado a un objeto que llamaré `res.meta`.
 
 ```{r message = FALSE}
-library(dmetar)
 library(meta)
 
-res.meta <- metacor(cor = ri, n = ni, studlab = paste(dat$authors, dat$year), data = dat)
+res.meta <- metacor(cor = ri, 
+                    n = ni, 
+                    studlab = paste(dat$authors, dat$year, sep = ", "), 
+                    data = dat)
 ```
 
-El objeto resultante (`res.meta`), lo puedo pasar directamente como argumento a la función `pcurve` del paquete [`dmetar`](http://dmetar.protectlab.org/), para obtener una gráfica con la curva de valores $p$ (*p-curve*).
+El objeto resultante (`res.meta`) puede usarse directamente como argumento a la función `pcurve` del paquete [`dmetar`](http://dmetar.protectlab.org/), para obtener una gráfica con la curva de valores $p$ (*p-curve*). Es importante tener en cuenta que, al menos por ahora, `dmetar` debe instalarse desde GitHub tal como `metameta` (en este caso, con el comando `devtools::install_github("MathiasHarrer/dmetar")`).
 
 ```{r eval = FALSE}
+library(dmetar)
+
 pcurve(res.meta)
 ```
 
-Esto produce la Figura \@ref(fig:pcurve-plot).
+La función `pcurve` produce varios elementos relacionados la curva de valores $p$ (*p-curve*), incluyendo la Figura \@ref(fig:pcurve-plot) que resume éste análisis.
 
-```{r pcurve-plot, echo = FALSE, fig.cap = "Curva de valores $p$ (*p-curve*) creada con [`dmetar`](http://dmetar.protectlab.org/). Para una ennetder una curva de valores $p$, su relevancia y su interpretación, sugiero leer Simonsohn et al. (2019, 2014), o la  ver el sitio web del paquete [`dmetar`](http://dmetar.protectlab.org/)."}
+```{r pcurve-plot, echo = FALSE, fig.cap = "Curva de valores $p$ (*p-curve*) creada con [`dmetar`](http://dmetar.protectlab.org/). Para una entender una curva de valores $p$, su relevancia y su interpretación, sugiero leer Simonsohn et al. (2019, 2014), o ver el sitio web del paquete `dmetar`: [http://dmetar.protectlab.org/](http://dmetar.protectlab.org/)."}
 knitr::include_graphics("images/pcurve.pdf")
 ```
 

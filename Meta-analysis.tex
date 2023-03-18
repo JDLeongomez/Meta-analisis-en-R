@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{17 marzo, 2023}
+\date{18 marzo, 2023}
 
 \begin{document}
 \maketitle
@@ -2107,31 +2107,38 @@ Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El li
 
 De manera importante, los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), y \emph{p-curve} o curva de valores \(p\) (\protect\hyperlink{ref-simonsohnPcurveWonYour2019}{Simonsohn et al., 2019}, \protect\hyperlink{ref-simonsohnPCurveEffectSize2014}{2014}), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
 
-Como ejemplo corto, la curva de valores \(p\) (\emph{p-curve}) de nuestro meta-análisis se podría hacer ajustando de nuevo el modelo con la función \texttt{metacor} (que hace meta-análisis de correlaciones) del paquete \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}). Para este ejemplo asignaré el resultado a un objeto que llamaré \texttt{res.meta}.
+\hypertarget{p-curve}{%
+\subsection{\texorpdfstring{Ejemplo: curva de valores \(p\) (\emph{p-curve})}{Ejemplo: curva de valores p (p-curve)}}\label{p-curve}}
+
+Como ejemplo corto, la curva de valores \(p\) (\emph{p-curve}) de nuestro meta-análisis se podría hacer tras ajustar de nuevo el modelo con la función \texttt{metacor} (que hace meta-análisis de correlaciones) del paquete \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}). Para este ejemplo asignaré el resultado a un objeto que llamaré \texttt{res.meta}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(meta)}
+
+\NormalTok{res.meta }\OtherTok{\textless{}{-}} \FunctionTok{metacor}\NormalTok{(}\AttributeTok{cor =}\NormalTok{ ri, }
+                    \AttributeTok{n =}\NormalTok{ ni, }
+                    \AttributeTok{studlab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{), }
+                    \AttributeTok{data =}\NormalTok{ dat)}
+\end{Highlighting}
+\end{Shaded}
+
+El objeto resultante (\texttt{res.meta}) puede usarse directamente como argumento a la función \texttt{pcurve} del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, para obtener una gráfica con la curva de valores \(p\) (\emph{p-curve}). Es importante tener en cuenta que, al menos por ahora, \texttt{dmetar} debe instalarse desde GitHub tal como \texttt{metameta} (en este caso, con el comando \texttt{devtools::install\_github("MathiasHarrer/dmetar")}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(dmetar)}
-\FunctionTok{library}\NormalTok{(meta)}
 
-\NormalTok{res.meta }\OtherTok{\textless{}{-}} \FunctionTok{metacor}\NormalTok{(}\AttributeTok{cor =}\NormalTok{ ri, }\AttributeTok{n =}\NormalTok{ ni, }\AttributeTok{studlab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year), }\AttributeTok{data =}\NormalTok{ dat)}
-\end{Highlighting}
-\end{Shaded}
-
-El objeto resultante (\texttt{res.meta}), lo puedo pasar directamente como argumento a la función \texttt{pcurve} del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, para obtener una gráfica con la curva de valores \(p\) (\emph{p-curve}).
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{pcurve}\NormalTok{(res.meta)}
 \end{Highlighting}
 \end{Shaded}
 
-Esto produce la Figura \ref{fig:pcurve-plot}.
+La función \texttt{pcurve} produce varios elementos relacionados la curva de valores \(p\) (\emph{p-curve}), incluyendo la Figura \ref{fig:pcurve-plot} que resume éste análisis.
 
 \begin{figure}
 \centering
 \includegraphics{images/pcurve.pdf}
-\caption{\label{fig:pcurve-plot}Curva de valores \(p\) (\emph{p-curve}) creada con \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}. Para una ennetder una curva de valores \(p\), su relevancia y su interpretación, sugiero leer Simonsohn et al.~(2019, 2014), o la ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}.}
+\caption{\label{fig:pcurve-plot}Curva de valores \(p\) (\emph{p-curve}) creada con \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}. Para una entender una curva de valores \(p\), su relevancia y su interpretación, sugiero leer Simonsohn et al.~(2019, 2014), o ver el sitio web del paquete \texttt{dmetar}: \url{http://dmetar.protectlab.org/}.}
 \end{figure}
 
 \hypertarget{citas-y-referencias-de-paquetes-de-r}{%
@@ -2152,17 +2159,17 @@ Por ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamD
                 \begin{verbatim} 
 To cite package 'dplyr' in publications use:
 
-  Wickham H, François R, Henry L, Müller K, Vaughan D (2023). _dplyr: A
-  Grammar of Data Manipulation_. R package version 1.1.0,
+  Wickham H, François R, Henry L, Müller K (2022). _dplyr: A Grammar of
+  Data Manipulation_. R package version 1.0.10,
   <https://CRAN.R-project.org/package=dplyr>.
 
 A BibTeX entry for LaTeX users is
 
   @Manual{,
     title = {dplyr: A Grammar of Data Manipulation},
-    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller and Davis Vaughan},
-    year = {2023},
-    note = {R package version 1.1.0},
+    author = {Hadley Wickham and Romain François and Lionel Henry and Kirill Müller},
+    year = {2022},
+    note = {R package version 1.0.10},
     url = {https://CRAN.R-project.org/package=dplyr},
   }
  \end{verbatim}
@@ -2180,9 +2187,9 @@ A BibTeX entry for LaTeX users is
 \emph{stats}, \emph{graphics}, \emph{grDevices}, \emph{utils}, \emph{datasets}, \emph{methods} and \emph{base}
 
 \textbf{other attached packages:}
-\emph{pander(v.0.6.5)}, \emph{meta(v.6.2-0)}, \emph{dmetar(v.0.0.9000)}, \emph{metameta(v.0.2)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.13.0)}, \emph{zoo(v.1.8-11)}, \emph{psych(v.2.2.9)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.6.0)}, \emph{lubridate(v.1.9.2)}, \emph{forcats(v.1.0.0)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.1.0)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.4)}, \emph{tidyr(v.1.3.0)}, \emph{tibble(v.3.1.8)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.2.0.0)}, \emph{metafor(v.3.8-1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-1)}, \emph{robumeta(v.2.0)} and \emph{knitr(v.1.42)}
+\emph{pander(v.0.6.5)}, \emph{meta(v.6.2-1)}, \emph{metameta(v.0.1.1)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.12.2)}, \emph{zoo(v.1.8-11)}, \emph{lubridate(v.1.9.0)}, \emph{timechange(v.0.2.0)}, \emph{psych(v.2.2.9)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.5.0)}, \emph{forcats(v.0.5.2)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.0.10)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.3)}, \emph{tidyr(v.1.2.1)}, \emph{tibble(v.3.2.0)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.1.3.2)}, \emph{metafor(v.3.8-1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.0)} and \emph{knitr(v.1.41)}
 
 \textbf{loaded via a namespace (and not attached):}
-\emph{minqa(v.1.2.5)}, \emph{colorspace(v.2.1-0)}, \emph{ggsignif(v.0.6.4)}, \emph{class(v.7.3-20)}, \emph{ellipsis(v.0.3.2)}, \emph{modeltools(v.0.2-23)}, \emph{mclust(v.6.0.0)}, \emph{rstudioapi(v.0.14)}, \emph{farver(v.2.1.1)}, \emph{ggrepel(v.0.9.3)}, \emph{flexmix(v.2.3-18)}, \emph{fansi(v.1.0.4)}, \emph{mathjaxr(v.1.6-0)}, \emph{xml2(v.1.3.3)}, \emph{splines(v.4.2.2)}, \emph{mnormt(v.2.1.1)}, \emph{robustbase(v.0.95-0)}, \emph{jsonlite(v.1.8.4)}, \emph{nloptr(v.2.0.3)}, \emph{broom(v.1.0.3)}, \emph{kernlab(v.0.9-32)}, \emph{cluster(v.2.1.4)}, \emph{compiler(v.4.2.2)}, \emph{httr(v.1.4.4)}, \emph{backports(v.1.4.1)}, \emph{fastmap(v.1.1.0)}, \emph{cli(v.3.6.0)}, \emph{htmltools(v.0.5.4)}, \emph{tools(v.4.2.2)}, \emph{gtable(v.0.3.1)}, \emph{glue(v.1.6.2)}, \emph{ggthemes(v.4.2.4)}, \emph{Rcpp(v.1.0.10)}, \emph{carData(v.3.0-5)}, \emph{vctrs(v.0.5.2)}, \emph{svglite(v.2.1.1)}, \emph{nlme(v.3.1-160)}, \emph{fpc(v.2.2-10)}, \emph{xfun(v.0.37)}, \emph{lme4(v.1.1-31)}, \emph{rvest(v.1.0.3)}, \emph{timechange(v.0.2.0)}, \emph{CompQuadForm(v.1.4.3)}, \emph{lifecycle(v.1.0.3)}, \emph{rstatix(v.0.7.2)}, \emph{DEoptimR(v.1.0-11)}, \emph{MASS(v.7.3-58.1)}, \emph{hms(v.1.1.2)}, \emph{parallel(v.4.2.2)}, \emph{RColorBrewer(v.1.1-3)}, \emph{yaml(v.2.3.7)}, \emph{curl(v.5.0.0)}, \emph{gridExtra(v.2.3)}, \emph{MuMIn(v.1.47.1)}, \emph{stringi(v.1.7.12)}, \emph{highr(v.0.10)}, \emph{poibin(v.1.5)}, \emph{boot(v.1.3-28)}, \emph{rlang(v.1.0.6)}, \emph{pkgconfig(v.2.0.3)}, \emph{systemfonts(v.1.0.4)}, \emph{prabclus(v.2.3-2)}, \emph{evaluate(v.0.20)}, \emph{lattice(v.0.20-45)}, \emph{labeling(v.0.4.2)}, \emph{cowplot(v.1.1.1)}, \emph{tidyselect(v.1.2.0)}, \emph{magrittr(v.2.0.3)}, \emph{bookdown(v.0.32)}, \emph{R6(v.2.5.1)}, \emph{generics(v.0.1.3)}, \emph{pillar(v.1.8.1)}, \emph{withr(v.2.5.0)}, \emph{mgcv(v.1.8-41)}, \emph{abind(v.1.4-5)}, \emph{nnet(v.7.3-18)}, \emph{car(v.3.1-1)}, \emph{Quandl(v.2.11.0)}, \emph{utf8(v.1.2.3)}, \emph{tzdb(v.0.3.0)}, \emph{rmarkdown(v.2.20)}, \emph{grid(v.4.2.2)}, \emph{netmeta(v.2.7-0)}, \emph{diptest(v.0.76-0)}, \emph{digest(v.0.6.31)}, \emph{webshot(v.0.5.4)}, \emph{stats4(v.4.2.2)}, \emph{munsell(v.0.5.0)}, \emph{viridisLite(v.0.4.1)}, \emph{magic(v.1.6-1)} and \emph{quadprog(v.1.5-8)}
+\emph{minqa(v.1.2.5)}, \emph{googledrive(v.2.0.0)}, \emph{colorspace(v.2.1-0)}, \emph{ggsignif(v.0.6.4)}, \emph{ellipsis(v.0.3.2)}, \emph{fs(v.1.5.2)}, \emph{rstudioapi(v.0.14)}, \emph{farver(v.2.1.1)}, \emph{fansi(v.1.0.4)}, \emph{mathjaxr(v.1.6-0)}, \emph{xml2(v.1.3.3)}, \emph{splines(v.4.2.2)}, \emph{mnormt(v.2.1.1)}, \emph{jsonlite(v.1.8.4)}, \emph{nloptr(v.2.0.3)}, \emph{broom(v.1.0.2)}, \emph{dbplyr(v.2.3.0)}, \emph{compiler(v.4.2.2)}, \emph{httr(v.1.4.4)}, \emph{backports(v.1.4.1)}, \emph{assertthat(v.0.2.1)}, \emph{fastmap(v.1.1.0)}, \emph{gargle(v.1.2.1)}, \emph{cli(v.3.6.0)}, \emph{htmltools(v.0.5.4)}, \emph{tools(v.4.2.2)}, \emph{gtable(v.0.3.1)}, \emph{glue(v.1.6.2)}, \emph{ggthemes(v.4.2.4)}, \emph{Rcpp(v.1.0.9)}, \emph{carData(v.3.0-5)}, \emph{cellranger(v.1.1.0)}, \emph{vctrs(v.0.5.1)}, \emph{svglite(v.2.1.1)}, \emph{nlme(v.3.1-160)}, \emph{xfun(v.0.36)}, \emph{lme4(v.1.1-32)}, \emph{rvest(v.1.0.3)}, \emph{CompQuadForm(v.1.4.3)}, \emph{lifecycle(v.1.0.3)}, \emph{rstatix(v.0.7.1)}, \emph{googlesheets4(v.1.0.1)}, \emph{MASS(v.7.3-58.1)}, \emph{hms(v.1.1.2)}, \emph{parallel(v.4.2.2)}, \emph{RColorBrewer(v.1.1-3)}, \emph{yaml(v.2.3.6)}, \emph{curl(v.5.0.0)}, \emph{gridExtra(v.2.3)}, \emph{stringi(v.1.7.12)}, \emph{highr(v.0.10)}, \emph{boot(v.1.3-28)}, \emph{rlang(v.1.0.6)}, \emph{pkgconfig(v.2.0.3)}, \emph{systemfonts(v.1.0.4)}, \emph{evaluate(v.0.20)}, \emph{lattice(v.0.20-45)}, \emph{labeling(v.0.4.2)}, \emph{cowplot(v.1.1.1)}, \emph{tidyselect(v.1.2.0)}, \emph{magrittr(v.2.0.3)}, \emph{bookdown(v.0.31)}, \emph{R6(v.2.5.1)}, \emph{generics(v.0.1.3)}, \emph{DBI(v.1.1.3)}, \emph{pillar(v.1.8.1)}, \emph{haven(v.2.5.1)}, \emph{withr(v.2.5.0)}, \emph{mgcv(v.1.8-41)}, \emph{abind(v.1.4-5)}, \emph{modelr(v.0.1.10)}, \emph{crayon(v.1.5.2)}, \emph{car(v.3.1-1)}, \emph{Quandl(v.2.11.0)}, \emph{utf8(v.1.2.3)}, \emph{tzdb(v.0.3.0)}, \emph{rmarkdown(v.2.19)}, \emph{grid(v.4.2.2)}, \emph{readxl(v.1.4.1)}, \emph{reprex(v.2.0.2)}, \emph{digest(v.0.6.31)}, \emph{webshot(v.0.5.4)}, \emph{munsell(v.0.5.0)}, \emph{viridisLite(v.0.4.1)} and \emph{quadprog(v.1.5-8)}
 
 \end{document}
