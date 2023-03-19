@@ -162,7 +162,7 @@ Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R
 \newpage
 ```
 
-# Introducción
+# Introducción: *¿Qué es un meta-análisis y por qué es importante?*
 
 En investigación, es frecuente que busquemos medir la magnitud de un efecto en una población. Por ejemplo, podríamos tener interés en determinar qué tan fuerte es la correlación entre el nivel socioeconómico y el índice de masa corporal (IMC) en un país determinado, o entre la masa de una estrella y su luminosidad. No obstante, es muy poco probable que podamos obtener información sobre la población entera (de personas del país, o de estrellas en el universo), por lo que debemos hacer uso de muestras para inferir la magnitud del efecto. 
 
@@ -172,7 +172,9 @@ Aunque hay técnicas de muestreo que tienden a hacer que las muestras se *parezc
 
 Una herramienta útil para abordar este problema es el meta-análisis, que es una técnica estadística que nos permite obtener una estimación más precisa del efecto *real* de la correlación. Por supuesto, la palabra clave acá es *estimación*, pues aunque el efecto real es algo que rara vez podremos determinar con absoluta certeza, sí es algo que podemos acercarnos a conocer. 
 
-El meta-análisis se puede entender como una especie *promediación* de los efectos encontrados en diversos estudios, dando mayor peso a estudios que tienen más credibilidad (es decir, mayor probabilidad de mostrar un resultado cercano a la verdad). ¿Cómo se hace esto? El tamaño de una muestra afecta directamente el poder estadístico así como el error en la estimación del efecto [@leongomezPoderRvid2020; @leongomezAnalisisPoderEstadistico2020]; entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen). Por esto, podemos usar estas medidas como un indicador de la credibilidad del efecto encontrado por un estudio (Fig. \@ref(fig:teoria-meta1)).
+El meta-análisis se puede entender como una especie *promediación* de los efectos encontrados en diversos estudios, dando mayor peso a estudios que tienen más credibilidad (es decir, mayor probabilidad de mostrar un resultado cercano a la verdad). 
+
+¿Cómo se hace esto? El tamaño de una muestra afecta directamente el poder estadístico así como el error en la estimación del efecto [@leongomezPoderRvid2020; @leongomezAnalisisPoderEstadistico2020]; entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen). Por esto, podemos usar estas medidas como un indicador de la credibilidad del efecto encontrado por un estudio (Fig. \@ref(fig:teoria-meta1)).
 
 ```{r teoria-meta1, out.width = "400px", fig.align = "center", echo = FALSE, fig.cap = "Ejemplo de distribución de resultados de diferentes estudios (puntos grises) en relación a un efecto real (línea gris vertical). Los estudios realizados con diferentes muestras tienden a estar a ambos lados del efecto real (efectos mayores al real a la derecha y efectos menores a la izquierda). Sin embargo, entre mayor sea la muestra (arriba) los estudios tienden a estar más cerca del efecto real (tienen menor error), pero estudios con muestras pequeñas (abajo) son más variables (y en promedio tienen mayor error), y pueden tener efectos muy alejados del efecto real. Esto forma una especie de triángulo simétrico, con el efecto real en el centro. Esta idea, aunque simplificada en este ejemplo, está en la base misma del meta-análisis, y es similar a lo que comúnmente se representa en un diagrama de embudo (\\textit{funnel plot})."}
 knitr::include_graphics("images/Teoria-meta.pdf")
@@ -192,9 +194,13 @@ knitr::include_graphics("images/Teoria-meta2.pdf")
 
 Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publicación en los estudios incluidos en un meta-análisis, y hacer estimaciones corregidas del efecto *real* que tengan estos sesgos en cuenta para hacer estimaciones más precisas.
 
-A lo largo de esta guía daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico (sección \@ref(meta-cor)), incluyendo cómo hacer análisis de heterogeneidad (sección \@ref(heterog-inf)) y diagnósticos de influencia (sección \@ref(diag-inf)), creación de gráficos de bosque (*forest plots*; sección \@ref(forest-inf)) y gráficos de embudo (*funnel plots*; sección \@ref(funnel-inf)), así como estrategias para detectar posibles sesgos de publicación (sección \@ref(sesgo-pub)), y para determinar el poder estadístico de un meta-análisis (sección \@ref(poder-inf)). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \@ref(met-moderation)). 
+Teniendo en cuenta la importancia de éstas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores curtidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
 
-Adicionalmente, he incluído algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \@ref(apendice-alt)), incluyendo instrucciones para hacer una curva de valores $p$ (*p-curve*; Apéndice \@ref(p-curve)), así como la manera correcta de citar paquetes de R (Apéndice \@ref(paquetes-cit)) y, con fines de garantizar la reproducibilidad de éste documento, una lista de los paquetes usados para la creación de ésta guía, con sus respectivas versiones (Apéndice \@ref(paquetes-list)).
+A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \@ref(meta-cor)), incluyendo cómo hacer análisis de heterogeneidad (sección \@ref(heterog-inf)) y diagnósticos de influencia (sección \@ref(diag-inf)), creación de gráficos de bosque (*forest plots*; sección \@ref(forest-inf)) y gráficos de embudo (*funnel plots*; sección \@ref(funnel-inf)), así como estrategias para detectar posibles sesgos de publicación (sección \@ref(sesgo-pub)), y para determinar el poder estadístico de un meta-análisis (sección \@ref(poder-inf)). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \@ref(met-moderation)). 
+
+Adicionalmente, he incluido algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \@ref(apendice-alt)), incluyendo instrucciones para hacer una curva de valores $p$ (*p-curve*; Apéndice \@ref(p-curve)), así como la manera correcta de citar paquetes de R (Apéndice \@ref(paquetes-cit)) y, con fines de garantizar la reproducibilidad de éste documento, una lista de los paquetes usados para la creación de ésta guía, con sus respectivas versiones (Apéndice \@ref(paquetes-list)).
+
+Aunque he hecho un gran esfuerzo por mantener un alto nivel de calidad, si encuentras algún error por favor contáctame y házmelo saber para corregirlo inmediatamente.
 
 # Base de datos de ejemplo
 
@@ -1050,7 +1056,7 @@ gp_mo <- gosh(res_mo)
 
 Y el plot 
 
-```{r}
+```{r gosh-plot}
 plot(gp_mo, breaks = 100)
 ```
 
