@@ -124,7 +124,7 @@ library(kableExtra)
 \rightskip\leftskip
 ```
 
-El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo estudiantes, profesionales e investigadores carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una batería de herramientas para realizar meta-análisis de correlaciones en R, ilustradas a partir de un ejemplo real. Incluye desde análisis simples y su interpretación hasta análisis con moderadores (meta-regresión), usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. También incluye explicaciones para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa), creación de gráficos de bosque (*forest plots*) y gráficos de embudo (*funnel plots*), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], y para determinar el poder estadístico de un meta-análisis utilizando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022].
+El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo estudiantes, profesionales e investigadores carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una variedad de herramientas para realizar meta-análisis de correlaciones en R, mediante el uso de ejemplos reales. Incluye desde análisis simples y su interpretación, hasta el análisis de moderadores (meta-regresión), usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. También incluye explicaciones para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa), creación de gráficos de bosque (*forest plots*) y gráficos de embudo (*funnel plots*), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], y para determinar el poder estadístico de un meta-análisis utilizando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022]. Con esta guía, los lectores podrán adquirir las habilidades necesarias para realizar meta-análisis de correlaciones de manera efectiva en R y obtener resultados confiables.
 
 ```{=latex}
 \par
@@ -162,9 +162,43 @@ Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R
 \newpage
 ```
 
+# Introducción
+
+En investigación, es frecuente que busquemos medir la magnitud de un efecto en una población. Por ejemplo, podríamos tener interés en determinar qué tan fuerte es la correlación entre el nivel socioeconómico y el índice de masa corporal (IMC) en un país determinado, o entre la masa de una estrella y su luminosidad. No obstante, es muy poco probable que podamos obtener información sobre la población entera (de personas del país, o de estrellas en el universo), por lo que debemos hacer uso de muestras para inferir la magnitud del efecto. 
+
+Sin embargo, a menudo, diferentes estudios obtienen coeficientes de correlación ligeramente diferentes (en algunos casos, muy diferentes). Esta variabilidad no es sorprendente, ya que cada muestra es solo una representación parcial de la correlación en la población completa. 
+
+Aunque hay técnicas de muestreo que tienden a hacer que las muestras se *parezcan* más a la población, cada muestra tiene características particulares que conducen a resultados diferentes. Entonces, ¿cómo podemos saber cuál es el efecto real cuando cada estudio obtiene un resultado distinto?
+
+Una herramienta útil para abordar este problema es el meta-análisis, que es una técnica estadística que nos permite obtener una estimación más precisa del efecto *real* de la correlación. Por supuesto, la palabra clave acá es *estimación*, pues aunque el efecto real es algo que rara vez podremos determinar con absoluta certeza, sí es algo que podemos acercarnos a conocer. 
+
+El meta-análisis se puede entender como una especie *promediación* de los efectos encontrados en diversos estudios, dando mayor peso a estudios que tienen más credibilidad (es decir, mayor probabilidad de mostrar un resultado cercano a la verdad). ¿Cómo se hace esto? El tamaño de una muestra afecta directamente el poder estadístico así como el error en la estimación del efecto [@leongomezPoderRvid2020; @leongomezAnalisisPoderEstadistico2020]; entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen). Por esto, podemos usar estas medidas como un indicador de la credibilidad del efecto encontrado por un estudio (Fig. \@ref(fig:teoria-meta1)).
+
+```{r teoria-meta1, out.width = "400px", fig.align = "center", echo = FALSE, fig.cap = "Ejemplo de distribución de resultados de diferentes estudios (puntos grises) en relación a un efecto real (línea gris vertical). Los estudios realizados con diferentes muestras tienden a estar a ambos lados del efecto real (efectos mayores al real a la derecha y efectos menores a la izquierda). Sin embargo, entre mayor sea la muestra (arriba) los estudios tienden a estar más cerca del efecto real (tienen menor error), pero estudios con muestras pequeñas (abajo) son más variables (y en promedio tienen mayor error), y pueden tener efectos muy alejados del efecto real. Esto forma una especie de triángulo simétrico, con el efecto real en el centro. Esta idea, aunque simplificada en este ejemplo, está en la base misma del meta-análisis, y es similar a lo que comúnmente se representa en un diagrama de embudo (\\textit{funnel plot})."}
+knitr::include_graphics("images/Teoria-meta.pdf")
+```
+
+Sin embargo, además de las diferencias que pueda tener cada estudio debido a las peculiaridades de su muestra, con frecuencia al hacer meta-análisis nos enfrentamos a un riesgo mayor: los sesgos de publicación.
+
+Los sesgos de publicación son una amenaza importante para la integridad de la investigación científica. Se refieren a la tendencia de los investigadores y editores de revistas a publicar estudios que muestran resultados positivos y a rechazar aquellos que no encuentran ningún efecto o que muestran resultados negativos o contrarios a las hipótesis de sus autores. Estos sesgos pueden afectar a todas las áreas de la investigación, pasando por ejemplo por la medicina, la psicología y la biología. 
+
+Como resultado, los estudios publicados pueden no ser representativos de la verdadera relación entre las variables que se están investigando, lo que puede llevar a conclusiones erróneas y a decisiones equivocadas, incluyendo áreas tan críticas como la práctica clínica y la toma de decisiones políticas, por ejemplo.
+
+Imagina, por ejemplo, que frente a un efecto estudiado se publicaron preferentemente estudios que encontraron una correlación positiva y significativa, mientras que otros estudios —que no encontraron una correlación o encontraron una correlación negativa—  tendieron a no ser publicados. Al hacer un meta-análisis de los estudios publicados, nuestra estimación del efecto *real* estaría sesgada hacia una correlación positiva, probablemente sobre-estimando el efecto (Fig. \@ref(fig:teoria-meta2)).
+
+```{r teoria-meta2, out.width = "400px", fig.align = "center", echo = FALSE, fig.cap = "Ejemplo de distribución de resultados de diferentes estudios (puntos grises) idéntico al de la Fig. \\ref{fig:teoria-meta1}. Supongamos, sin embargo, que en este caso algunos estudios no fueron publicados (puntos naraja claros). Debido a esto, un meta-análisis realizado a partir de los estudios publicados (puntos grises) estaría sesgado, y el efecto estimado (línea gris punteada) sería mayor al efecto real (línea gris sólida)."}
+knitr::include_graphics("images/Teoria-meta2.pdf")
+```
+
+Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publicación en los estudios incluidos en un meta-análisis, y hacer estimaciones corregidas del efecto *real* que tengan estos sesgos en cuenta para hacer estimaciones más precisas.
+
+A lo largo de esta guía daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico (sección \@ref(meta-cor)), incluyendo cómo hacer análisis de heterogeneidad (sección \@ref(heterog-inf)) y diagnósticos de influencia (sección \@ref(diag-inf)), creación de gráficos de bosque (*forest plots*; sección \@ref(forest-inf)) y gráficos de embudo (*funnel plots*; sección \@ref(funnel-inf)), así como estrategias para detectar posibles sesgos de publicación (sección \@ref(sesgo-pub)), y para determinar el poder estadístico de un meta-análisis (sección \@ref(poder-inf)). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \@ref(met-moderation)). 
+
+Adicionalmente, he incluído algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \@ref(apendice-alt)), incluyendo instrucciones para hacer una curva de valores $p$ (*p-curve*; Apéndice \@ref(p-curve)), así como la manera correcta de citar paquetes de R (Apéndice \@ref(paquetes-cit)) y, con fines de garantizar la reproducibilidad de éste documento, una lista de los paquetes usados para la creación de ésta guía, con sus respectivas versiones (Apéndice \@ref(paquetes-list)).
+
 # Base de datos de ejemplo
 
-Para los ejemplos usados en ésta guía, usaré la base de datos `dat.molloy2014`, tomada de @molloy2013. Esta base de datos viene incluida con el paquete `metafor` de R.
+A lo largo de esta guía usaré la base de datos `dat.molloy2014`, tomada de @molloy2013. Esta base de datos viene incluida con el paquete `metafor` de R.
 
 Básicamente, @molloy2013 estudiaron si existe una asociación entre la concienciación (*conscientiousness*[^1]) y la adherencia a la medicación. En otras palabras, ¿las personas más *concienciadas* tienden a cumplir más con la medicación prescrita?
 
@@ -398,7 +432,7 @@ ggplot(rVsz, aes(x = r, y = z)) +
 
 Por supuesto, si decides reportar los resultados de tu meta-análisis en coeficientes *r* de Pearson, siempre puedes hacer lo mismo con el error estándar y los límites del intervalo de confianza del 95% (todos valores en *z* de Fisher, pues fue el tamaño de efecto que meta-analizamos).
 
-## Más información sobre heterogeneidad
+## Más información sobre heterogeneidad {#heterog-inf}
 
 Es importante tener en cuenta que la heterogeneidad no es un *supuesto* que se deba cumplir al hacer un meta-análisis, y por ende una heterogeneidad moderada o alta no invalida sus resultados. Sencillamente es información útil que se debe reportar y tener en cuenta al interpretar el resultado de un meta-análisis. En este caso, la presencia de heterogeneidad sugiere que los estudios meta-analizados varían y no suelen reportar resultados similares.
 
@@ -466,7 +500,7 @@ Por último, podemos también ver ésta información que tenemos guardada en el 
 plot(inf.res)
 ```
 
-## *Forest plot* (diagrama de bosque)
+## *Forest plot* (diagrama de bosque) {#forest-inf}
 
 Hacer un diagrama de bosque (*forest plot*) que resuma nuestro meta-análisis usando  [`metafor`](https://www.metafor-project.org/doku.php) es muy fácil; sólo tenemos que usar la función `forest`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (en nuestro caso, `res`).
 
@@ -607,7 +641,7 @@ ggarrange(p.thick, p.rain,
           nrow = 2)
 ```
 
-## *Funnel plot* (diagrama de embudo), regresión de Egger y sesgo de estudios pequeños
+## *Funnel plot* (diagrama de embudo), regresión de Egger y sesgo de estudios pequeños {#funnel-inf}
 
 La creación e interpretación del *Funnel plot* es crucial, y aporta información muy importante acerca de un meta-análisis. Sin embargo, es en donde más errores se cometen. 
 
@@ -811,7 +845,7 @@ Al final, está el *Likelihood ratio test* (en español, "Prueba de la razón de
 
 Este resultado nos da una tendencia no descartable (`p-val = 0.084043`; menor que 0.10 y por tanto significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el *funnel plot* (Figs. \@ref(fig:funnel-plot1), \@ref(fig:funnel-plot1a), \@ref(fig:funnel-plot2) y \@ref(fig:funnel-plot3)) y la regresión de Egger (sección \@ref(reg-egger)), sugerían lo contrario.
 
-## Poder estadístico del meta-análisis
+## Poder estadístico del meta-análisis {#poder-inf}
 
 En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis. 
 Como mencioné anteriormente, de ser necesario, para entender las bases del poder estadístico, recomiendo ver [esta serie de videos](https://youtube.com/playlist?list = PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x) [@leongomezPoderRvid2020] y/o, para mayor profundidad, leer [esta guía](https://doi.org/10.5281/zenodo.3988776) [@leongomezAnalisisPoderEstadistico2020] que publiqué anteriormente.
@@ -1034,7 +1068,7 @@ Ultimately, combinatorial meta-analysis paired with GOSH plots demonstrate how y
 
 # Meta-análisis de correlación con moderador (meta-regresión) {#met-moderation}
 
-\textcolor{red}{Incluir moderadores en nuestro meta-análisis (i.e. hacer una meta-regresión), es una fusión de principios de regresión meta-analíticos y lineales, que sirva para explorar la heterogeneidad. Con esto, podemos saber si existe una asociación lineal entre el resultado de nuestro meta-análisis y una o más covariables.}
+\textcolor{red}{Incluir moderadores en nuestro meta-análisis (i.e. hacer una meta-regresión), es una fusión de principios de regresión meta-analíticos y lineales, que sirve para explorar la heterogeneidad. Con esto, podemos saber si existe una asociación lineal entre el resultado de nuestro meta-análisis y una o más covariables.}
 
 \textcolor{red}{La meta-regresión desempeña un papel fundamental en la consideración de los efectos de las covariables, especialmente en presencia de variables categóricas que pueden utilizarse para el análisis de subgrupos.}
 
@@ -1327,7 +1361,7 @@ Adicionalmente, podrías:
 
 \opensupplement
 
-# Alternativas a `metafor`
+# Alternativas a `metafor` {#apendice-alt}
 
 Acá he usado principalmente una ruta para hacer meta-análisis basada en el paquete `metafor`, acompañado de `metaviz` para visualizaciones, `weightr` para ajustar pesos y detectar sesgos de publicación, y `metameta` para estimar el poder estadístico de un meta-análisis.
 
@@ -1362,7 +1396,7 @@ La función `pcurve` produce varios elementos relacionados la curva de valores $
 knitr::include_graphics("images/pcurve.pdf")
 ```
 
-# Citas y referencias de paquetes de R
+# Citas y referencias de paquetes de R {#paquetes-cit}
 
 Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función `citation` en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato `BibTex` que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia (alternativamente nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente).
 
@@ -1372,7 +1406,7 @@ Por ejemplo, en ésta guía usé `dplyr` [@WickhamDplyr2021] para manipular los 
 citation("dplyr")
 ```
 
-# Paquetes de R y versiones usados para crear este documento (para garantizar reproducibilidad)
+# Paquetes de R y versiones usados para crear este documento (para garantizar reproducibilidad) {#paquetes-list}
 
 ```{r echo = FALSE}
 library(pander)
