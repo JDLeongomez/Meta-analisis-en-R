@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{19 marzo, 2023}
+\date{20 marzo, 2023}
 
 \begin{document}
 \maketitle
@@ -211,8 +211,6 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 \href{https://www.youtube.com/@InvestigacionAbierta}{\includegraphics{images/Logo-IA-Rectangulo.pdf}}
 
 \textbf{Conocimientos necesarios:} Esta guía asume (1) un manejo básico de R, (2) comprensión de correlaciones y regresiones, y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video} introductorio al meta-análisis en \emph{jamovi} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}) que publiqué en mi canal de YouTube \href{https://www.youtube.com/@InvestigacionAbierta}{\emph{Investigación Abierta}}.
-
-\textbf{Nota:} Está guía está inspirada en \href{https://youtu.be/lH4VZMTEZSc}{este video} de Quintana (\protect\hyperlink{ref-quintanaHowPerformMetaanalysis2021}{2021}) y sus ejemplos, pero contiene pasos adicionales y alternativos, citas a fuentes primarias, e información complementaria más detallada.
 
 \par
 \endgroup
@@ -269,7 +267,7 @@ Imagina, por ejemplo, que frente a un efecto estudiado se publicaron preferentem
 
 }
 
-\caption{Ejemplo de distribución de resultados de diferentes estudios (puntos grises) idéntico al de la Fig. \ref{fig:teoria-meta1}. Supongamos, sin embargo, que en este caso algunos estudios no fueron publicados (puntos naraja claros). Debido a esto, un meta-análisis realizado a partir de los estudios publicados (puntos grises) estaría sesgado, y el efecto estimado (línea gris punteada) sería mayor al efecto real (línea gris sólida).}\label{fig:teoria-meta2}
+\caption{Ejemplo de distribución de resultados de diferentes estudios (puntos grises) idéntico al de la Figura \ref{fig:teoria-meta1}. Supongamos, sin embargo, que en este caso algunos estudios no fueron publicados (puntos naraja claros). Debido a esto, un meta-análisis realizado a partir de los estudios publicados (puntos grises) estaría sesgado, y el efecto estimado (línea gris punteada) sería mayor al efecto real (línea gris sólida).}\label{fig:teoria-meta2}
 \end{figure}
 
 Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publicación en los estudios incluidos en un meta-análisis, y hacer estimaciones corregidas del efecto \emph{real} que tengan estos sesgos en cuenta para hacer estimaciones más precisas.
@@ -449,7 +447,7 @@ study\_id & authors & year & ni & ri & controls & design & a\_measure & c\_measu
 \hypertarget{preparaciuxf3n-de-los-datos-transformaciuxf3n-de-coeficientes-r-de-pearson-a-z-de-fisher}{%
 \section{\texorpdfstring{Preparación de los datos: transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher}{Preparación de los datos: transformación de coeficientes r de Pearson a z de Fisher}}\label{preparaciuxf3n-de-los-datos-transformaciuxf3n-de-coeficientes-r-de-pearson-a-z-de-fisher}}
 
-Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeños. Por esto, lo mejor es transformar los coeficientes \emph{r} de Pearson a \emph{z} de Fisher (\protect\hyperlink{ref-fisherFrequencyDistributionValues1915}{1915}), que no tienen este problema\footnote{Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (\emph{r}), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significación para coeficientes \emph{r}. La transformación de Fisher de valores \emph{r} a \emph{z} ---que es la \href{https://es.wikipedia.org/wiki/Tangente_hiperb\%C3\%B3lica}{tangente hiperbólica inversa} de \emph{r}--- resuelve este problema, pues los coeficientes \emph{z} tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de \emph{r} (para una demostración en español, ver \protect\hyperlink{ref-sanchez-brunoTransformacionFisherPara2005}{Sánchez-Bruno \& Borges del Rosal, 2005}).}.
+Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeño (\protect\hyperlink{ref-shadishCombiningEstimatesEffect2009}{Shadish \& Haddock, 2009}). Por esto, lo mejor es transformar los coeficientes \emph{r} de Pearson a \emph{z} de Fisher (\protect\hyperlink{ref-fisherFrequencyDistributionValues1915}{1915}), que no tienen este problema\footnote{Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (\emph{r}), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significación para coeficientes \emph{r} (e.g., \protect\hyperlink{ref-shadishCombiningEstimatesEffect2009}{Shadish \& Haddock, 2009}). La transformación de Fisher de valores \emph{r} a \emph{z} ---que es la \href{https://es.wikipedia.org/wiki/Tangente_hiperb\%C3\%B3lica}{tangente hiperbólica inversa} de \emph{r}--- resuelve este problema, pues los coeficientes \emph{z} tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de \emph{r} (para una demostración en español, ver \protect\hyperlink{ref-sanchez-brunoTransformacionFisherPara2005}{Sánchez-Bruno \& Borges del Rosal, 2005}).}.
 
 Para transformar los coeficientes \emph{r} de Pearson a coeficientes \emph{z} de Fisher, usaré la función \texttt{escalc} del paquete \texttt{metafor}, que sirve para calcular diversos tamaños de efecto que se utilizan comúnmente en meta-análisis. Los argumentos que requiere esta función, además del tipo de transformación a realizar (en este caso \texttt{measure\ =\ "ZCOR"}), son los coeficientes de correlación (\texttt{ri}), el tamaño de muestra de cada correlación (\texttt{ni}), y la base de datos que contiene estos valores (\texttt{data}). En nuestro caso, las columnas donde están estos valores, tienen los mismos nombres (\texttt{ri}, \texttt{ni}). En este ejemplo, asignaré el resultado de esta función al mismo objeto \texttt{dat}, que contiene la base de datos, para sobrescribirlo y no crear objetos adicionales.
 
@@ -785,7 +783,7 @@ Hacer un diagrama de bosque (\emph{forest plot}) que resuma nuestro meta-anális
 \end{Highlighting}
 \end{Shaded}
 
-Esto produce la Fig. \ref{fig:for-plot1}.
+Esto produce la Figura \ref{fig:for-plot1}.
 
 \begin{figure}
 \centering
@@ -960,7 +958,7 @@ A continuación, muestro dos versiones de \emph{funnel plots} creados con la fun
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/funnel-plot3-1.pdf}
-\caption{\label{fig:funnel-plot3}Dos versiones de \emph{funnel plot} creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}, usando la función viz-sunset, que estima el poder de cada estudio para detectar un efecto de interés. \textbf{A.} Poder representado por bandas dicretas de color. \textbf{B.} Poder representado de manera contínua en una escala de color. En ambos casos, y tal como en la Fig. \ref{fig:funnel-plot2}, el efecto real está representado como una línea vertical, y el triángulo a partir de su inicio representa el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis.}
+\caption{\label{fig:funnel-plot3}Dos versiones de \emph{funnel plot} creados con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}, usando la función viz-sunset, que estima el poder de cada estudio para detectar un efecto de interés. \textbf{A.} Poder representado por bandas dicretas de color. \textbf{B.} Poder representado de manera contínua en una escala de color. En ambos casos, y tal como en la Figura \ref{fig:funnel-plot2}, el efecto real está representado como una línea vertical, y el triángulo a partir de su inicio representa el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis.}
 \end{figure}
 
 \hypertarget{reg-egger}{%
@@ -1254,8 +1252,8 @@ La función \texttt{mapower\_ul} requiere que asignemos la base de datos (\textt
 
 Como veremos a continuación, éste objeto tiene varios elementos muy importantes.
 
-\hypertarget{poder-mediano-del-meta-anuxe1lisis-para-diferentes-tamauxf1os-de-efecto.}{%
-\paragraph{Poder mediano del meta-análisis para diferentes tamaños de efecto.}\label{poder-mediano-del-meta-anuxe1lisis-para-diferentes-tamauxf1os-de-efecto.}}
+\hypertarget{poder-mediano}{%
+\paragraph{Poder mediano del meta-análisis para diferentes tamaños de efecto.}\label{poder-mediano}}
 
 El objeto generado por la función \texttt{mapower\_ul} tiene varios elementos. Uno particularmente relevante es la lista de poder mediano estimado para diferentes tamaños de efecto (\texttt{\$power\_median\_dat}), que asignaré como lista a un objeto que llamaré \texttt{lista\_poder} (guardar este objeto es sumamente útil para hacer visualizaciones del análisis de poder, como explico más adelante, en la sección \ref{firepower-plot}).
 
@@ -1395,12 +1393,14 @@ El otro elemento generado es una base de datos modificada que, de manera similar
 
 Básicamente, esta tabla contiene información nos permite evaluar si cada estudio incluido en nuestro meta-análisis tenía o no un poder estadístico suficiente para detectar un rango de tamaños de efecto que, como antes van desde \emph{z} = 0.1 (columna \texttt{power\_es01}), hasta \emph{z} = 1.0 (\texttt{power\_es1}).
 
-También, nos permite ver el poder estadístico de cada estudio para detectar un tamaño de efecto \emph{real} como el que estimamos (\emph{z} = 0.15), en la columna \texttt{power\_es\_observed}. La información de esta columna es análoga a la de los \emph{funnel plot} creados con la función \texttt{viz\_funnel} del paquete \texttt{metaviz} (Figura \ref{fig:funnel-plot3}A y B).
+También, nos permite ver el poder estadístico de cada estudio para detectar un tamaño de efecto \emph{real} como el que estimamos (\emph{z} = 0.15), en la columna \texttt{power\_es\_observed} (la información de esta columna es análoga a la de los \emph{funnel plot} creados con la función \texttt{viz\_funnel} del paquete \texttt{metaviz}; Fig. \ref{fig:funnel-plot3}A y B).
 
 \hypertarget{firepower-plot}{%
 \subsubsection{\texorpdfstring{Visualización del análisis de poder (\emph{Firepower plot})}{Visualización del análisis de poder (Firepower plot)}}\label{firepower-plot}}
 
-Según esto, nuestro meta-análisis sólo tiene un poder estadístico suficiente para detectar de manera confiable efectos mayores a \textasciitilde0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados).
+Estos análisis muestran que, en promedio, nuestro meta-análisis sólo alcanza un poder estadístico suficiente (mayor a 0.8 u 80\%) para detectar de manera confiable efectos mayores a \textasciitilde0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados). De hecho, el poder estimado para detectar un efecto de 0.15 es de apenas 33.64\% (reportado como \texttt{es\_observed}, con un valor de \texttt{0.3364197} en el Output 10 de la sección \ref{poder-mediano}).
+
+Puedo fácilmente crear una visualización de esto con la función \texttt{firepower} del paquete \texttt{metameta}. Solo tengo que agregar, como único argumento, el objeto en el que guardé la lista de poder mediano estimado para diferentes tamaños de efecto (que en este caso asigné a un objeto que llamé \texttt{lista\_poder} en la sección \ref{poder-mediano}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1408,7 +1408,7 @@ Según esto, nuestro meta-análisis sólo tiene un poder estadístico suficiente
 \end{Highlighting}
 \end{Shaded}
 
-Para ver el \emph{fireplot} que creamos, y ya que lo asigné a un objeto que llamé \texttt{poder.plot}, debo correr el objeto para ver el resultado (Fig. \ref{fig:fire-plot1}).
+En este caso asigné el \emph{fireplot} resultante a un objeto, para poder modificar después, que llamé \texttt{poder.plot}. Para verlo, entonces, debo correr el objeto para ver el resultado (Fig. \ref{fig:fire-plot1}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1422,7 +1422,7 @@ Para ver el \emph{fireplot} que creamos, y ya que lo asigné a un objeto que lla
 \caption{\label{fig:fire-plot1}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis. \emph{Observed} hace referencia al tamaño de efecto observado en nuestro meta-análisis original; en este caso, 0.15.}
 \end{figure}
 
-Si queremos cambiar los títulos a español, y ya que el objeto \texttt{poder.plot} contiene dos elementos (\texttt{dat} y \texttt{fp\_plot}, que es propiamente la gráfica). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto'', el título de la leyenda a ``Poder'', y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.} (Fig. \ref{fig:fire-plot2}). Por ejemplo:
+El objeto \texttt{poder.plot} contiene dos elementos: los datos (\texttt{\$dat}) y la gráfica propiamente dicha (\texttt{\$fp\_plot}). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto'', el título de la leyenda a ``Poder'', y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.}. Por ejemplo:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1444,11 +1444,17 @@ Si queremos cambiar los títulos a español, y ya que el objeto \texttt{poder.pl
 \end{Highlighting}
 \end{Shaded}
 
+Este código produce la Figura \ref{fig:fire-plot2}, con todos los textos en español.
+
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/fire-plot2-1.pdf}
 \caption{\label{fig:fire-plot2}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis, con el texto traducido a español y con la leyenda en una escala discreta para facilitar su lectura. \emph{Observado} hace referencia al tamaño de efecto observado en nuestro meta-análisis original (en este caso, 0.15).}
 \end{figure}
+
+La Figura \ref{fig:fire-plot2} nos permite comprobar, de nuevo, que el meta-análisis solamente alcanza un poder mínimo recomendado de 0.8 (80\%) cuando se trata de efectos de \emph{z} = 0.3 (o mayores), y que para nuestro efecto \emph{observado} (\emph{z} = 0.15), el poder apenas alcanza cerca de 0.4 (40\%).
+
+Si el poder estadístico de nuestro meta-análisis para detectar ese efecto (\emph{z} = 0.15) es demasiado bajo, por supuesto sería aún más deficiente para detectar un efecto menor, como el estimado en nuestro modelo con pesos corregidos (\emph{z} = 0.09).
 
 \hypertarget{analizar-todas-las-posibles-combinaciones-de-estudios}{%
 \subsection{Analizar todas las posibles combinaciones de estudios}\label{analizar-todas-las-posibles-combinaciones-de-estudios}}
@@ -1535,7 +1541,7 @@ Voy a hacer un meta-análisis de esta nueva base de datos alterada (\texttt{dat\
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-35-1.pdf}
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-36-1.pdf}
 
 Los valores atípicos introducidos son claramente visibles en el \emph{forest plot} (diagrama de bosque). (estudios 12 y 15).
 
@@ -1559,7 +1565,7 @@ Y el plot
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Meta-analysis_files/figure-latex/gosh-plot-1.pdf}
+\includegraphics{Meta-analysis_files/figure-latex/gosh2-1.pdf}
 
 There is a clear cluster of large effect sizes with high heterogeneity in the top right of the plot. We can specifically highlight the meta-analysis models that included the potential outlier studies:
 
@@ -1573,8 +1579,8 @@ There is a clear cluster of large effect sizes with high heterogeneity in the to
 
 \begin{figure}
 \centering
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-37-1.pdf}
-\caption{\label{fig:unnamed-chunk-37}Se puede ver en las distribuciones del eje X (distribuciones arriba) cómo los meta análisis que incluyen ese estudio tienden a arrojar estimados más fuertes para la asociación, sesgando el resultado hacia valores más extremos.}
+\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-38-1.pdf}
+\caption{\label{fig:unnamed-chunk-38}Se puede ver en las distribuciones del eje X (distribuciones arriba) cómo los meta análisis que incluyen ese estudio tienden a arrojar estimados más fuertes para la asociación, sesgando el resultado hacia valores más extremos.}
 \end{figure}
 
 There's a noticeable shift in the distribution of meta-analysis model summary effect size estimates that include study 12.
@@ -1847,12 +1853,12 @@ Al igual que en el ejemplo de meta-análisis con moderación de una variable con
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/reg-plot2-1.pdf}
-\caption{\label{fig:reg-plot2}Gráfico de dispersión meta-analítico (\emph{Meta-Analytic Scatter Plot}) básico de \href{https://www.metafor-project.org/doku.php}{metafor} creado con la función \texttt{regplot}. El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \texttt{controls}, controles). La banda gris demilimata por líneas punteadas representa el intervalo de confianza del 95\%. Dado que la variable moderadora es categórica, el modelo genera variables \emph{dummy} asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningúun control; 1 = múltiples controles), tal y como se describe en el eje \emph{X}. Para una versión más apropiada, ver Fig. \ref{fig:reg-plot3}.}
+\caption{\label{fig:reg-plot2}Gráfico de dispersión meta-analítico (\emph{Meta-Analytic Scatter Plot}) básico de \href{https://www.metafor-project.org/doku.php}{metafor} creado con la función \texttt{regplot}. El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \texttt{controls}, controles). La banda gris demilimata por líneas punteadas representa el intervalo de confianza del 95\%. Dado que la variable moderadora es categórica, el modelo genera variables \emph{dummy} asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningúun control; 1 = múltiples controles), tal y como se describe en el eje \emph{X}. Para una versión más apropiada, ver Figura \ref{fig:reg-plot3}.}
 \end{figure}
 
-Aunque la figura \ref{fig:reg-plot2} presenta información correcta, tal vez no es la más adecuada ni la más clara cuando se trata de representar meta-análisis con moderadores categóricos. Por ejemplo, a pesar de que nuestro moderador es un factor (controles) con dos niveles (ninguno, múltiples), en el eje \(X\) se representa como una variable continua con valores entre 0 y 1, que además tiene valores intermedios (0.2, 2.4, 0.6, 0.8) que en nuestro caso no tienen sentido.
+Aunque la Figura \ref{fig:reg-plot2} presenta información correcta, tal vez no es la más adecuada ni la más clara cuando se trata de representar meta-análisis con moderadores categóricos. Por ejemplo, a pesar de que nuestro moderador es un factor (controles) con dos niveles (ninguno, múltiples), en el eje \(X\) se representa como una variable continua con valores entre 0 y 1, que además tiene valores intermedios (0.2, 2.4, 0.6, 0.8) que en nuestro caso no tienen sentido.
 
-Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versión más adecuada usando, por ejemplo, \texttt{ggplot2}. El código siguiente permite crear una figura bastante sofisticada usando éste paquete.
+Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versión más adecuada usando, por ejemplo, \texttt{ggplot2}. El código siguiente permite crear una Figura bastante sofisticada usando éste paquete.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1890,7 +1896,7 @@ Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versi
 \end{Highlighting}
 \end{Shaded}
 
-El código anterior puede verse algo confuso para quien no haya usado \texttt{ggplot2} antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación\footnote{Debido a sus enormes y numerosas posibilidades, \texttt{ggplot2} es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía, y posiblemente requeriría múltiples tutoriales independientes. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este \href{https://rpubs.com/anlope10/562981}{tutorial} (\protect\hyperlink{ref-lopezpenarandaTutorialGgplot22019}{López Peñaranda, 2019}) o ver este \href{https://youtu.be/BUzTAr_QqKs}{video} (\protect\hyperlink{ref-datademiaAprendeGgplot22018}{Datademia, 2018}).}. Este código produce la figura \ref{fig:reg-plot3}.
+El código anterior puede verse algo confuso para quien no haya usado \texttt{ggplot2} antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación\footnote{Debido a sus enormes y numerosas posibilidades, \texttt{ggplot2} es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía, y posiblemente requeriría múltiples tutoriales independientes. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este \href{https://rpubs.com/anlope10/562981}{tutorial} (\protect\hyperlink{ref-lopezpenarandaTutorialGgplot22019}{López Peñaranda, 2019}) o ver este \href{https://youtu.be/BUzTAr_QqKs}{video} (\protect\hyperlink{ref-datademiaAprendeGgplot22018}{Datademia, 2018}).}. Este código produce la Figura \ref{fig:reg-plot3}.
 
 \begin{figure}
 \centering
@@ -2077,9 +2083,6 @@ Molloy, G. J., O'Carroll, R. E., \& Ferguson, E. (2013). Conscientiousness and m
 \leavevmode\vadjust pre{\hypertarget{ref-olkinGOSHGraphicalDisplay2012}{}}%
 Olkin, I., Dahabreh, I. J., \& Trikalinos, T. A. (2012). {GOSH} \textendash{} a graphical display of study heterogeneity. \emph{Research Synthesis Methods}, \emph{3}(3), 214--223. \url{https://doi.org/10.1002/jrsm.1053}
 
-\leavevmode\vadjust pre{\hypertarget{ref-quintanaHowPerformMetaanalysis2021}{}}%
-Quintana, D. S. (2021). \emph{{How to Perform a Meta-Analysis in R} \emph{{[}video{]}}}. YouTube. \url{https://youtu.be/lH4VZMTEZSc}.
-
 \leavevmode\vadjust pre{\hypertarget{ref-quintanaMetameta2022}{}}%
 Quintana, D. S. (2022). \emph{Metameta: A suite of tools to re-evaluate published meta-analyses}. \url{https://github.com/dsquintana/metameta}
 
@@ -2106,6 +2109,9 @@ Schwarzer, G., Carpenter, J., \& Rücker, G. (2010). Empirical evaluation sugges
 
 \leavevmode\vadjust pre{\hypertarget{ref-sedgwickMetaanalysesWhatHeterogeneity2015}{}}%
 Sedgwick, P. (2015). Meta-analyses: What is heterogeneity? \emph{BMJ}, \emph{350}, h1435. \url{https://doi.org/10.1136/bmj.h1435}
+
+\leavevmode\vadjust pre{\hypertarget{ref-shadishCombiningEstimatesEffect2009}{}}%
+Shadish, W. R., \& Haddock, C. K. (2009). Combining estimates of effect size. In H. M. Cooper, L. V. Hedges, \& J. C. Valentine (Eds.), \emph{The handbook of research synthesis and meta-analysis} (2nd ed., pp. 257--277). {Russell Sage Foundation}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-shiTrimandfill2019}{}}%
 Shi, L., \& Lin, L. (2019). The trim-and-fill method for publication bias: Practical guidelines and recommendations based on a large database of meta-analyses. \emph{Medicine}, \emph{98}(23), e15987. \url{https://doi.org/10.1097/MD.0000000000015987}
@@ -2167,10 +2173,11 @@ Como ejemplo corto, la curva de valores \(p\) (\emph{p-curve}) de nuestro meta-a
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(meta)}
 
-\NormalTok{res.meta }\OtherTok{\textless{}{-}} \FunctionTok{metacor}\NormalTok{(}\AttributeTok{cor =}\NormalTok{ ri, }
+\NormalTok{res.meta }\OtherTok{\textless{}{-}} \FunctionTok{metacor}\NormalTok{(}\AttributeTok{cor =}\NormalTok{ yi, }
                     \AttributeTok{n =}\NormalTok{ ni, }
                     \AttributeTok{studlab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{), }
-                    \AttributeTok{data =}\NormalTok{ dat)}
+                    \AttributeTok{data =}\NormalTok{ dat,}
+                    \AttributeTok{sm =} \StringTok{"ZCOR"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 

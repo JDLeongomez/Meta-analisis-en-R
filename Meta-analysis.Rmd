@@ -141,8 +141,6 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 
 **Conocimientos necesarios:** Esta guía asume (1) un manejo básico de R, (2) comprensión de correlaciones y regresiones, y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver [este video](https://youtu.be/ntBbkOn9D_o) introductorio al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] que publiqué en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/@InvestigacionAbierta).
 
-**Nota:** Está guía está inspirada en [este video](https://youtu.be/lH4VZMTEZSc) de @quintanaHowPerformMetaanalysis2021 y sus ejemplos, pero contiene pasos adicionales y alternativos, citas a fuentes primarias, e información complementaria más detallada. 
-
 ```{=latex}
 \par
 \endgroup
@@ -188,7 +186,7 @@ Como resultado, los estudios publicados pueden no ser representativos de la verd
 
 Imagina, por ejemplo, que frente a un efecto estudiado se publicaron preferentemente estudios que encontraron una correlación positiva y significativa, mientras que otros estudios —que no encontraron una correlación o encontraron una correlación negativa—  tendieron a no ser publicados. Al hacer un meta-análisis de los estudios publicados, nuestra estimación del efecto *real* estaría sesgada hacia una correlación positiva, probablemente sobre-estimando el efecto (Fig. \@ref(fig:teoria-meta2)).
 
-```{r teoria-meta2, out.width = "400px", fig.align = "center", echo = FALSE, fig.cap = "Ejemplo de distribución de resultados de diferentes estudios (puntos grises) idéntico al de la Fig. \\ref{fig:teoria-meta1}. Supongamos, sin embargo, que en este caso algunos estudios no fueron publicados (puntos naraja claros). Debido a esto, un meta-análisis realizado a partir de los estudios publicados (puntos grises) estaría sesgado, y el efecto estimado (línea gris punteada) sería mayor al efecto real (línea gris sólida)."}
+```{r teoria-meta2, out.width = "400px", fig.align = "center", echo = FALSE, fig.cap = "Ejemplo de distribución de resultados de diferentes estudios (puntos grises) idéntico al de la Figura \\ref{fig:teoria-meta1}. Supongamos, sin embargo, que en este caso algunos estudios no fueron publicados (puntos naraja claros). Debido a esto, un meta-análisis realizado a partir de los estudios publicados (puntos grises) estaría sesgado, y el efecto estimado (línea gris punteada) sería mayor al efecto real (línea gris sólida)."}
 knitr::include_graphics("images/Teoria-meta2.pdf")
 ```
 
@@ -297,9 +295,9 @@ kable(dat,
 
 # Preparación de los datos: transformación de coeficientes *r* de Pearson a *z* de Fisher
 
-Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeños. Por esto, lo mejor es transformar los coeficientes *r* de Pearson a *z* de Fisher [-@fisherFrequencyDistributionValues1915], que no tienen este problema[^3].
+Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeño [@shadishCombiningEstimatesEffect2009]. Por esto, lo mejor es transformar los coeficientes *r* de Pearson a *z* de Fisher [-@fisherFrequencyDistributionValues1915], que no tienen este problema[^3].
 
-[^3]: Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (*r*), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significación para coeficientes *r*. La transformación de Fisher de valores *r* a *z* ---que es la [tangente hiperbólica inversa](https://es.wikipedia.org/wiki/Tangente_hiperb%C3%B3lica) de *r*--- resuelve este problema, pues los coeficientes *z* tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de *r* [para una demostración en español, ver @sanchez-brunoTransformacionFisherPara2005].
+[^3]: Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (*r*), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significación para coeficientes *r* [e.g., @shadishCombiningEstimatesEffect2009]. La transformación de Fisher de valores *r* a *z* ---que es la [tangente hiperbólica inversa](https://es.wikipedia.org/wiki/Tangente_hiperb%C3%B3lica) de *r*--- resuelve este problema, pues los coeficientes *z* tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de *r* [para una demostración en español, ver @sanchez-brunoTransformacionFisherPara2005].
 
 Para transformar los coeficientes *r* de Pearson a coeficientes *z* de Fisher, usaré la función `escalc` del paquete `metafor`, que sirve para calcular diversos tamaños de efecto que se utilizan comúnmente en meta-análisis. Los argumentos que requiere esta función, además del tipo de transformación a realizar (en este caso `measure = "ZCOR"`), son los coeficientes de correlación (`ri`), el tamaño de muestra de cada correlación (`ni`), y la base de datos que contiene estos valores (`data`). En nuestro caso, las columnas donde están estos valores, tienen los mismos nombres (`ri`, `ni`). En este ejemplo, asignaré el resultado de esta función al mismo objeto `dat`, que contiene la base de datos, para sobrescribirlo y no crear objetos adicionales.
 
@@ -514,7 +512,7 @@ Hacer un diagrama de bosque (*forest plot*) que resuma nuestro meta-análisis us
 forest(res)
 ```
 
-Esto produce la Fig. \@ref(fig:for-plot1).
+Esto produce la Figura \@ref(fig:for-plot1).
 
 ```{r for-plot1, echo = FALSE, fig.height = 5.5, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
 par(mar = c(4,0,0,0))
@@ -716,7 +714,7 @@ viz_sunset(res,
            power_contours = "continuous")
 ```
 
-```{r funnel-plot3, message = TRUE, echo = FALSE, fig.height = 8.5, fig.width = 6, warning = FALSE, fig.cap = "Dos versiones de *funnel plot* creados con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función viz-sunset, que estima el poder de cada estudio para detectar un efecto de interés. **A.** Poder representado por bandas dicretas de color. **B.** Poder representado de manera contínua en una escala de color. En ambos casos, y tal como en la Fig. \\@ref(fig:funnel-plot2), el efecto real está representado como una línea vertical, y el triángulo a partir de su inicio representa el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis."}
+```{r funnel-plot3, message = TRUE, echo = FALSE, fig.height = 8.5, fig.width = 6, warning = FALSE, fig.cap = "Dos versiones de *funnel plot* creados con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función viz-sunset, que estima el poder de cada estudio para detectar un efecto de interés. **A.** Poder representado por bandas dicretas de color. **B.** Poder representado de manera contínua en una escala de color. En ambos casos, y tal como en la Figura \\@ref(fig:funnel-plot2), el efecto real está representado como una línea vertical, y el triángulo a partir de su inicio representa el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis."}
 p.suna <- viz_sunset(res, 
                      contours = TRUE,
                      x_trans_function = tanh)
@@ -907,7 +905,7 @@ poder <- mapower_ul(dat = dat.poder, observed_es = 0.15, name = "Molloy et al. 2
 
 Como veremos a continuación, éste objeto tiene varios elementos muy importantes.
 
-#### Poder mediano del meta-análisis para diferentes tamaños de efecto.
+#### Poder mediano del meta-análisis para diferentes tamaños de efecto. {#poder-mediano}
 
 El objeto generado por la función `mapower_ul` tiene varios elementos. Uno particularmente relevante es la lista de poder mediano estimado para diferentes tamaños de efecto (`$power_median_dat`), que asignaré como lista a un objeto que llamaré `lista_poder` (guardar este objeto es sumamente útil para hacer visualizaciones del análisis de poder, como explico más adelante, en la sección \@ref(firepower-plot)).
 
@@ -938,17 +936,19 @@ poder_full_dat
 
 Básicamente, esta tabla contiene información nos permite evaluar si cada estudio incluido en nuestro meta-análisis tenía o no un poder estadístico suficiente para detectar un rango de tamaños de efecto que, como antes van desde *z* = 0.1 (columna `power_es01`), hasta *z* = 1.0 (`power_es1`). 
 
-También, nos permite ver el poder estadístico de cada estudio para detectar un tamaño de efecto *real* como el que estimamos (*z* = 0.15), en la columna `power_es_observed`. La información de esta columna es análoga a la de los *funnel plot* creados con la función `viz_funnel` del paquete `metaviz` (Figura \@ref(fig:funnel-plot3)A y B).
+También, nos permite ver el poder estadístico de cada estudio para detectar un tamaño de efecto *real* como el que estimamos (*z* = 0.15), en la columna `power_es_observed` (la información de esta columna es análoga a la de los *funnel plot* creados con la función `viz_funnel` del paquete `metaviz`; Fig. \@ref(fig:funnel-plot3)A y B).
 
 ### Visualización del análisis de poder (*Firepower plot*) {#firepower-plot}
 
-Según esto, nuestro meta-análisis sólo tiene un poder estadístico suficiente para detectar de manera confiable efectos mayores a ~0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados).
+Estos análisis muestran que, en promedio, nuestro meta-análisis sólo alcanza un poder estadístico suficiente (mayor a 0.8 u 80%) para detectar de manera confiable efectos mayores a ~0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados). De hecho, el poder estimado para detectar un efecto de 0.15 es de apenas 33.64% (reportado como `es_observed`, con un valor de `0.3364197` en el Output 10 de la sección \@ref(poder-mediano)).
+
+Puedo fácilmente crear una visualización de esto con la función `firepower` del paquete `metameta`. Solo tengo que agregar, como único argumento, el objeto en el que guardé la lista de poder mediano estimado para diferentes tamaños de efecto (que en este caso asigné a un objeto que llamé `lista_poder` en la sección \@ref(poder-mediano)). 
 
 ```{r}
 poder.plot <- firepower(lista_poder)
 ```
 
-Para ver el *fireplot* que creamos, y ya que lo asigné a un objeto que llamé `poder.plot`, debo correr el objeto para ver el resultado (Fig. \@ref(fig:fire-plot1)).
+En este caso asigné el *fireplot* resultante a un objeto, para poder modificar después, que llamé `poder.plot`. Para verlo, entonces, debo correr el objeto para ver el resultado (Fig. \@ref(fig:fire-plot1)).
 
 ```{r eval = FALSE}
 poder.plot
@@ -958,11 +958,11 @@ poder.plot
 poder.plot$fp_plot
 ```
 
-Si queremos cambiar los títulos a español, y ya que el objeto `poder.plot` contiene dos elementos (`dat` y `fp_plot`, que es propiamente la gráfica). Éste último elemento es de clase `ggplot`, por lo que podemos usar funciones de `ggplot2` para cambiar, por ejemplo, el título del eje $X$ a "Tamaño de efecto", el título de la leyenda a "Poder", y el efecto observado de "*Observed*" a "Observado"[^12] (Fig. \@ref(fig:fire-plot2)). Por ejemplo:
+El objeto `poder.plot` contiene dos elementos: los datos (`$dat`) y la gráfica propiamente dicha (`$fp_plot`). Éste último elemento es de clase `ggplot`, por lo que podemos usar funciones de `ggplot2` para cambiar, por ejemplo, el título del eje $X$ a "Tamaño de efecto", el título de la leyenda a "Poder", y el efecto observado de "*Observed*" a "Observado"[^12]. Por ejemplo:
 
 [^12]: Para cambiar el título del eje $X$ usé la función `xlab`; para el título de la leyenda la función `guides` (opción `fill = guide_legend`); y para los valores del eje $X$, la función `scale_x_discrete`}.
 
-```{r fire-plot2, fig.height = 2, message = FALSE, fig.cap = "Fireplot básico de [metameta](https://www.dsquintana.blog/metameta-r-package-meta-analysis/), para un análisis de poder de nuestro meta-análisis, con el texto traducido a español y con la leyenda en una escala discreta para facilitar su lectura. *Observado* hace referencia al tamaño de efecto observado en nuestro meta-análisis original (en este caso, 0.15)."}
+```{r eval = FALSE}
 poder.plot$fp_plot +
   xlab("Tamaño de efecto") +
   guides(fill = guide_legend(title = "Poder", 
@@ -979,6 +979,30 @@ poder.plot$fp_plot +
                               "es09" = 0.9,
                               "es1"  = 1))
 ```
+
+Este código produce la Figura \@ref(fig:fire-plot2), con todos los textos en español.
+
+```{r fire-plot2, echo = FALSE, fig.height = 2, message = FALSE, fig.cap = "Fireplot básico de [metameta](https://www.dsquintana.blog/metameta-r-package-meta-analysis/), para un análisis de poder de nuestro meta-análisis, con el texto traducido a español y con la leyenda en una escala discreta para facilitar su lectura. *Observado* hace referencia al tamaño de efecto observado en nuestro meta-análisis original (en este caso, 0.15)."}
+poder.plot$fp_plot +
+  xlab("Tamaño de efecto") +
+  guides(fill = guide_legend(title = "Poder", 
+                             reverse = TRUE)) +
+  scale_x_discrete(labels = c("es_observed" = "Observado",
+                              "es01" = 0.1,    
+                              "es02" = 0.2,
+                              "es03" = 0.3,
+                              "es04" = 0.4,    
+                              "es05" = 0.5,    
+                              "es06" = 0.6,    
+                              "es07" = 0.7,
+                              "es08" = 0.8,
+                              "es09" = 0.9,
+                              "es1"  = 1))
+```
+
+La Figura \@ref(fig:fire-plot2) nos permite comprobar, de nuevo, que el meta-análisis solamente alcanza un poder mínimo recomendado de 0.8 (80%) cuando se trata de efectos de *z* = 0.3 (o mayores), y que para nuestro efecto *observado* (*z* = 0.15), el poder apenas alcanza cerca de 0.4 (40%).
+
+Si el poder estadístico de nuestro meta-análisis para detectar ese efecto (*z* = 0.15) es demasiado bajo, por supuesto sería aún más deficiente para detectar un efecto menor, como el estimado en nuestro modelo con pesos corregidos (*z* = 0.09).
 
 ## Analizar todas las posibles combinaciones de estudios
 
@@ -1056,7 +1080,7 @@ gp_mo <- gosh(res_mo)
 
 Y el plot 
 
-```{r gosh-plot}
+```{r gosh2}
 plot(gp_mo, breaks = 100)
 ```
 
@@ -1232,15 +1256,15 @@ pred.res.contr
 
 Al igual que en el ejemplo de meta-análisis con moderación de una variable continua (sección \@ref(ex.mod1)), es posible hacer un gráfico de dispersión meta-analítico (*meta-analytic scatter plot*) usando la función `regplot` del paquete `metafor`. Sin embargo, dado que la variable moderadora es categórica, el modelo genera variables *dummy* asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningún control; 1 = múltiples controles). Por esto, en el ejemplo a continuación agregué a la descripción del eje $X$ esta información.
 
-```{r reg-plot2, fig.height = 6, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*) básico de [metafor](https://www.metafor-project.org/doku.php) creado con la función \\texttt{regplot}. El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{controls}, controles). La banda gris demilimata por líneas punteadas representa el intervalo de confianza del 95%. Dado que la variable moderadora es categórica, el modelo genera variables *dummy* asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningúun control; 1 = múltiples controles), tal y como se describe en el eje *X*. Para una versión más apropiada, ver Fig. \\@ref(fig:reg-plot3)."}
+```{r reg-plot2, fig.height = 6, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*) básico de [metafor](https://www.metafor-project.org/doku.php) creado con la función \\texttt{regplot}. El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{controls}, controles). La banda gris demilimata por líneas punteadas representa el intervalo de confianza del 95%. Dado que la variable moderadora es categórica, el modelo genera variables *dummy* asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningúun control; 1 = múltiples controles), tal y como se describe en el eje *X*. Para una versión más apropiada, ver Figura \\@ref(fig:reg-plot3)."}
 regplot(res.contr,
         ylab = "Coeficiente de correlación transformado en z de Fisher",
         xlab = "Controles (0 = ninguno; 1 = múltiples)")
 ```
 
-Aunque la figura \@ref(fig:reg-plot2) presenta información correcta, tal vez no es la más adecuada ni la más clara cuando se trata de representar meta-análisis con moderadores categóricos. Por ejemplo, a pesar de que nuestro moderador es un factor (controles) con dos niveles (ninguno, múltiples), en el eje $X$ se representa como una variable continua con valores entre 0 y 1, que además tiene valores intermedios (0.2, 2.4, 0.6, 0.8) que en nuestro caso no tienen sentido.
+Aunque la Figura \@ref(fig:reg-plot2) presenta información correcta, tal vez no es la más adecuada ni la más clara cuando se trata de representar meta-análisis con moderadores categóricos. Por ejemplo, a pesar de que nuestro moderador es un factor (controles) con dos niveles (ninguno, múltiples), en el eje $X$ se representa como una variable continua con valores entre 0 y 1, que además tiene valores intermedios (0.2, 2.4, 0.6, 0.8) que en nuestro caso no tienen sentido.
 
-Sin embargo, de manera un poco más *artesanal*, es posible crear una versión más adecuada usando, por ejemplo, `ggplot2`. El código siguiente permite crear una figura bastante sofisticada usando éste paquete.
+Sin embargo, de manera un poco más *artesanal*, es posible crear una versión más adecuada usando, por ejemplo, `ggplot2`. El código siguiente permite crear una Figura bastante sofisticada usando éste paquete.
 
 ```{r eval = FALSE}
 # Definir base de datos, así como ejes X (controls) y Y (yi)
@@ -1276,7 +1300,7 @@ ggplot(dat, aes(x = controls, y = yi)) +
        size = "Tamaño de \nmuestra")
 ```
 
-El código anterior puede verse algo confuso para quien no haya usado `ggplot2` antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación[^17]. Este código produce la figura \@ref(fig:reg-plot3).
+El código anterior puede verse algo confuso para quien no haya usado `ggplot2` antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación[^17]. Este código produce la Figura \@ref(fig:reg-plot3).
 
 [^17]: Debido a sus enormes y numerosas posibilidades, `ggplot2` es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía, y posiblemente requeriría múltiples tutoriales independientes. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este [tutorial](https://rpubs.com/anlope10/562981) [@lopezpenarandaTutorialGgplot22019] o ver este [video](https://youtu.be/BUzTAr_QqKs) [@datademiaAprendeGgplot22018]. 
 
@@ -1382,10 +1406,11 @@ Como ejemplo corto, la curva de valores $p$ (*p-curve*) de nuestro meta-análisi
 ```{r message = FALSE}
 library(meta)
 
-res.meta <- metacor(cor = ri, 
+res.meta <- metacor(cor = yi, 
                     n = ni, 
                     studlab = paste(dat$authors, dat$year, sep = ", "), 
-                    data = dat)
+                    data = dat,
+                    sm = "ZCOR")
 ```
 
 El objeto resultante (`res.meta`) puede usarse directamente como argumento a la función `pcurve` del paquete [`dmetar`](http://dmetar.protectlab.org/), para obtener una gráfica con la curva de valores $p$ (*p-curve*). Es importante tener en cuenta que, al menos por ahora, `dmetar` debe instalarse desde GitHub tal como `metameta` (en este caso, con el comando `devtools::install_github("MathiasHarrer/dmetar")`).
