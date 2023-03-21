@@ -194,7 +194,7 @@ Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publi
 
 Teniendo en cuenta la importancia de éstas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores curtidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
 
-A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \@ref(meta-cor)), incluyendo cómo hacer análisis de heterogeneidad (sección \@ref(heterog-inf)) y diagnósticos de influencia (sección \@ref(diag-inf)), creación de gráficos de bosque (*forest plots*; sección \@ref(forest-inf)) y gráficos de embudo (*funnel plots*; sección \@ref(funnel-inf)), así como estrategias para detectar posibles sesgos de publicación (sección \@ref(sesgo-pub)), y para determinar el poder estadístico de un meta-análisis (sección \@ref(poder-inf)). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \@ref(met-moderation)). 
+A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \@ref(meta-cor)), incluyendo cómo hacer análisis de heterogeneidad (sección \@ref(heterog-inf)) y diagnósticos de influencia (sección \@ref(diag-inf)), creación de gráficos de bosque (*forest plots*; sección \@ref(forest-inf)) y gráficos de embudo (*funnel plots*; sección \@ref(funnel-inf)), así como estrategias para detectar posibles sesgos de publicación (secciones \@ref(sesgo-pub) y \@ref(todas-combinaciones)), y para determinar el poder estadístico de un meta-análisis (sección \@ref(poder-inf)). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \@ref(met-moderation)). 
 
 Adicionalmente, he incluido algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \@ref(apendice-alt)), incluyendo instrucciones para hacer una curva de valores $p$ (*p-curve*; Apéndice \@ref(p-curve)), así como la manera correcta de citar paquetes de R (Apéndice \@ref(paquetes-cit)) y, con fines de garantizar la reproducibilidad de éste documento, una lista de los paquetes usados para la creación de ésta guía, con sus respectivas versiones (Apéndice \@ref(paquetes-list)).
 
@@ -394,7 +394,16 @@ En este caso, el meta-análisis nos sugiere que en efecto existe una asociación
 
 Esto se podría resumir, por ejemplo, como:
 
-> "**El meta-análisis sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Hubo una heterogeneidad moderada significativa en torno al tamaño medio del efecto en los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%).**"
+```{=latex}
+\begin{tcolorbox}[enhanced,attach boxed title to top center={yshift=-3mm,yshifttext=-1mm},
+  colback=iacol!5!white,colframe=iacol!75!white,colbacktitle=iacol,
+  title=Ejemplo de reporte básico,fonttitle=\bfseries,
+  boxed title style={size=small,colframe=iacol} ]
+  
+Este meta-análisis examinó la relación entre la concienciación y la adherencia a la medicación a través de 16 estudios. Los resultados indicaron una asociación significativa y positiva entre ambos factores ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). Sin embargo, se encontró una moderada pero significativa heterogeneidad en cuanto al tamaño del efecto entre los estudios incluidos ($\tau^2$ ± $se$ =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%). Por tanto, es importante interpretar los resultados con precaución debido a la amplia variabilidad en el tamaño del efecto entre los estudios. A pesar de estas limitaciones, los hallazgos sugieren que la concienciación puede tener un efecto positivo en la adherencia a la medicación.
+
+\end{tcolorbox}
+```
 
 ### Alternativa: Reportar el estimado como *r* de Pearson en vez de *z* de Fisher
 
@@ -452,7 +461,16 @@ Para $\tau^2$, el hecho de que los límites del intervalo de confianza no crucen
 
 Estos intervalos de confianza que también pueden ser reportados junto a sus correspondientes  estadísticos. Entonces, esto se podría resumir, por ejemplo, como:
 
-> "**El meta-análisis sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (*z* ± *se* = 0.15 ± 0.032, IC 95% [0.09, 0.21]; *Z* = 4.75, $p$ < .0001). Hubo una heterogeneidad moderada significativa en torno al tamaño medio del efecto en los estudios meta-analizados ($\tau^2$ ± *se* =  0.0081 ± 0.0055, IC 95% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7%, IC 95% [25.2799%, 88.2545%]).**"
+```{=latex}
+\begin{tcolorbox}[enhanced,attach boxed title to top center={yshift=-3mm,yshifttext=-1mm},
+  colback=iacol!5!white,colframe=iacol!75!white,colbacktitle=iacol,
+  title=Ejemplo de reporte con intervalos de confianza para heterogeneidad,fonttitle=\bfseries,
+  boxed title style={size=small,colframe=iacol} ]
+  
+El meta-análisis incluyó 16 estudios que examinaron la relación entre la concienciación y la adherencia a la medicación. Los estudios incluidos variaron en cuanto al diseño, la población de pacientes y la intervención evaluada. Los resultados del meta-análisis indicaron una asociación positiva significativa entre la concienciación y la adherencia a la medicación ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). La heterogeneidad en torno al tamaño medio del efecto entre los estudios incluidos fue moderada pero significativa ($\tau^2$ ± $se$ =  0.0081 ± 0.0055, IC 95\% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95\% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%, IC 95\% [25.28\%, 88.25\%]). Se observó una amplia variabilidad en el tamaño del efecto entre los estudios, lo que sugiere que los resultados deben interpretarse con precaución. A pesar de estas limitaciones, los hallazgos sugieren que es probable que la concienciación tenga un efecto positivo en la adherencia a la medicación. Es importante tener en cuenta que la calidad metodológica de los estudios incluidos en el meta-análisis fue variable, lo que puede afectar la validez y generalización de las conclusiones.
+
+\end{tcolorbox}
+```
 
 ## Diagnóstico de influencia {#diag-inf}
 
@@ -503,6 +521,8 @@ Por último, podemos también ver ésta información que tenemos guardada en el 
 ```{r infplot, fig.height = 7, fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje *X* representan cada estudio, como lo definimos en columna \\texttt{study\\_id} de la Tabla \\@ref(tab:estructuramod). En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que no es necesario excluir ningún estudio de nuestro meta-análisis."}
 plot(inf.res)
 ```
+
+Más adelante, en la sección \@ref(todas-combinaciones), daré más información y técnicas más completas para identificar estudios atípicos que podrían sesgar nuestra estimación del efecto *real*.
 
 ## *Forest plot* (diagrama de bosque) {#forest-inf}
 
@@ -1004,43 +1024,74 @@ La Figura \@ref(fig:fire-plot2) nos permite comprobar, de nuevo, que el meta-an�
 
 Si el poder estadístico de nuestro meta-análisis para detectar ese efecto (*z* = 0.15) es demasiado bajo, por supuesto sería aún más deficiente para detectar un efecto menor, como el estimado en nuestro modelo con pesos corregidos (*z* = 0.09).
 
-## Analizar todas las posibles combinaciones de estudios
+## *¿Debemos excluir algunos estudios?* Más información sobre influencia y análisis de todas las posibles combinaciones de estudios de un meta-análisis {#todas-combinaciones}
 
-Ver acá https://www.dsquintana.blog/combinatorial-meta-analysis/
+Como hemos visto, al realizar un meta-análisis, es fundamental tomar decisiones que pueden influir significativamente en los resultados y conclusiones. Una de las preguntas más importantes es qué estudios incluir en el análisis y si es necesario excluir algún estudio. Aunque nuestro diagnóstico inicial de influencia (sección \@ref(diag-inf)) no mostró la presencia de estudios atípicos en nuestro meta-análisis, en ocasiones se requiere un análisis más exhaustivo. 
+
+En esta sección explicaré dos técnicas: *leave-one-out* (sección \@ref(leave-one-out)), que consiste en realizar una serie de meta-análisis excluyendo uno de los estudios incluidos en cada iteración, y meta-análisis combinatorio (sección \@ref(gosh)), que permite crear todas las combinaciones posibles de estudios y, por lo tanto, evaluar la robustez de los resultados en diferentes escenarios.
 
 ### *Leave-one-out* {#leave-one-out}
 
-La técnica de *leave-one-out* no solo se puede hacer como parte de un diagnóstico de influencia (como se muestra en la sección \@ref(diag-inf)), sino que también se puede hacer para ver la estimación del efecto meta-analizado al excluir cada uno de los estudios de nuestra base de datos.
+La técnica de *leave-one-out* realiza una serie de meta-análisis dejando fuera cada uno de los estudios incluidos. En nuestro caso, dado que tenemos 16 estudios, esta técnica ajustará 16 modelos (uno excluyendo cada estudio).
+
+Esta técnica no sólo se hace como parte de un diagnóstico de influencia (como se muestra en la sección \@ref(diag-inf)), sino que también se puede hacer para ver la estimación del efecto meta-analizado al excluir cada uno de los estudios de nuestra base de datos.
 
 Hacerlo sólo requiere usar la función `leave1out` del paquete `metafor`, usando como argumento el resultado de nuestro meta-análisis original (en este caso, `res`):
 
-```{r echo = FALSE}
-l1o_res <- leave1out(res)
-```
-
-```{r eval = FALSE}
+```{r}
 leave1out(res)
 ```
 
-Como puedes ver, nos crea una tabla con las columnas `estimate`, `se`, `zval`, `pval`, `ci.lb`, `ci.ub`, `Q`, `Qp`, `tau2`, `I2` y `H2` (explicadas en la sección \@ref(meta-interp)). Sin embargo, tenemos 16 filas, cada una de las cuales corresponde a los resultados cuando se excluye cada estudio del meta-análisis.
+Como puedes ver, esta función crea una tabla con las columnas `estimate`, `se`, `zval`, `pval`, `ci.lb`, `ci.ub`, `Q`, `Qp`, `tau2`, `I2` y `H2` (explicadas en la sección \@ref(meta-interp)). Sin embargo, tenemos 16 filas, cada una de las cuales corresponde a los resultados cuando se excluye ese estudio del meta-análisis.
 
-### Meta-análisis combinatorio
+En este caso, los tamaños del efecto estimado (columna `estimate`) para los meta-análisis que eliminaron un único estudio están entre *z* = 0.14 y *z* = 0.16, lo que muestra que la eliminación de un estudio no influye mucho en el tamaño del efecto original estimado, que fue de *z* = 0.15. En otras palabras, podríamos eliminar cualquier estudio de nuestro análisis y el resultado cambiaría muy poco.
 
-Aunque la técnica de *leave-one-out* es útil para determinar la influencia de cada estudio en un meta-análisis (como se explica en las secciones \@ref(diag-inf) y \@ref(leave-one-out)), tiene limitaciones, pues no nos dice nada de cuánto cambia la estimación del efecto meta-analizado cuando excluimos 2 o más estudios. XXXXXXXXX SIGO ACÁ XXXXXXX 
+Aunque este análisis es bastante informativo, podría haber un subgrupo de estudios —en lugar de un único estudio— que influye en el resultado. Para investigar esto, podemos hacer un meta-análisis combinatorio.
 
-**EXPLICAR LAS VENTAJAS DE HACER TODAS LAS COMBINACIONES POSIBLES**
+### Meta-análisis combinatorio {#gosh}
 
-El número de análisis a realizar puede calcularse usando la fórmula $2^k - 1$, donde $k$ es el número de estudios meta-analizados. Como en nuestro ejemplo estamos meta-analizando 16 estudios, realizarás $2^{16} - 1$ análisis. Es decir, un total de 65535 modelos. Ten en cuenta que ajustar estos 65535 podría bastante tiempo (en mi portátil, que tiene un procesador Intel Core i7-9750H, tardó poco más de 5 minutos, pero puede variar mucho según las características de tu equipo).
+Aunque la técnica de *leave-one-out* es útil para determinar la influencia de cada estudio en un meta-análisis, no nos dice nada de cuánto cambia nuestra estimación del efecto real cuando excluimos dos o más estudios. Por lo tanto, el meta-análisis combinatorio puede ser una técnica complementaria para detectar subgrupos de estudios que estén afectando nuestros resultados
 
-Para visualizar esta enorme cantidad de estimaciones de tamaño de efecto, lo mejor es hacer un *visualización gráfica de la heterogeneidad de los estudios* (en inglés, *Graphical Display of Study Heterogeneity* o simplemente *GOSH*), una técnica propuesta por @olkinGOSHGraphicalDisplay2012. 
+Por ejemplo, si estamos realizando un meta-análisis sobre el efecto del consumo de café en la salud cardiovascular, es posible que encontremos varios estudios que no controlan adecuadamente el consumo de tabaco de los participantes. Si eliminamos uno solo de estos estudios, es posible que aún quede un sesgo importante en nuestra estimación del efecto *real*. En este caso, el meta-análisis combinatorio nos permitiría evaluar todas las posibles combinaciones de estudios que incluyen o excluyen los estudios que no controlan el consumo de tabaco, lo que nos ayudaría a comprender mejor el impacto de estos estudios en nuestra estimación del efecto *real*.
 
-En R, esto se puede hacer con la función `gosh` del paquete `metafor`, agregando como único argumento el resultado de nuestro meta-análisis original (en nuestro caso, `res`). Voy a asignar el resultado de este análisis a un objeto que llamaré `gp`
+Un meta-análisis combinatorio ajusta una serie de meta-análisis a partir de todas las combinaciones posibles de estudios. Esta técnica es poderosa, pero es importante tener en cuenta que el número de posibles combinaciones aumenta exponencialmente a medida que aumenta el número de estudios incluidos en nuestro meta-análisis. De hecho, el número de análisis a realizar puede calcularse usando la fórmula $2^k - 1$, donde $k$ es el número de estudios meta-analizados (Tabla \@ref(tab:gosh-combs)). 
 
-```{r cache = TRUE}
-gp <- gosh(res)
+```{r gosh-combs, echo = FALSE}
+tibble(k = 5:17,
+       Combinaciones = 2^(k) - 1,
+       k2 = 18:30,
+       Combinaciones2 = 2^(k2) - 1) %>% 
+  mutate(Combinaciones = scales::number(Combinaciones),
+         Combinaciones2 = scales::number(Combinaciones2)) %>% 
+  kable(linesep = "",
+        booktabs = TRUE,
+        align = c("c", "r", "c", "r"),
+        col.names = linebreak(c("Número de\nestudios\n(\\textit{k})",
+                                "Posibles\ncombinaciones\n($2^{k} - 1$)",
+                                "Número de\nestudios\n(\\textit{k})",
+                                "Posibles\ncombinaciones\n($2^{k} - 1$)"),
+                              align = "c"),
+        caption = "Número de posibles combinaciones según número de estudios (k)",
+        escape = FALSE) %>% 
+  kable_styling(latex_options = c("HOLD_position")) %>% 
+  row_spec(0, align = "c")  %>%
+  column_spec(2, border_right = TRUE) %>%
+  column_spec(c(1,3), bold = TRUE)
 ```
 
-Para graficar los los 65535 modelos, podemos usar la función `plot`, agregando como argumento el resultado de la función `gosh`(`gp` en este caso). En este ejemplo, adicionalmente, usaré el argumento `breaks` para definir el número de puntos de corte (y número de barras) de los histogramas, así como el argumento `labels` para poner los títulos de los ejes en español.
+Como se puede ver en la Tabla \@ref(tab:gosh-combs), el número de combinaciones aumenta drásticamente a medida que aumenta el número de estudios en nuestro meta-análisis. Por ejemplo, si tuviéramos 5 estudios, habría solo 31 posibles combinaciones ($2^{5} - 1$ = `r number(31)`). Sin embargo, si tuviéramos 20 estudios, habría más de un millón de combinaciones ($2^{16} - 1$ = `r number(1048575)`) y si tuviéramos 30 estudios, habría más de mil millones de combinaciones (ver Tabla \@ref(tab:gosh-combs)). Dado que esto puede consumir muchos recursos computacionales, es importante tener precaución al realizar un meta-análisis combinatorio con un gran número de estudios. El análisis puede tardar mucho tiempo e incluso fallar si se usa toda la memoria RAM del ordenador.
+
+En nuestro ejemplo, estamos meta-analizando 16 estudios, lo que significa que necesitamos ajustar `r number(65535)` modelos ($2^{16} - 1$). Ajustar todos estos modelos puede llevar bastante tiempo, aunque esto dependerá de las especificaciones de tu equipo (en mi portátil, tarda alrededor de 5 minutos).
+
+Para visualizar la heterogeneidad entre los estudios, podemos utilizar una técnica llamada *visualización gráfica de la heterogeneidad de los estudios* (en inglés, *Graphical Display of Study Heterogeneity* o simplemente *GOSH*), propuesta por @olkinGOSHGraphicalDisplay2012. En R, podemos realizar esta visualización utilizando la función `gosh` del paquete `metafor`. Simplemente necesitamos proporcionar el resultado de nuestro meta-análisis original (`res`) como argumento. Opcionalmente, también podemos agregar el argumento `progbar = TRUE` para ver el progreso del análisis en la consola. Guardaré el resultado de este análisis en un objeto llamado `gp` para su posterior uso.
+
+```{r cache = TRUE, message = FALSE}
+gp <- gosh(res, progbar = TRUE)
+```
+
+Una vez que hayamos realizado el análisis *GOSH* utilizando la función `gosh`, podemos utilizar la función `plot` para visualizar los `r number(65535)` modelos. Para hacer esto, simplemente necesitamos proporcionar el resultado de `gosh` (`gp` en este caso) como argumento para `plot`.
+
+En este ejemplo, utilizaré los argumentos `breaks` y `labels` para personalizar la visualización. El argumento `breaks` nos permite definir el número de puntos de corte (y, por lo tanto, el número de barras) en los histogramas, mientras que el argumento `labels` nos permite poner los títulos de los ejes en español. Esto nos permitirá crear una visualización más clara y fácil de entender de la heterogeneidad entre los estudios.
 
 ```{r gosh1, message = FALSE, fig.cap = "*GOSH plot* creado con la función  [`gosh`](https://www.metafor-project.org/doku.php/plots:gosh_plot) del paquete [`metafor`](https://www.metafor-project.org/doku.php). Un *GOSH plot* (en inglés, *Graphical Display of Study Heterogeneity* o simplemente *GOSH*) es una visualización gráfica de la heterogeneidad de todos los posibles modelos de meta-análisis ajustados a partir de todas las combinaciones posibles de estudios de nuestra base de datos. Un *GOSH plot* muestra los efectos estimados para cada uno de los modelos en el eje horizontal, y su respectiva heterogeneidad en el eje vertical. Las distribuciones de los efectos (parte superior de la gráfica) y las heterogeneidades (lado derecho de la gráfica) estan representadas como densidades e histogramas."}
 plot(gp, 
@@ -1049,52 +1100,64 @@ plot(gp,
                 expression(paste("I"^"2"))))
 ```
 
-Como puedes ver, los tamaños del efecto suelen estar entre aproximadamente 0.05 y 0.25. Esto es una variación muy grande, que demuestra cómo la elección de los estudios incluidos influye en la estimación del tamaño del efecto que nos dará nuestro meta-análisis.
+Los tamaños del efecto que se obtienen de los estudios incluidos en un meta-análisis de correlaciones varían ampliamente, generalmente entre *z* = 0.05 y *z* = 0.25. Esta variación subraya cómo la elección de los estudios incluidos en el meta-análisis puede influir en la estimación del tamaño del efecto. Sin embargo, es importante destacar que no hay un subgrupo de resultados que se distinga significativamente del resto.
 
-Para ilustrar mejor esto, podemos a cambiar artificialmente nuestra base de datos, para que contengo valores atípicos. 
+Para ilustrar mejor esto, voy a manipular manualmente el tamaño de efecto de uno de los estudios. Por ejemplo, en nuestro caso, podemos cambiar el tamaño del efecto del estudio 12, que inicialmente tenía un valor *z* de Fisher de 0.39, a un valor mucho mayor, de 0.70. Aunque esta base de datos alterada pierde validez para realizar cualquier análisis, nos permite visualizar el efecto de valores atípicos en una base de datos[^13].
 
-Para hacer esto, voy a agregar valores atípicos, cambiando manualmente el tamaño de efecto de 2 de los estudios (en este caso, los estudios 12 y 15, que pasan de tener valores *z* de Fisher de 0.39 y 0.24, a otro mayores, de 0.7 y 0.6, respectivamente). Esta base de datos alterada por supuesto ya no tendía validez para realizar ningún análisis, pues 2 de nuestros resultados son literalmente inventados. Sin embargo, nos permite ver qué sucede cuando una base de datos contiene valores atípicos.
+[^13]: Normalmente podríamos identificar estudios con resultados formalmente atípicos a partir un diagnóstico de influencia (\@ref(diag-inf)) y técnicas tipo *leave-one-out* (sección \@ref(leave-one-out)), y apoyarnos de manera informal en diagramas como el *forest plot* (sección \@ref(forest-inf)) y el *funnel plot* (sección \@ref(funnel-inf)).
 
-Dado que no quiero afectar nuestra base de datos (`dat`), voy a crear una copia en un objeto llamado `dat_mo`, y después sí cambiar los tamaños de efecto de los estudios 12 y 15 de esa base de datos.
+Para evitar afectar nuestra base de datos original, creamos una copia de los datos en un objeto llamado `dat_mo`. Luego, utilizamos las funciones `mutate` y `replace` del paquete `dplyr` [@WickhamDplyr2021] para cambiar los tamaños de efecto del estudio 12 en la nueva base de datos.
 
 ```{r}
-dat_mo <- dat
-dat_mo$yi[12] = 0.7 
-dat_mo$yi[15] = 0.6 
+dat_mo <- dat %>%
+  mutate(yi = replace(yi, 
+                      list = 12, 
+                      values = 0.7))
 ```
 
-Voy a hacer un meta-análisis de esta nueva base de datos alterada (`dat_mo`), y representar los resultados en un *forest plot* (diagrama de bosque).
+Para mostrar gráficamente cómo ahora el estudio 12 es atípico, voy a hacer un meta-análisis de esta nueva base de datos alterada (`dat_mo`), y representar los resultados en un *forest plot* (diagrama de bosque). El valor atípico introducido (estudio 12) es claramente visible en el *forest plot* (Fig. \@ref(fig:for-plot-mo)).
 
-```{r}
+Para visualizar cómo el estudio 12 se convierte en un valor atípico después de la manipulación de los datos, podemos realizar un meta-análisis de la nueva base de datos alterada (`dat_mo`) y representar los resultados en un diagrama de bosque o *forest plot*. Como se puede observar en la Figura \@ref(fig:for-plot-mo), el valor atípico introducido (estudio 12) es claramente visible en el *forest plot* (es importante tener en cuenta que este ejemplo es sólo una ilustración y que en la práctica es esencial garantizar la integridad de los datos y la validez de los resultados obtenidos en un meta-análisis).
+
+```{r eval = FALSE}
 res_mo <- rma.uni(yi, vi, data = dat_mo) 
 forest(res_mo)
 ```
 
-Los valores atípicos introducidos son claramente visibles en el *forest plot* (diagrama de bosque). (estudios 12 y 15).
+```{r for-plot-mo, echo = FALSE, fig.height = 5.5, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php) de la base de datos con valores atípicos introducidos manualmente para el estudio 12. Como se puede ver, estos dos estudios tienen tamaños de efecto muy diferentes al del resto de los estudios."}
+res_mo <- rma.uni(yi, vi, data = dat_mo) 
+par(mar = c(4,0,0,0))
+forest(res_mo)
+```
 
-Now let's run the combinatorial meta-analysis and create a GOSH plot:
+Ahora sí, voy a hacer el meta-análisis combinatorio y crearé el *GOSH plot* con esta base de datos alterada y que contiene el resultado atípico.
 
 ```{r cache = TRUE}
 gp_mo <- gosh(res_mo)
 ```
 
-Y el plot 
+Para ilustrar los resultados, de nuevo podemos usar la función `plot`, creando la Figura \@ref(fig:gosh2)
 
-```{r gosh2}
-plot(gp_mo, breaks = 100)
-```
-
-There is a clear cluster of large effect sizes with high heterogeneity in the top right of the plot. We can specifically highlight the meta-analysis models that included the potential outlier studies:
-
-```{r fig.cap = "Se puede ver en las distribuciones del eje X (distribuciones arriba) cómo los meta análisis que incluyen ese estudio tienden a arrojar estimados más fuertes para la asociación, sesgando el resultado hacia valores más extremos."}
-plot(gp_mo, out = 12, breaks = 100,
+```{r gosh2, cache = TRUE, message = FALSE, fig.cap = "*GOSH plot* de un meta-análisis combinatorio que contiene un estudio con resultado atípico. En la esquina superior derecha del gráfico, se observa claramente un grupo de tamaños de efecto elevados con una alta heterogeneidad."}
+plot(gp_mo,  
+     breaks = 100,
      labels = c("Coeficiente de correlación transformado en z de Fisher", 
                 expression(paste("I"^"2"))))
 ```
 
-There's a noticeable shift in the distribution of meta-analysis model summary effect size estimates that include study 12.
+En la parte superior derecha del gráfico hay un claro grupo de grandes tamaños del efecto con alta heterogeneidad. Podemos destacar específicamente los modelos del meta-análisis que incluyeron el estudio atípico con el argumento `out`:
 
-Ultimately, combinatorial meta-analysis paired with GOSH plots demonstrate how your analysis choices influence your meta-analysis outcomes and conclusions.
+```{r gosh3, fig.cap = "*GOSH plot* de un meta-análisis combinatorio que contiene un estudio con resultado atípico. En este caso, a diferencia de la Figura \\ref{fig:gosh2}, los resultados combinatorios que no contienen el estudio atípico están en azul, mientras que los meta-análisis que sí lo incluyen están en rojo. Se puede ver en las distribuciones de tamaño del efecto (distribuciones e histogramas sobre la figura) y de heteroheneidad (distribuciones e histogramas a la derecha de la figura) cómo los meta análisis que incluyen el estudio con un resultado atípico tienden a arrojar estimados más fuertes para la correlación, sesgando el resultado hacia valores más extremos, y son siempre almanete heterogéneos."}
+plot(gp_mo, 
+     out = 12,  
+     breaks = 100,
+     labels = c("Coeficiente de correlación transformado en z de Fisher", 
+                expression(paste("I"^"2"))))
+```
+
+La inclusión del estudio 12 en los modelos de meta-análisis provoca un cambio notable en la distribución de las estimaciones del tamaño del efecto *real*. Este cambio indica la importancia de considerar cuidadosamente la inclusión de cada estudio en un meta-análisis, ya que la inclusión de valores atípicos o estudios que no cumplan los criterios de calidad puede tener un impacto significativo en los resultados.
+
+En resumen, el meta-análisis combinatorio, junto con la visualización de datos mediante gráficos *GOSH*, permite demostrar cómo las opciones de análisis pueden influir en los resultados y conclusiones de un meta-análisis. Es fundamental realizar una selección cuidadosa de los estudios incluidos y llevar a cabo un análisis crítico y riguroso de los resultados obtenidos para garantizar la fiabilidad y validez del meta-análisis.
 
 # Meta-análisis de correlación con moderador (meta-regresión) {#met-moderation}
 
@@ -1104,9 +1167,9 @@ Ultimately, combinatorial meta-analysis paired with GOSH plots demonstrate how y
 
 ## Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes) {#ex.mod1}
 
-Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^13], lo que podría moderar (afectar) la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita.
+Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^14], lo que podría moderar (afectar) la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita.
 
-[^13]: De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
+[^14]: De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
 
 Para esto, de nuevo podemos usar la función `rma` de paquete `metafor` y de la misma manera que en la sección \@ref(meta-cor), pero agregando nuestra variable moderadora (`meanage`) al argumento `mods`. En este caso voy a asignar a un objeto llamado `res.modage`, para diferenciarlo del objeto `res` al que asigné el meta-análisis básico, sin moderadores.
 
@@ -1126,13 +1189,13 @@ Los resultados, que tienen la misma organización que los del análisis sin mode
 
 Para más información, podemos *predecir* el efecto (en este caso, la correlación entre la concienciación y la adherencia a la medicación), a diferentes edades, usando la función `predict`. 
 
-En este ejemplo, como argumentos de esta función incluiré el objeto que contiene el meta-análisis con la edad como variable moderadora (`res.modage`), y los los valores para los cuales quiero saber el coeficiente de correlación predicho (argumento `newmods`); en este ejemplo voy a usar "`seq(20, 80, by = 10)`", lo que produce la secuencia de números de 20 a 80, cada 10 (es decir: **20**, **30**, **40**, **50**, **60**, **70**, **80**), que serán las edades para las cuales obtendré el coeficiente de correlación estimado por el modelo[^14].
+En este ejemplo, como argumentos de esta función incluiré el objeto que contiene el meta-análisis con la edad como variable moderadora (`res.modage`), y los los valores para los cuales quiero saber el coeficiente de correlación predicho (argumento `newmods`); en este ejemplo voy a usar "`seq(20, 80, by = 10)`", lo que produce la secuencia de números de 20 a 80, cada 10 (es decir: **20**, **30**, **40**, **50**, **60**, **70**, **80**), que serán las edades para las cuales obtendré el coeficiente de correlación estimado por el modelo[^15].
 
-[^14]: Escogí edades entre 20 y 80 como referencia, pues están cerca al rango de valores de de las edades promedio de los estudios meta-analizados (`r min(dat$meanage)` a `r max(dat$meanage)`), y con edades cada 10 años, para obtener un número manejable pero informativo de predicciones.
+[^15]: Escogí edades entre 20 y 80 como referencia, pues están cerca al rango de valores de de las edades promedio de los estudios meta-analizados (`r min(dat$meanage)` a `r max(dat$meanage)`), y con edades cada 10 años, para obtener un número manejable pero informativo de predicciones.
 
-Adicionalmente, voy a convertir esta tabla a un objeto clase `data.frame` (`as.data.frame()`), crearé una nueva variable llamada `meanage` que contiene las edades para las cuales he calculado la predicción (`mutate(meanageage = seq(20, 80, by = 10))`[^15]), y reorganizado el orden de las columnas (`select(7, 1:6)`). Asignaré esta tabla a un objeto llamado `pred.res.modage`.
+Adicionalmente, voy a convertir esta tabla a un objeto clase `data.frame` (`as.data.frame()`), crearé una nueva variable llamada `meanage` que contiene las edades para las cuales he calculado la predicción (`mutate(meanageage = seq(20, 80, by = 10))`[^16]), y reorganizado el orden de las columnas (`select(7, 1:6)`). Asignaré esta tabla a un objeto llamado `pred.res.modage`.
 
-[^15]: Para agregar los valores de la variable moderadora para los cuales se hace la predicción, alternativamente se puede agregar el argumento `addx = TRUE` a la función `predict` (en este caso, por ejemplo, `predict(res.modage, newmods = seq(20, 80, by = 10), addx = TRUE)`). Sin embargo, para evitar crear columnas adicionales y tener una tabla en un formato más sencillo y claro, he decidido crear la columna `meanage` manualmente. Si usara el argumento `addx = TRUE`, crearía las columnas `X.intrcpt` con el intercepto, y `X.meanage`con los valores de `meanage`.
+[^16]: Para agregar los valores de la variable moderadora para los cuales se hace la predicción, alternativamente se puede agregar el argumento `addx = TRUE` a la función `predict` (en este caso, por ejemplo, `predict(res.modage, newmods = seq(20, 80, by = 10), addx = TRUE)`). Sin embargo, para evitar crear columnas adicionales y tener una tabla en un formato más sencillo y claro, he decidido crear la columna `meanage` manualmente. Si usara el argumento `addx = TRUE`, crearía las columnas `X.intrcpt` con el intercepto, y `X.meanage`con los valores de `meanage`.
 
 ```{r pred-mod1}
 # Calcular efecto ajustado para diferentes edades
@@ -1177,9 +1240,9 @@ regplot(res.modage,
 
 ### *Forest plot* y *funnel plot* {#plot-mod}
 
-Por supuesto, de estos resultados también puedo crear *forest plots* y *funnel plots*, siguiendo los ejemplos y código de la sección \@ref(meta-cor). Para el *forest plot*, hago a continuación un ejemplo anotado y mejorado[^16] (Fig. \@ref(fig:for-plot-mod1), con un código similar al usado como ejemplo en la Fig. \@ref(fig:for-plot2)). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto *real* como producto del meta-análisis.
+Por supuesto, de estos resultados también puedo crear *forest plots* y *funnel plots*, siguiendo los ejemplos y código de la sección \@ref(meta-cor). Para el *forest plot*, hago a continuación un ejemplo anotado y mejorado[^17] (Fig. \@ref(fig:for-plot-mod1), con un código similar al usado como ejemplo en la Fig. \@ref(fig:for-plot2)). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto *real* como producto del meta-análisis.
 
-[^16]: La función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) no puede crear un *forest plot* de un meta-análisis ajustado con `metafor` cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, sólo podrá hacer el *forest plot* si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.
+[^17]: La función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) no puede crear un *forest plot* de un meta-análisis ajustado con `metafor` cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, sólo podrá hacer el *forest plot* si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.
 
 ```{r eval = FALSE}
 # forest plot con anotaciones adicionales
@@ -1300,9 +1363,9 @@ ggplot(dat, aes(x = controls, y = yi)) +
        size = "Tamaño de \nmuestra")
 ```
 
-El código anterior puede verse algo confuso para quien no haya usado `ggplot2` antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación[^17]. Este código produce la Figura \@ref(fig:reg-plot3).
+El código anterior puede verse algo confuso para quien no haya usado `ggplot2` antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación[^18]. Este código produce la Figura \@ref(fig:reg-plot3).
 
-[^17]: Debido a sus enormes y numerosas posibilidades, `ggplot2` es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía, y posiblemente requeriría múltiples tutoriales independientes. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este [tutorial](https://rpubs.com/anlope10/562981) [@lopezpenarandaTutorialGgplot22019] o ver este [video](https://youtu.be/BUzTAr_QqKs) [@datademiaAprendeGgplot22018]. 
+[^18]: Debido a sus enormes y numerosas posibilidades, `ggplot2` es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía, y posiblemente requeriría múltiples tutoriales independientes. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este [tutorial](https://rpubs.com/anlope10/562981) [@lopezpenarandaTutorialGgplot22019] o ver este [video](https://youtu.be/BUzTAr_QqKs) [@datademiaAprendeGgplot22018]. 
 
 ```{r reg-plot3, echo = FALSE, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*) creado manualmente con [ggplot2](https://ggplot2.tidyverse.org/) para hacer una mejor representación de un moderador categírico. Los puntos de colores representan el coeficiente de correlación en función de la presencia o ausencia de controles. El tamaño de los puntos es proporcional al tamaño de muestra de los estudios inluidos en el meta-análisis (puntos más grandes y azules para los estudios con mayor tamaño de muestra). Los puntos blancos superpuetos representan el efecto estimado para cada categoría, y las barras de error representan los intervalos de confianza del 95%."}
 ggplot(dat, aes(x = controls, y = yi)) +

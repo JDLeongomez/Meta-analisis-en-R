@@ -274,7 +274,7 @@ Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publi
 
 Teniendo en cuenta la importancia de éstas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores curtidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
 
-A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \ref{meta-cor}), incluyendo cómo hacer análisis de heterogeneidad (sección \ref{heterog-inf}) y diagnósticos de influencia (sección \ref{diag-inf}), creación de gráficos de bosque (\emph{forest plots}; sección \ref{forest-inf}) y gráficos de embudo (\emph{funnel plots}; sección \ref{funnel-inf}), así como estrategias para detectar posibles sesgos de publicación (sección \ref{sesgo-pub}), y para determinar el poder estadístico de un meta-análisis (sección \ref{poder-inf}). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \ref{met-moderation}).
+A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \ref{meta-cor}), incluyendo cómo hacer análisis de heterogeneidad (sección \ref{heterog-inf}) y diagnósticos de influencia (sección \ref{diag-inf}), creación de gráficos de bosque (\emph{forest plots}; sección \ref{forest-inf}) y gráficos de embudo (\emph{funnel plots}; sección \ref{funnel-inf}), así como estrategias para detectar posibles sesgos de publicación (secciones \ref{sesgo-pub} y \ref{todas-combinaciones}), y para determinar el poder estadístico de un meta-análisis (sección \ref{poder-inf}). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \ref{met-moderation}).
 
 Adicionalmente, he incluido algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \ref{apendice-alt}), incluyendo instrucciones para hacer una curva de valores \(p\) (\emph{p-curve}; Apéndice \ref{p-curve}), así como la manera correcta de citar paquetes de R (Apéndice \ref{paquetes-cit}) y, con fines de garantizar la reproducibilidad de éste documento, una lista de los paquetes usados para la creación de ésta guía, con sus respectivas versiones (Apéndice \ref{paquetes-list}).
 
@@ -603,9 +603,14 @@ En este caso, el meta-análisis nos sugiere que en efecto existe una asociación
 
 Esto se podría resumir, por ejemplo, como:
 
-\begin{quote}
-``\textbf{El meta-análisis sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Hubo una heterogeneidad moderada significativa en torno al tamaño medio del efecto en los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055; \(\tau\) = 0.0901; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%).}''
-\end{quote}
+\begin{tcolorbox}[enhanced,attach boxed title to top center={yshift=-3mm,yshifttext=-1mm},
+  colback=iacol!5!white,colframe=iacol!75!white,colbacktitle=iacol,
+  title=Ejemplo de reporte básico,fonttitle=\bfseries,
+  boxed title style={size=small,colframe=iacol} ]
+  
+Este meta-análisis examinó la relación entre la concienciación y la adherencia a la medicación a través de 16 estudios. Los resultados indicaron una asociación significativa y positiva entre ambos factores ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). Sin embargo, se encontró una moderada pero significativa heterogeneidad en cuanto al tamaño del efecto entre los estudios incluidos ($\tau^2$ ± $se$ =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%). Por tanto, es importante interpretar los resultados con precaución debido a la amplia variabilidad en el tamaño del efecto entre los estudios. A pesar de estas limitaciones, los hallazgos sugieren que la concienciación puede tener un efecto positivo en la adherencia a la medicación.
+
+\end{tcolorbox}
 
 \hypertarget{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}{%
 \subsubsection{\texorpdfstring{Alternativa: Reportar el estimado como \emph{r} de Pearson en vez de \emph{z} de Fisher}{Alternativa: Reportar el estimado como r de Pearson en vez de z de Fisher}}\label{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}}
@@ -680,9 +685,14 @@ Para \(\tau^2\), el hecho de que los límites del intervalo de confianza no cruc
 
 Estos intervalos de confianza que también pueden ser reportados junto a sus correspondientes estadísticos. Entonces, esto se podría resumir, por ejemplo, como:
 
-\begin{quote}
-``\textbf{El meta-análisis sugiere que existe una asociación positiva entre concienciación y adherencia a la medicación (\emph{z} ± \emph{se} = 0.15 ± 0.032, IC 95\% {[}0.09, 0.21{]}; \emph{Z} = 4.75, \(p\) \textless{} .0001). Hubo una heterogeneidad moderada significativa en torno al tamaño medio del efecto en los estudios meta-analizados (\(\tau^2\) ± \emph{se} = 0.0081 ± 0.0055, IC 95\% {[}0.0017, 0.0378{]}; \(\tau\) = 0.0901, IC 95\% {[}0.0412, 0.1944{]}; \(Q\)(15) = 38.16, \(p\) \textless{} .001; \(I^2\) = 61.7\%, IC 95\% {[}25.2799\%, 88.2545\%{]}).}''
-\end{quote}
+\begin{tcolorbox}[enhanced,attach boxed title to top center={yshift=-3mm,yshifttext=-1mm},
+  colback=iacol!5!white,colframe=iacol!75!white,colbacktitle=iacol,
+  title=Ejemplo de reporte con intervalos de confianza para heterogeneidad,fonttitle=\bfseries,
+  boxed title style={size=small,colframe=iacol} ]
+  
+El meta-análisis incluyó 16 estudios que examinaron la relación entre la concienciación y la adherencia a la medicación. Los estudios incluidos variaron en cuanto al diseño, la población de pacientes y la intervención evaluada. Los resultados del meta-análisis indicaron una asociación positiva significativa entre la concienciación y la adherencia a la medicación ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). La heterogeneidad en torno al tamaño medio del efecto entre los estudios incluidos fue moderada pero significativa ($\tau^2$ ± $se$ =  0.0081 ± 0.0055, IC 95\% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95\% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%, IC 95\% [25.28\%, 88.25\%]). Se observó una amplia variabilidad en el tamaño del efecto entre los estudios, lo que sugiere que los resultados deben interpretarse con precaución. A pesar de estas limitaciones, los hallazgos sugieren que es probable que la concienciación tenga un efecto positivo en la adherencia a la medicación. Es importante tener en cuenta que la calidad metodológica de los estudios incluidos en el meta-análisis fue variable, lo que puede afectar la validez y generalización de las conclusiones.
+
+\end{tcolorbox}
 
 \hypertarget{diag-inf}{%
 \subsection{Diagnóstico de influencia}\label{diag-inf}}
@@ -771,6 +781,8 @@ Por último, podemos también ver ésta información que tenemos guardada en el 
 \includegraphics{Meta-analysis_files/figure-latex/infplot-1.pdf}
 \caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje \emph{X} representan cada estudio, como lo definimos en columna \texttt{study\_id} de la Tabla \ref{tab:estructuramod}. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que no es necesario excluir ningún estudio de nuestro meta-análisis.}
 \end{figure}
+
+Más adelante, en la sección \ref{todas-combinaciones}, daré más información y técnicas más completas para identificar estudios atípicos que podrían sesgar nuestra estimación del efecto \emph{real}.
 
 \hypertarget{forest-inf}{%
 \subsection{\texorpdfstring{\emph{Forest plot} (diagrama de bosque)}{Forest plot (diagrama de bosque)}}\label{forest-inf}}
@@ -1456,15 +1468,19 @@ La Figura \ref{fig:fire-plot2} nos permite comprobar, de nuevo, que el meta-aná
 
 Si el poder estadístico de nuestro meta-análisis para detectar ese efecto (\emph{z} = 0.15) es demasiado bajo, por supuesto sería aún más deficiente para detectar un efecto menor, como el estimado en nuestro modelo con pesos corregidos (\emph{z} = 0.09).
 
-\hypertarget{analizar-todas-las-posibles-combinaciones-de-estudios}{%
-\subsection{Analizar todas las posibles combinaciones de estudios}\label{analizar-todas-las-posibles-combinaciones-de-estudios}}
+\hypertarget{todas-combinaciones}{%
+\subsection{\texorpdfstring{\emph{¿Debemos excluir algunos estudios?} Más información sobre influencia y análisis de todas las posibles combinaciones de estudios de un meta-análisis}{¿Debemos excluir algunos estudios? Más información sobre influencia y análisis de todas las posibles combinaciones de estudios de un meta-análisis}}\label{todas-combinaciones}}
 
-Ver acá \url{https://www.dsquintana.blog/combinatorial-meta-analysis/}
+Como hemos visto, al realizar un meta-análisis, es fundamental tomar decisiones que pueden influir significativamente en los resultados y conclusiones. Una de las preguntas más importantes es qué estudios incluir en el análisis y si es necesario excluir algún estudio. Aunque nuestro diagnóstico inicial de influencia (sección \ref{diag-inf}) no mostró la presencia de estudios atípicos en nuestro meta-análisis, en ocasiones se requiere un análisis más exhaustivo.
+
+En esta sección explicaré dos técnicas: \emph{leave-one-out} (sección \ref{leave-one-out}), que consiste en realizar una serie de meta-análisis excluyendo uno de los estudios incluidos en cada iteración, y meta-análisis combinatorio (sección \ref{gosh}), que permite crear todas las combinaciones posibles de estudios y, por lo tanto, evaluar la robustez de los resultados en diferentes escenarios.
 
 \hypertarget{leave-one-out}{%
 \subsubsection{\texorpdfstring{\emph{Leave-one-out}}{Leave-one-out}}\label{leave-one-out}}
 
-La técnica de \emph{leave-one-out} no solo se puede hacer como parte de un diagnóstico de influencia (como se muestra en la sección \ref{diag-inf}), sino que también se puede hacer para ver la estimación del efecto meta-analizado al excluir cada uno de los estudios de nuestra base de datos.
+La técnica de \emph{leave-one-out} realiza una serie de meta-análisis dejando fuera cada uno de los estudios incluidos. En nuestro caso, dado que tenemos 16 estudios, esta técnica ajustará 16 modelos (uno excluyendo cada estudio).
+
+Esta técnica no sólo se hace como parte de un diagnóstico de influencia (como se muestra en la sección \ref{diag-inf}), sino que también se puede hacer para ver la estimación del efecto meta-analizado al excluir cada uno de los estudios de nuestra base de datos.
 
 Hacerlo sólo requiere usar la función \texttt{leave1out} del paquete \texttt{metafor}, usando como argumento el resultado de nuestro meta-análisis original (en este caso, \texttt{res}):
 
@@ -1474,32 +1490,102 @@ Hacerlo sólo requiere usar la función \texttt{leave1out} del paquete \texttt{m
 \end{Highlighting}
 \end{Shaded}
 
-Como puedes ver, nos crea una tabla con las columnas \texttt{estimate}, \texttt{se}, \texttt{zval}, \texttt{pval}, \texttt{ci.lb}, \texttt{ci.ub}, \texttt{Q}, \texttt{Qp}, \texttt{tau2}, \texttt{I2} y \texttt{H2} (explicadas en la sección \ref{meta-interp}). Sin embargo, tenemos 16 filas, cada una de las cuales corresponde a los resultados cuando se excluye cada estudio del meta-análisis.
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
+                \begin{verbatim} 
+   estimate     se   zval   pval  ci.lb  ci.ub       Q     Qp   tau2      I2 
+1    0.1483 0.0336 4.4157 0.0000 0.0825 0.2142 37.7109 0.0006 0.0091 64.9684 
+2    0.1500 0.0354 4.2355 0.0000 0.0806 0.2194 36.7672 0.0008 0.0100 62.2717 
+3    0.1418 0.0315 4.5064 0.0000 0.0801 0.2035 35.3930 0.0013 0.0075 61.1741 
+4    0.1379 0.0308 4.4739 0.0000 0.0775 0.1984 33.5886 0.0024 0.0068 58.1050 
+5    0.1441 0.0323 4.4550 0.0000 0.0807 0.2075 36.5396 0.0009 0.0082 62.8995 
+6    0.1566 0.0326 4.8119 0.0000 0.0928 0.2205 37.1703 0.0007 0.0084 63.5769 
+7    0.1489 0.0342 4.3555 0.0000 0.0819 0.2160 37.6797 0.0006 0.0094 65.1901 
+8    0.1599 0.0334 4.7841 0.0000 0.0944 0.2254 36.1484 0.0010 0.0084 61.4011 
+9    0.1455 0.0324 4.4863 0.0000 0.0819 0.2091 37.0495 0.0007 0.0083 63.4803 
+10   0.1647 0.0291 5.6601 0.0000 0.1077 0.2218 25.0661 0.0339 0.0047 43.6587 
+11   0.1586 0.0317 5.0069 0.0000 0.0965 0.2207 35.6617 0.0012 0.0077 61.6732 
+12   0.1353 0.0296 4.5647 0.0000 0.0772 0.1934 31.9021 0.0041 0.0059 55.0102 
+13   0.1592 0.0324 4.9100 0.0000 0.0956 0.2227 36.3291 0.0009 0.0080 62.0683 
+14   0.1514 0.0353 4.2858 0.0000 0.0821 0.2206 37.7339 0.0006 0.0100 63.6942 
+15   0.1432 0.0330 4.3432 0.0000 0.0786 0.2078 35.8385 0.0011 0.0083 62.6114 
+16   0.1552 0.0329 4.7203 0.0000 0.0908 0.2196 37.7017 0.0006 0.0087 64.3368 
+       H2 
+1  2.8546 
+2  2.6505 
+3  2.5756 
+4  2.3869 
+5  2.6954 
+6  2.7455 
+7  2.8727 
+8  2.5907 
+9  2.7382 
+10 1.7749 
+11 2.6091 
+12 2.2227 
+13 2.6363 
+14 2.7544 
+15 2.6746 
+16 2.8040 
+ \end{verbatim}
+                \end{footnotesize}
+                \end{ROut}
 
-\hypertarget{meta-anuxe1lisis-combinatorio}{%
-\subsubsection{Meta-análisis combinatorio}\label{meta-anuxe1lisis-combinatorio}}
+Como puedes ver, esta función crea una tabla con las columnas \texttt{estimate}, \texttt{se}, \texttt{zval}, \texttt{pval}, \texttt{ci.lb}, \texttt{ci.ub}, \texttt{Q}, \texttt{Qp}, \texttt{tau2}, \texttt{I2} y \texttt{H2} (explicadas en la sección \ref{meta-interp}). Sin embargo, tenemos 16 filas, cada una de las cuales corresponde a los resultados cuando se excluye ese estudio del meta-análisis.
 
-Aunque la técnica de \emph{leave-one-out} es útil para determinar la influencia de cada estudio en un meta-análisis (como se explica en las secciones \ref{diag-inf} y \ref{leave-one-out}), tiene limitaciones, pues no nos dice nada de cuánto cambia la estimación del efecto meta-analizado cuando excluimos 2 o más estudios. XXXXXXXXX SIGO ACÁ XXXXXXX
+En este caso, los tamaños del efecto estimado (columna \texttt{estimate}) para los meta-análisis que eliminaron un único estudio están entre \emph{z} = 0.14 y \emph{z} = 0.16, lo que muestra que la eliminación de un estudio no influye mucho en el tamaño del efecto original estimado, que fue de \emph{z} = 0.15. En otras palabras, podríamos eliminar cualquier estudio de nuestro análisis y el resultado cambiaría muy poco.
 
-\textbf{EXPLICAR LAS VENTAJAS DE HACER TODAS LAS COMBINACIONES POSIBLES}
+Aunque este análisis es bastante informativo, podría haber un subgrupo de estudios ---en lugar de un único estudio--- que influye en el resultado. Para investigar esto, podemos hacer un meta-análisis combinatorio.
 
-El número de análisis a realizar puede calcularse usando la fórmula \(2^k - 1\), donde \(k\) es el número de estudios meta-analizados. Como en nuestro ejemplo estamos meta-analizando 16 estudios, realizarás \(2^{16} - 1\) análisis. Es decir, un total de 65535 modelos. Ten en cuenta que ajustar estos 65535 podría bastante tiempo (en mi portátil, que tiene un procesador Intel Core i7-9750H, tardó poco más de 5 minutos, pero puede variar mucho según las características de tu equipo).
+\hypertarget{gosh}{%
+\subsubsection{Meta-análisis combinatorio}\label{gosh}}
 
-Para visualizar esta enorme cantidad de estimaciones de tamaño de efecto, lo mejor es hacer un \emph{visualización gráfica de la heterogeneidad de los estudios} (en inglés, \emph{Graphical Display of Study Heterogeneity} o simplemente \emph{GOSH}), una técnica propuesta por Olkin et al. (\protect\hyperlink{ref-olkinGOSHGraphicalDisplay2012}{2012}).
+Aunque la técnica de \emph{leave-one-out} es útil para determinar la influencia de cada estudio en un meta-análisis, no nos dice nada de cuánto cambia nuestra estimación del efecto real cuando excluimos dos o más estudios. Por lo tanto, el meta-análisis combinatorio puede ser una técnica complementaria para detectar subgrupos de estudios que estén afectando nuestros resultados
 
-En R, esto se puede hacer con la función \texttt{gosh} del paquete \texttt{metafor}, agregando como único argumento el resultado de nuestro meta-análisis original (en nuestro caso, \texttt{res}). Voy a asignar el resultado de este análisis a un objeto que llamaré \texttt{gp}
+Por ejemplo, si estamos realizando un meta-análisis sobre el efecto del consumo de café en la salud cardiovascular, es posible que encontremos varios estudios que no controlan adecuadamente el consumo de tabaco de los participantes. Si eliminamos uno solo de estos estudios, es posible que aún quede un sesgo importante en nuestra estimación del efecto \emph{real}. En este caso, el meta-análisis combinatorio nos permitiría evaluar todas las posibles combinaciones de estudios que incluyen o excluyen los estudios que no controlan el consumo de tabaco, lo que nos ayudaría a comprender mejor el impacto de estos estudios en nuestra estimación del efecto \emph{real}.
+
+Un meta-análisis combinatorio ajusta una serie de meta-análisis a partir de todas las combinaciones posibles de estudios. Esta técnica es poderosa, pero es importante tener en cuenta que el número de posibles combinaciones aumenta exponencialmente a medida que aumenta el número de estudios incluidos en nuestro meta-análisis. De hecho, el número de análisis a realizar puede calcularse usando la fórmula \(2^k - 1\), donde \(k\) es el número de estudios meta-analizados (Tabla \ref{tab:gosh-combs}).
+
+\begin{table}[H]
+
+\caption{\label{tab:gosh-combs}Número de posibles combinaciones según número de estudios (k)}
+\centering
+\begin{tabular}[t]{>{}c>{}r|>{}cr}
+\toprule
+\multicolumn{1}{c}{\makecell[c]{Número de\\estudios\\(\textit{k})}} & \multicolumn{1}{c}{\makecell[c]{Posibles\\combinaciones\\($2^{k} - 1$)}} & \multicolumn{1}{c}{\makecell[c]{Número de\\estudios\\(\textit{k})}} & \multicolumn{1}{c}{\makecell[c]{Posibles\\combinaciones\\($2^{k} - 1$)}}\\
+\midrule
+\textbf{5} & 31 & \textbf{18} & 262 143\\
+\textbf{6} & 63 & \textbf{19} & 524 287\\
+\textbf{7} & 127 & \textbf{20} & 1 048 575\\
+\textbf{8} & 255 & \textbf{21} & 2 097 151\\
+\textbf{9} & 511 & \textbf{22} & 4 194 303\\
+\textbf{10} & 1 023 & \textbf{23} & 8 388 607\\
+\textbf{11} & 2 047 & \textbf{24} & 16 777 215\\
+\textbf{12} & 4 095 & \textbf{25} & 33 554 431\\
+\textbf{13} & 8 191 & \textbf{26} & 67 108 863\\
+\textbf{14} & 16 383 & \textbf{27} & 134 217 727\\
+\textbf{15} & 32 767 & \textbf{28} & 268 435 455\\
+\textbf{16} & 65 535 & \textbf{29} & 536 870 911\\
+\textbf{17} & 131 071 & \textbf{30} & 1 073 741 823\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Como se puede ver en la Tabla \ref{tab:gosh-combs}, el número de combinaciones aumenta drásticamente a medida que aumenta el número de estudios en nuestro meta-análisis. Por ejemplo, si tuviéramos 5 estudios, habría solo 31 posibles combinaciones (\(2^{5} - 1\) = 31). Sin embargo, si tuviéramos 20 estudios, habría más de un millón de combinaciones (\(2^{16} - 1\) = 1 048 575) y si tuviéramos 30 estudios, habría más de mil millones de combinaciones (ver Tabla \ref{tab:gosh-combs}). Dado que esto puede consumir muchos recursos computacionales, es importante tener precaución al realizar un meta-análisis combinatorio con un gran número de estudios. El análisis puede tardar mucho tiempo e incluso fallar si se usa toda la memoria RAM del ordenador.
+
+En nuestro ejemplo, estamos meta-analizando 16 estudios, lo que significa que necesitamos ajustar 65 535 modelos (\(2^{16} - 1\)). Ajustar todos estos modelos puede llevar bastante tiempo, aunque esto dependerá de las especificaciones de tu equipo (en mi portátil, tarda alrededor de 5 minutos).
+
+Para visualizar la heterogeneidad entre los estudios, podemos utilizar una técnica llamada \emph{visualización gráfica de la heterogeneidad de los estudios} (en inglés, \emph{Graphical Display of Study Heterogeneity} o simplemente \emph{GOSH}), propuesta por Olkin et al. (\protect\hyperlink{ref-olkinGOSHGraphicalDisplay2012}{2012}). En R, podemos realizar esta visualización utilizando la función \texttt{gosh} del paquete \texttt{metafor}. Simplemente necesitamos proporcionar el resultado de nuestro meta-análisis original (\texttt{res}) como argumento. Opcionalmente, también podemos agregar el argumento \texttt{progbar\ =\ TRUE} para ver el progreso del análisis en la consola. Guardaré el resultado de este análisis en un objeto llamado \texttt{gp} para su posterior uso.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{gp }\OtherTok{\textless{}{-}} \FunctionTok{gosh}\NormalTok{(res)}
+\NormalTok{gp }\OtherTok{\textless{}{-}} \FunctionTok{gosh}\NormalTok{(res, }\AttributeTok{progbar =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-Fitting 65535 models (based on all possible subsets).
-\end{verbatim}
+Una vez que hayamos realizado el análisis \emph{GOSH} utilizando la función \texttt{gosh}, podemos utilizar la función \texttt{plot} para visualizar los 65 535 modelos. Para hacer esto, simplemente necesitamos proporcionar el resultado de \texttt{gosh} (\texttt{gp} en este caso) como argumento para \texttt{plot}.
 
-Para graficar los los 65535 modelos, podemos usar la función \texttt{plot}, agregando como argumento el resultado de la función \texttt{gosh}(\texttt{gp} en este caso). En este ejemplo, adicionalmente, usaré el argumento \texttt{breaks} para definir el número de puntos de corte (y número de barras) de los histogramas, así como el argumento \texttt{labels} para poner los títulos de los ejes en español.
+En este ejemplo, utilizaré los argumentos \texttt{breaks} y \texttt{labels} para personalizar la visualización. El argumento \texttt{breaks} nos permite definir el número de puntos de corte (y, por lo tanto, el número de barras) en los histogramas, mientras que el argumento \texttt{labels} nos permite poner los títulos de los ejes en español. Esto nos permitirá crear una visualización más clara y fácil de entender de la heterogeneidad entre los estudios.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1516,23 +1602,24 @@ Para graficar los los 65535 modelos, podemos usar la función \texttt{plot}, agr
 \caption{\label{fig:gosh1}\emph{GOSH plot} creado con la función \href{https://www.metafor-project.org/doku.php/plots:gosh_plot}{\texttt{gosh}} del paquete \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}. Un \emph{GOSH plot} (en inglés, \emph{Graphical Display of Study Heterogeneity} o simplemente \emph{GOSH}) es una visualización gráfica de la heterogeneidad de todos los posibles modelos de meta-análisis ajustados a partir de todas las combinaciones posibles de estudios de nuestra base de datos. Un \emph{GOSH plot} muestra los efectos estimados para cada uno de los modelos en el eje horizontal, y su respectiva heterogeneidad en el eje vertical. Las distribuciones de los efectos (parte superior de la gráfica) y las heterogeneidades (lado derecho de la gráfica) estan representadas como densidades e histogramas.}
 \end{figure}
 
-Como puedes ver, los tamaños del efecto suelen estar entre aproximadamente 0.05 y 0.25. Esto es una variación muy grande, que demuestra cómo la elección de los estudios incluidos influye en la estimación del tamaño del efecto que nos dará nuestro meta-análisis.
+Los tamaños del efecto que se obtienen de los estudios incluidos en un meta-análisis de correlaciones varían ampliamente, generalmente entre \emph{z} = 0.05 y \emph{z} = 0.25. Esta variación subraya cómo la elección de los estudios incluidos en el meta-análisis puede influir en la estimación del tamaño del efecto. Sin embargo, es importante destacar que no hay un subgrupo de resultados que se distinga significativamente del resto.
 
-Para ilustrar mejor esto, podemos a cambiar artificialmente nuestra base de datos, para que contengo valores atípicos.
+Para ilustrar mejor esto, voy a manipular manualmente el tamaño de efecto de uno de los estudios. Por ejemplo, en nuestro caso, podemos cambiar el tamaño del efecto del estudio 12, que inicialmente tenía un valor \emph{z} de Fisher de 0.39, a un valor mucho mayor, de 0.70. Aunque esta base de datos alterada pierde validez para realizar cualquier análisis, nos permite visualizar el efecto de valores atípicos en una base de datos\footnote{Normalmente podríamos identificar estudios con resultados formalmente atípicos a partir un diagnóstico de influencia (\ref{diag-inf}) y técnicas tipo \emph{leave-one-out} (sección \ref{leave-one-out}), y apoyarnos de manera informal en diagramas como el \emph{forest plot} (sección \ref{forest-inf}) y el \emph{funnel plot} (sección \ref{funnel-inf}).}.
 
-Para hacer esto, voy a agregar valores atípicos, cambiando manualmente el tamaño de efecto de 2 de los estudios (en este caso, los estudios 12 y 15, que pasan de tener valores \emph{z} de Fisher de 0.39 y 0.24, a otro mayores, de 0.7 y 0.6, respectivamente). Esta base de datos alterada por supuesto ya no tendía validez para realizar ningún análisis, pues 2 de nuestros resultados son literalmente inventados. Sin embargo, nos permite ver qué sucede cuando una base de datos contiene valores atípicos.
-
-Dado que no quiero afectar nuestra base de datos (\texttt{dat}), voy a crear una copia en un objeto llamado \texttt{dat\_mo}, y después sí cambiar los tamaños de efecto de los estudios 12 y 15 de esa base de datos.
+Para evitar afectar nuestra base de datos original, creamos una copia de los datos en un objeto llamado \texttt{dat\_mo}. Luego, utilizamos las funciones \texttt{mutate} y \texttt{replace} del paquete \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) para cambiar los tamaños de efecto del estudio 12 en la nueva base de datos.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat\_mo }\OtherTok{\textless{}{-}}\NormalTok{ dat}
-\NormalTok{dat\_mo}\SpecialCharTok{$}\NormalTok{yi[}\DecValTok{12}\NormalTok{] }\OtherTok{=} \FloatTok{0.7} 
-\NormalTok{dat\_mo}\SpecialCharTok{$}\NormalTok{yi[}\DecValTok{15}\NormalTok{] }\OtherTok{=} \FloatTok{0.6} 
+\NormalTok{dat\_mo }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{yi =} \FunctionTok{replace}\NormalTok{(yi, }
+                      \AttributeTok{list =} \DecValTok{12}\NormalTok{, }
+                      \AttributeTok{values =} \FloatTok{0.7}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-Voy a hacer un meta-análisis de esta nueva base de datos alterada (\texttt{dat\_mo}), y representar los resultados en un \emph{forest plot} (diagrama de bosque).
+Para mostrar gráficamente cómo ahora el estudio 12 es atípico, voy a hacer un meta-análisis de esta nueva base de datos alterada (\texttt{dat\_mo}), y representar los resultados en un \emph{forest plot} (diagrama de bosque). El valor atípico introducido (estudio 12) es claramente visible en el \emph{forest plot} (Fig. \ref{fig:for-plot-mo}).
+
+Para visualizar cómo el estudio 12 se convierte en un valor atípico después de la manipulación de los datos, podemos realizar un meta-análisis de la nueva base de datos alterada (\texttt{dat\_mo}) y representar los resultados en un diagrama de bosque o \emph{forest plot}. Como se puede observar en la Figura \ref{fig:for-plot-mo}, el valor atípico introducido (estudio 12) es claramente visible en el \emph{forest plot} (es importante tener en cuenta que este ejemplo es sólo una ilustración y que en la práctica es esencial garantizar la integridad de los datos y la validez de los resultados obtenidos en un meta-análisis).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1541,11 +1628,13 @@ Voy a hacer un meta-análisis de esta nueva base de datos alterada (\texttt{dat\
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-36-1.pdf}
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/for-plot-mo-1.pdf}
+\caption{\label{fig:for-plot-mo}\emph{Forest plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor} de la base de datos con valores atípicos introducidos manualmente para el estudio 12. Como se puede ver, estos dos estudios tienen tamaños de efecto muy diferentes al del resto de los estudios.}
+\end{figure}
 
-Los valores atípicos introducidos son claramente visibles en el \emph{forest plot} (diagrama de bosque). (estudios 12 y 15).
-
-Now let's run the combinatorial meta-analysis and create a GOSH plot:
+Ahora sí, voy a hacer el meta-análisis combinatorio y crearé el \emph{GOSH plot} con esta base de datos alterada y que contiene el resultado atípico.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1557,21 +1646,12 @@ Now let's run the combinatorial meta-analysis and create a GOSH plot:
 Fitting 65535 models (based on all possible subsets).
 \end{verbatim}
 
-Y el plot
+Para ilustrar los resultados, de nuevo podemos usar la función \texttt{plot}, creando la Figura \ref{fig:gosh2}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(gp\_mo, }\AttributeTok{breaks =} \DecValTok{100}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Meta-analysis_files/figure-latex/gosh2-1.pdf}
-
-There is a clear cluster of large effect sizes with high heterogeneity in the top right of the plot. We can specifically highlight the meta-analysis models that included the potential outlier studies:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(gp\_mo, }\AttributeTok{out =} \DecValTok{12}\NormalTok{, }\AttributeTok{breaks =} \DecValTok{100}\NormalTok{,}
+\FunctionTok{plot}\NormalTok{(gp\_mo,  }
+     \AttributeTok{breaks =} \DecValTok{100}\NormalTok{,}
      \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{, }
                 \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"I"}\SpecialCharTok{\^{}}\StringTok{"2"}\NormalTok{))))}
 \end{Highlighting}
@@ -1579,13 +1659,31 @@ There is a clear cluster of large effect sizes with high heterogeneity in the to
 
 \begin{figure}
 \centering
-\includegraphics{Meta-analysis_files/figure-latex/unnamed-chunk-38-1.pdf}
-\caption{\label{fig:unnamed-chunk-38}Se puede ver en las distribuciones del eje X (distribuciones arriba) cómo los meta análisis que incluyen ese estudio tienden a arrojar estimados más fuertes para la asociación, sesgando el resultado hacia valores más extremos.}
+\includegraphics{Meta-analysis_files/figure-latex/gosh2-1.pdf}
+\caption{\label{fig:gosh2}\emph{GOSH plot} de un meta-análisis combinatorio que contiene un estudio con resultado atípico. En la esquina superior derecha del gráfico, se observa claramente un grupo de tamaños de efecto elevados con una alta heterogeneidad.}
 \end{figure}
 
-There's a noticeable shift in the distribution of meta-analysis model summary effect size estimates that include study 12.
+En la parte superior derecha del gráfico hay un claro grupo de grandes tamaños del efecto con alta heterogeneidad. Podemos destacar específicamente los modelos del meta-análisis que incluyeron el estudio atípico con el argumento \texttt{out}:
 
-Ultimately, combinatorial meta-analysis paired with GOSH plots demonstrate how your analysis choices influence your meta-analysis outcomes and conclusions.
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(gp\_mo, }
+     \AttributeTok{out =} \DecValTok{12}\NormalTok{,  }
+     \AttributeTok{breaks =} \DecValTok{100}\NormalTok{,}
+     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{, }
+                \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"I"}\SpecialCharTok{\^{}}\StringTok{"2"}\NormalTok{))))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{Meta-analysis_files/figure-latex/gosh3-1.pdf}
+\caption{\label{fig:gosh3}\emph{GOSH plot} de un meta-análisis combinatorio que contiene un estudio con resultado atípico. En este caso, a diferencia de la Figura \ref{fig:gosh2}, los resultados combinatorios que no contienen el estudio atípico están en azul, mientras que los meta-análisis que sí lo incluyen están en rojo. Se puede ver en las distribuciones de tamaño del efecto (distribuciones e histogramas sobre la figura) y de heteroheneidad (distribuciones e histogramas a la derecha de la figura) cómo los meta análisis que incluyen el estudio con un resultado atípico tienden a arrojar estimados más fuertes para la correlación, sesgando el resultado hacia valores más extremos, y son siempre almanete heterogéneos.}
+\end{figure}
+
+La inclusión del estudio 12 en los modelos de meta-análisis provoca un cambio notable en la distribución de las estimaciones del tamaño del efecto \emph{real}. Este cambio indica la importancia de considerar cuidadosamente la inclusión de cada estudio en un meta-análisis, ya que la inclusión de valores atípicos o estudios que no cumplan los criterios de calidad puede tener un impacto significativo en los resultados.
+
+En resumen, el meta-análisis combinatorio, junto con la visualización de datos mediante gráficos \emph{GOSH}, permite demostrar cómo las opciones de análisis pueden influir en los resultados y conclusiones de un meta-análisis. Es fundamental realizar una selección cuidadosa de los estudios incluidos y llevar a cabo un análisis crítico y riguroso de los resultados obtenidos para garantizar la fiabilidad y validez del meta-análisis.
 
 \hypertarget{met-moderation}{%
 \section{Meta-análisis de correlación con moderador (meta-regresión)}\label{met-moderation}}
