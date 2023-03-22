@@ -227,7 +227,6 @@ Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R
  \setcounter{tocdepth}{5}
  \tableofcontents
 }
-\newpage
 
 \hypertarget{introducciuxf3n-quuxe9-es-un-meta-anuxe1lisis-y-por-quuxe9-es-importante}{%
 \section{\texorpdfstring{Introducción: \emph{¿Qué es un meta-análisis y por qué es importante?}}{Introducción: ¿Qué es un meta-análisis y por qué es importante?}}\label{introducciuxf3n-quuxe9-es-un-meta-anuxe1lisis-y-por-quuxe9-es-importante}}
@@ -279,6 +278,8 @@ A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer 
 Adicionalmente, he incluido algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \ref{apendice-alt}), incluyendo instrucciones para hacer una curva de valores \(p\) (\emph{p-curve}; Apéndice \ref{p-curve}), así como la manera correcta de citar paquetes de R (Apéndice \ref{paquetes-cit}) y, con fines de garantizar la reproducibilidad de éste documento, una lista de los paquetes usados para la creación de ésta guía, con sus respectivas versiones (Apéndice \ref{paquetes-list}).
 
 Aunque he hecho un gran esfuerzo por mantener un alto nivel de calidad, si encuentras algún error por favor contáctame y házmelo saber para corregirlo inmediatamente.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{base-de-datos-de-ejemplo}{%
 \section{Base de datos de ejemplo}\label{base-de-datos-de-ejemplo}}
@@ -445,7 +446,7 @@ study\_id & authors & year & ni & ri & controls & design & a\_measure & c\_measu
 \end{table}
 
 \hypertarget{preparaciuxf3n-de-los-datos-transformaciuxf3n-de-coeficientes-r-de-pearson-a-z-de-fisher}{%
-\section{\texorpdfstring{Preparación de los datos: transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher}{Preparación de los datos: transformación de coeficientes r de Pearson a z de Fisher}}\label{preparaciuxf3n-de-los-datos-transformaciuxf3n-de-coeficientes-r-de-pearson-a-z-de-fisher}}
+\subsection{\texorpdfstring{Preparación de los datos: transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher}{Preparación de los datos: transformación de coeficientes r de Pearson a z de Fisher}}\label{preparaciuxf3n-de-los-datos-transformaciuxf3n-de-coeficientes-r-de-pearson-a-z-de-fisher}}
 
 Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeño (\protect\hyperlink{ref-shadishCombiningEstimatesEffect2009}{Shadish \& Haddock, 2009}). Por esto, lo mejor es transformar los coeficientes \emph{r} de Pearson a \emph{z} de Fisher (\protect\hyperlink{ref-fisherFrequencyDistributionValues1915}{1915}), que no tienen este problema\footnote{Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (\emph{r}), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significación para coeficientes \emph{r} (e.g., \protect\hyperlink{ref-shadishCombiningEstimatesEffect2009}{Shadish \& Haddock, 2009}). La transformación de Fisher de valores \emph{r} a \emph{z} ---que es la \href{https://es.wikipedia.org/wiki/Tangente_hiperb\%C3\%B3lica}{tangente hiperbólica inversa} de \emph{r}--- resuelve este problema, pues los coeficientes \emph{z} tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de \emph{r} (para una demostración en español, ver \protect\hyperlink{ref-sanchez-brunoTransformacionFisherPara2005}{Sánchez-Bruno \& Borges del Rosal, 2005}).}.
 
@@ -491,8 +492,10 @@ study\_id & authors & year & ni & ri & controls & design & a\_measure & c\_measu
 \end{tabular}}
 \end{table}
 
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
 \hypertarget{meta-cor}{%
-\section{Hacer el meta-análisis}\label{meta-cor}}
+\section{Cómo hacer el meta-análisis}\label{meta-cor}}
 
 Para hacer el meta-análisis, usaré la función \texttt{rma} del paquete \texttt{metafor}. Esta función requiere especificar los tamaños de efecto (\texttt{yi}) y varianzas (\texttt{vi}) de los estudios a meta-analizar. En nuestro caso, las columnas donde están estos valores, tienen los mismos nombres (\texttt{yi}, \texttt{vi}). Asignaré los resultados del meta-análisis a un nuevo objeto llamado \texttt{res}.
 
@@ -618,7 +621,7 @@ Este meta-análisis examinó la relación entre la concienciación y la adherenc
 Siempre es buena idea citar tablas y figuras relevantes junto al reporte de los resultados que ilustran. Aunque aún no hemos creado ninguna figura, es buena idea al menos citar (e incluir) un \emph{Forest plot} (diagrama de bosque; \ref{forest-inf}), y un \emph{Funnel plot} (diagrama de embudo; sección \ref{funnel-inf}), elementos que explicaré más adelante.
 
 \hypertarget{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}{%
-\subsubsection{\texorpdfstring{Alternativa: Reportar el estimado como \emph{r} de Pearson en vez de \emph{z} de Fisher}{Alternativa: Reportar el estimado como r de Pearson en vez de z de Fisher}}\label{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}}
+\subsubsection{\texorpdfstring{Alternativa: reportar el estimado como \emph{r} de Pearson en vez de \emph{z} de Fisher}{Alternativa: reportar el estimado como r de Pearson en vez de z de Fisher}}\label{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}}
 
 Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pearson en vez de la transformación a \emph{z} de Fisher, puedes transformar los valores \emph{z} de Fisher de vuelta a \emph{r} de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función \texttt{tanh}, que calcula la tangente hiperbólica, o la función \texttt{fisherz2r} del paquete \texttt{psych} (\protect\hyperlink{ref-revellePsych2021}{Revelle, 2021}). Por ejemplo, para transformar el estimado de nuestro meta-análisis a \emph{r} de Pearson, sólo debo usar alguna de esas funciones, y agregar el valor \emph{z} (0.1499 en nuestro caso) como único argumento:
 
@@ -823,7 +826,7 @@ Para una versión más completa y anotada, también usando el \emph{plot} básic
 \FunctionTok{forest}\NormalTok{(res, }\AttributeTok{cex =} \FloatTok{0.75}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\FloatTok{1.6}\NormalTok{),}
        \AttributeTok{slab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{),}
        \AttributeTok{showweights =} \ConstantTok{TRUE}\NormalTok{,}
-       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
+       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{,}
        \AttributeTok{digits =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,3L),}
        \AttributeTok{mlab =} \FunctionTok{bquote}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Modelo EA: Q("}\NormalTok{, .(res}\SpecialCharTok{$}\NormalTok{k }\SpecialCharTok{{-}}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{p), }\StringTok{") = "}\NormalTok{,}
 \NormalTok{     .(}\FunctionTok{formatC}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{QE, }\AttributeTok{digits =} \DecValTok{2}\NormalTok{, }\AttributeTok{format =} \StringTok{"f"}\NormalTok{)),}
@@ -929,7 +932,7 @@ O, si queremos poner los títulos de los ejes en español, podemos hacerlo agreg
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{funnel}\NormalTok{(res, }
-       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
+       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{,}
        \AttributeTok{ylab =} \StringTok{"Error estándar"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1077,7 +1080,7 @@ Podemos hacer un \emph{funnel plot} del meta-análisis con el método de recorte
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{funnel}\NormalTok{(tf, }
-       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
+       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{,}
        \AttributeTok{ylab =} \StringTok{"Error estándar"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1232,7 +1235,7 @@ Para esto, debemos tener instalado el paquete \texttt{devtools}, y usar la funci
 \hypertarget{anuxe1lisis-de-poder}{%
 \subsubsection{Análisis de poder}\label{anuxe1lisis-de-poder}}
 
-Una vez instalado, podemos cargar el paquete.
+Una vez hemos instalado \texttt{metameta}, podemos cargar el paquete.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1465,7 +1468,7 @@ La Figura \ref{fig:fire-plot2} nos permite comprobar, de nuevo, que el meta-aná
 Si el poder estadístico de nuestro meta-análisis para detectar ese efecto (\emph{z} = 0.15) es demasiado bajo, por supuesto sería aún más deficiente para detectar un efecto menor, como el estimado en nuestro modelo con pesos corregidos (\emph{z} = 0.09).
 
 \hypertarget{todas-combinaciones}{%
-\subsection{\texorpdfstring{\emph{¿Debemos excluir algunos estudios?} Más información sobre influencia y análisis de todas las posibles combinaciones de estudios de un meta-análisis}{¿Debemos excluir algunos estudios? Más información sobre influencia y análisis de todas las posibles combinaciones de estudios de un meta-análisis}}\label{todas-combinaciones}}
+\subsection{Más información sobre influencia y meta-análisis combinatorio}\label{todas-combinaciones}}
 
 Como hemos visto, al realizar un meta-análisis, es fundamental tomar decisiones que pueden influir significativamente en los resultados y conclusiones. Una de las preguntas más importantes es qué estudios incluir en el análisis y si es necesario excluir algún estudio. Aunque nuestro diagnóstico inicial de influencia (sección \ref{diag-inf}) no mostró la presencia de estudios atípicos en nuestro meta-análisis, en ocasiones se requiere un análisis más exhaustivo.
 
@@ -1585,7 +1588,7 @@ Una vez que hayamos realizado el análisis \emph{GOSH} podemos utilizar la funci
 \begin{Highlighting}[]
 \FunctionTok{plot}\NormalTok{(gp, }
      \AttributeTok{breaks =} \DecValTok{100}\NormalTok{,}
-     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{, }
+     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{, }
                 \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"I"}\SpecialCharTok{\^{}}\StringTok{"2"}\NormalTok{))))}
 \end{Highlighting}
 \end{Shaded}
@@ -1624,13 +1627,13 @@ Para visualizar cómo el estudio 12 se convierte en un valor atípico después d
 \caption{\label{fig:for-plot-mo}\emph{Forest plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor} de la base de datos con valores atípicos introducidos manualmente para el estudio 12. Como se puede ver, este estudio tiene un tamaño de efecto muy diferente al de los demás estudios.}
 \end{figure}
 
-Hagamos el meta-análisis combinatorio con esta base de datos alterada que contiene el resultado atípico, usando de nuevo la función \texttt{plot} (Fig. \ref{fig:gosh2}) para graficar el resultado.
+Hagamos el meta-análisis combinatorio con esta base de datos alterada que contiene el resultado atípico, usando de nuevo la función \texttt{plot} (Fig. \ref{fig:gosh2}) para ilustrar el resultado.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{gp\_mo }\OtherTok{\textless{}{-}} \FunctionTok{gosh}\NormalTok{(res\_mo)}
 \FunctionTok{plot}\NormalTok{(gp\_mo, }\AttributeTok{breaks =} \DecValTok{100}\NormalTok{,}
-     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{, }
+     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{, }
                 \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"I"}\SpecialCharTok{\^{}}\StringTok{"2"}\NormalTok{))))}
 \end{Highlighting}
 \end{Shaded}
@@ -1646,7 +1649,7 @@ En la parte superior de la Figura \ref{fig:gosh2} hay un claro grupo de tamaños
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{plot}\NormalTok{(gp\_mo, }\AttributeTok{breaks =} \DecValTok{100}\NormalTok{, }\AttributeTok{out =} \DecValTok{12}\NormalTok{,}
-     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{, }
+     \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{, }
                 \FunctionTok{expression}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"I"}\SpecialCharTok{\^{}}\StringTok{"2"}\NormalTok{))))}
 \end{Highlighting}
 \end{Shaded}
@@ -1660,6 +1663,8 @@ En la parte superior de la Figura \ref{fig:gosh2} hay un claro grupo de tamaños
 La inclusión del estudio 12 en los modelos de meta-análisis provoca un cambio notable en la distribución de las estimaciones del tamaño del efecto \emph{real}. Este cambio indica la importancia de considerar cuidadosamente la inclusión de cada estudio en un meta-análisis, ya que la inclusión de valores atípicos o estudios que no cumplan los criterios de calidad puede tener un impacto significativo en los resultados.
 
 En resumen, el meta-análisis combinatorio, junto con la visualización de datos mediante gráficos \emph{GOSH}, permite demostrar cómo las opciones de análisis pueden influir en los resultados y conclusiones de un meta-análisis. Es fundamental realizar una selección cuidadosa de los estudios incluidos y llevar a cabo un análisis crítico y riguroso de los resultados obtenidos para garantizar la fiabilidad y validez del meta-análisis.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{met-moderation}{%
 \section{Meta-análisis de correlación con moderador (meta-regresión)}\label{met-moderation}}
@@ -1793,7 +1798,7 @@ Alternativamente, cuando tenemos un modelo con moderador, también podemos ver l
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{regplot}\NormalTok{(res.modage,}
-        \AttributeTok{ylab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{,}
         \AttributeTok{xlab =} \StringTok{"Edad promedio del estudio"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1807,7 +1812,7 @@ Alternativamente, cuando tenemos un modelo con moderador, también podemos ver l
 \hypertarget{plot-mod}{%
 \subsubsection{\texorpdfstring{\emph{Forest plot} y \emph{funnel plot}}{Forest plot y funnel plot}}\label{plot-mod}}
 
-Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \emph{funnel plots}, siguiendo los ejemplos y código de la sección \ref{meta-cor}. Para el \emph{forest plot}, hago a continuación un ejemplo anotado y mejorado\footnote{La función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-forest-plots-with-function-viz_forest}{\texttt{viz\_forest}} del paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} no puede crear un \emph{forest plot} de un meta-análisis ajustado con \texttt{metafor} cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, sólo podrá hacer el \emph{forest plot} si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.} (Fig. \ref{fig:for-plot-mod1}, con un código similar al usado como ejemplo en la Fig. \ref{fig:for-plot2}). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto \emph{real} como producto del meta-análisis.
+Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \emph{funnel plots}, siguiendo los ejemplos y código de la sección \ref{meta-cor}. Para el \emph{forest plot}, hago a continuación un ejemplo anotado y mejorado\footnote{La función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#creating-forest-plots-with-function-viz_forest}{\texttt{viz\_forest}} del paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} no puede crear un \emph{forest plot} de un meta-análisis ajustado con \texttt{metafor} cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, sólo podrá hacer el \emph{forest plot} si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.} (Fig. \ref{fig:for-plot-mod1}, con un código similar al usado como ejemplo en la Fig. \ref{fig:for-plot2}). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto \emph{real} estimado como producto del meta-análisis.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1815,7 +1820,7 @@ Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \em
 \FunctionTok{forest}\NormalTok{(res.modage,  }\AttributeTok{cex =} \FloatTok{0.75}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\FloatTok{1.6}\NormalTok{),}
        \AttributeTok{slab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{),}
        \AttributeTok{showweights =} \ConstantTok{TRUE}\NormalTok{,}
-       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
+       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{,}
        \AttributeTok{digits =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,3L))}
 \CommentTok{\# agregar encabezados a las columnas (valores de X y Y deben ser ajustados)}
 \FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{font =} \DecValTok{2}\NormalTok{)}
@@ -1832,23 +1837,21 @@ Por supuesto, de estos resultados también puedo crear \emph{forest plots} y \em
 \caption{\label{fig:for-plot-mod1}\emph{Forest plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo la edad promedio de los participantes como moderador. En la ilustración gráfica, además de los efectos originales, se puede ver el efecto de cada estudio estimado cuando se incluye el moderador como polígonos (diamantes) de color gris. Sin embargo, ya no obtenemos una fila al final representando el efecto promediado del meta-análisis, ya que no tenemos un solo efecto.}
 \end{figure}
 
-De manera similar, podemos obtener un \emph{funnel plot} de nuestro meta-análisis con moderador. Es importante tener en cuenta que tanto el paquete \texttt{weightr} como el paquete \texttt{metafor} tienen funciones llamadas \texttt{funnel}. Dado que cargamos el paquete \texttt{weightr} después, R por defecto intentará intentará crear el \emph{funnel plot} con la función \texttt{funnel} del paquete \texttt{weightr}, en vez de la función \texttt{funnel} del paquete \texttt{metafor}. Para evitar este problema, tenemos dos opciones: podemos pedirle a R explícitamente que use la función \texttt{funnel} del paquete \texttt{metafor} con el comando \texttt{metafor::funnel}, o podemos pedirle a R que elimine el paquete de la memoria con la función \texttt{detach("package:metameta",\ unload\ =\ TRUE)}. En este caso, usaré la primera opción.
-
-Este \emph{funnel plot}, a diferencia los los anteriores, nos mostrará los valores residuales de cada estudio (es decir, qué tanto se alejan del resultado de nuestro meta-análisis, que tiene un valor residual de 0; Fig. \ref{fig:funnel-plot1}), en vez de los coeficientes de correlación (transformados a \(z\) de Fisher).
+De manera similar, podemos obtener un \emph{funnel plot} de nuestro meta-análisis con moderador. Sin embargo, tanto el paquete \texttt{weightr} como el paquete \texttt{metafor} tienen funciones llamadas \texttt{funnel}, lo que puede crear un conflicto. Para evitar esto, podemos explícitamente pedir a R que use la función \texttt{funnel} del paquete \texttt{metafor} con el comando \texttt{metafor::funnel}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{metafor}\SpecialCharTok{::}\FunctionTok{funnel}\NormalTok{(res.modage,}
-                \AttributeTok{xlab =} \StringTok{"Valor residual"}\NormalTok{,}
-                \AttributeTok{ylab =} \StringTok{"Error estándar"}\NormalTok{)}
+\NormalTok{metafor}\SpecialCharTok{::}\FunctionTok{funnel}\NormalTok{(res.modage, }\AttributeTok{xlab =} \StringTok{"Valor residual"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Error estándar"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/funnel-plot-mod1-1.pdf}
-\caption{\label{fig:funnel-plot-mod1}\emph{Funnel plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo la edad promedio de los participantes como moderador, y con títulos de los ejes en español. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. \textbf{Nota}: Para evitar confunción entre las funciones \texttt{funnel} de los paquetes \texttt{weightr} y \texttt{metafor}, en este caso he usado el comando \texttt{metafor::funnel} para pedirle a R explícitamente que use la función \texttt{funnel} del paquete \texttt{metafor}.}
+\caption{\label{fig:funnel-plot-mod1}\emph{Funnel plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo la edad promedio de los participantes como moderador, y con títulos de los ejes en español. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste.}
 \end{figure}
+
+Este \emph{funnel plot} (Fig. \ref{fig:funnel-plot1}), a diferencia los los anteriores, nos muestra los valores residuales de cada estudio en vez de los coeficientes de correlación (transformados a \(z\) de Fisher). Es decir, nos muestra qué tanto se aleja cada estudio del resultado de nuestro meta-análisis, que tiene un valor residual de 0 (pues no se aleja de sí mismo).
 
 \hypertarget{reporte-cont}{%
 \subsubsection{Reporte del meta-análisis con moderador continuo}\label{reporte-cont}}
@@ -1951,7 +1954,7 @@ Al igual que en el ejemplo de meta-análisis con moderación de una variable con
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{regplot}\NormalTok{(res.contr,}
-        \AttributeTok{ylab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
+        \AttributeTok{ylab =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{,}
         \AttributeTok{xlab =} \StringTok{"Controles (0 = ninguno; 1 = múltiples)"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -1974,31 +1977,25 @@ Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versi
   \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{size =}\NormalTok{ ni, }\AttributeTok{color =}\NormalTok{ ni),}
              \AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Definir escala de colores}
-  \FunctionTok{scale\_colour\_gradient}\NormalTok{(}\AttributeTok{low =} \StringTok{"red"}\NormalTok{,}
-                        \AttributeTok{high =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_colour\_gradient}\NormalTok{(}\AttributeTok{low =} \StringTok{"red"}\NormalTok{, }\AttributeTok{high =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Definir rango de tamaño de los puntos}
   \FunctionTok{scale\_size\_continuous}\NormalTok{(}\AttributeTok{range =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{10}\NormalTok{)) }\SpecialCharTok{+}
-  \CommentTok{\# Combinar leyendas de colores y tamaños de puntos en una sola leyenda}
-  \FunctionTok{guides}\NormalTok{(}\AttributeTok{color =} \FunctionTok{guide\_legend}\NormalTok{(), }
-         \AttributeTok{size =} \FunctionTok{guide\_legend}\NormalTok{()) }\SpecialCharTok{+}
+  \CommentTok{\# Combinar colores y tamaños de puntos en una sola leyenda}
+  \FunctionTok{guides}\NormalTok{(}\AttributeTok{color =} \FunctionTok{guide\_legend}\NormalTok{(), }\AttributeTok{size =} \FunctionTok{guide\_legend}\NormalTok{()) }\SpecialCharTok{+}
   \CommentTok{\# Traducir etiquetas del eje X en español}
-  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"none"} \OtherTok{=} \StringTok{"Ninguno"}\NormalTok{, }
-                            \StringTok{"multiple"} \OtherTok{=} \StringTok{"Múltiples"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"none"} \OtherTok{=} \StringTok{"Ninguno"}\NormalTok{, }\StringTok{"multiple"} \OtherTok{=} \StringTok{"Múltiples"}\NormalTok{)) }\SpecialCharTok{+}
   \CommentTok{\# Cambiar títulos de ejes a español}
   \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Controles"}\NormalTok{, }
-       \AttributeTok{y =} \StringTok{"Coeficiente de correlación }\SpecialCharTok{\textbackslash{}n}\StringTok{transformado en z de Fisher "}\NormalTok{) }\SpecialCharTok{+}
+       \AttributeTok{y =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Agregar barras de error para cada categoría, con base en predicción hecha en sección 4.2.1}
   \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr,}
                 \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ ci.lb, }\AttributeTok{ymax =}\NormalTok{ ci.ub),}
-                \AttributeTok{width =} \FloatTok{0.1}\NormalTok{,}
-                \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+                \AttributeTok{width =} \FloatTok{0.1}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Agregar puntos blancos representando predicción para cada categoría hecha en sección 4.2.1}
   \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr,}
-             \AttributeTok{shape =} \DecValTok{21}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{,}
-             \AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+             \AttributeTok{shape =} \DecValTok{21}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Cambiar título de leyenda}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{color =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{,}
-       \AttributeTok{size =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{)}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{color =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{, }\AttributeTok{size =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{) }\CommentTok{\# "\textbackslash{}n" para salto de línea}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2021,7 +2018,7 @@ Por supuesto, \emph{forest plots} y \emph{funnel plots} pueden ser creados, tal 
 \FunctionTok{forest}\NormalTok{(res.contr,  }\AttributeTok{cex =} \FloatTok{0.75}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\FloatTok{1.6}\NormalTok{),}
        \AttributeTok{slab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{),}
        \AttributeTok{showweights =} \ConstantTok{TRUE}\NormalTok{,}
-       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación transformado en z de Fisher"}\NormalTok{,}
+       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{,}
        \AttributeTok{digits =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,3L))}
 \CommentTok{\# agregar encabezados a las columnas (valores de X y Y deben ser ajustados)}
 \FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{font =} \DecValTok{2}\NormalTok{)}
@@ -2041,7 +2038,6 @@ Ese código produce esta Figura \ref{fig:for-plot-mod2}.
 \end{figure}
 
 De manera similar, podemos obtener un \emph{funnel plot}, pero recuerda que dado que tanto el paquete \texttt{weightr} como el paquete \texttt{metafor} tienen funciones llamadas \texttt{funnel}debemos pedirle a R explícitamente que use la función \texttt{funnel} del paquete \texttt{metafor} con el comando \texttt{metafor::funnel}.
-
 Este \emph{funnel plot}, nos mostrará los valores residuales de cada estudio (es decir, qué tanto se alejan del resultado de nuestro meta-análisis, que tiene un valor residual de 0; Fig. \ref{fig:funnel-plot1}), en vez de los coeficientes de correlación (transformados a \(z\) de Fisher).
 
 Adicionalmente no olvides que este \textbf{funnel plot} nos mostrará los valores residuales de cada estudio, dado que se trata de un meta-análisis con moderador, tal como lo expliqué en la sección \ref{plot-mod}.
@@ -2059,7 +2055,7 @@ Esto producirá la siguiente Figura \ref{fig:funnel-plot2}.
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/funnel-plot-mod2-1.pdf}
-\caption{\label{fig:funnel-plot-mod2}\emph{Funnel plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo como moderador si los estudios incluyeron múltiples controles esyadísticos o ninguno. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. \textbf{Nota}: Para evitar confunción entre las funciones \texttt{funnel} de los paquetes \texttt{weightr} y \texttt{metafor}, en este caso he usado el comando \texttt{metafor::funnel} para pedirle a R explícitamente que use la función \texttt{funnel} del paquete \texttt{metafor}.}
+\caption{\label{fig:funnel-plot-mod2}\emph{Funnel plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}, para un meta-análisis incluyendo como moderador si los estudios incluyeron múltiples controles esyadísticos o ninguno. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste.}
 \end{figure}
 
 \hypertarget{reporte-cat}{%
@@ -2082,8 +2078,10 @@ Como antes, es importante tener en cuenta que este resultado debería ser report
 
 Aunque es importante proporcionar información detallada y exhaustiva en el reporte de los resultados de un meta-análisis, existen diferentes formas de hacerlo. Una recomendación es utilizar como modelos algunos artículos que hayan reportado meta-análisis previamente. Por ejemplo, el trabajo de Hidalgo-Fuentes (\protect\hyperlink{ref-hidalgo-fuentesUsoProblematicoInternet2022}{2022}) es un ejemplo sencillo de cómo reportar un meta-análisis de correlación, tanto con como sin moderador, en español. Poor otro lado, los estudios de Salsman et al. (\protect\hyperlink{ref-salsmanMetaanalyticApproachExamining2015}{2015}) y Shi et al. (\protect\hyperlink{ref-shiCorrelationAdherenceRates2010}{2010}) presentan reportes de manera distinta pero clara (en inglés).
 
-\hypertarget{conclusiones-y-recomendaciones-generales}{%
-\section{Conclusiones y recomendaciones generales}\label{conclusiones-y-recomendaciones-generales}}
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{recomendaciones-generales}{%
+\section{Recomendaciones generales}\label{recomendaciones-generales}}
 
 Hacer un meta-análisis de correlación en R no es necesariamente complejo, pero podría requerir acciones que pueden parecer algo laberínticas. Sin embargo, la confiabilidad del resultado que obtengas, dependerá de varios aspectos. Por esto, la realización de un meta-análisis requiere una comprensión de los métodos estadísticos involucrados, la selección y evaluación de estudios relevantes, y la identificación y consideración de posibles fuentes de heterogeneidad y sesgo.
 
@@ -2149,6 +2147,8 @@ Adicionalmente, podrías:
 Si haces esto, tendrás una base sólida y transparente para hacer y comunicar tu meta-análisis, independientemente de sus resultados. Es importante recordar que, aunque el meta-análisis es una herramienta poderosa, no es una solución mágica para todos los problemas de investigación. La calidad de los estudios incluidos, la heterogeneidad de los datos y otras limitaciones pueden afectar los resultados y la interpretación del meta-análisis.
 
 En última instancia, el éxito del meta-análisis depende de la habilidad y el rigor del investigador o investigadora en su implementación y en la interpretación de sus resultados.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{referencias}{%
 \section{Referencias}\label{referencias}}
@@ -2322,20 +2322,21 @@ Wickham, H., François, R., Henry, L., \& Müller, K. (2021). \emph{Dplyr: A gra
 
 \end{CSLReferences}
 
-\newpage
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{apuxe9ndices}{%
 \section*{APÉNDICES}\label{apuxe9ndices}}
 \addcontentsline{toc}{section}{APÉNDICES}
 
-\hypertarget{appendix-appendix}{%
+\hypertarget{appendix-apuxe9ndice}{%
 \appendix}
 
 
 \setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}
 
 \hypertarget{apendice-alt}{%
-\section{\texorpdfstring{Alternativas a \texttt{metafor}}{Alternativas a metafor}}\label{apendice-alt}}
+\subsection*{\texorpdfstring{\emph{Apéndice A.} Alternativas a \texttt{metafor}}{Apéndice A. Alternativas a metafor}}\label{apendice-alt}}
+\addcontentsline{toc}{subsection}{\emph{Apéndice A.} Alternativas a \texttt{metafor}}
 
 Acá he usado principalmente una ruta para hacer meta-análisis basada en el paquete \texttt{metafor}, acompañado de \texttt{metaviz} para visualizaciones, \texttt{weightr} para ajustar pesos y detectar sesgos de publicación, y \texttt{metameta} para estimar el poder estadístico de un meta-análisis.
 
@@ -2344,7 +2345,8 @@ Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El li
 De manera importante, los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), y \emph{p-curve} o curva de valores \(p\) (\protect\hyperlink{ref-simonsohnPcurveWonYour2019}{Simonsohn et al., 2019}, \protect\hyperlink{ref-simonsohnPCurveEffectSize2014}{2014}), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
 
 \hypertarget{p-curve}{%
-\subsection{\texorpdfstring{Ejemplo: curva de valores \(p\) (\emph{p-curve})}{Ejemplo: curva de valores p (p-curve)}}\label{p-curve}}
+\subsubsection*{\texorpdfstring{\emph{A1.} Ejemplo: curva de valores \(p\) (\emph{p-curve})}{A1. Ejemplo: curva de valores p (p-curve)}}\label{p-curve}}
+\addcontentsline{toc}{subsubsection}{\emph{A1.} Ejemplo: curva de valores \(p\) (\emph{p-curve})}
 
 Como ejemplo corto, la curva de valores \(p\) (\emph{p-curve}) de nuestro meta-análisis se podría hacer tras ajustar de nuevo el modelo con la función \texttt{metacor} (que hace meta-análisis de correlaciones) del paquete \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}). Para este ejemplo asignaré el resultado a un objeto que llamaré \texttt{res.meta}.
 
@@ -2379,17 +2381,20 @@ La función \texttt{pcurve} produce varios elementos relacionados la curva de va
 \end{figure}
 
 \hypertarget{paquetes-cit}{%
-\section{Citas y referencias de paquetes de R}\label{paquetes-cit}}
+\subsection*{\texorpdfstring{\emph{Apéndice B.} Citas y referencias de paquetes de R}{Apéndice B. Citas y referencias de paquetes de R}}\label{paquetes-cit}}
+\addcontentsline{toc}{subsection}{\emph{Apéndice B.} Citas y referencias de paquetes de R}
 
-Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función \texttt{citation} en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato \texttt{BibTex} que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia (alternativamente nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente).
+Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función \texttt{citation} en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato \texttt{BibTex} que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia como \href{https://www.zotero.org/}{Zotero} (alternativamente, nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente, o crear referencias en diversos estilos usando, por ejemplo, \href{https://bibtex.online/}{BibTeX Online Converter}).
 
-Por ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) para manipular los datos, y usando la función \texttt{citation}, obtengo esta información:
+Como ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) para manipular los datos, y usando la función \texttt{citation}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{citation}\NormalTok{(}\StringTok{"dplyr"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+Obtengo esta información:
 
 \begin{ROut}{Consola de R: Output~\thetcbcounter}
                 \begin{footnotesize}
@@ -2414,7 +2419,8 @@ A BibTeX entry for LaTeX users is
                 \end{ROut}
 
 \hypertarget{paquetes-list}{%
-\section{Paquetes de R y versiones usados para crear este documento (para garantizar reproducibilidad)}\label{paquetes-list}}
+\subsection*{\texorpdfstring{\emph{Apéndice C.} Paquetes de R usados para crear este documento}{Apéndice C. Paquetes de R usados para crear este documento}}\label{paquetes-list}}
+\addcontentsline{toc}{subsection}{\emph{Apéndice C.} Paquetes de R usados para crear este documento}
 
 \textbf{R version 4.2.2 (2022-10-31 ucrt)}
 
@@ -2427,6 +2433,6 @@ A BibTeX entry for LaTeX users is
 \emph{pander(v.0.6.5)}, \emph{meta(v.6.2-1)}, \emph{metameta(v.0.1.1)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.12.2)}, \emph{zoo(v.1.8-11)}, \emph{lubridate(v.1.9.0)}, \emph{timechange(v.0.2.0)}, \emph{psych(v.2.2.9)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.5.0)}, \emph{forcats(v.0.5.2)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.0.10)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.3)}, \emph{tidyr(v.1.2.1)}, \emph{tibble(v.3.2.0)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.1.3.2)}, \emph{metafor(v.3.8-1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.0)} and \emph{knitr(v.1.41)}
 
 \textbf{loaded via a namespace (and not attached):}
-\emph{minqa(v.1.2.5)}, \emph{googledrive(v.2.0.0)}, \emph{colorspace(v.2.1-0)}, \emph{ggsignif(v.0.6.4)}, \emph{ellipsis(v.0.3.2)}, \emph{fs(v.1.5.2)}, \emph{rstudioapi(v.0.14)}, \emph{farver(v.2.1.1)}, \emph{fansi(v.1.0.4)}, \emph{mathjaxr(v.1.6-0)}, \emph{xml2(v.1.3.3)}, \emph{codetools(v.0.2-18)}, \emph{splines(v.4.2.2)}, \emph{mnormt(v.2.1.1)}, \emph{jsonlite(v.1.8.4)}, \emph{nloptr(v.2.0.3)}, \emph{broom(v.1.0.2)}, \emph{dbplyr(v.2.3.0)}, \emph{compiler(v.4.2.2)}, \emph{httr(v.1.4.4)}, \emph{backports(v.1.4.1)}, \emph{assertthat(v.0.2.1)}, \emph{fastmap(v.1.1.0)}, \emph{gargle(v.1.2.1)}, \emph{cli(v.3.6.0)}, \emph{htmltools(v.0.5.4)}, \emph{tools(v.4.2.2)}, \emph{gtable(v.0.3.1)}, \emph{glue(v.1.6.2)}, \emph{ggthemes(v.4.2.4)}, \emph{Rcpp(v.1.0.9)}, \emph{carData(v.3.0-5)}, \emph{cellranger(v.1.1.0)}, \emph{vctrs(v.0.5.1)}, \emph{svglite(v.2.1.1)}, \emph{nlme(v.3.1-160)}, \emph{xfun(v.0.36)}, \emph{lme4(v.1.1-32)}, \emph{rvest(v.1.0.3)}, \emph{CompQuadForm(v.1.4.3)}, \emph{lifecycle(v.1.0.3)}, \emph{rstatix(v.0.7.1)}, \emph{googlesheets4(v.1.0.1)}, \emph{MASS(v.7.3-58.1)}, \emph{hms(v.1.1.2)}, \emph{parallel(v.4.2.2)}, \emph{RColorBrewer(v.1.1-3)}, \emph{yaml(v.2.3.6)}, \emph{curl(v.5.0.0)}, \emph{pbapply(v.1.7-0)}, \emph{gridExtra(v.2.3)}, \emph{stringi(v.1.7.12)}, \emph{highr(v.0.10)}, \emph{boot(v.1.3-28)}, \emph{rlang(v.1.0.6)}, \emph{pkgconfig(v.2.0.3)}, \emph{systemfonts(v.1.0.4)}, \emph{evaluate(v.0.20)}, \emph{lattice(v.0.20-45)}, \emph{labeling(v.0.4.2)}, \emph{cowplot(v.1.1.1)}, \emph{tidyselect(v.1.2.0)}, \emph{magrittr(v.2.0.3)}, \emph{bookdown(v.0.31)}, \emph{R6(v.2.5.1)}, \emph{generics(v.0.1.3)}, \emph{DBI(v.1.1.3)}, \emph{pillar(v.1.8.1)}, \emph{haven(v.2.5.1)}, \emph{withr(v.2.5.0)}, \emph{mgcv(v.1.8-41)}, \emph{abind(v.1.4-5)}, \emph{modelr(v.0.1.10)}, \emph{crayon(v.1.5.2)}, \emph{car(v.3.1-1)}, \emph{Quandl(v.2.11.0)}, \emph{utf8(v.1.2.3)}, \emph{tzdb(v.0.3.0)}, \emph{rmarkdown(v.2.19)}, \emph{grid(v.4.2.2)}, \emph{readxl(v.1.4.1)}, \emph{reprex(v.2.0.2)}, \emph{digest(v.0.6.31)}, \emph{webshot(v.0.5.4)}, \emph{munsell(v.0.5.0)}, \emph{viridisLite(v.0.4.1)} and \emph{quadprog(v.1.5-8)}
+\emph{minqa(v.1.2.5)}, \emph{googledrive(v.2.0.0)}, \emph{colorspace(v.2.1-0)}, \emph{ggsignif(v.0.6.4)}, \emph{ellipsis(v.0.3.2)}, \emph{fs(v.1.5.2)}, \emph{rstudioapi(v.0.14)}, \emph{farver(v.2.1.1)}, \emph{fansi(v.1.0.4)}, \emph{mathjaxr(v.1.6-0)}, \emph{xml2(v.1.3.3)}, \emph{splines(v.4.2.2)}, \emph{mnormt(v.2.1.1)}, \emph{jsonlite(v.1.8.4)}, \emph{nloptr(v.2.0.3)}, \emph{broom(v.1.0.2)}, \emph{dbplyr(v.2.3.0)}, \emph{compiler(v.4.2.2)}, \emph{httr(v.1.4.4)}, \emph{backports(v.1.4.1)}, \emph{assertthat(v.0.2.1)}, \emph{fastmap(v.1.1.0)}, \emph{gargle(v.1.2.1)}, \emph{cli(v.3.6.0)}, \emph{htmltools(v.0.5.4)}, \emph{tools(v.4.2.2)}, \emph{gtable(v.0.3.1)}, \emph{glue(v.1.6.2)}, \emph{ggthemes(v.4.2.4)}, \emph{Rcpp(v.1.0.9)}, \emph{carData(v.3.0-5)}, \emph{cellranger(v.1.1.0)}, \emph{vctrs(v.0.5.1)}, \emph{svglite(v.2.1.1)}, \emph{nlme(v.3.1-160)}, \emph{xfun(v.0.36)}, \emph{lme4(v.1.1-32)}, \emph{rvest(v.1.0.3)}, \emph{CompQuadForm(v.1.4.3)}, \emph{lifecycle(v.1.0.3)}, \emph{rstatix(v.0.7.1)}, \emph{googlesheets4(v.1.0.1)}, \emph{MASS(v.7.3-58.1)}, \emph{hms(v.1.1.2)}, \emph{parallel(v.4.2.2)}, \emph{RColorBrewer(v.1.1-3)}, \emph{yaml(v.2.3.6)}, \emph{curl(v.5.0.0)}, \emph{gridExtra(v.2.3)}, \emph{stringi(v.1.7.12)}, \emph{highr(v.0.10)}, \emph{boot(v.1.3-28)}, \emph{rlang(v.1.0.6)}, \emph{pkgconfig(v.2.0.3)}, \emph{systemfonts(v.1.0.4)}, \emph{evaluate(v.0.20)}, \emph{lattice(v.0.20-45)}, \emph{labeling(v.0.4.2)}, \emph{cowplot(v.1.1.1)}, \emph{tidyselect(v.1.2.0)}, \emph{magrittr(v.2.0.3)}, \emph{bookdown(v.0.31)}, \emph{R6(v.2.5.1)}, \emph{generics(v.0.1.3)}, \emph{DBI(v.1.1.3)}, \emph{pillar(v.1.8.1)}, \emph{haven(v.2.5.1)}, \emph{withr(v.2.5.0)}, \emph{mgcv(v.1.8-41)}, \emph{abind(v.1.4-5)}, \emph{modelr(v.0.1.10)}, \emph{crayon(v.1.5.2)}, \emph{car(v.3.1-1)}, \emph{Quandl(v.2.11.0)}, \emph{utf8(v.1.2.3)}, \emph{tzdb(v.0.3.0)}, \emph{rmarkdown(v.2.19)}, \emph{grid(v.4.2.2)}, \emph{readxl(v.1.4.1)}, \emph{reprex(v.2.0.2)}, \emph{digest(v.0.6.31)}, \emph{webshot(v.0.5.4)}, \emph{munsell(v.0.5.0)}, \emph{viridisLite(v.0.4.1)} and \emph{quadprog(v.1.5-8)}
 
 \end{document}
