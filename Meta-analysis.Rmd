@@ -37,6 +37,7 @@ header-includes:
   \usepackage{amsthm,amssymb,amsfonts}
   \usepackage{tikz,lipsum,lmodern}
   \usepackage[most]{tcolorbox}
+  \usepackage{multicol}
   \usepackage{fontawesome5}
   \usepackage{svg}
   \usepackage{multirow,booktabs,caption}
@@ -232,7 +233,7 @@ Tras asignar la base de datos a este objeto (`dat`), la base de datos se puede v
 dat
 ```
 
-## Variables de la base de datos
+## Variables de la base de datos {#variables-inf}
 
 Por favor mira la base de datos, y familiarízate con sus columnas. ¿Qué información contiene cada variable? Explicaré cada una a continuación.
 
@@ -392,6 +393,8 @@ Esta parte nos provee varios resultados:
 
 En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (coeficiente de correlación transformado en *z* de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (*Z* = 4.7501, $p$ < .0001), y nos muestra el intervalo de confianza del 95% (o IC 95%); los intervalos de confianza (en este caso del 95%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (*z* = .0881) y superior (*z* = .2118) de estos intervalos de confianza.
 
+### Reporte del meta-análisis básico {#reporte1}
+
 Esto se podría resumir, por ejemplo, como:
 
 ```{=latex}
@@ -404,6 +407,8 @@ Este meta-análisis examinó la relación entre la concienciación y la adherenc
 
 \end{tcolorbox}
 ```
+
+Siempre es buena idea citar tablas y figuras relevantes junto al reporte de los resultados que ilustran. Aunque aún no hemos creado ninguna figura, es buena idea al menos citar (e incluir) un *Forest plot* (diagrama de bosque; \@ref(forest-inf)), y un *Funnel plot* (diagrama de embudo; sección \@ref(funnel-inf)), elementos que explicaré más adelante.
 
 ### Alternativa: Reportar el estimado como *r* de Pearson en vez de *z* de Fisher
 
@@ -459,6 +464,8 @@ confint(res)
 
 Para $\tau^2$, el hecho de que los límites del intervalo de confianza no crucen el 0 (es decir, no hay un límite negativo y otro positivo; en nuestro caso, ambos son positivos:  IC 95% [0.0017, 0.0378]), también sugiere que que hay heterogeneidad entre los estudios que meta-analizamos.
 
+### Reporte del meta-análisis con intervalos de confianza para medidas de heterogeneidad {#reporte2}
+
 Estos intervalos de confianza que también pueden ser reportados junto a sus correspondientes  estadísticos. Entonces, esto se podría resumir, por ejemplo, como:
 
 ```{=latex}
@@ -471,6 +478,8 @@ El meta-análisis incluyó 16 estudios que examinaron la relación entre la conc
 
 \end{tcolorbox}
 ```
+
+De nuevo, recuerda que siempre es buena idea citar tablas y figuras relevantes junto al reporte de los resultados que ilustran. Aunque aún no hemos creado ninguna figura, al reportar un meta-análisis es buena idea al menos citar (e incluir) un *Forest plot* (diagrama de bosque; \@ref(forest-inf)), y un *Funnel plot* (diagrama de embudo; sección \@ref(funnel-inf)). Más adelante explicaré cómo crear e interpretar estas figuras.
 
 ## Diagnóstico de influencia {#diag-inf}
 
@@ -534,7 +543,7 @@ forest(res)
 
 Esto produce la Figura \@ref(fig:for-plot1).
 
-```{r for-plot1, echo = FALSE, fig.height = 5.5, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
+```{r for-plot1, echo = FALSE, fig.height = 4, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
 par(mar = c(4,0,0,0))
 forest(res)
 ```
@@ -566,7 +575,7 @@ text(x = 1, y = 18, labels = "Peso", pos = 2)
 text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
 ```
 
-```{r for-plot2, echo = FALSE, fig.height = 5, fig.cap = "*Forest plot* anotado, creado con [metafor](https://www.metafor-project.org/doku.php). En esta versión agregué algunos encabezados en español, así como estadísticos generales del modelo de meta-análisis. Modelo EA se refiere al modelo meta-analizado, de efectos aleatorios."}
+```{r for-plot2, echo = FALSE, fig.height = 4, fig.cap = "*Forest plot* anotado, creado con [metafor](https://www.metafor-project.org/doku.php). En esta versión agregué algunos encabezados en español, así como estadísticos generales del modelo de meta-análisis. Modelo EA se refiere al modelo meta-analizado, de efectos aleatorios."}
 # forest plot con anotaciones adicionales
 par(mar = c(4,0,0,0))
 forest(res, cex = 0.75, xlim = c(-1.6, 1.6),
@@ -586,7 +595,7 @@ text(x = 1, y = 18, labels = "Peso", pos = 2)
 text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
 ```
 
-O, para un *forest plot* quizás más sofisticado, se puede usar la función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html).
+O, para un *forest plot* quizás más sofisticado, se puede usar la función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), en alguna de sus variantes y colores.
 
 ```{r eval = FALSE}
 # A. Variante "classic" (no tiene que ser definida, pues es la opción por defecto)
@@ -621,11 +630,9 @@ viz_forest(res,
            x_trans_function = tanh)
 ```
 
-Con el código anterior genero las siguientes tres versiones del mismo *forest plot* (Fig. \@ref(fig:for-plot3b)) usando diferentes variantes y escalas de colores, y transformando de vuelta los coeficientes de *z* de Fisher a *r* de Pearson (con el argumento `x_trans_function = tanh`).
+Con el código anterior genero las siguientes tres versiones del mismo *forest plot* (Fig. \@ref(fig:for-plot3b)) usando diferentes variantes y escalas de colores, y transformando de vuelta los coeficientes de *z* de Fisher a *r* de Pearson (con el argumento `x_trans_function = tanh`). Por supuesto, es cuestión de gusto cuál usar.
 
-Por supuesto, es cuestión de gusto cuál usar.
-
-```{r for-plot3, echo = FALSE, fig.height = 3}
+```{r for-plot3, echo = FALSE, fig.height = 7}
 library(metaviz)
 p.classic <- viz_forest(res, 
                         study_labels = paste(dat$authors, dat$year, sep = ", "),
@@ -635,11 +642,6 @@ p.classic <- viz_forest(res,
                         text_size = 2.6,
                         x_trans_function = tanh)
 
-ggarrange(p.classic,
-          labels = c("A"))
-```
-
-```{r for-plot3b, echo = FALSE, fig.height = 6, warning = FALSE, fig.cap = 'Variantes de *forest plots* creados con  [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). **A.** Variante clásica (opción por defecto). **B.** Variante "thick" y escala de colores "Greens". **C.** Variante "rain" y escala de colores "Oranges".'}
 p.thick <- viz_forest(res, 
                       study_labels = paste(dat$authors, dat$year, sep = ", "),
                       xlab = "Correlación", 
@@ -650,6 +652,12 @@ p.thick <- viz_forest(res,
                       text_size = 2.6,
                       x_trans_function = tanh)
 
+ggarrange(p.classic, p.thick,
+          labels = "AUTO",
+          nrow = 2)
+```
+
+```{r for-plot3b, echo = FALSE, fig.height = 3.5, warning = FALSE, fig.cap = 'Variantes de *forest plots* creados con  [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). **A.** Variante clásica (opción por defecto). **B.** Variante "thick" y escala de colores "Greens". **C.** Variante "rain" y escala de colores "Oranges".'}
 p.rain <- viz_forest(res,
                      study_labels = paste(dat$authors, dat$year, sep = ", "),
                      xlab = "Correlación", 
@@ -660,9 +668,8 @@ p.rain <- viz_forest(res,
                      text_size = 2.6,
                      x_trans_function = tanh)
 
-ggarrange(p.thick, p.rain,
-          labels = c("B", "C"),
-          nrow = 2)
+ggarrange(p.rain,
+          labels = c("C"))
 ```
 
 ## *Funnel plot* (diagrama de embudo), regresión de Egger y sesgo de estudios pequeños {#funnel-inf}
@@ -681,18 +688,20 @@ A pesar de esto, tanto la regresión de Egger como el *funnel plot* son interesa
 
 ### *Funnel plot*
 
-Para crear un *funnel plot* de nuestro meta-análisis con [`metafor`](https://www.metafor-project.org/doku.php) sólo tenemos que usar la función `funnel`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`). Con esto, generamos la Figura \@ref(fig:funnel-plot1).
+Para crear un *funnel plot* de nuestro meta-análisis con [`metafor`](https://www.metafor-project.org/doku.php) sólo tenemos que usar la función `funnel`, usando como argumento el objeto al que asignamos los resultados de nuestro meta-análisis (`res`).
 
 ```{r eval = FALSE}
 funnel(res)
 ```
 
-```{r funnel-plot1, echo = FALSE, fig.height = 5, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto *real* estimado mediante nuestro meta-análisis (*z* = 0.15), así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo."}
+Con esto, generamos la Figura \@ref(fig:funnel-plot1).
+
+```{r funnel-plot1, echo = FALSE, fig.height = 3.4, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto *real* estimado mediante nuestro meta-análisis (*z* = 0.15), así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste. A primera vista no parece haber mucha asimetría, pero es importante tener en cuenta que es un análisis muy subjetivo."}
 par(mar = c(4,4,0,1))
 funnel(res)
 ```
 
-O, si queremos cambiar los títulos de los ejes, por ejemplo escribiéndolos en español, podemos hacerlo agregando los argumentos `xlab` (para el eje $X$) y/o `ylab` (para el eje $Y$), como se ve en la Figura \@ref(fig:funnel-plot1a).
+O, si queremos poner los títulos de los ejes en español, podemos hacerlo agregando los argumentos `xlab` (para el eje $X$) y/o `ylab` (para el eje $Y$), como se ve en la Figura \@ref(fig:funnel-plot1a).
 
 ```{r eval = FALSE}
 funnel(res, 
@@ -700,7 +709,7 @@ funnel(res,
        ylab = "Error estándar")
 ```
 
-```{r funnel-plot1a, echo = FALSE, fig.height = 5, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php), con títulos de ejes en español. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher) en el eje *X*, así como su error estándar en el eje *Y*. La línea punteada vertical representa el efecto *real* estimado mediante nuestro meta-análisis (*z* = 0.15), así que podemos ver los estudios que encontraron un efecto mayor (derecha) o menor (izquierda) que éste."}
+```{r funnel-plot1a, echo = FALSE, fig.height = 3.4, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php), idéntico al de la Figura \\@ref(fig:funnel-plot1), pero con títulos de ejes en español."}
 par(mar = c(4,4,0,1))
 funnel(res, 
        xlab = "Coeficiente de correlación transformado en z de Fisher",
@@ -709,7 +718,7 @@ funnel(res,
 
 De nuevo, para una versión más sofisticada, se puede usar el paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), usando la función [`viz_funnel`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-funnel-plots-with-viz_funnel). Hay muchas opciones, pero como ejemplo, usaré la versión por defecto, agregando sólo la línea de la regresión de Egger (`egger = TRUE`; ver sección \@ref(reg-egger), más adelante), transformando los tamaños de efecto de regreso a $r$ de Pearson (`x_trans_function = tanh`), y con los títulos de los ejes en español (Fig. \@ref(fig:funnel-plot2)).
 
-```{r funnel-plot2, fig.height = 4.5, warning = FALSE, fig.cap = "*Funnel plot* creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5% (i.e. $p$ < 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1% (i.e. $p$ < 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger."}
+```{r funnel-plot2, fig.height = 3.5, warning = FALSE, fig.cap = "*Funnel plot* creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html). En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5% (i.e. $p$ < 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1% (i.e. $p$ < 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger."}
 viz_funnel(res, 
            egger = TRUE,
            x_trans_function = tanh,
@@ -770,19 +779,15 @@ Con base en esto, y la inspección visual subjetiva del *funnel plot*, muchos in
 
 ## Sesgo de publicación (*publication bias*) {#sesgo-pub}
 
-Existen diferentes opciones para estimar el sesgo de publicación de un meta-análisis. En esta sección, me centraré en dos: primero, el método de recorte y relleno (*trim and fill*; sección \@ref(trim-fill)); y segundo, el modelo de función de peso de Vevea y Hedges (sección \@ref(vevea-hedges)), que es uno de los modelos de selección más conocidos para la evaluación del sesgo de publicación.
+Existen diferentes opciones para estimar el sesgo de publicación de un meta-análisis. En esta sección, me centraré en dos: el método de recorte y relleno (*trim and fill*; sección \@ref(trim-fill)), y el modelo de función de peso de Vevea y Hedges (sección \@ref(vevea-hedges)), que es uno de los modelos de selección más conocidos para evaluar sesgos de publicación.
 
 ### Método *trim and fill* (recorte y relleno) {#trim-fill}
 
-El método de recorte y relleno (*trim and fill*) es una técnica no paramétrica para aumentar datos [@duvalNonparametricTrimFill2000; @duvalTrimFillSimple2000; ver también @duvalTrimFillMethod2005]. Este método puede utilizarse para ajustar el número y los resultados de los estudios que se estima faltan en un meta-análisis, con base en el escrutinio de un lado de un diagrama de embudo (*funnel plot*), para evaluar la asimetría que se supone que se debe al sesgo de publicación. 
+El método de recorte y relleno (*trim and fill*) es una técnica no paramétrica para aumentar datos [@duvalNonparametricTrimFill2000; @duvalTrimFillSimple2000; ver también @duvalTrimFillMethod2005]. Este método estima los estudios potencialmente ausentes debido al sesgo de publicación en el gráfico de embudo, y ajusta la estimación del efecto *real*. Aunque muy útil, es importante tener en cuenta que este método tiene algunas limitaciones:
 
-Básicamente, el método aumenta los estudios observados para que el gráfico de embudo sea más simétrico, y vuelve a calcular la estimación del meta-análisis con base en los datos completos. 
+-  No debe entenderse como una forma de obtener una estimación más "válida" del efecto *real*, sino como una forma de examinar qué tan sensibles son los resultados a una forma particular de sesgo de publicación
 
-Aunque muy útil, es importante tener en cuenta que método de recorte y relleno (*trim and fill*) tiene algunas limitaciones que siempre deben considerarse:
-
--  No debe ente derse como una forma de obtener una estimación más "válida" del efecto *real*, sino como una forma de examinar qué tan sensibles son los resultados a un mecanismo de selección particular (es decir, una forma particular de sesgo de publicación)
-
--  Es importante tener en cuenta que este método no se puede usar en modelos con moderadores, como los que explico en la sección \@ref(met-moderation)
+-  No se puede usar en modelos con moderadores, como los que explico en la sección \@ref(met-moderation)
 
 En [`metafor`](https://www.metafor-project.org/doku.php), el método de recorte y relleno (*trim and fill*) se hace simplemente con la función `trimfill`, de nuevo usando como argumento el objeto al que asignamos el resultado de nuestro meta-análisis (`res`). En este caso, asignaré el resultado de esta función a un objeto que llamaré `tf`.
 
@@ -791,14 +796,11 @@ tf <- trimfill(res)
 tf
 ```
 
-Esto nos muestra unos resultados equivalentes y muy similares a los de nuestro meta-análisis original (sección \@ref(meta-cor)) y que se deben interpretar de manera igual. 
+Esto nos muestra unos resultados equivalentes y muy similares a los de nuestro meta-análisis original (sección \@ref(meta-cor)) y que se deben interpretar de manera igual. Sin embargo, hay unos pequeños cambios. 
 
-Sin embargo, hay unos pequeños cambios. Primero, comienza diciendo que el número estimado de estudios que faltan en el lado izquierdo es 2 (`Estimated number of missing studies on the left side: 2 (SE = 2.7118)`), lo que quiere decir que estimó que faltaban dos estudios al lado izquierdo de nuestro *funnel plot*, y no se recortó ninguno. Por supuesto, al sumar estos dos estudios hipotéticos, el meta-análisis se hace con base en *k* = 18 estudios, en vez de 16 (`Random-Effects Model (k = 18; tau^2 estimator: REML)`).
+Primero, comienza diciendo que el número estimado de estudios que faltan en el lado izquierdo es 2 (`Estimated number of missing studies on the left side: 2 (SE = 2.7118)`), lo que quiere decir que estimó que faltaban dos estudios al lado izquierdo de nuestro *funnel plot*, y no se recortó ninguno. Por supuesto, al sumar estos dos estudios hipotéticos, el meta-análisis se hace con base en *k* = 18 estudios, en vez de 16 (`Random-Effects Model (k = 18; tau^2 estimator: REML)`). Como los dos estudios hipotéticos que se agregaron están a la izquierda de nuestro *funnel plot*, el efecto que estimamos usando el método *trim and fill* es menor (*z* = 0.13, como se ve en los resultados de nuestro meta-análisis (`Model results`: `Estimate (0.1288)`).
 
- Como los dos estudios hipotéticos que se agregaron están a la izquierda de nuestro *funnel plot*, tienen un tamaño de efecto menor al efecto *real* que estimamos inicialmente de *z* = 0.15. Esto por supuesto hace que el efecto que estimamos usando el método *trim and fill* sea menor (*z* = 0.13, como se ve en los resultados de nuestro meta-análisis (`Model results`: `Estimate (0.1288)`).
-
-Para crear ver esto gráficamente, podemos hacer un *funnel plot* del meta-análisis con el método de recorte y relleno (*trim and fill*) usando [`metafor`](https://www.metafor-project.org/doku.php). Sólo tenemos que usar la función `funnel`, usando
-como argumento el objeto al que asignamos los resultados del método de recorte y relleno (`tf`). Con esto, generamos la Figura \@ref(fig:tf-plot1).
+Podemos hacer un *funnel plot* del meta-análisis con el método de recorte y relleno (*trim and fill*), usando como argumento el objeto al que asignamos los resultados (`tf`). Con esto, generamos la Figura \@ref(fig:tf-plot1).
 
 ```{r tf-plot1, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php) usando el método de recorte y relleno (*trim and fill*). En negro los estudios meta-analizados; en blanco, los estudios *rellenados*."}
 funnel(tf, 
@@ -806,9 +808,9 @@ funnel(tf,
        ylab = "Error estándar")
 ```
 
-De nuevo, alternativamente podemos usar la función `viz_funnel` del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), para crear este *funnel plot* representando los estudios *rellenados* con el método de recorte y relleno. Sin embargo, para esto usaremos como argumento el meta-análisis original (`res`), pero agregando los argumentos `trim_and_fill = TRUE` y `trim_and_fill_side = "left"` ("left" dado que sabemos que los estudios *faltantes* están a la izquierda del *funnel plot*). 
+De nuevo, alternativamente podemos usar la función `viz_funnel` del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), para crear este *funnel plot* representando los estudios *rellenados* con el método de recorte y relleno. Sin embargo, para esto usaremos como argumento el meta-análisis original (`res`), pero agregando los argumentos `trim_and_fill = TRUE` y `trim_and_fill_side = "left"` ("left" dado que sabemos que los estudios *faltantes* están a la izquierd). 
 
-```{r tf-plot2, fig.cap = "*Funnel plot* creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) usando el método de recorte y relleno (*trim and fill*). En blanco los estudios meta-analizados; en negro, los estudios *rellenados*."}
+```{r tf-plot2, fig.height = 3.5, fig.cap = "*Funnel plot* creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) usando el método de recorte y relleno (*trim and fill*). En blanco los estudios meta-analizados; en negro, los estudios *rellenados*."}
 viz_funnel(res, 
            contours_col = "Oranges",
            trim_and_fill = TRUE, 
@@ -988,16 +990,9 @@ poder.plot$fp_plot +
   guides(fill = guide_legend(title = "Poder", 
                              reverse = TRUE)) +
   scale_x_discrete(labels = c("es_observed" = "Observado",
-                              "es01" = 0.1,    
-                              "es02" = 0.2,
-                              "es03" = 0.3,
-                              "es04" = 0.4,    
-                              "es05" = 0.5,    
-                              "es06" = 0.6,    
-                              "es07" = 0.7,
-                              "es08" = 0.8,
-                              "es09" = 0.9,
-                              "es1"  = 1))
+                              "es01" = 0.1, "es02" = 0.2, "es03" = 0.3, "es04" = 0.4, 
+                              "es05" = 0.5, "es06" = 0.6, "es07" = 0.7, "es08" = 0.8, 
+                              "es09" = 0.9, "es1"  = 1))
 ```
 
 Este código produce la Figura \@ref(fig:fire-plot2), con todos los textos en español.
@@ -1089,68 +1084,54 @@ Para visualizar la heterogeneidad entre los estudios, podemos utilizar una técn
 gp <- gosh(res, progbar = TRUE)
 ```
 
-Una vez que hayamos realizado el análisis *GOSH* utilizando la función `gosh`, podemos utilizar la función `plot` para visualizar los `r number(65535)` modelos. Para hacer esto, simplemente necesitamos proporcionar el resultado de `gosh` (`gp` en este caso) como argumento para `plot`.
+Una vez que hayamos realizado el análisis *GOSH* podemos utilizar la función `plot` para visualizar los `r number(65535)` modelos. Simplemente necesitamos proporcionar el resultado de `gosh` (`gp` en este caso) como argumento para `plot`, pero en este ejemplo utilizaré los argumentos `breaks` y `labels` para personalizar la visualización. El argumento `breaks` nos permite definir el número de puntos de corte (y, por lo tanto, el número de barras) en los histogramas, mientras que el argumento `labels` nos permite poner los títulos de los ejes en español. Esto nos permitirá crear una visualización más clara y fácil de entender de la heterogeneidad entre los estudios.
 
-En este ejemplo, utilizaré los argumentos `breaks` y `labels` para personalizar la visualización. El argumento `breaks` nos permite definir el número de puntos de corte (y, por lo tanto, el número de barras) en los histogramas, mientras que el argumento `labels` nos permite poner los títulos de los ejes en español. Esto nos permitirá crear una visualización más clara y fácil de entender de la heterogeneidad entre los estudios.
-
-```{r gosh1, message = FALSE, fig.cap = "*GOSH plot* creado con la función  [`gosh`](https://www.metafor-project.org/doku.php/plots:gosh_plot) del paquete [`metafor`](https://www.metafor-project.org/doku.php). Un *GOSH plot* (en inglés, *Graphical Display of Study Heterogeneity* o simplemente *GOSH*) es una visualización gráfica de la heterogeneidad de todos los posibles modelos de meta-análisis ajustados a partir de todas las combinaciones posibles de estudios de nuestra base de datos. Un *GOSH plot* muestra los efectos estimados para cada uno de los modelos en el eje horizontal, y su respectiva heterogeneidad en el eje vertical. Las distribuciones de los efectos (parte superior de la gráfica) y las heterogeneidades (lado derecho de la gráfica) estan representadas como densidades e histogramas."}
+```{r gosh1, message = FALSE, fig.height = 3.7, fig.cap = "*GOSH plot* creado con la función  [`gosh`](https://www.metafor-project.org/doku.php/plots:gosh_plot) del paquete [`metafor`](https://www.metafor-project.org/doku.php). Un *GOSH plot* (en inglés, *Graphical Display of Study Heterogeneity*) es una visualización gráfica de la heterogeneidad de todos los posibles modelos de meta-análisis ajustados a partir de todas las combinaciones posibles de estudios. Muestra los efectos estimados para cada uno de los modelos en el eje horizontal, y su respectiva heterogeneidad en el eje vertical. La distribución de los efectos (parte superior de la gráfica) y la heterogeneidade (lado derecho de la gráfica) estan representadas como densidades e histogramas."}
 plot(gp, 
      breaks = 100,
      labels = c("Coeficiente de correlación transformado en z de Fisher", 
                 expression(paste("I"^"2"))))
 ```
 
-Los tamaños del efecto que se obtienen de los estudios incluidos en un meta-análisis de correlaciones varían ampliamente, generalmente entre *z* = 0.05 y *z* = 0.25. Esta variación subraya cómo la elección de los estudios incluidos en el meta-análisis puede influir en la estimación del tamaño del efecto. Sin embargo, es importante destacar que no hay un subgrupo de resultados que se distinga significativamente del resto.
+Los tamaños del efecto que se obtienen de los estudios incluidos en un meta-análisis de correlaciones varían ampliamente, generalmente entre *z* = 0.05 y *z* = 0.25. Esta variación subraya cómo la elección de los estudios incluidos en el meta-análisis puede influir en la estimación del tamaño del efecto. Sin embargo, no hay un subgrupo de resultados que se distinga significativamente del resto.
 
 Para ilustrar mejor esto, voy a manipular manualmente el tamaño de efecto de uno de los estudios. Por ejemplo, en nuestro caso, podemos cambiar el tamaño del efecto del estudio 12, que inicialmente tenía un valor *z* de Fisher de 0.39, a un valor mucho mayor, de 0.70. Aunque esta base de datos alterada pierde validez para realizar cualquier análisis, nos permite visualizar el efecto de valores atípicos en una base de datos[^13].
 
-[^13]: Normalmente podríamos identificar estudios con resultados formalmente atípicos a partir un diagnóstico de influencia (\@ref(diag-inf)) y técnicas tipo *leave-one-out* (sección \@ref(leave-one-out)), y apoyarnos de manera informal en diagramas como el *forest plot* (sección \@ref(forest-inf)) y el *funnel plot* (sección \@ref(funnel-inf)).
+[^13]: Normalmente identificamos formalmente estudios con resultados atípicos a partir un diagnóstico de influencia (\@ref(diag-inf)) y técnicas tipo *leave-one-out* (sección \@ref(leave-one-out)), apoyándonos informalmente en el *forest plot* (sección \@ref(forest-inf)) y el *funnel plot* (sección \@ref(funnel-inf)).
 
 Para evitar afectar nuestra base de datos original, creamos una copia de los datos en un objeto llamado `dat_mo`. Luego, utilizamos las funciones `mutate` y `replace` del paquete `dplyr` [@WickhamDplyr2021] para cambiar los tamaños de efecto del estudio 12 en la nueva base de datos.
 
 ```{r}
 dat_mo <- dat %>%
-  mutate(yi = replace(yi, 
-                      list = 12, 
-                      values = 0.7))
+  mutate(yi = replace(yi, list = 12, values = 0.7))
 ```
 
-Para mostrar gráficamente cómo ahora el estudio 12 es atípico, voy a hacer un meta-análisis de esta nueva base de datos alterada (`dat_mo`), y representar los resultados en un *forest plot* (diagrama de bosque). El valor atípico introducido (estudio 12) es claramente visible en el *forest plot* (Fig. \@ref(fig:for-plot-mo)).
-
-Para visualizar cómo el estudio 12 se convierte en un valor atípico después de la manipulación de los datos, podemos realizar un meta-análisis de la nueva base de datos alterada (`dat_mo`) y representar los resultados en un diagrama de bosque o *forest plot*. Como se puede observar en la Figura \@ref(fig:for-plot-mo), el valor atípico introducido (estudio 12) es claramente visible en el *forest plot* (es importante tener en cuenta que este ejemplo es sólo una ilustración y que en la práctica es esencial garantizar la integridad de los datos y la validez de los resultados obtenidos en un meta-análisis).
+Para visualizar cómo el estudio 12 se convierte en un valor atípico después de la manipulación de los datos, podemos realizar un meta-análisis de la nueva base de datos alterada (`dat_mo`) y representar los resultados en un diagrama de bosque o *forest plot*. Como se puede observar en la Figura \@ref(fig:for-plot-mo), el valor atípico introducido (estudio 12) es claramente visible en el *forest plot*.
 
 ```{r eval = FALSE}
 res_mo <- rma.uni(yi, vi, data = dat_mo) 
 forest(res_mo)
 ```
 
-```{r for-plot-mo, echo = FALSE, fig.height = 5.5, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php) de la base de datos con valores atípicos introducidos manualmente para el estudio 12. Como se puede ver, estos dos estudios tienen tamaños de efecto muy diferentes al del resto de los estudios."}
+```{r for-plot-mo, echo = FALSE, fig.height = 4, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php) de la base de datos con valores atípicos introducidos manualmente para el estudio 12. Como se puede ver, este estudio tiene un tamaño de efecto muy diferente al de los demás estudios."}
 res_mo <- rma.uni(yi, vi, data = dat_mo) 
 par(mar = c(4,0,0,0))
 forest(res_mo)
 ```
 
-Ahora sí, voy a hacer el meta-análisis combinatorio y crearé el *GOSH plot* con esta base de datos alterada y que contiene el resultado atípico.
+Hagamos el meta-análisis combinatorio con esta base de datos alterada que contiene el resultado atípico, usando de nuevo la función `plot` (Fig. \@ref(fig:gosh2)) para ilustrar el resultado.
 
-```{r cache = TRUE}
+```{r gosh2, cache = TRUE, message = FALSE, fig.height = 3.7, message = FALSE, fig.cap = "*GOSH plot* de un meta-análisis combinatorio que contiene un estudio con resultado atípico. En la parte superior del gráfico, se observa claramente un grupo de tamaños de efecto elevados con una alta heterogeneidad."}
 gp_mo <- gosh(res_mo)
-```
-
-Para ilustrar los resultados, de nuevo podemos usar la función `plot`, creando la Figura \@ref(fig:gosh2)
-
-```{r gosh2, cache = TRUE, message = FALSE, fig.cap = "*GOSH plot* de un meta-análisis combinatorio que contiene un estudio con resultado atípico. En la esquina superior derecha del gráfico, se observa claramente un grupo de tamaños de efecto elevados con una alta heterogeneidad."}
-plot(gp_mo,  
-     breaks = 100,
+plot(gp_mo, breaks = 100,
      labels = c("Coeficiente de correlación transformado en z de Fisher", 
                 expression(paste("I"^"2"))))
 ```
 
-En la parte superior derecha del gráfico hay un claro grupo de grandes tamaños del efecto con alta heterogeneidad. Podemos destacar específicamente los modelos del meta-análisis que incluyeron el estudio atípico con el argumento `out`:
+En la parte superior de la Figura \@ref(fig:gosh2) hay un claro grupo de tamaños de efecto relativamente grandes, con alta heterogeneidad. Podemos destacar específicamente los modelos del meta-análisis que incluyeron el estudio atípico con el argumento `out`:
 
-```{r gosh3, fig.cap = "*GOSH plot* de un meta-análisis combinatorio que contiene un estudio con resultado atípico. En este caso, a diferencia de la Figura \\ref{fig:gosh2}, los resultados combinatorios que no contienen el estudio atípico están en azul, mientras que los meta-análisis que sí lo incluyen están en rojo. Se puede ver en las distribuciones de tamaño del efecto (distribuciones e histogramas sobre la figura) y de heteroheneidad (distribuciones e histogramas a la derecha de la figura) cómo los meta análisis que incluyen el estudio con un resultado atípico tienden a arrojar estimados más fuertes para la correlación, sesgando el resultado hacia valores más extremos, y son siempre almanete heterogéneos."}
-plot(gp_mo, 
-     out = 12,  
-     breaks = 100,
+```{r gosh3, fig.height = 3.7, fig.cap = "*GOSH plot* de un meta-análisis combinatorio que contiene un estudio con resultado atípico. En este caso, a diferencia de la Figura \\ref{fig:gosh2}, los resultados combinatorios que no contienen el estudio atípico están en azul, mientras que los meta-análisis que sí lo incluyen están en rojo. Los meta análisis que incluyen el estudio con un resultado atípico tienden a arrojar estimados más fuertes para la correlación, sesgando el resultado hacia valores más extremos, y son siempre almanete heterogéneos."}
+plot(gp_mo, breaks = 100, out = 12,
      labels = c("Coeficiente de correlación transformado en z de Fisher", 
                 expression(paste("I"^"2"))))
 ```
@@ -1161,9 +1142,13 @@ En resumen, el meta-análisis combinatorio, junto con la visualización de datos
 
 # Meta-análisis de correlación con moderador (meta-regresión) {#met-moderation}
 
-\textcolor{red}{Incluir moderadores en nuestro meta-análisis (i.e. hacer una meta-regresión), es una fusión de principios de regresión meta-analíticos y lineales, que sirve para explorar la heterogeneidad. Con esto, podemos saber si existe una asociación lineal entre el resultado de nuestro meta-análisis y una o más covariables.}
+La inclusión de moderadores en un meta-análisis mediante una técnica llamada meta-regresión, combina principios de regresión meta-analítica y lineal. Esta técnica nos permite determinar si existe una asociación lineal entre el resultado de nuestro meta-análisis y una o más covariables; es decir, variables que pueden estar influyendo en los resultados de los estudios que estamos analizando. Al incluir estos moderadores en nuestro análisis, podemos controlar mejor la heterogeneidad y entender cómo factores específicos pueden estar afectando los resultados del meta-análisis.
 
-\textcolor{red}{La meta-regresión desempeña un papel fundamental en la consideración de los efectos de las covariables, especialmente en presencia de variables categóricas que pueden utilizarse para el análisis de subgrupos.}
+Por ejemplo, en el caso de la relación entre la altura de una planta y la cantidad de luz que recibe, el tipo de suelo puede actuar como variable moderadora. Es decir, el efecto de la cantidad de luz en la altura de la planta puede ser diferente dependiendo del tipo de suelo, y estudios hechos en diferentes tipos de suelo podrían tender a encontrar resultados distintos. Por lo tanto, en este caso, el tipo de suelo actuaría como una variable moderadora de la relación entre la cantidad de luz y la altura de la planta, que deberíamos tener en cuenta en cualquier meta-análisis.
+
+En nuestro caso, variables como la cantidad de variables controladas (`controls`), el diseño de cada estudio (`design`), la forma en la que se midieron la adherencia al tratamiento (`a_measure`) y la concienciación (`c_measure`), la edad de los participantes (`meanage`) y/o la calidad metodológica de los estudios (`quality`), son características que podrían haber afectado el coeficiente de correlación que encontraron (todas estas variables se explican con mayor detalle en la sección \@ref(variables-inf)). Por ejemplo, estudios con menor calidad metodológica podrían haber tendido a sobrestimar el efecto, encontrando correlaciones más fuertes y positivas entre concienciación y adherencia al tratamiento, sesgando así nuestra estimación del efecto *real*.
+
+Los moderadores pueden ser tanto variables continuas, como categóricas, y en las siguientes secciones daré ejemplos para cada caso.
 
 ## Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes) {#ex.mod1}
 
@@ -1171,7 +1156,7 @@ Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de
 
 [^14]: De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
 
-Para esto, de nuevo podemos usar la función `rma` de paquete `metafor` y de la misma manera que en la sección \@ref(meta-cor), pero agregando nuestra variable moderadora (`meanage`) al argumento `mods`. En este caso voy a asignar a un objeto llamado `res.modage`, para diferenciarlo del objeto `res` al que asigné el meta-análisis básico, sin moderadores.
+Para esto, de nuevo podemos usar la función `rma` de paquete `metafor` de la misma manera que en la sección \@ref(meta-cor), pero agregando nuestra variable moderadora (`meanage`) al argumento `mods`. En este caso voy a asignar a un objeto llamado `res.modage`, para diferenciarlo del objeto `res` al que asigné el meta-análisis básico, sin moderadores.
 
 ```{r}
 res.modage <- rma(yi = yi, vi = vi, mods = ~meanage, data = dat)
@@ -1183,17 +1168,19 @@ Los resultados, son los siguientes:
 res.modage
 ```
 
-Los resultados, que tienen la misma organización que los del análisis sin moderadores (sección \@ref(meta-cor)). Este resultado nos muestra que, a pesar de la gran diferencia de edad entre estudios, la edad no tiene un efecto significativo, como se puede ver en la sección "`Test of Moderators (coefficient 2)`" (al final nos muestra el valor *p* como "\texttt{p-val =  0.2320}"), así como los resultados para el efecto de `meanage` en la tabla `Model Results` (donde nos da el mismo resultado: "\texttt{0.2320}").
+Estos resultados tienen la misma organización que los del análisis sin moderadores (sección \@ref(meta-cor)). Este resultado nos muestra que, a pesar de la gran diferencia de edad entre estudios, la edad no tiene un efecto significativo, como se puede ver en la sección "`Test of Moderators (coefficient 2)`" (al final nos muestra el valor *p* como "\texttt{p-val =  0.2320}"), así como los resultados para el efecto de `meanage` en la tabla `Model Results` (donde nos da el mismo resultado: "\texttt{0.2320}").
+
+En la tabla de `Model results` los estimados (columna `estimate`) se pueden leer tal cual como si fueran una regresión, pero teniendo en cuenta que acá nuestra variable dependiente sería la correlación entre concienciación y adherencia al tratamiento (en valores *z*). Entonces, como el intercepto (`intrcpt`) tiene un valor estimado de 0.2741, para estudios con participantes que tuviesen una edad media de 0 años, se estimaría que la asociación entre concienciación y adherencia al tratamiento sería de *z* = 0.2741. Por su parte el efecto de la edad media (`meanage`), nuestro moderador, es de -0.0024, lo que indica que por cada año de aumento en la edad promedio de los participantes, la correlación entre concienciación y adherencia disminuye *z* = -0.0024. Para decirlo de manera sencilla, en nuestra muestra de estudios, la correlación entre adherencia y concienciación tiende a disminuir con la edad, pero esta tendencia no es significativa.
 
 ### Más información e interpretación de la moderación {#pred-mods}
 
 Para más información, podemos *predecir* el efecto (en este caso, la correlación entre la concienciación y la adherencia a la medicación), a diferentes edades, usando la función `predict`. 
 
-En este ejemplo, como argumentos de esta función incluiré el objeto que contiene el meta-análisis con la edad como variable moderadora (`res.modage`), y los los valores para los cuales quiero saber el coeficiente de correlación predicho (argumento `newmods`); en este ejemplo voy a usar "`seq(20, 80, by = 10)`", lo que produce la secuencia de números de 20 a 80, cada 10 (es decir: **20**, **30**, **40**, **50**, **60**, **70**, **80**), que serán las edades para las cuales obtendré el coeficiente de correlación estimado por el modelo[^15].
+En este ejemplo, como argumentos de esta función incluiré el objeto que contiene el meta-análisis con la edad como variable moderadora (`res.modage`), y los los valores para los cuales quiero saber el coeficiente de correlación predicho (argumento `newmods`); en este ejemplo voy a usar "`seq(20, 80, by = 10)`", lo que produce la secuencia de números de 20 a 80, cada 10 (es decir: 20, 30, 40, 50, 60, 70, 80), que serán las edades para las cuales obtendré el coeficiente de correlación estimado por el modelo[^15].
 
 [^15]: Escogí edades entre 20 y 80 como referencia, pues están cerca al rango de valores de de las edades promedio de los estudios meta-analizados (`r min(dat$meanage)` a `r max(dat$meanage)`), y con edades cada 10 años, para obtener un número manejable pero informativo de predicciones.
 
-Adicionalmente, voy a convertir esta tabla a un objeto clase `data.frame` (`as.data.frame()`), crearé una nueva variable llamada `meanage` que contiene las edades para las cuales he calculado la predicción (`mutate(meanageage = seq(20, 80, by = 10))`[^16]), y reorganizado el orden de las columnas (`select(7, 1:6)`). Asignaré esta tabla a un objeto llamado `pred.res.modage`.
+Adicionalmente, voy a convertir esta tabla a un objeto clase `data.frame` (usando la función `as.data.frame()`), crearé una nueva variable llamada `meanage` que contiene las edades para las cuales he calculado la predicción (`mutate(meanageage = seq(20, 80, by = 10))`[^16]), y reorganizado el orden de las columnas (`select(7, 1:6)`). Asignaré esta tabla a un objeto llamado `pred.res.modage`.
 
 [^16]: Para agregar los valores de la variable moderadora para los cuales se hace la predicción, alternativamente se puede agregar el argumento `addx = TRUE` a la función `predict` (en este caso, por ejemplo, `predict(res.modage, newmods = seq(20, 80, by = 10), addx = TRUE)`). Sin embargo, para evitar crear columnas adicionales y tener una tabla en un formato más sencillo y claro, he decidido crear la columna `meanage` manualmente. Si usara el argumento `addx = TRUE`, crearía las columnas `X.intrcpt` con el intercepto, y `X.meanage`con los valores de `meanage`.
 
@@ -1224,15 +1211,15 @@ Con esto, el objeto `pred.res.modage`, al que he asignado esta predicción, tien
 
 -   **`pi.ub`**: límite superior del intervalo de predicción (en inglés *prediction interval upper bound*)
 
-Las columnas `age` (edad) y `pred` (efecto predicho), nos muestran que, para estudios donde los participantes son en promedio más jóvenes, se esperaría una correlación más fuerte; por ejemplo, mientras que para estudios con personas de `r pred.res.modage[1,1]` años de edad en promedio se esperaría una correlación de *z* = `r round(pred.res.modage[1,2], 3)`, para estudios participantes con una edad promedio de `r pred.res.modage[dim(pred.res.modage)[1],1]` años, el modelo estima un efecto de *z* = `r round(pred.res.modage[dim(pred.res.modage)[1],2], 3)`. En otras palabras, en nuestra muestra de estudios, la asociación entre concienciación y adherencia a la medicación tiende a reducirse ligeramente con la edad promedio de la muestra. 
+Las columnas `age` (edad) y `pred` (efecto predicho), nos muestran que, para estudios donde los participantes son en promedio más jóvenes, se esperaría una correlación más fuerte; por ejemplo, mientras que para estudios con personas de `r pred.res.modage[1,1]` años de edad en promedio se esperaría una correlación de *z* = `r round(pred.res.modage[1,2], 3)`, para estudios con participantes con una edad promedio de `r pred.res.modage[dim(pred.res.modage)[1],1]` años, el modelo estima un efecto de *z* = `r round(pred.res.modage[dim(pred.res.modage)[1],2], 3)`. En otras palabras, en nuestra muestra de estudios, la asociación entre concienciación y adherencia a la medicación tiende a reducirse ligeramente con la edad promedio de la muestra. 
 
-Sin embargo, este efecto moderador de la edad \underline{no es significativo}, por lo que no tenemos evidencia suficiente que nos sugiera que es real, más allá de nuestra muestra de estudios.
+Sin embargo, este efecto moderador de la edad \underline{no es significativo}, por lo que no tenemos evidencia suficiente para inferir que se da más allá de nuestra muestra de estudios.
 
-#### *Meta-Analytic Scatter Plot* (Gráfico de dispersión meta-analítico)
+#### *Meta-Analytic Scatter Plot* (Gráfico de dispersión meta-analítico) {#meta-scatter}
 
 Alternativamente, cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función `regplot` hace precisamente esto (Fig. \@ref(fig:reg-plot1)).
 
-```{r reg-plot1, fig.height = 6, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{meanage}, edad promedio), que por supuesto coincide  con las predicciones del objeto `pred.res.modage` (Output 11, en la sección \\@ref(pred-mods)); la banda gris demilimata por líneas punteadas representa el intervalo de confianza del 95%."}
+```{r reg-plot1, fig.height = 6, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{meanage}, edad promedio), que por supuesto coincide  con las predicciones del objeto `pred.res.modage` (Output 11, en la sección \\@ref(pred-mods)); la banda gris demilitada por líneas punteadas representa el intervalo de confianza del 95%."}
 regplot(res.modage,
         ylab = "Coeficiente de correlación transformado en z de Fisher",
         xlab = "Edad promedio del estudio")
@@ -1275,7 +1262,7 @@ text(x = 1, y = 18, labels = "Peso", pos = 2)
 text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
 ```
 
-De manera similar, podemos obtener un *funnel plot* de nuestro meta-análisis con moderador. Es importante tener en cuenta que tanto el paquete `weightr` como el paquete `metafor` tienen funciones llamadas `funnel`. Dado que cargamos el paquete `weightr` después, R por defecto intentará intentará crear el *funnel plot* con la función `funnel` del paquete `weightr`, en vez de la función `funnel` del paquete `metafor`. Para evitar este error, tenemos dos opciones: podemos pedirle a R explícitamente que use la función `funnel` del paquete `metafor` con el comando `metafor::funnel`, o podemos pedirle a R que elimine el paquete de la memoria con la función `detach("package:metameta", unload = TRUE)`. En este caso, usaré la primera opción.
+De manera similar, podemos obtener un *funnel plot* de nuestro meta-análisis con moderador. Es importante tener en cuenta que tanto el paquete `weightr` como el paquete `metafor` tienen funciones llamadas `funnel`. Dado que cargamos el paquete `weightr` después, R por defecto intentará intentará crear el *funnel plot* con la función `funnel` del paquete `weightr`, en vez de la función `funnel` del paquete `metafor`. Para evitar este problema, tenemos dos opciones: podemos pedirle a R explícitamente que use la función `funnel` del paquete `metafor` con el comando `metafor::funnel`, o podemos pedirle a R que elimine el paquete de la memoria con la función `detach("package:metameta", unload = TRUE)`. En este caso, usaré la primera opción.
 
 Este *funnel plot*, a diferencia los los anteriores, nos mostrará los valores residuales de cada estudio (es decir, qué tanto se alejan del resultado de nuestro meta-análisis, que tiene un valor residual de 0; Fig. \@ref(fig:funnel-plot1)), en vez de los coeficientes de correlación (transformados a $z$ de Fisher).
 
@@ -1292,6 +1279,29 @@ metafor::funnel(res.modage,
                 ylab = "Error estándar")
 ```
 
+### Reporte del meta-análisis con moderador continuo {#reporte-cont}
+
+Por supuesto, al igual que como se explica en la sección \@ref(heterog-inf), también podemos estimar intervalos de confianza de las medidas de heterogeneidad, con la función `confint(res.modage)`. Incluyendo esos intervalos de confianza el modelo se podría resumir, por ejemplo, así:
+
+```{=latex}
+\begin{tcolorbox}[enhanced,attach boxed title to top center={yshift=-3mm,yshifttext=-1mm},
+  colback=iacol!5!white,colframe=iacol!75!white,colbacktitle=iacol,
+  title=Ejemplo de reporte con moderador continuo,fonttitle=\bfseries, parbox=false,
+  boxed title style={size=small,colframe=iacol} ]
+  
+Dado que hay una considerable variación en la edad media de los participantes entre los estudios incluídos (con un rango entre 22 y 78.6), volvimos a ajustar el mismo meta-análisis, pero incluyendo la edad media de los participantes de cada estudio como variable moderadora. Esta meta-regresión reveló que, aunque en los estudios icluídos la asociación entre concienciación y adherencia disminuye al aumentar la edad media de las muestras, esta moderación no es significativa (intercepto: $z$ ± $se$ = 0.27 ± 0.11, IC 95\% [0.06, 0.49]; $Z$ = 2.51, $p$ = .012; edad promedio: $z$ ± $se$ = -0.002 ± 0.002, IC 95\% [-0.006, 0.002]; $Z$ = -1.195, $Q$(1) = 1.429,   $p$ = .232). 
+
+Adicionalmente, la heterogeneidad moderada y significatica se mantuvo, incluso al incluir este moderador ($\tau^2$ ± $se$ =  0.0072 ± 0.0054, IC 95\% [0.0010, 0.0403]; $\tau$ = 0.0846, IC 95\% [0.0315, 0.2007]; $Q$(14) =  30.91, $p$ = .006; $I^2$ = 56.50\%, IC 95\% [15.24\%, 87.97\%]). Por esto, no podemos inferir que la edad promedio de las muestras tenga un efecto en la estimación de la asociación entre concienciación y adherencia al tratamiento.  
+
+\end{tcolorbox}
+```
+
+Por supuesto, este resultado está pensado acá para ser reportado tras el reporte del meta-análisis básico (ejemplos en las secciones \@ref(reporte1) y \@ref(reporte2)).
+
+De nuevo, ten en cuenta que siempre es buena idea citar tablas y figuras relevantes junto al reporte de los resultados que ilustran, pues esto facilitará la comunicación de resultados complejos. En este caso, yo citaría el gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*; sección \@ref(meta-scatter)) al presentar los resultados de la edad promedio, y el *forest plot* y el *funnel plot* de este meta-análisis con moderador (sección \@ref(plot-mod)) al hablar de heterogeneidad.
+
+Aunque estoy siendo extremadamente exhaustivo en la manera de reportar toda la información, hay diferentes formas de reportar tus resultados. Puedes por supuesto usar ejemplos de artículos que reporten meta-análisis para usarlos como modelo; por ejemplo, @salsmanMetaanalyticApproachExamining2015 y @shiCorrelationAdherenceRates2010 hacen reportes distintos pero claros, y el estudio de  @hidalgo-fuentesUsoProblematicoInternet2022 es un ejemplo sencillo del reporte de un meta-análisis de correlación, con y sin moderador, en español.
+
 ## Ejemplo 2: Moderación de una variable categórica (controles usados en cada estudio meta-analizado)
 
 Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.contr`. 
@@ -1301,7 +1311,11 @@ res.contr <- rma(yi = yi, vi = vi, mods = ~controls, data = dat)
 res.contr
 ```
 
-En éste caso, a diferencia del ejemplo de moderación anteriores, la variable moderadora (`controls`) sí tiene un efecto significativo, como se puede ver en la columna `pval` para el efecto de `controlsnone` (`r scales::pvalue(res.contr$pval[2])`), y en los asteriscos que aparecen al final de esa fila (`***`).
+En éste caso, a diferencia del ejemplo de moderación anteriores, la variable moderadora (`controls`) sí tiene un efecto significativo, como se puede ver en el "`Test of Moderators (coefficient 2)`" y en la columna `pval` para el efecto de `controlsmultiple` (<.0001), sí como en los asteriscos que aparecen al final de esa fila (`***`).
+
+De nuevo, en la tabla de `Model results` los estimados (columna `estimate`) se pueden leer tal cual como si fueran una regresión. Sin embargo es importante tener en cuenta que, dado que nuestra variable moderadora es categórica, el intercepto acá será en valor estimado de la correlación para el primer nivel (o categoría) de nuestra variable moderadora. Si recuerdas, como se explica en la sección \@ref(variables-inf) la variable que estamos usando como moderadora, `controls` contiene información de si cada estudio no controló ninguna variable (`none`), o controló múltiples variables (`multiple`). Es decir, es una variable categórica con 2 niveles (`none`, `multiple`). 
+
+Entonces, como el intercepto (`intrcpt`) tiene un valor estimado de 0.1788, se estima que la asociación entre concienciación y adherencia al tratamiento fue de *z* = 0.1788 para estudios que no controlaron ninguna variable. Después, frente al efecto de nuestro moderador (`controlsmultiple`, que pone de manera conjunta la variable `controls` más el nivel `multiple`), nos da un estimado de -0.1621, lo que quiere decir que la correlación disminuye *z* = -0.1621 cuando se trata de estudios que controlaron múltiples variables, \underline{con relación al intercepto} (`none`, en nuestro caso). De manera concreta, el modelo estimó una correlación de *z* = 0.1788 para estudios que no controlaron ninguna variable, y una correlación de *z* = 0.0167 (o, lo que es lo mismo, 0.1788 - 0.1621) cuando los estudios usaron varios controles.
 
 ### Más información e interpretación de la moderación {#pred-mods2}
 
@@ -1315,7 +1329,7 @@ pred.res.contr <- predict(res.contr, newmods = c(0, 1)) %>%
 pred.res.contr
 ```
 
-#### *Meta-Analytic Scatter Plot* (Gráfico de dispersión meta-analítico)
+#### *Meta-Analytic Scatter Plot* (Gráfico de dispersión meta-analítico)  {#meta-scatter2}
 
 Al igual que en el ejemplo de meta-análisis con moderación de una variable continua (sección \@ref(ex.mod1)), es posible hacer un gráfico de dispersión meta-analítico (*meta-analytic scatter plot*) usando la función `regplot` del paquete `metafor`. Sin embargo, dado que la variable moderadora es categórica, el modelo genera variables *dummy* asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningún control; 1 = múltiples controles). Por esto, en el ejemplo a continuación agregué a la descripción del eje $X$ esta información.
 
@@ -1327,7 +1341,7 @@ regplot(res.contr,
 
 Aunque la Figura \@ref(fig:reg-plot2) presenta información correcta, tal vez no es la más adecuada ni la más clara cuando se trata de representar meta-análisis con moderadores categóricos. Por ejemplo, a pesar de que nuestro moderador es un factor (controles) con dos niveles (ninguno, múltiples), en el eje $X$ se representa como una variable continua con valores entre 0 y 1, que además tiene valores intermedios (0.2, 2.4, 0.6, 0.8) que en nuestro caso no tienen sentido.
 
-Sin embargo, de manera un poco más *artesanal*, es posible crear una versión más adecuada usando, por ejemplo, `ggplot2`. El código siguiente permite crear una Figura bastante sofisticada usando éste paquete.
+Sin embargo, de manera un poco más *artesanal*, es posible crear una versión más adecuada usando, por ejemplo, `ggplot2`. El código siguiente permite crear una figura mucho más adecuada usando éste paquete.
 
 ```{r eval = FALSE}
 # Definir base de datos, así como ejes X (controls) y Y (yi)
@@ -1358,7 +1372,7 @@ ggplot(dat, aes(x = controls, y = yi)) +
   geom_point(data = pred.res.contr,
              shape = 21, size = 3,
              color = "black", fill = "white") +
-  # Cambiar tptitulo de leyenda
+  # Cambiar título de leyenda
   labs(color = "Tamaño de \nmuestra",
        size = "Tamaño de \nmuestra")
 ```
@@ -1394,19 +1408,98 @@ ggplot(dat, aes(x = controls, y = yi)) +
 
 ### *Forest plot* y *funnel plot* {#plot-mod2}
 
-Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como describí en la sección \@ref(plot-mod).
+Por supuesto, *forest plots* y *funnel plots* pueden ser creados, tal y como describí en la sección \@ref(plot-mod). Para el *forest plots* podríamos usar el siguiente código:
+
+```{r eval = FALSE}
+# forest plot con anotaciones adicionales
+forest(res.contr,  cex = 0.75, xlim = c(-1.6, 1.6),
+       slab = paste(dat$authors, dat$year, sep = ", "),
+       showweights = TRUE,
+       xlab = "Coeficiente de correlación transformado en z de Fisher",
+       digits = c(2,3L))
+# agregar encabezados a las columnas (valores de X y Y deben ser ajustados)
+par(cex = 0.8, font = 2)
+text(x = -1.6, y = 18, labels = "Autor(es), Año", pos = 4)
+text(x = 0, y = 18, labels = "Efecto e IC", pos = 4)
+text(x = 1, y = 18, labels = "Peso", pos = 2)
+text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
+```
+
+Ese código produce esta Figura \@ref(fig:for-plot-mod2).
+
+```{r for-plot-mod2, echo = FALSE, warning = FALSE, fig.height = 3.5, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo como moderador si los estudios incluyeron múltiples controles esyadísticos o ninguno. En la ilustración gráfica, además de los efectos originales, se puede ver el efecto de cada estudio estimado cuando se incluye el moderador como polígonos (diamantes) de color gris. Sin embargo, ya no obtenemos una fila al final representando el efecto promediado del meta-análisis, ya que no tenemos un solo efecto."}
+# forest plot con anotaciones adicionales
+par(mar = c(4,0,0,0))
+forest(res.contr,  cex = 0.75, xlim = c(-1.6, 1.6),
+       slab = paste(dat$authors, dat$year, sep = ", "),
+       showweights = TRUE,
+       xlab = "Coeficiente de correlación transformado en z de Fisher",
+       digits = c(2,3L))
+# agregar encabezados a las columnas (valores de X y Y deben ser ajustados)
+par(cex = 0.8, font = 2)
+text(x = -1.6, y = 18, labels = "Autor(es), Año", pos = 4)
+text(x = 0, y = 18, labels = "Efecto e IC", pos = 4)
+text(x = 1, y = 18, labels = "Peso", pos = 2)
+text(x = 1.6, y = 18, labels = "Corr. [95% IC]", pos = 2)
+```
+
+De manera similar, podemos obtener un *funnel plot*, pero recuerda que dado que tanto el paquete `weightr` como el paquete `metafor` tienen funciones llamadas `funnel`debemos pedirle a R explícitamente que use la función `funnel` del paquete `metafor` con el comando `metafor::funnel`. 
+
+Este *funnel plot*, nos mostrará los valores residuales de cada estudio (es decir, qué tanto se alejan del resultado de nuestro meta-análisis, que tiene un valor residual de 0; Fig. \@ref(fig:funnel-plot1)), en vez de los coeficientes de correlación (transformados a $z$ de Fisher).
+
+Adicionalmente no olvides que este **funnel plot** nos mostrará los valores residuales de cada estudio, dado que se trata de un meta-análisis con moderador, tal como lo expliqué en la sección \@ref(plot-mod).
+
+```{r eval = FALSE}
+metafor::funnel(res.contr,
+                xlab = "Valor residual",
+                ylab = "Error estándar")
+```
+
+Esto producirá la siguiente Figura \@ref(fig:funnel-plot2).
+
+```{r funnel-plot-mod2, echo = FALSE, fig.height = 5, fig.cap = "*Funnel plot* básico de [metafor](https://www.metafor-project.org/doku.php), para un meta-análisis incluyendo como moderador si los estudios incluyeron múltiples controles esyadísticos o ninguno. La línea punteada vertical representa el efecto meta-analizado que hemos encontrado, así que podemos ver los estudios que encontraron un efecto mayor (derecha de la línea punteada) o menor (izquierda) de éste. **Nota**: Para evitar confunción entre las funciones `funnel` de los paquetes `weightr` y `metafor`, en este caso he usado el comando \\texttt{metafor::funnel} para pedirle a R explícitamente que use la función `funnel` del paquete `metafor`."}
+par(mar = c(4,4,0,1))
+metafor::funnel(res.contr,
+                xlab = "Valor residual",
+                ylab = "Error estándar")
+```
+
+### Reporte del meta-análisis con moderador categórico {#reporte-cat}
+
+De nuevo, y tal como lo hicimos en la sección \@ref(heterog-inf) y en la sección  \@ref(reporte-cont), es posible estimar intervalos de confianza de las medidas de heterogeneidad. Para ello, en este caso usamos la función `confint(res.contr)`. El reporte incluyendo esta información podría ser algo como esto:
+
+```{=latex}
+\begin{tcolorbox}[enhanced,attach boxed title to top center={yshift=-3mm,yshifttext=-1mm},
+  colback=iacol!5!white,colframe=iacol!75!white,colbacktitle=iacol,
+  title=Ejemplo de reporte con moderador categórico,fonttitle=\bfseries, parbox=false,
+  boxed title style={size=small,colframe=iacol} ]
+  
+Dado que hay estudios que controlaron variables y otros que no controlaron ninguna, ajustamos de nuevo el meta-análisis, pero incluyendo este factor como variable moderadora. Al incluir la variable moderadora de controles en el meta-análisis, se encontró que esta tuvo un efecto significativo en la estimación de la correlación entre la concienciación y la adherencia al tratamiento ($Q$(1) = 20.122, $p$ < .0001). De hecho, los estudios que no incorporaron controles estimaron una asociación más alta ($z$ ± $se$ = 0.179 ± 0.021, IC 95\% [0.138, 0.219]) que los estudios que incluyeron múltiples controles ($z$ ± $se$ = 0.017 ± 0.030, IC 95\% [-0.041, 0.075]).
+
+Al incluir esta variable moderadora, se redujo enormemente la heterogeneidad entre los estudios ($\tau^2$ ± $se$ =  0.00 ± 0.0015, IC 95\% [0.0000, 0.0244]; $\tau$ = 0.0002, IC 95\% [0.000, 0.1562]; $Q$(14) = 18.037, $p$ = .205; $I^2$ = 0.00\%, IC 95\% [0.00\%, 80.96\%]), lo que indica que la heterogeneidad original se debía en gran parte a las diferencias metodológicas entre los estudios.  
+
+\end{tcolorbox}
+```
+
+Como antes, es importante tener en cuenta que este resultado debería ser reportado después del meta-análisis básico, como se muestra en las secciones \@ref(reporte1) y \@ref(reporte2). Además, al presentar los resultados, te recomiendo citar las tablas y figuras pertinentes que los ilustren, ya que esto puede facilitar la comunicación de resultados complejos. En particular, al reportar los resultados de la moderación, se podría hacer referencia al gráfico de dispersión meta-analítico (sección \@ref(meta-scatter2)). Asimismo, para hablar de la heterogeneidad, se podría citar el *forest plot* y el *funnel plot* correspondientes a este meta-análisis con moderador (sección \@ref(plot-mod2)).
+
+Aunque es importante proporcionar información detallada y exhaustiva en el reporte de los resultados de un meta-análisis, existen diferentes formas de hacerlo. Una recomendación es utilizar como modelos algunos artículos que hayan reportado meta-análisis previamente. Por ejemplo, el trabajo de @hidalgo-fuentesUsoProblematicoInternet2022 es un ejemplo sencillo de cómo reportar un meta-análisis de correlación, tanto con como sin moderador, en español. Poor otro lado, los estudios de @salsmanMetaanalyticApproachExamining2015 y @shiCorrelationAdherenceRates2010 presentan reportes de manera distinta pero clara (en inglés).
 
 # Conclusiones y recomendaciones generales
 
-Hacer un meta-análisis de correlación en R no es complejo. Sin embargo, la confiabilidad del resultado que te proporcione, dependerá de varios aspectos. 
+Hacer un meta-análisis de correlación en R no es necesariamente complejo, pero podría requerir acciones que pueden parecer algo laberínticas. Sin embargo, la confiabilidad del resultado que obtengas, dependerá de varios aspectos. Por esto, la realización de un meta-análisis requiere una comprensión de los métodos estadísticos involucrados, la selección y evaluación de estudios relevantes, y la identificación y consideración de posibles fuentes de heterogeneidad y sesgo.
 
-Primero, debes tener hacer una selección de artículos buena y no sesgada. Esto típicamente incluye:
+## Pasos para hacer tu meta-análisis
 
-1) Formular la pregunta de investigación clara, con base en teoría
+Primero, debes tener hacer una selección de artículos buena y no sesgada[^19]. Esto mínimamente incluye:
 
-2) Identificar la bibliografía pertinente
+[^19]: Para esto existen varias guías, e incluso la *Declaración PRISMA* que está diseñada para abordar los problemas en la publicación de revisiones sistemáticas y meta-análisis [para información en español, ver e.g., @huttonExtensionDeclaracionPRISMA2016; @pageDeclaracionPRISMA20202021].
 
-3) Extraer y consolidar los datos de los estudios (en el caso de correlaciones, cuando menos *r* y *n*)
+A. Formular la pregunta de investigación clara, con base en teoría
+
+B. Identificar la bibliografía pertinente
+
+C. Extraer y consolidar los datos de los estudios (en el caso de correlaciones, cuando menos *r* y *n*)
 
 Con esto deberías ya poder hacer una base de datos para un meta-análisis de correlación simple. Mientras tengas en tu base de datos algún identificador de cada estudio, el tamaño de efecto (*r*) y el tamaño de muestra (*n*), tendrías todo lo necesario para hacerlo. Por ejemplo:
 
@@ -1416,37 +1509,39 @@ Con esto deberías ya poder hacer una base de datos para un meta-análisis de co
 | Autores (año) | 0.65 | 45  |
 | Autores (año) | 0.12 | 235 |
 
-Adicionalmente, podrías tomar o extraer información de posibles variables moderadoras; por ejemplo, si los estudios se pudieran agrupar según metodología usada o población estudiada, y sospechas que estas variables afectan la correlación encontrada en cada estudio, podrías agregar esta información en una o más variables.
+Adicionalmente, podrías definir o extraer información de posibles variables moderadoras; por ejemplo, si los estudios se pudieran agrupar según metodología usada o población estudiada, y sospechas que estas variables afectan la correlación encontrada en cada estudio, podrías agregar esta información en una o más variables que podrías usar como moderadores.
 
 Una vez tengas tu base de datos lista, deberías, cuando menos:
 
-1. Hacer el meta-análisis
+1. Hacer el meta-análisis (sin moderador, sección \@ref(meta-cor); con moderador, sección \@ref(met-moderation))
 
-  * Reportar información sobre heterogeneidad
+    1.1 Reportar información sobre heterogeneidad (sección \@ref(heterog-inf))
   
-  * Incluir un diagnóstico de influencia
+    1.2 Hacer un diagnóstico de influencia (sección \@ref(diag-inf); incluir, si es posible y no tienes un número grande de estudios, un meta-análisis combinatorio, sección \@ref(gosh))
   
-  * Reportar los resultados usando un *forest plot* (diagrama de bosque)
+    1.3 Reportar los resultados usando un *forest plot* (diagrama de bosque; sección \@ref(forest-inf))
   
-  * Mostrar la distribución de los resultados en un *funnel plot* (diagrama de embudo) y estimar el sesgo de estudios pequeños 
+    1.4 Mostrar la distribución de los resultados en un *funnel plot* (diagrama de embudo; sección \@ref(funnel-inf)) y estimar el sesgo de estudios pequeños (sección \@ref(reg-egger))
   
-2. Estimar si hay evidencia de sesgo de publicación
+2. Estimar si hay evidencia de sesgo de publicación (sección \@ref(sesgo-pub))
 
-  * Puedes usar el método *trim and fill* (recorte y relleno) o, lo que es mejor, hacer una estimación del modelo de función de peso
+    2.1 Puedes usar el método *trim and fill* (recorte y relleno; sección \@ref(trim-fill)) o, lo que es mejor, hacer una estimación del modelo de función de peso (sección \@ref(vevea-hedges))
 
 Adicionalmente, podrías:
 
-3. Estimar el poder estadístico del meta-análisis y los estudios meta-analizados
+3. Estimar el poder estadístico del meta-análisis y los estudios meta-analizados (sección \@ref(poder-inf))
 
-4. Hacer un meta-análisis combinatorio)
+## Conclusión
 
+Si haces esto, tendrás una base sólida y transparente para hacer y comunicar tu meta-análisis, independientemente de sus resultados. Es importante recordar que, aunque el meta-análisis es una herramienta poderosa, no es una solución mágica para todos los problemas de investigación. La calidad de los estudios incluidos, la heterogeneidad de los datos y otras limitaciones pueden afectar los resultados y la interpretación del meta-análisis. 
 
-
-\newpage
+En última instancia, el éxito del meta-análisis depende de la habilidad y el rigor del investigador o investigadora en su implementación y en la interpretación de sus resultados. 
 
 # Referencias
 
 <div id="refs"></div>
+
+\newpage
 
 # APÉNDICES {.unnumbered}
 
