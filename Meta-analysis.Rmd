@@ -30,7 +30,7 @@ header-includes:
   \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}}
   \rfoot{\footnotesize{{doi:}
     \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}}
-  \lfoot{\footnotesize{Versión 2}}
+  \lfoot{\footnotesize{Versión 1}}
   \renewcommand{\abstractname}{Descripción}
   \usepackage[spanish]{babel}
   \usepackage{hanging}
@@ -1537,9 +1537,18 @@ En última instancia, el éxito del meta-análisis depende de la habilidad y el 
 
 ---------------
 
-# Referencias
+# Referencias {-}
+
+```{=latex}
+\footnotesize
+\begin{multicols}{2}
+```
 
 <div id="refs"></div>
+
+```{=latex}
+\end{multicols}
+```
 
 ---------------
 
@@ -1547,7 +1556,10 @@ En última instancia, el éxito del meta-análisis depende de la habilidad y el 
 
 # (APPENDIX) Apéndice {-}  
 
+```{=latex}
 \opensupplement
+\normalsize
+```
 
 ## *Apéndice A.* Alternativas a `metafor` {.unnumbered #apendice-alt}
 
@@ -1559,11 +1571,10 @@ De manera importante, los objetos generados por `meta` al realizar un meta-anál
 
 ### *A1.* Ejemplo: curva de valores $p$ (*p-curve*) {.unnumbered #p-curve}
 
-Como ejemplo corto, la curva de valores $p$ (*p-curve*) de nuestro meta-análisis se podría hacer tras ajustar de nuevo el modelo con la función `metacor` (que hace meta-análisis de correlaciones) del paquete `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015]. Para este ejemplo asignaré el resultado a un objeto que llamaré `res.meta`.
+Como ejemplo corto, la curva de valores $p$ (en inglés *p-curve*) de nuestro meta-análisis se podría hacer tras ajustar de nuevo el modelo con la función `metacor` (que hace meta-análisis de correlaciones) del paquete `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015]. Para este ejemplo asignaré el resultado a un objeto que llamaré `res.meta`.
 
 ```{r message = FALSE}
 library(meta)
-
 res.meta <- metacor(cor = yi, 
                     n = ni, 
                     studlab = paste(dat$authors, dat$year, sep = ", "), 
@@ -1575,15 +1586,14 @@ El objeto resultante (`res.meta`) puede usarse directamente como argumento a la 
 
 ```{r eval = FALSE}
 library(dmetar)
-
 pcurve(res.meta)
 ```
 
-La función `pcurve` produce varios elementos relacionados la curva de valores $p$ (*p-curve*), incluyendo la Figura \@ref(fig:pcurve-plot) que resume éste análisis.
-
-```{r pcurve-plot, echo = FALSE, fig.cap = "Curva de valores $p$ (*p-curve*) creada con [`dmetar`](http://dmetar.protectlab.org/). Para una entender una curva de valores $p$, su relevancia y su interpretación, sugiero leer Simonsohn et al. (2019, 2014), o ver el sitio web del paquete `dmetar`: [http://dmetar.protectlab.org/](http://dmetar.protectlab.org/)."}
+```{r pcurve-plot, echo = FALSE, out.width = "400px", fig.align = "center", fig.cap = "Curva de valores $p$ (\\textit{p-curve}) creada con \\href{http://dmetar.protectlab.org/}{\\texttt{dmetar}}. Para una entender una curva de valores $p$, su relevancia y su interpretación, sugiero leer Simonsohn et al. (2019, 2014), o ver el sitio web del paquete \\texttt{dmetar}: \\href{http://dmetar.protectlab.org/}{http://dmetar.protectlab.org/}."}
 knitr::include_graphics("images/pcurve.pdf")
 ```
+
+La función `pcurve` produce varios elementos relacionados la curva de valores $p$, incluyendo la Figura \@ref(fig:pcurve-plot) que resume éste análisis.
 
 ## *Apéndice B.* Citas y referencias de paquetes de R {.unnumbered #paquetes-cit}
 
@@ -1604,6 +1614,5 @@ citation("dplyr")
 ## *Apéndice C.* Paquetes de R usados para crear este documento {.unnumbered #paquetes-list}
 
 ```{r echo = FALSE}
-library(pander)
-pander(sessionInfo(), locale = FALSE)
+pander::pander(sessionInfo(), locale = FALSE)
 ```
