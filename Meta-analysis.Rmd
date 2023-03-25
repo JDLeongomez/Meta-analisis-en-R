@@ -164,7 +164,11 @@ Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R
 
 En investigación, es frecuente que busquemos medir la magnitud de un efecto en una población. Por ejemplo, podríamos tener interés en determinar qué tan fuerte es la correlación entre el nivel socioeconómico y el índice de masa corporal (IMC) en un país determinado, o entre la masa de una estrella y su luminosidad. No obstante, es muy poco probable que podamos obtener información sobre la población entera (de personas del país, o de estrellas en el universo), por lo que debemos hacer uso de muestras para inferir la magnitud del efecto. 
 
-Sin embargo, a menudo, diferentes estudios obtienen coeficientes de correlación ligeramente diferentes (en algunos casos, muy diferentes). Esta variabilidad no es sorprendente, ya que cada muestra es solo una representación parcial de la correlación en la población completa. 
+Sin embargo, a menudo, diferentes estudios obtienen coeficientes de correlación ligeramente diferentes (en algunos casos, muy diferentes). Esta variabilidad no es sorprendente, ya que cada muestra es solo una visualización parcial (y de alguna manera sesgada) de la correlación en la población completa. 
+
+```{r efecto, echo = FALSE, fig.cap = "Ejemplo de distribución de resultados de diferentes estudios (puntos grises) en relación a un efecto real (línea gris vertical). Los estudios realizados con diferentes muestras tienden a estar a ambos lados del efecto real (efectos mayores al real a la derecha y efectos menores a la izquierda). Sin embargo, entre mayor sea la muestra (arriba) los estudios tienden a estar más cerca del efecto real (tienen menor error), pero estudios con muestras pequeñas (abajo) son más variables (y en promedio tienen mayor error), y pueden tener efectos muy alejados del efecto real. Esto forma una especie de triángulo simétrico, con el efecto real en el centro. Esta idea, aunque simplificada en este ejemplo, está en la base misma del meta-análisis, y es similar a lo que comúnmente se representa en un diagrama de embudo (\\textit{funnel plot})."}
+knitr::include_graphics("images/sim_estabilidad.pdf")
+```
 
 Aunque hay técnicas de muestreo que tienden a hacer que las muestras se *parezcan* más a la población, cada muestra tiene características particulares que conducen a resultados diferentes. Entonces, ¿cómo podemos saber cuál es el efecto real cuando cada estudio obtiene un resultado distinto?
 
