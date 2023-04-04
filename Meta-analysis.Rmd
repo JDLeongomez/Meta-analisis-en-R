@@ -1169,7 +1169,7 @@ En nuestro caso, variables como la cantidad de variables controladas (`controls`
 
 Los moderadores pueden ser tanto variables continuas, como categóricas, y en las siguientes secciones daré ejemplos para cada caso.
 
-## Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes) {#ex.mod1}
+## Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes) {#ex-mod1}
 
 Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^14], lo que podría moderar (afectar) la asociación entre escrupulosidad (*conscientiousness*) y adherencia a la medicación prescrita.
 
@@ -1238,7 +1238,7 @@ Sin embargo, este efecto moderador de la edad \underline{no es significativo}, p
 
 Alternativamente, cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función `regplot` hace precisamente esto (Fig. \@ref(fig:reg-plot1)).
 
-```{r reg-plot1, fig.height = 5, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{meanage}, edad promedio), que por supuesto coincide  con las predicciones del objeto `pred.res.modage` (Output 11, en la sección \\@ref(pred-mods)); la banda gris demilitada por líneas punteadas representa el intervalo de confianza del 95%."}
+```{r reg-plot1, fig.height = 4.8, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{meanage}, edad promedio), que por supuesto coincide  con las predicciones del objeto `pred.res.modage` (Output 11, en la sección \\@ref(pred-mods)); la banda gris demilitada por líneas punteadas representa el intervalo de confianza del 95%."}
 regplot(res.modage,
         ylab = "Coeficiente de correlación (z de Fisher)",
         xlab = "Edad promedio de muestra")
@@ -1348,9 +1348,9 @@ pred.res.contr
 
 #### *Meta-Analytic Scatter Plot* (Gráfico de dispersión meta-analítico)  {#meta-scatter2}
 
-Al igual que en el ejemplo de meta-análisis con moderación de una variable continua (sección \@ref(ex.mod1)), es posible hacer un gráfico de dispersión meta-analítico (*meta-analytic scatter plot*) usando la función `regplot` del paquete `metafor`. Sin embargo, dado que la variable moderadora es categórica, el modelo genera variables *dummy* asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningún control; 1 = múltiples controles). Por esto, en el ejemplo a continuación agregué a la descripción del eje $X$ esta información.
+Al igual que en el ejemplo de meta-análisis con moderación de una variable continua (sección \@ref(ex-mod1)), es posible hacer un gráfico de dispersión meta-analítico (*meta-analytic scatter plot*) usando la función `regplot` del paquete `metafor`. Sin embargo, dado que la variable moderadora es categórica, el modelo genera variables *dummy* asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningún control; 1 = múltiples controles). Por esto, en el ejemplo a continuación agregué a la descripción del eje $X$ esta información.
 
-```{r reg-plot2, fig.height = 5.5, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*) básico de [metafor](https://www.metafor-project.org/doku.php) creado con la función \\texttt{regplot}. El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{controls}, controles). La banda gris demilimata por líneas punteadas representa el intervalo de confianza del 95%. Dado que la variable moderadora es categórica, el modelo genera variables *dummy* asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningúun control; 1 = múltiples controles), tal y como se describe en el eje *X*. Para una versión más apropiada, ver Figura \\@ref(fig:reg-plot3)."}
+```{r reg-plot2, fig.height = 4.8, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*) básico de [metafor](https://www.metafor-project.org/doku.php) creado con la función \\texttt{regplot}. El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{controls}, controles). La banda gris demilimata por líneas punteadas representa el intervalo de confianza del 95%. Dado que la variable moderadora es categórica, el modelo genera variables *dummy* asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningúun control; 1 = múltiples controles), tal y como se describe en el eje *X*. Para una versión más apropiada, ver Figura \\@ref(fig:reg-plot3)."}
 regplot(res.contr,
         ylab = "Coeficiente de correlación (z de Fisher)",
         xlab = "Controles (0 = ninguno; 1 = múltiples)")
@@ -1364,8 +1364,7 @@ Sin embargo, de manera un poco más *artesanal*, es posible crear una versión m
 # Definir base de datos, así como ejes X (controls) y Y (yi)
 ggplot(dat, aes(x = controls, y = yi)) +
   # Agregar puntos para cada estudio, con tamaño y color según tamaño de muestra (ni)
-  geom_point(aes(size = ni, color = ni),
-             alpha = 0.5) +
+  geom_point(aes(size = ni, color = ni), alpha = 0.5) +
   # Definir escala de colores
   scale_colour_gradient(low = "red", high = "blue") +
   # Definir rango de tamaño de los puntos
@@ -1375,15 +1374,12 @@ ggplot(dat, aes(x = controls, y = yi)) +
   # Traducir etiquetas del eje X en español
   scale_x_discrete(labels=c("none" = "Ninguno", "multiple" = "Múltiples")) +
   # Cambiar títulos de ejes a español
-  labs(x = "Controles", 
-       y = "Coeficiente de correlación (z de Fisher)") +
+  labs(x = "Controles", y = "Coeficiente de correlación (z de Fisher)") +
   # Agregar barras de error para cada categoría, con base en predicción hecha en sección 4.2.1
-  geom_errorbar(data = pred.res.contr,
-                mapping = aes(ymin = ci.lb, ymax = ci.ub),
+  geom_errorbar(data = pred.res.contr, mapping = aes(ymin = ci.lb, ymax = ci.ub),
                 width = 0.1, color = "black") +
   # Agregar puntos blancos representando predicción para cada categoría hecha en sección 4.2.1
-  geom_point(data = pred.res.contr,
-             shape = 21, size = 3, color = "black", fill = "white") +
+  geom_point(data = pred.res.contr, shape = 21, size = 3, color = "black", fill = "white") +
   # Cambiar título de leyenda
   labs(color = "Tamaño de \nmuestra", size = "Tamaño de \nmuestra") # "\n" para salto de línea
 ```
@@ -1392,7 +1388,7 @@ El código anterior puede verse algo confuso para quien no haya usado `ggplot2` 
 
 [^18]: Debido a sus enormes y numerosas posibilidades, `ggplot2` es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía, y posiblemente requeriría múltiples tutoriales independientes. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este [tutorial](https://rpubs.com/anlope10/562981) [@lopezpenarandaTutorialGgplot22019] o ver este [video](https://youtu.be/BUzTAr_QqKs) [@datademiaAprendeGgplot22018]. 
 
-```{r reg-plot3, fig.height = 4, echo = FALSE, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*) creado manualmente con [ggplot2](https://ggplot2.tidyverse.org/) para hacer una mejor representación de un moderador categírico. Los puntos de colores representan el coeficiente de correlación en función de la presencia o ausencia de controles. El tamaño de los puntos es proporcional al tamaño de muestra de los estudios inluidos en el meta-análisis (puntos más grandes y azules para los estudios con mayor tamaño de muestra). Los puntos blancos superpuetos representan el efecto estimado para cada categoría, y las barras de error representan los intervalos de confianza del 95%."}
+```{r reg-plot3, fig.height =  2.5, fig.width = 3.5, echo = FALSE, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*) creado manualmente con [ggplot2](https://ggplot2.tidyverse.org/) para hacer una mejor representación de un moderador categírico. Los puntos de colores representan el coeficiente de correlación en función de la presencia o ausencia de controles. El tamaño de los puntos es proporcional al tamaño de muestra de los estudios inluidos en el meta-análisis (puntos más grandes y azules para los estudios con mayor tamaño de muestra). Los puntos blancos superpuetos representan el efecto estimado para cada categoría, y las barras de error representan los intervalos de confianza del 95%."}
 ggplot(dat, aes(x = controls, y = yi)) +
   geom_point(aes(size = ni, color = ni),
              alpha = 0.5) +
@@ -1404,7 +1400,7 @@ ggplot(dat, aes(x = controls, y = yi)) +
   scale_x_discrete(labels=c("none" = "Ninguno", 
                             "multiple" = "Múltiples")) +
   labs(x = "Controles", 
-       y = "Coeficiente de correlación (z de Fisher)") +
+       y = "Coeficiente de correlación\n(z de Fisher)") +
   geom_errorbar(data = pred.res.contr,
                 mapping = aes(ymin = ci.lb, ymax = ci.ub),
                 width = 0.1,
@@ -1566,6 +1562,7 @@ Mi objetivo con esta guía es inspirar a investigadores hispanohablantes, ya sea
 
 ```{=latex}
 \end{multicols}
+\newpage
 ```
 
 # APÉNDICES {.unnumbered}

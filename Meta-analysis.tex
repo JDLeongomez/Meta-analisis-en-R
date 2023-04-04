@@ -1745,8 +1745,8 @@ En nuestro caso, variables como la cantidad de variables controladas (\texttt{co
 
 Los moderadores pueden ser tanto variables continuas, como categóricas, y en las siguientes secciones daré ejemplos para cada caso.
 
-\hypertarget{ex.mod1}{%
-\subsection{Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes)}\label{ex.mod1}}
+\hypertarget{ex-mod1}{%
+\subsection{Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes)}\label{ex-mod1}}
 
 Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, \texttt{meanage}) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios\footnote{De hecho, mientras que en el estudio de Axelsson et al.~(2009) la edad promedio fue de 22, en el estudio de Jerant et al.~(2011) la edad promedio fue de 78.6.}, lo que podría moderar (afectar) la asociación entre escrupulosidad (\emph{conscientiousness}) y adherencia a la medicación prescrita.
 
@@ -2017,7 +2017,7 @@ Entonces, como el intercepto (\texttt{intrcpt}) tiene un valor estimado de 0.178
 \hypertarget{meta-scatter2}{%
 \paragraph{\texorpdfstring{\emph{Meta-Analytic Scatter Plot} (Gráfico de dispersión meta-analítico)}{Meta-Analytic Scatter Plot (Gráfico de dispersión meta-analítico)}}\label{meta-scatter2}}
 
-Al igual que en el ejemplo de meta-análisis con moderación de una variable continua (sección @ref(ex.mod1)), es posible hacer un gráfico de dispersión meta-analítico (\emph{meta-analytic scatter plot}) usando la función \texttt{regplot} del paquete \texttt{metafor}. Sin embargo, dado que la variable moderadora es categórica, el modelo genera variables \emph{dummy} asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningún control; 1 = múltiples controles). Por esto, en el ejemplo a continuación agregué a la descripción del eje \(X\) esta información.
+Al igual que en el ejemplo de meta-análisis con moderación de una variable continua (sección \ref{ex-mod1}), es posible hacer un gráfico de dispersión meta-analítico (\emph{meta-analytic scatter plot}) usando la función \texttt{regplot} del paquete \texttt{metafor}. Sin embargo, dado que la variable moderadora es categórica, el modelo genera variables \emph{dummy} asignando valores de 0 y 1 a los niveles de esta variable (en este caso, 0 = ningún control; 1 = múltiples controles). Por esto, en el ejemplo a continuación agregué a la descripción del eje \(X\) esta información.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2042,8 +2042,7 @@ Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versi
 \CommentTok{\# Definir base de datos, así como ejes X (controls) y Y (yi)}
 \FunctionTok{ggplot}\NormalTok{(dat, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ controls, }\AttributeTok{y =}\NormalTok{ yi)) }\SpecialCharTok{+}
   \CommentTok{\# Agregar puntos para cada estudio, con tamaño y color según tamaño de muestra (ni)}
-  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{size =}\NormalTok{ ni, }\AttributeTok{color =}\NormalTok{ ni),}
-             \AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{size =}\NormalTok{ ni, }\AttributeTok{color =}\NormalTok{ ni), }\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Definir escala de colores}
   \FunctionTok{scale\_colour\_gradient}\NormalTok{(}\AttributeTok{low =} \StringTok{"red"}\NormalTok{, }\AttributeTok{high =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Definir rango de tamaño de los puntos}
@@ -2053,15 +2052,12 @@ Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versi
   \CommentTok{\# Traducir etiquetas del eje X en español}
   \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"none"} \OtherTok{=} \StringTok{"Ninguno"}\NormalTok{, }\StringTok{"multiple"} \OtherTok{=} \StringTok{"Múltiples"}\NormalTok{)) }\SpecialCharTok{+}
   \CommentTok{\# Cambiar títulos de ejes a español}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Controles"}\NormalTok{, }
-       \AttributeTok{y =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Controles"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Agregar barras de error para cada categoría, con base en predicción hecha en sección 4.2.1}
-  \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr,}
-                \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ ci.lb, }\AttributeTok{ymax =}\NormalTok{ ci.ub),}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ ci.lb, }\AttributeTok{ymax =}\NormalTok{ ci.ub),}
                 \AttributeTok{width =} \FloatTok{0.1}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Agregar puntos blancos representando predicción para cada categoría hecha en sección 4.2.1}
-  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr,}
-             \AttributeTok{shape =} \DecValTok{21}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr, }\AttributeTok{shape =} \DecValTok{21}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Cambiar título de leyenda}
   \FunctionTok{labs}\NormalTok{(}\AttributeTok{color =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{, }\AttributeTok{size =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{) }\CommentTok{\# "\textbackslash{}n" para salto de línea}
 \end{Highlighting}
@@ -2408,6 +2404,7 @@ Wickham, H., François, R., Henry, L., \& Müller, K. (2021). \emph{Dplyr: A gra
 \end{CSLReferences}
 
 \end{multicols}
+\newpage
 
 \hypertarget{apuxe9ndices}{%
 \section*{APÉNDICES}\label{apuxe9ndices}}
