@@ -33,6 +33,7 @@ header-includes:
   \lfoot{\footnotesize{Versión 1}}
   \renewcommand{\abstractname}{Descripción}
   \usepackage[spanish]{babel}
+  \usepackage{csquotes}
   \usepackage{hanging}
   \usepackage{amsthm,amssymb,amsfonts}
   \usepackage{tikz,lipsum,lmodern}
@@ -160,61 +161,61 @@ Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R
 }
 ```
 
-# Introducción: *¿Qué es un meta-análisis y por qué es importante?*
+# Introducción
 
-En investigación, es frecuente que busquemos medir la magnitud de un efecto en una población. Por ejemplo, podríamos tener interés en determinar cosas tan diversas como qué tan fuerte es la correlación entre el nivel socioeconómico y el índice de masa corporal (IMC) en un país determinado, o entre la masa de una estrella y su luminosidad. No obstante, es muy poco probable que podamos obtener información sobre la población entera (de personas del país, o de estrellas en el universo), por lo que debemos hacer uso de muestras para inferir la magnitud del efecto. 
+En investigación, es frecuente que busquemos medir la magnitud de un efecto en una población. Por ejemplo, podríamos tener interés en determinar cosas tan diversas como qué tan fuerte es la correlación entre la masa de una estrella y su luminosidad, o entre el nivel socioeconómico y el índice de masa corporal (IMC) en un país determinado. No obstante, es muy poco probable que podamos obtener información sobre la población entera (de estrellas en el universo o de personas del país), por lo que debemos hacer uso de muestras de esa población para inferir la magnitud del efecto. 
 
 Sin embargo, a menudo, diferentes estudios obtienen coeficientes de correlación ligeramente diferentes (en algunos casos, muy diferentes). Esta variabilidad no es sorprendente, ya que cada muestra es solo una visualización parcial (y de alguna manera sesgada) de la correlación en la población entera. 
 
 Por ejemplo mira la simulación a continuación (Fig. \@ref(fig:efecto)). En el panel **A** he simulado una población con un *N* de 6095 elementos (por ejemplo, personas, estrellas, o lo que sea relevante para ti). En esa población hipotética, la correlación entre dos variables es de $r$ = 0.25. 
 
-Ahora imagina que tú quieres establecer esa correlación real ($r$ = 0.25), pero no la conoces, y no tienes acceso a la población completa de 6095 elementos. Tu mejor apuesta es tomar una muestra aleatoria, que en principio tendería a darte un resultado *similar* al real. En el panel **B** hay 25 muestra aleatorias de esos 6095 elementos, y en cada una se reporta tanto en tamaño de la muestra (*n*, que va desde una muestra muy pequeña de apenas 14 observaciones, hasta una muy respetable de 493), como la correlación encontrada en esa muestra (*r*, que va desde 0.10 hasta 0.46). 
-
-```{r efecto, echo = FALSE, fig.cap = "Simulación de una población hipotética de *N* = 6095 elementos, en la que dos variables se correlacionan positivamente (*r* = 0.25). **A.** Simulación de la población y correlación entre dos variables. **B.** 25 muestras aleatorias de diferentes tamaños (*n*) de esa población, y la correlación encontrada en cada una (*r*). En naranja se resaltan los elementos seleccionados aleatoriamente en cada muestra, así como la correlación encontrada, sobre el total de la población y la correlación real de la población (en negro, como referencia)."}
+```{r efecto, echo = FALSE, fig.cap = "Simulación de una población hipotética de *N* = 6095 elementos, en la que dos variables se correlacionan positivamente (*r* = 0.25). **A.** Simulación de la población y correlación entre dos variables. **B.** 25 muestras aleatorias de diferentes tamaños (*n*) de esa población, y la correlación encontrada en cada una (*r*). En naranja se resaltan los elementos seleccionados aleatoriamente y la correlación encontrada en cada muestra, superpuestos sobre el total de la población y la correlación real (en negro, como referencia)."}
 knitr::include_graphics("images/sim_estabilidad.pdf")
 ```
 
+Ahora imagina que tú quieres establecer esa correlación real ($r$ = 0.25), pero no la conoces, y no tienes acceso a la población completa de 6095 elementos. Tu mejor apuesta es tomar una muestra aleatoria, que en principio tendería a darte un resultado *similar* al real. En el panel **B** hay 25 muestra aleatorias de esos 6095 elementos, y en cada una se reporta tanto en tamaño de la muestra (*n*, que va desde una muestra muy pequeña de apenas 14 observaciones, hasta una muy respetable de 493), como la correlación encontrada en esa muestra (*r*, que va desde 0.10 hasta 0.46). 
+
 Entre las 25 muestra aleatorias de nuestra población (Fig. \@ref(fig:efecto)B), hay varias que encuentran una correlación similar a la real (que, como es simulada, sabemos que es exactamente de $r$ = 0.25), pero hay otras que se alejan bastante. Analiza detalladamente esos resultados y trata de ver si las que más de alejan (estando por debajo o por encima de 0.25), tienen algo en común.
 
-Si miras con cuidado, verás algo claro: las muestras más grandes tienden a encontrar resultados similares al de nuestra población simulada ($r$ = 0.25), pero las muestra pequeñas son menos confiables. Aunque algunas muestras pequeñas encuentran correlaciones muy cercanas a la real, otras se alejan mucho. Para ilustrar esto, voy a graficar la correlación encontrada en cada muestra, y cómo se asocia con su tamaño de muestra (Fig. \@ref(fig:dist-sim)).
+Si miras con cuidado, verás algo claro: las muestras más grandes tienden a encontrar resultados similares al de nuestra población simulada ($r$ = 0.25). Sin embargo, las muestra pequeñas son menos confiables: aunque algunas muestras pequeñas encuentran correlaciones muy cercanas a la real, otras se alejan mucho. Para ilustrar esto, voy a graficar la correlación encontrada en cada muestra, y cómo se asocia con su tamaño de muestra (Fig. \@ref(fig:dist-sim)).
 
 ```{r dist-sim, echo = FALSE, fig.height = 200, fig.align = "center", fig.cap = "Relación entre el efecto encontrado (eje $X$) y el tamaño de muestra (eje $Y$) en 25 muestras aleatorias de una población simulada donde la correlación entre las variables es de $r$ = 0.25. Mientras que las muestras grandes (arriba) son confiables y tienden a encontrar resultados similares al del efeto real, muestras pequeñas (abajo)son menos confiables y puyeden producir estimaciones del efecto que se alejan mucho del real."}
 knitr::include_graphics("images/dist-sim.pdf")
 ```
 
+## ¿Qué es un meta-análisis y por qué es importante?
+
 De manera más general, se puede entender así: aunque hay técnicas de muestreo que tienden a hacer que las muestras se *parezcan* más a la población, cada muestra tiene características particulares que conducen a resultados diferentes. Entonces, cuando debemos hacer inferencia con base en muestras porque no podemos tener acceso a la población entera, ¿cómo podemos saber cuál es el efecto real si cada estudio obtiene un resultado distinto?
 
 Una herramienta útil para abordar este problema es el meta-análisis, que es una técnica estadística que nos permite obtener una estimación más precisa del efecto *real* de la correlación. Por supuesto, la palabra clave acá es *estimación*, pues aunque el efecto real es algo que rara vez podremos determinar con absoluta certeza, sí es algo que podemos acercarnos a conocer. 
 
-El meta-análisis se puede entender como una especie *promediación* de los efectos encontrados en diversos estudios, dando mayor peso a estudios que tienen más credibilidad (es decir, mayor probabilidad de mostrar un resultado cercano a la verdad). 
+El meta-análisis se puede entender como una especie *promediación* de los efectos encontrados en diversos estudios, dando mayor peso a estudios que tienen más credibilidad (es decir, mayor probabilidad de mostrar un resultado cercano a la verdad). ¿Cómo se hace esto? Como se ve en la Figura \@ref(fig:dist-sim), el tamaño de una muestra afecta la confiabilidad de un resultado. 
 
-¿Cómo se hace esto? Como se ve en la Figura \@ref(fig:dist-sim), el tamaño de una muestra afecta la confiabilidad de un resultado. Para decirlo de manera más técnica directamente, el tamaño de muestra afecta el poder estadístico así como el error en la estimación del efecto [@leongomezPoderRvid2020; @leongomezAnalisisPoderEstadistico2020]; entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen). Por esto, podemos usar estas medidas como un indicador de la credibilidad del efecto encontrado por un estudio (Fig. \@ref(fig:teoria-meta1)).
+Para decirlo de manera más técnica, el tamaño de muestra afecta el poder estadístico así como el error en la estimación del efecto [@leongomezPoderRvid2020; @leongomezAnalisisPoderEstadistico2020]; entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen y por tanto son más confiables). Por esto, podemos usar estas medidas como indicadores de la credibilidad del efecto encontrado por un estudio.
 
-```{r teoria-meta1, out.width = "400px", fig.align = "center", echo = FALSE, fig.cap = "Ejemplo de distribución de resultados de diferentes estudios (puntos grises) en relación a un efecto real (línea gris vertical). Los estudios realizados con diferentes muestras tienden a estar a ambos lados del efecto real (efectos mayores al real a la derecha y efectos menores a la izquierda). Sin embargo, entre mayor sea la muestra (arriba) los estudios tienden a estar más cerca del efecto real (tienen menor error), pero estudios con muestras pequeñas (abajo) son más variables (y en promedio tienen mayor error), y pueden tener efectos muy alejados del efecto real. Esto forma una especie de triángulo simétrico, con el efecto real en el centro. Esta idea, aunque simplificada en este ejemplo, está en la base misma del meta-análisis, y es similar a lo que comúnmente se representa en un diagrama de embudo (\\textit{funnel plot})."}
-knitr::include_graphics("images/Teoria-meta.pdf")
-```
+## Sesgos de publicación
 
-Sin embargo, además de las diferencias que pueda tener cada estudio debido a las peculiaridades de su muestra, y al tamaño de la misma, con frecuencia al hacer meta-análisis nos enfrentamos a un riesgo mayor: los sesgos de publicación.
+Sin embargo, además de las diferencias que pueda tener cada estudio debido a las peculiaridades y tamaño de su muestra, con frecuencia al hacer meta-análisis nos enfrentamos a un riesgo más sutil y menos predecible: los sesgos de publicación.
 
-Los sesgos de publicación son una amenaza importante para la integridad de la investigación científica. Se refieren a la tendencia de los investigadores y editores de revistas a publicar estudios que muestran resultados positivos y a rechazar aquellos que no encuentran ningún efecto o que muestran resultados negativos o contrarios a las hipótesis de sus autores. Estos sesgos pueden afectar a todas las áreas de la investigación, pasando por ejemplo por la medicina, la psicología y la biología. 
+Los sesgos de publicación son una amenaza importante para la integridad de la investigación científica. Se refieren a la tendencia de los investigadores y editores de revistas a no publicar estudios que no encuentran un efecto significativo o que muestran resultados contrarios a las hipótesis de sus autores. Estos sesgos pueden afectar a todas las áreas de la investigación, pasando por ejemplo por la medicina, la psicología y la biología [e.g., @baker500ScientistsLift2016; @kleinManyLabsInvestigating2018]. 
 
 Como resultado, los estudios publicados pueden no ser representativos de la verdadera relación entre las variables que se están investigando, lo que puede llevar a conclusiones erróneas y a decisiones equivocadas, incluyendo áreas tan críticas como la práctica clínica y la toma de decisiones políticas, por ejemplo.
 
-Imagina, por ejemplo, que frente a un efecto estudiado se publicaron preferentemente estudios que encontraron una correlación positiva y significativa, mientras que otros estudios —que no encontraron una correlación o encontraron una correlación negativa—  tendieron a no ser publicados. Al hacer un meta-análisis de los estudios publicados, nuestra estimación del efecto *real* estaría sesgada hacia una correlación positiva, probablemente sobre-estimando el efecto (Fig. \@ref(fig:teoria-meta2)).
+Imagina, por ejemplo, que frente a un efecto estudiado se publicaron preferentemente estudios que encontraron una correlación positiva y significativa, mientras que otros estudios —que no encontraron una correlación o encontraron una correlación negativa—  tendieron a no ser publicados por los autores, o a ser rechazados por editores. Al hacer un meta-análisis de los estudios publicados, nuestra estimación del efecto *real* estaría sesgada, sobre-estimando el efecto (Fig. \@ref(fig:teoria-meta)).
 
-```{r teoria-meta2, out.width = "400px", fig.align = "center", echo = FALSE, fig.cap = "Ejemplo de distribución de resultados de diferentes estudios (puntos grises) idéntico al de la Figura \\ref{fig:teoria-meta1}. Supongamos, sin embargo, que en este caso algunos estudios no fueron publicados (puntos naraja claros). Debido a esto, un meta-análisis realizado a partir de los estudios publicados (puntos grises) estaría sesgado, y el efecto estimado (línea gris punteada) sería mayor al efecto real (línea gris sólida)."}
-knitr::include_graphics("images/Teoria-meta2.pdf")
+```{r teoria-meta, echo = FALSE, fig.cap = "Ejemplo hipotético de distribución de resultados de diferentes estudios (puntos grises) en relación a un efecto real (línea gris vertical). Los estudios realizados con diferentes muestras tienden a estar a ambos lados del efecto real (efectos mayores al real a la derecha y efectos menores a la izquierda). Sin embargo, entre mayor sea la muestra (arriba) los estudios tienden a estar más cerca del efecto real (tienen menor error), pero estudios con muestras pequeñas (abajo) son más variables (y en promedio tienen mayor error), y pueden tener efectos muy alejados del efecto real. Esto forma una especie de triángulo simétrico, con el efecto real en el centro. Esta idea, aunque simplificada en este ejemplo, está en la base misma del meta-análisis, y es similar a lo que comúnmente se representa en un diagrama de embudo (\\textit{funnel plot}). \\textbf{A.} Distribución cuando no hay sesgo de publicación. \\textbf{B.} Distribución de resultados en el caso hipotético de que algunos estudios con efectos bajos no fueran publicados (puntos naraja claros). Debido a esto, un meta-análisis estaría sesgado, y el efecto estimado (línea gris punteada) sería mayor al efecto real (línea gris sólida)."}
+knitr::include_graphics("images/Teoria-meta_FIN.pdf")
 ```
 
 Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publicación en los estudios incluidos en un meta-análisis, y hacer estimaciones corregidas del efecto *real* que tengan estos sesgos en cuenta para hacer estimaciones más precisas.
+
+## Motivación
 
 Teniendo en cuenta la importancia de éstas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores curtidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
 
 A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \@ref(meta-cor)), incluyendo cómo hacer análisis de heterogeneidad (sección \@ref(heterog-inf)) y diagnósticos de influencia (sección \@ref(diag-inf)), creación de gráficos de bosque (*forest plots*; sección \@ref(forest-inf)) y gráficos de embudo (*funnel plots*; sección \@ref(funnel-inf)), así como estrategias para detectar posibles sesgos de publicación (secciones \@ref(sesgo-pub) y \@ref(todas-combinaciones)), y para determinar el poder estadístico de un meta-análisis (sección \@ref(poder-inf)). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \@ref(met-moderation)). 
 
-Adicionalmente, he incluido algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \@ref(apendice-alt)), incluyendo instrucciones para hacer una curva de valores $p$ (*p-curve*; Apéndice \@ref(p-curve)), así como la manera correcta de citar paquetes de R (Apéndice \@ref(paquetes-cit)) y, con fines de garantizar la reproducibilidad de éste documento, una lista de los paquetes usados para la creación de ésta guía, con sus respectivas versiones (Apéndice \@ref(paquetes-list)).
-
-Aunque he hecho un gran esfuerzo por mantener un alto nivel de calidad, si encuentras algún error por favor contáctame y házmelo saber para corregirlo inmediatamente.
+Adicionalmente, he incluido algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \hyperlink{apendice-alt}{A}), incluyendo instrucciones para hacer una curva de valores $p$ (*p-curve*; Apéndice \hyperlink{p-curve}{A1}), así como la manera correcta de citar paquetes de R (Apéndice \hyperlink{paquetes-cit}{B}) y, con fines de garantizar la reproducibilidad de éste documento, una lista de los paquetes usados para la creación de ésta guía, con sus respectivas versiones (Apéndice \hyperlink{paquetes-list}{C}).
 
 ---------------
 
@@ -222,9 +223,9 @@ Aunque he hecho un gran esfuerzo por mantener un alto nivel de calidad, si encue
 
 A lo largo de esta guía usaré la base de datos `dat.molloy2014`, tomada de @molloy2013. Esta base de datos viene incluida con el paquete `metafor` de R.
 
-Básicamente, @molloy2013 estudiaron si existe una asociación entre la concienciación (*conscientiousness*[^1]) y la adherencia a la medicación. En otras palabras, ¿las personas más *concienciadas* tienden a cumplir más con la medicación prescrita?
+Básicamente, @molloy2013 estudiaron si existe una asociación entre la escrupulosidad (*conscientiousness*[^1]) y la adherencia a la medicación. En otras palabras, ¿las personas más *escrupulosas* tienden a cumplir más con la medicación prescrita?
 
-[^1]: Para una definición detallada del concepto de concienciación, ver @johnBigFiveTrait1999.
+[^1]: En el contexto de los rasgos de personalidad, la dimensión de la *escrupulosidad* (también llamada conciencia o "voluntad de logro"), se refiere al auto-control, incluyendo la planificación y ejecución de tareas. Para una definición detallada del concepto de escrupulosidad en este contexto, ver @johnBigFiveTrait1999.
 
 Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: `metafor` [@viechtbauer2010] y `metaviz` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `dplyr` [@WickhamDplyr2021], `magrittr` [@magrittrcite] y `forecats` [@Wickhamforcats2022] para manipular y organizar la base de datos.
 
@@ -274,7 +275,7 @@ Después hay unas columnas que contienen variables específicas para este este e
 
 -   `a_measure`: tipo de medida de adherencia ("`self-report`": autoinforme u "`other`": otro tipo de medida más *objetivo*)
 
--   `c_measure`: tipo de medida de concienciación (si se midió con alguna versión del inventario de personalidad NEO o con alguna otra escala)
+-   `c_measure`: tipo de medida de escrupulosidad (si se midió con alguna versión del inventario de personalidad NEO o con alguna otra escala)
 
 -   `meanage`: edad promedio de la muestra de cada estudio
 
@@ -390,11 +391,11 @@ De todos estos, los más comúnmente reportados son $\tau^2$, $\tau$, $I^2$ y $Q
 
 En nuestro caso, el estadístico $Q$ sugiere que hay una heterogeneidad significativa en los estudios meta-analizados ($p$ = 0.0009). $I^2$, sugiere una heterogeneidad moderada, lo que quiere decir que se estima que más de la mitad (61.73%) de la varianza se deriva de diferencias en los tamaños de efecto.
 
-Más abajo, el *output* de la consola de R nos muestra los resultados de nuestro meta-análisis (`Model results`); en otras palabras, ¿cuál es el tamaño de efecto de la asociación entre concienciación (*conscientiousness*) y la adherencia a la medicación, según nuestro meta-análisis?
+Más abajo, el *output* de la consola de R nos muestra los resultados de nuestro meta-análisis (`Model results`); en otras palabras, ¿cuál es el tamaño de efecto de la asociación entre escrupulosidad (*conscientiousness*) y la adherencia a la medicación, según nuestro meta-análisis?
 
 Esta parte nos provee varios resultados:
 
--   `Estimate (0.1499)`: estimado de la correlación entre concienciación y adherencia a la medicación, en este caso en valores *z* de Fisher, pues así transformamos los coeficientes de cada estudio
+-   `Estimate (0.1499)`: estimado de la correlación entre escrupulosidad y adherencia a la medicación, en este caso en valores *z* de Fisher, pues así transformamos los coeficientes de cada estudio
 
 -   `se (0.0316)`: error estándar del estimado de la asociación (en valores *z* de Fisher)
 
@@ -410,7 +411,7 @@ Esta parte nos provee varios resultados:
 
 -   `Signif. codes: 0 ’***’ 0.001 ’**’ 0.01 ’*’ 0.05 ’.’ 0.1 ’ ’ 1`: Clave para interpretar los niveles de significación. Aunque puede parecer complejo, básicamente, quiere decir que tres asteriscos (`***`) representan un valor *p* entre 0 y 0.001 (lo que comúnmente se representa como *p* \< .001); dos asteriscos (`**`) un valor *p* entre 0.001 y 0.01 (*p* \< .01); un asterisco (`*`) un valor *p* entre 0.01 y 0.05 (*p* \< .05); un punto (`.`) un valor *p* entre 0.05 y 0.01 (*p* \< .1, que ya no es significativo); y si no hay ningún símbolo, un valor *p* entre 0.1 y 1 (*p* > .1, no significativo)
 
-En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (coeficiente de correlación transformado en *z* de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (*Z* = 4.7501, $p$ < .0001), y nos muestra el intervalo de confianza del 95% (o IC 95%); los intervalos de confianza (en este caso del 95%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (*z* = .0881) y superior (*z* = .2118) de estos intervalos de confianza.
+En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre escrupulosidad y adherencia a la medicación (coeficiente de correlación transformado en *z* de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (*Z* = 4.7501, $p$ < .0001), y nos muestra el intervalo de confianza del 95% (o IC 95%); los intervalos de confianza (en este caso del 95%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (*z* = .0881) y superior (*z* = .2118) de estos intervalos de confianza.
 
 ### Reporte del meta-análisis básico {#reporte1}
 
@@ -422,7 +423,7 @@ Esto se podría resumir, por ejemplo, como:
   title=Ejemplo de reporte básico,fonttitle=\bfseries,
   boxed title style={size=small,colframe=iacol} ]
   
-Este meta-análisis examinó la relación entre la concienciación y la adherencia a la medicación a través de 16 estudios. Los resultados indicaron una asociación significativa y positiva entre ambos factores ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). Sin embargo, se encontró una moderada pero significativa heterogeneidad en cuanto al tamaño del efecto entre los estudios incluidos ($\tau^2$ ± $se$ =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%). Por tanto, es importante interpretar los resultados con precaución debido a la amplia variabilidad en el tamaño del efecto entre los estudios. A pesar de estas limitaciones, los hallazgos sugieren que la concienciación puede tener un efecto positivo en la adherencia a la medicación.
+Este meta-análisis examinó la relación entre la escrupulosidad y la adherencia a la medicación a través de 16 estudios. Los resultados indicaron una asociación significativa y positiva entre ambos factores ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). Sin embargo, se encontró una moderada pero significativa heterogeneidad en cuanto al tamaño del efecto entre los estudios incluidos ($\tau^2$ ± $se$ =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%). Por tanto, es importante interpretar los resultados con precaución debido a la amplia variabilidad en el tamaño del efecto entre los estudios. A pesar de estas limitaciones, los hallazgos sugieren que la escrupulosidad puede tener un efecto positivo en la adherencia a la medicación.
 
 \end{tcolorbox}
 ```
@@ -493,7 +494,7 @@ Estos intervalos de confianza que también pueden ser reportados junto a sus cor
   title=Ejemplo de reporte con intervalos de confianza para heterogeneidad,fonttitle=\bfseries,
   boxed title style={size=small,colframe=iacol} ]
   
-El meta-análisis incluyó 16 estudios que examinaron la relación entre la concienciación y la adherencia a la medicación. Los estudios incluidos variaron en cuanto al diseño, la población de pacientes y la intervención evaluada. Los resultados del meta-análisis indicaron una asociación positiva significativa entre la concienciación y la adherencia a la medicación ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). La heterogeneidad en torno al tamaño medio del efecto entre los estudios incluidos fue moderada pero significativa ($\tau^2$ ± $se$ =  0.0081 ± 0.0055, IC 95\% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95\% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%, IC 95\% [25.28\%, 88.25\%]). Se observó una amplia variabilidad en el tamaño del efecto entre los estudios, lo que sugiere que los resultados deben interpretarse con precaución. A pesar de estas limitaciones, los hallazgos sugieren que es probable que la concienciación tenga un efecto positivo en la adherencia a la medicación. Es importante tener en cuenta que la calidad metodológica de los estudios incluidos en el meta-análisis fue variable, lo que puede afectar la validez y generalización de las conclusiones.
+El meta-análisis incluyó 16 estudios que examinaron la relación entre la escrupulosidad y la adherencia a la medicación. Los estudios incluidos variaron en cuanto al diseño, la población de pacientes y la intervención evaluada. Los resultados del meta-análisis indicaron una asociación positiva significativa entre la escrupulosidad y la adherencia a la medicación ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). La heterogeneidad en torno al tamaño medio del efecto entre los estudios incluidos fue moderada pero significativa ($\tau^2$ ± $se$ =  0.0081 ± 0.0055, IC 95\% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95\% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%, IC 95\% [25.28\%, 88.25\%]). Se observó una amplia variabilidad en el tamaño del efecto entre los estudios, lo que sugiere que los resultados deben interpretarse con precaución. A pesar de estas limitaciones, los hallazgos sugieren que es probable que la escrupulosidad tenga un efecto positivo en la adherencia a la medicación. Es importante tener en cuenta que la calidad metodológica de los estudios incluidos en el meta-análisis fue variable, lo que puede afectar la validez y generalización de las conclusiones.
 
 \end{tcolorbox}
 ```
@@ -847,7 +848,7 @@ Si quieres profundizar en el método de recorte y relleno (*trim and fill*), su 
 
 ### Modelo de función de peso de Vevea y Hedges {#vevea-hedges}
 
-El modelo de función de peso de Vevea y Hedges [@veveaGeneralLinearModel1995; @veveaPublicationBiasResearch2005] es uno de los modelos se selección (en inglés, *selection models*) más conocidos[^9].
+El modelo de función de peso de Vevea y Hedges [-@veveaGeneralLinearModel1995; ver también @veveaPublicationBiasResearch2005] es uno de los modelos se selección (en inglés, *selection models*) más conocidos[^9].
 
 [^9]: El otro modelo de selección muy conocido, es el modelo de Copas y Shi [-@copasMetaanalysisFunnelPlots2000; -@copasSensitivityAnalysisPublication2001]. Aunque no lo incluyo en ésta guía, es importante mencionar que hay evidencia que muestra que es preferible a métodos como el de *trim and fill* [@schwarzerEmpiricalEvaluationSuggests2010]. En R, éste método se puede implementar con la función `copas` del paquete `metasens` [@schwarzerMetasensPackage; ver también Capítulo 5 en @schwarzerMetaAnalysis2015].
 
@@ -857,15 +858,12 @@ El modelo de Vevea y Hedges da más peso a ciertos tamaños de efecto. La realid
 
 En R, para estimar el sesgo de publicación de un meta-análisis usando el modelo de función de peso de Vevea y Hedges, se puede usar la función `weightfunct` del paquete `weightr` [@coburnWeightr2019].
 
-Esta función que nos permite "estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en @veveaGeneralLinearModel1995 como la versión modificada presentada en @veveaPublicationBiasResearch2005", como se describe en la [documentación](https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct) de la función `weightfunct`.
-
-```{r message = FALSE}
-library(weightr)
-```
+Tal como se describe en la [documentación](https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct) de la función `weightfunct`, esta función nos permite "estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en @veveaGeneralLinearModel1995 como la versión modificada presentada en @veveaPublicationBiasResearch2005".
 
 En este caso, usaré esta función, asignando el resultado a un objeto que llamaré `wf`.
 
 ```{r}
+library(weightr)
 wf <- weightfunct(effect = dat$yi, v = dat$vi, table = TRUE)
 wf
 ```
@@ -962,7 +960,7 @@ lista_poder
 
 Por ejemplo, nos muestra que para detectar un efecto de *z* = 0.1 (`es01`), se estima un poder de `0.1762492`; para un poder de *z* = 0.2 (`es02`), se estima un poder de `0.5356629`, y continúa así hasta un poder de  *z* = 1.0 (`es1`). 
 
-Finalmente, nos muestra el poder estimado para detectar un efecto del tamaño del que estimamos como *real* (en nuestro caso, *z* = 0.15), bajo el encabezado `es_observed`. Como se ve, el poder es de tan solo `0.3364197`, lo que quiere decir que, si el efecto *real* de la asociación entre concienciación y la adherencia a la medicación fuese *z* = 0.15, un meta-análisis como el nuestro sólo detectaría esa correlación como significativa en el 33.64% de os casos.
+Finalmente, nos muestra el poder estimado para detectar un efecto del tamaño del que estimamos como *real* (en nuestro caso, *z* = 0.15), bajo el encabezado `es_observed`. Como se ve, el poder es de tan solo `0.3364197`, lo que quiere decir que, si el efecto *real* de la asociación entre escrupulosidad y la adherencia a la medicación fuese *z* = 0.15, un meta-análisis como el nuestro sólo detectaría esa correlación como significativa en el 33.64% de os casos.
 
 Lo que es más, podemos concluir que solo tenemos suficiente poder estadístico para detectar como significativos efectos desde aproximadamente *z* = 0.3 (`es03` = `0.8673657`, donde por fin tenemos un poder mayor a 0.8, o lo que es lo mismo, 80%). Sin embargo, nuestras estimaciones del efecto *real* están por debajo de este umbral, ya que en nuestro meta-análisis original fue de *z* = 0.15 y en el meta-análisis con pesos ajustados fue de *z* = 0.09.
 
@@ -1042,13 +1040,13 @@ Si el poder estadístico de nuestro meta-análisis para detectar ese efecto (*z*
 
 Como hemos visto, al realizar un meta-análisis, es fundamental tomar decisiones que pueden influir significativamente en los resultados y conclusiones. Una de las preguntas más importantes es qué estudios incluir en el análisis y si es necesario excluir algún estudio. Aunque nuestro diagnóstico inicial de influencia (sección \@ref(diag-inf)) no mostró la presencia de estudios atípicos en nuestro meta-análisis, en ocasiones se requiere un análisis más exhaustivo. 
 
-En esta sección explicaré dos técnicas: *leave-one-out* (sección \@ref(leave-one-out)), que consiste en realizar una serie de meta-análisis excluyendo uno de los estudios incluidos en cada iteración, y meta-análisis combinatorio (sección \@ref(gosh)), que permite crear todas las combinaciones posibles de estudios y, por lo tanto, evaluar la robustez de los resultados en diferentes escenarios.
+En esta sección, que se basa por completo en la explicación y ejemplos de @quintanaOhMyGOSH2020, explicaré dos técnicas: *leave-one-out* (sección \@ref(leave-one-out)), que consiste en realizar una serie de meta-análisis excluyendo uno de los estudios incluidos en cada iteración, y meta-análisis combinatorio (sección \@ref(gosh)), que permite crear todas las combinaciones posibles de estudios y, por lo tanto, evaluar la robustez de los resultados en diferentes escenarios.
 
 ### *Leave-one-out* {#leave-one-out}
 
 La técnica de *leave-one-out* realiza una serie de meta-análisis dejando fuera cada uno de los estudios incluidos. En nuestro caso, dado que tenemos 16 estudios, esta técnica ajustará 16 modelos (uno excluyendo cada estudio).
 
-Esta técnica no sólo se hace como parte de un diagnóstico de influencia (como se muestra en la sección \@ref(diag-inf)), sino que también se puede hacer para ver la estimación del efecto meta-analizado al excluir cada uno de los estudios de nuestra base de datos.
+Esta técnica no sólo se puede hacer como parte de un diagnóstico de influencia (como se muestra en la sección \@ref(diag-inf)), sino que también se puede hacer para ver la estimación del efecto meta-analizado al excluir cada uno de los estudios de nuestra base de datos.
 
 Hacerlo sólo requiere usar la función `leave1out` del paquete `metafor`, usando como argumento el resultado de nuestro meta-análisis original (en este caso, `res`):
 
@@ -1167,13 +1165,13 @@ La inclusión de moderadores en un meta-análisis mediante una técnica llamada 
 
 Por ejemplo, en el caso de la relación entre la altura de una planta y la cantidad de luz que recibe, el tipo de suelo puede actuar como variable moderadora. Es decir, el efecto de la cantidad de luz en la altura de la planta puede ser diferente dependiendo del tipo de suelo, y estudios hechos en diferentes tipos de suelo podrían tender a encontrar resultados distintos. Por lo tanto, en este caso, el tipo de suelo actuaría como una variable moderadora de la relación entre la cantidad de luz y la altura de la planta, que deberíamos tener en cuenta en cualquier meta-análisis.
 
-En nuestro caso, variables como la cantidad de variables controladas (`controls`), el diseño de cada estudio (`design`), la forma en la que se midieron la adherencia al tratamiento (`a_measure`) y la concienciación (`c_measure`), la edad de los participantes (`meanage`) y/o la calidad metodológica de los estudios (`quality`), son características que podrían haber afectado el coeficiente de correlación que encontraron (todas estas variables se explican con mayor detalle en la sección \@ref(variables-inf)). Por ejemplo, estudios con menor calidad metodológica podrían haber tendido a sobrestimar el efecto, encontrando correlaciones más fuertes y positivas entre concienciación y adherencia al tratamiento, sesgando así nuestra estimación del efecto *real*.
+En nuestro caso, variables como la cantidad de variables controladas (`controls`), el diseño de cada estudio (`design`), la forma en la que se midieron la adherencia al tratamiento (`a_measure`) y la escrupulosidad (`c_measure`), la edad de los participantes (`meanage`) y/o la calidad metodológica de los estudios (`quality`), son características que podrían haber afectado el coeficiente de correlación que encontraron (todas estas variables se explican con mayor detalle en la sección \@ref(variables-inf)). Por ejemplo, estudios con menor calidad metodológica podrían haber tendido a sobrestimar el efecto, encontrando correlaciones más fuertes y positivas entre escrupulosidad y adherencia al tratamiento, sesgando así nuestra estimación del efecto *real*.
 
 Los moderadores pueden ser tanto variables continuas, como categóricas, y en las siguientes secciones daré ejemplos para cada caso.
 
 ## Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes) {#ex.mod1}
 
-Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^14], lo que podría moderar (afectar) la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita.
+Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^14], lo que podría moderar (afectar) la asociación entre escrupulosidad (*conscientiousness*) y adherencia a la medicación prescrita.
 
 [^14]: De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
 
@@ -1191,11 +1189,11 @@ res.modage
 
 Estos resultados tienen la misma organización que los del análisis sin moderadores (sección \@ref(meta-cor)). Este resultado nos muestra que, a pesar de la gran diferencia de edad entre estudios, la edad no tiene un efecto significativo, como se puede ver en la sección "`Test of Moderators (coefficient 2)`" (al final nos muestra el valor *p* como "\texttt{p-val =  0.2320}"), así como los resultados para el efecto de `meanage` en la tabla `Model Results` (donde nos da el mismo resultado: "\texttt{0.2320}").
 
-En la tabla de `Model results` los estimados (columna `estimate`) se pueden leer tal cual como si fueran una regresión, pero teniendo en cuenta que acá nuestra variable dependiente sería la correlación entre concienciación y adherencia al tratamiento (en valores *z*). Entonces, como el intercepto (`intrcpt`) tiene un valor estimado de 0.2741, para estudios con participantes que tuviesen una edad media de 0 años, se estimaría que la asociación entre concienciación y adherencia al tratamiento sería de *z* = 0.2741. Por su parte el efecto de la edad media (`meanage`), nuestro moderador, es de -0.0024, lo que indica que por cada año de aumento en la edad promedio de los participantes, la correlación entre concienciación y adherencia disminuye *z* = -0.0024. Para decirlo de manera sencilla, en nuestra muestra de estudios, la correlación entre adherencia y concienciación tiende a disminuir con la edad, pero esta tendencia no es significativa.
+En la tabla de `Model results` los estimados (columna `estimate`) se pueden leer tal cual como si fueran una regresión, pero teniendo en cuenta que acá nuestra variable dependiente sería la correlación entre escrupulosidad y adherencia al tratamiento (en valores *z*). Entonces, como el intercepto (`intrcpt`) tiene un valor estimado de 0.2741, para estudios con participantes que tuviesen una edad media de 0 años, se estimaría que la asociación entre escrupulosidad y adherencia al tratamiento sería de *z* = 0.2741. Por su parte el efecto de la edad media (`meanage`), nuestro moderador, es de -0.0024, lo que indica que por cada año de aumento en la edad promedio de los participantes, la correlación entre escrupulosidad y adherencia disminuye *z* = -0.0024. Para decirlo de manera sencilla, en nuestra muestra de estudios, la correlación entre adherencia y escrupulosidad tiende a disminuir con la edad, pero esta tendencia no es significativa.
 
 ### Más información e interpretación de la moderación {#pred-mods}
 
-Para más información, podemos *predecir* el efecto (en este caso, la correlación entre la concienciación y la adherencia a la medicación), a diferentes edades, usando la función `predict`. 
+Para más información, podemos *predecir* el efecto (en este caso, la correlación entre la escrupulosidad y la adherencia a la medicación), a diferentes edades, usando la función `predict`. 
 
 En este ejemplo, como argumentos de esta función incluiré el objeto que contiene el meta-análisis con la edad como variable moderadora (`res.modage`), y los los valores para los cuales quiero saber el coeficiente de correlación predicho (argumento `newmods`); en este ejemplo voy a usar "`seq(20, 80, by = 10)`", lo que produce la secuencia de números de 20 a 80, cada 10 (es decir: 20, 30, 40, 50, 60, 70, 80), que serán las edades para las cuales obtendré el coeficiente de correlación estimado por el modelo[^15].
 
@@ -1232,7 +1230,7 @@ Con esto, el objeto `pred.res.modage`, al que he asignado esta predicción, tien
 
 -   **`pi.ub`**: límite superior del intervalo de predicción (en inglés *prediction interval upper bound*)
 
-Las columnas `age` (edad) y `pred` (efecto predicho), nos muestran que, para estudios donde los participantes son en promedio más jóvenes, se esperaría una correlación más fuerte; por ejemplo, mientras que para estudios con personas de `r pred.res.modage[1,1]` años de edad en promedio se esperaría una correlación de *z* = `r round(pred.res.modage[1,2], 3)`, para estudios con participantes con una edad promedio de `r pred.res.modage[dim(pred.res.modage)[1],1]` años, el modelo estima un efecto de *z* = `r round(pred.res.modage[dim(pred.res.modage)[1],2], 3)`. En otras palabras, en nuestra muestra de estudios, la asociación entre concienciación y adherencia a la medicación tiende a reducirse ligeramente con la edad promedio de la muestra. 
+Las columnas `age` (edad) y `pred` (efecto predicho), nos muestran que, para estudios donde los participantes son en promedio más jóvenes, se esperaría una correlación más fuerte; por ejemplo, mientras que para estudios con personas de `r pred.res.modage[1,1]` años de edad en promedio se esperaría una correlación de *z* = `r round(pred.res.modage[1,2], 3)`, para estudios con participantes con una edad promedio de `r pred.res.modage[dim(pred.res.modage)[1],1]` años, el modelo estima un efecto de *z* = `r round(pred.res.modage[dim(pred.res.modage)[1],2], 3)`. En otras palabras, en nuestra muestra de estudios, la asociación entre escrupulosidad y adherencia a la medicación tiende a reducirse ligeramente con la edad promedio de la muestra. 
 
 Sin embargo, este efecto moderador de la edad \underline{no es significativo}, por lo que no tenemos evidencia suficiente para inferir que se da más allá de nuestra muestra de estudios.
 
@@ -1240,10 +1238,10 @@ Sin embargo, este efecto moderador de la edad \underline{no es significativo}, p
 
 Alternativamente, cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función `regplot` hace precisamente esto (Fig. \@ref(fig:reg-plot1)).
 
-```{r reg-plot1, fig.height = 5.5, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{meanage}, edad promedio), que por supuesto coincide  con las predicciones del objeto `pred.res.modage` (Output 11, en la sección \\@ref(pred-mods)); la banda gris demilitada por líneas punteadas representa el intervalo de confianza del 95%."}
+```{r reg-plot1, fig.height = 5, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{meanage}, edad promedio), que por supuesto coincide  con las predicciones del objeto `pred.res.modage` (Output 11, en la sección \\@ref(pred-mods)); la banda gris demilitada por líneas punteadas representa el intervalo de confianza del 95%."}
 regplot(res.modage,
         ylab = "Coeficiente de correlación (z de Fisher)",
-        xlab = "Edad promedio del estudio")
+        xlab = "Edad promedio de muestra")
 ```
 
 ### *Forest plot* y *funnel plot* {#plot-mod}
@@ -1308,9 +1306,9 @@ Por supuesto, al igual que como se explica en la sección \@ref(heterog-inf), ta
   title=Ejemplo de reporte con moderador continuo,fonttitle=\bfseries, parbox=false,
   boxed title style={size=small,colframe=iacol} ]
   
-Dado que hay una considerable variación en la edad media de los participantes entre los estudios incluídos (con un rango entre 22 y 78.6), volvimos a ajustar el mismo meta-análisis, pero incluyendo la edad media de los participantes de cada estudio como variable moderadora. Esta meta-regresión reveló que, aunque en los estudios icluídos la asociación entre concienciación y adherencia disminuye al aumentar la edad media de las muestras, esta moderación no es significativa (intercepto: $z$ ± $se$ = 0.27 ± 0.11, IC 95\% [0.06, 0.49]; $Z$ = 2.51, $p$ = .012; edad promedio: $z$ ± $se$ = -0.002 ± 0.002, IC 95\% [-0.006, 0.002]; $Z$ = -1.195, $Q$(1) = 1.429,   $p$ = .232). 
+Dado que hay una considerable variación en la edad media de los participantes entre los estudios incluídos (con un rango entre 22 y 78.6), volvimos a ajustar el mismo meta-análisis, pero incluyendo la edad media de los participantes de cada estudio como variable moderadora. Esta meta-regresión reveló que, aunque en los estudios icluídos la asociación entre escrupulosidad y adherencia disminuye al aumentar la edad media de las muestras, esta moderación no es significativa (intercepto: $z$ ± $se$ = 0.27 ± 0.11, IC 95\% [0.06, 0.49]; $Z$ = 2.51, $p$ = .012; edad promedio: $z$ ± $se$ = -0.002 ± 0.002, IC 95\% [-0.006, 0.002]; $Z$ = -1.195, $Q$(1) = 1.429,   $p$ = .232). 
 
-Adicionalmente, la heterogeneidad moderada y significatica se mantuvo, incluso al incluir este moderador ($\tau^2$ ± $se$ =  0.0072 ± 0.0054, IC 95\% [0.0010, 0.0403]; $\tau$ = 0.0846, IC 95\% [0.0315, 0.2007]; $Q$(14) =  30.91, $p$ = .006; $I^2$ = 56.50\%, IC 95\% [15.24\%, 87.97\%]). Por esto, no podemos inferir que la edad promedio de las muestras tenga un efecto en la estimación de la asociación entre concienciación y adherencia al tratamiento.  
+Adicionalmente, la heterogeneidad moderada y significatica se mantuvo, incluso al incluir este moderador ($\tau^2$ ± $se$ =  0.0072 ± 0.0054, IC 95\% [0.0010, 0.0403]; $\tau$ = 0.0846, IC 95\% [0.0315, 0.2007]; $Q$(14) =  30.91, $p$ = .006; $I^2$ = 56.50\%, IC 95\% [15.24\%, 87.97\%]). Por esto, no podemos inferir que la edad promedio de las muestras tenga un efecto en la estimación de la asociación entre escrupulosidad y adherencia al tratamiento.  
 
 \end{tcolorbox}
 ```
@@ -1323,7 +1321,7 @@ Aunque estoy siendo extremadamente exhaustivo en la manera de reportar toda la i
 
 ## Ejemplo 2: Moderación de una variable categórica (controles usados en cada estudio meta-analizado)
 
-Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre concienciación (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.contr`. 
+Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre escrupulosidad (*conscientiousness*) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado `res.contr`. 
 
 ```{r}
 res.contr <- rma(yi = yi, vi = vi, mods = ~controls, data = dat)
@@ -1334,7 +1332,7 @@ En éste caso, a diferencia del ejemplo de moderación anteriores, la variable m
 
 De nuevo, en la tabla de `Model results` los estimados (columna `estimate`) se pueden leer tal cual como si fueran una regresión. Sin embargo es importante tener en cuenta que, dado que nuestra variable moderadora es categórica, el intercepto acá será en valor estimado de la correlación para el primer nivel (o categoría) de nuestra variable moderadora. Si recuerdas, como se explica en la sección \@ref(variables-inf) la variable que estamos usando como moderadora, `controls` contiene información de si cada estudio no controló ninguna variable (`none`), o controló múltiples variables (`multiple`). Es decir, es una variable categórica con 2 niveles (`none`, `multiple`). 
 
-Entonces, como el intercepto (`intrcpt`) tiene un valor estimado de 0.1788, se estima que la asociación entre concienciación y adherencia al tratamiento fue de *z* = 0.1788 para estudios que no controlaron ninguna variable. Después, frente al efecto de nuestro moderador (`controlsmultiple`, que pone de manera conjunta la variable `controls` más el nivel `multiple`), nos da un estimado de -0.1621, lo que quiere decir que la correlación disminuye *z* = -0.1621 cuando se trata de estudios que controlaron múltiples variables, \underline{con relación al intercepto} (`none`, en nuestro caso). De manera concreta, el modelo estimó una correlación de *z* = 0.1788 para estudios que no controlaron ninguna variable, y una correlación de *z* = 0.0167 (o, lo que es lo mismo, 0.1788 - 0.1621) cuando los estudios usaron varios controles.
+Entonces, como el intercepto (`intrcpt`) tiene un valor estimado de 0.1788, se estima que la asociación entre escrupulosidad y adherencia al tratamiento fue de *z* = 0.1788 para estudios que no controlaron ninguna variable. Después, frente al efecto de nuestro moderador (`controlsmultiple`, que pone de manera conjunta la variable `controls` más el nivel `multiple`), nos da un estimado de -0.1621, lo que quiere decir que la correlación disminuye *z* = -0.1621 cuando se trata de estudios que controlaron múltiples variables, \underline{con relación al intercepto} (`none`, en nuestro caso). De manera concreta, el modelo estimó una correlación de *z* = 0.1788 para estudios que no controlaron ninguna variable, y una correlación de *z* = 0.0167 (o, lo que es lo mismo, 0.1788 - 0.1621) cuando los estudios usaron varios controles.
 
 ### Más información e interpretación de la moderación {#pred-mods2}
 
@@ -1486,7 +1484,7 @@ De nuevo, y tal como lo hicimos en la sección \@ref(heterog-inf) y en la secci�
   title=Ejemplo de reporte con moderador categórico,fonttitle=\bfseries, parbox=false,
   boxed title style={size=small,colframe=iacol} ]
   
-Dado que hay estudios que controlaron variables y otros que no controlaron ninguna, ajustamos de nuevo el meta-análisis, pero incluyendo este factor como variable moderadora. Al incluir la variable moderadora de controles en el meta-análisis, se encontró que esta tuvo un efecto significativo en la estimación de la correlación entre la concienciación y la adherencia al tratamiento ($Q$(1) = 20.122, $p$ < .0001). De hecho, los estudios que no incorporaron controles estimaron una asociación más alta ($z$ ± $se$ = 0.179 ± 0.021, IC 95\% [0.138, 0.219]) que los estudios que incluyeron múltiples controles ($z$ ± $se$ = 0.017 ± 0.030, IC 95\% [-0.041, 0.075]).
+Dado que hay estudios que controlaron variables y otros que no controlaron ninguna, ajustamos de nuevo el meta-análisis, pero incluyendo este factor como variable moderadora. Al incluir la variable moderadora de controles en el meta-análisis, se encontró que esta tuvo un efecto significativo en la estimación de la correlación entre la escrupulosidad y la adherencia al tratamiento ($Q$(1) = 20.122, $p$ < .0001). De hecho, los estudios que no incorporaron controles estimaron una asociación más alta ($z$ ± $se$ = 0.179 ± 0.021, IC 95\% [0.138, 0.219]) que los estudios que incluyeron múltiples controles ($z$ ± $se$ = 0.017 ± 0.030, IC 95\% [-0.041, 0.075]).
 
 Al incluir esta variable moderadora, se redujo enormemente la heterogeneidad entre los estudios ($\tau^2$ ± $se$ =  0.00 ± 0.0015, IC 95\% [0.0000, 0.0244]; $\tau$ = 0.0002, IC 95\% [0.000, 0.1562]; $Q$(14) = 18.037, $p$ = .205; $I^2$ = 0.00\%, IC 95\% [0.00\%, 80.96\%]), lo que indica que la heterogeneidad original se debía en gran parte a las diferencias metodológicas entre los estudios.  
 
@@ -1509,11 +1507,11 @@ Primero, debes tener hacer una selección de artículos buena y no sesgada[^19].
 
 [^19]: Para esto existen varias guías, e incluso la *Declaración PRISMA* que está diseñada para abordar los problemas en la publicación de revisiones sistemáticas y meta-análisis [para información en español, ver e.g., @huttonExtensionDeclaracionPRISMA2016; @pageDeclaracionPRISMA20202021].
 
-A. Formular la pregunta de investigación clara, con base en teoría
+    A. Formular la pregunta de investigación clara, con base en teoría
 
-B. Identificar la bibliografía pertinente
+    B. Identificar la bibliografía pertinente
 
-C. Extraer y consolidar los datos de los estudios (en el caso de correlaciones, cuando menos *r* y *n*)
+    C. Extraer y consolidar los datos de los estudios (en el caso de correlaciones, cuando menos *r* y *n*)
 
 Con esto deberías ya poder hacer una base de datos para un meta-análisis de correlación simple. Mientras tengas en tu base de datos algún identificador de cada estudio, el tamaño de efecto (*r*) y el tamaño de muestra (*n*), tendrías todo lo necesario para hacerlo. Por ejemplo:
 
@@ -1547,9 +1545,13 @@ Adicionalmente, podrías:
 
 ## Conclusión
 
-Si haces esto, tendrás una base sólida y transparente para hacer y comunicar tu meta-análisis, independientemente de sus resultados. Es importante recordar que, aunque el meta-análisis es una herramienta poderosa, no es una solución mágica para todos los problemas de investigación. La calidad de los estudios incluidos, la heterogeneidad de los datos y otras limitaciones pueden afectar los resultados y la interpretación del meta-análisis. 
+Es fundamental tener en cuenta que el meta-análisis, aunque es una herramienta poderosa, no es una solución mágica para resolver los problemas de investigación. La calidad de los estudios incluidos, la heterogeneidad de los datos y otras limitaciones pueden influir en los resultados y su interpretación. En última instancia, el éxito de un meta-análisis dependerá del rigor y la transparencia del investigador o investigadora en su implementación y en la interpretación de sus resultados.
 
-En última instancia, el éxito del meta-análisis depende de la habilidad y el rigor del investigador o investigadora en su implementación y en la interpretación de sus resultados. 
+Sin embargo, si tienes en cuenta y de manera rigurosa las recomendaciones de esta guía, tendrás una base sólida para hacer y comunicar tu meta-análisis de manera transparente, sin importar los resultados obtenidos.
+
+Lamentablemente, en el mundo hispano, especialmente en Latinoamérica, todavía se presentan importantes rezagos en la producción científica, que son resultado en parte del insuficiente apoyo gubernamental y de un sistema global que desfavorece a los países en vías de desarrollo. Sin embargo, también son producto de una falta de confianza en las capacidades propias y de ciertos déficits reales en educación.
+
+Mi objetivo con esta guía es inspirar a investigadores hispanohablantes, ya sean establecidos o en formación, y de diversas disciplinas, a conocer los fundamentos del meta-análisis y su implementación de forma transparente. El fortalecimiento de nuestras habilidades analíticas es un paso fundamental para mejorar nuestra formación y contribuir al conocimiento global.
 
 ---------------
 
@@ -1566,8 +1568,6 @@ En última instancia, el éxito del meta-análisis depende de la habilidad y el 
 \end{multicols}
 ```
 
----------------
-
 # APÉNDICES {.unnumbered}
 
 # (APPENDIX) Apéndice {-}  
@@ -1579,23 +1579,19 @@ En última instancia, el éxito del meta-análisis depende de la habilidad y el 
 
 ## *Apéndice A.* Alternativas a `metafor` {.unnumbered #apendice-alt}
 
-Acá he usado principalmente una ruta para hacer meta-análisis basada en el paquete `metafor`, acompañado de `metaviz` para visualizaciones, `weightr` para ajustar pesos y detectar sesgos de publicación, y `metameta` para estimar el poder estadístico de un meta-análisis.
+A lo largo de ésta guía he usado una ruta para hacer meta-análisis que parte de objetos generados con el paquete `metafor`. Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro *Doing meta-analysis with R: a hands-on guide* [@harrer2021doing] se acompaña del paquete [`dmetar`](https://dmetar.protectlab.org/index.html) [@Harrer2019dmetar], que contiene y explica opciones para hacer meta-análisis tanto a partir de `metafor`, como a partir de `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015].
 
-Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro *Doing meta-analysis with R: a hands-on guide* [@harrer2021doing] se acompaña del paquete [`dmetar`](https://dmetar.protectlab.org/index.html) [@Harrer2019dmetar], que contiene opciones para hacer meta-análisis tanto a partir de `metafor`, como a partir de `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015].
-
-De manera importante, los objetos generados por `meta` al realizar un meta-análisis permiten hacer otros análisis como *risk of bias* (riesgo de sesgo), inferencia multi-modelo, detección de *outliers* (valores atípicos), y *p-curve* o curva de valores $p$ [@simonsohnPCurveEffectSize2014; @simonsohnPcurveWonYour2019], así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete [`dmetar`](http://dmetar.protectlab.org/), y en especial la página [*Get Started*](https://dmetar.protectlab.org/articles/dmetar.html).
+Los objetos generados por `meta` al realizar un meta-análisis permiten hacer otros análisis como *risk of bias* (riesgo de sesgo), inferencia multi-modelo, detección de *outliers* (valores atípicos), y *p-curve* o curva de valores $p$ [@simonsohnPCurveEffectSize2014; @simonsohnPcurveWonYour2019], y permiten hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete [`dmetar`](http://dmetar.protectlab.org/), y en especial la página [*Get Started*](https://dmetar.protectlab.org/articles/dmetar.html).
 
 ### *A1.* Ejemplo: curva de valores $p$ (*p-curve*) {.unnumbered #p-curve}
 
-Como ejemplo corto, la curva de valores $p$ (en inglés *p-curve*) de nuestro meta-análisis se podría hacer tras ajustar de nuevo el modelo con la función `metacor` (que hace meta-análisis de correlaciones) del paquete `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015]. Para este ejemplo asignaré el resultado a un objeto que llamaré `res.meta`.
+Como ejemplo puntual, la curva de valores $p$ (en inglés *p-curve*) de nuestro meta-análisis se podría hacer tras ajustar el modelo con la función `metacor` (que hace meta-análisis de correlaciones) del paquete `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015]. Para este ejemplo asignaré el resultado a un objeto que llamaré `res.meta`.
 
 ```{r message = FALSE}
 library(meta)
-res.meta <- metacor(cor = yi, 
-                    n = ni, 
+res.meta <- metacor(cor = yi, n = ni, 
                     studlab = paste(dat$authors, dat$year, sep = ", "), 
-                    data = dat,
-                    sm = "ZCOR")
+                    data = dat, sm = "ZCOR")
 ```
 
 El objeto resultante (`res.meta`) puede usarse directamente como argumento a la función `pcurve` del paquete [`dmetar`](http://dmetar.protectlab.org/), para obtener una gráfica con la curva de valores $p$ (*p-curve*). Es importante tener en cuenta que, al menos por ahora, `dmetar` debe instalarse desde GitHub tal como `metameta` (en este caso, con el comando `devtools::install_github("MathiasHarrer/dmetar")`).
@@ -1605,7 +1601,7 @@ library(dmetar)
 pcurve(res.meta)
 ```
 
-```{r pcurve-plot, echo = FALSE, out.width = "400px", fig.align = "center", fig.cap = "Curva de valores $p$ (\\textit{p-curve}) creada con \\href{http://dmetar.protectlab.org/}{\\texttt{dmetar}}. Para una entender una curva de valores $p$, su relevancia y su interpretación, sugiero leer Simonsohn et al. (2019, 2014), o ver el sitio web del paquete \\texttt{dmetar}: \\href{http://dmetar.protectlab.org/}{http://dmetar.protectlab.org/}."}
+```{r pcurve-plot, echo = FALSE, out.width = "300px", fig.align = "center", fig.cap = "Curva de valores $p$ (\\textit{p-curve}) creada con \\href{http://dmetar.protectlab.org/}{\\texttt{dmetar}}. Para una entender una curva de valores $p$, su relevancia y su interpretación, sugiero leer Simonsohn et al. (2019, 2014), o ver el sitio web del paquete \\texttt{dmetar}: \\href{http://dmetar.protectlab.org/}{http://dmetar.protectlab.org/}."}
 knitr::include_graphics("images/pcurve.pdf")
 ```
 
@@ -1613,9 +1609,9 @@ La función `pcurve` produce varios elementos relacionados la curva de valores $
 
 ## *Apéndice B.* Citas y referencias de paquetes de R {.unnumbered #paquetes-cit}
 
-Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función `citation` en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato `BibTex` que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia como [Zotero](https://www.zotero.org/) (alternativamente, nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente, o crear referencias en diversos estilos usando, por ejemplo, [BibTeX Online Converter](https://bibtex.online/)).
+Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función `citation` en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato `BibTex` que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia como [Zotero](https://www.zotero.org/). Alternativamente, el formato formato `BibTex` nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente, o incluso crear referencias en diversos estilos usando, por ejemplo, [Online Bibtex Converter](https://asouqi.github.io/bibtex-converter/).
 
-Como ejemplo, en ésta guía usé `dplyr` [@WickhamDplyr2021] para manipular los datos, y usando la función `citation`:
+Como ejemplo, en ésta guía usé `dplyr` [@WickhamDplyr2021] para manipular los datos. Usando la función `citation`:
 
 ```{r eval = FALSE}
 citation("dplyr")

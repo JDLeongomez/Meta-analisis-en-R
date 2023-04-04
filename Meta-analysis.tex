@@ -125,7 +125,7 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 1}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{multicol} \usepackage{fontawesome5} \usepackage{svg} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \newcommand{\opensupplement}{\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}} \newcommand{\closesupplement}{\setcounter{table}{0} \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{\arabic{figure}}}
+\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 1}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{csquotes} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{multicol} \usepackage{fontawesome5} \usepackage{svg} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \newcommand{\opensupplement}{\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}} \newcommand{\closesupplement}{\setcounter{table}{0} \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{\arabic{figure}}}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -165,7 +165,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{31 marzo, 2023}
+\date{03 abril, 2023}
 
 \begin{document}
 \maketitle
@@ -228,26 +228,26 @@ Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R
  \tableofcontents
 }
 
-\hypertarget{introducciuxf3n-quuxe9-es-un-meta-anuxe1lisis-y-por-quuxe9-es-importante}{%
-\section{\texorpdfstring{Introducción: \emph{¿Qué es un meta-análisis y por qué es importante?}}{Introducción: ¿Qué es un meta-análisis y por qué es importante?}}\label{introducciuxf3n-quuxe9-es-un-meta-anuxe1lisis-y-por-quuxe9-es-importante}}
+\hypertarget{introducciuxf3n}{%
+\section{Introducción}\label{introducciuxf3n}}
 
-En investigación, es frecuente que busquemos medir la magnitud de un efecto en una población. Por ejemplo, podríamos tener interés en determinar cosas tan diversas como qué tan fuerte es la correlación entre el nivel socioeconómico y el índice de masa corporal (IMC) en un país determinado, o entre la masa de una estrella y su luminosidad. No obstante, es muy poco probable que podamos obtener información sobre la población entera (de personas del país, o de estrellas en el universo), por lo que debemos hacer uso de muestras para inferir la magnitud del efecto.
+En investigación, es frecuente que busquemos medir la magnitud de un efecto en una población. Por ejemplo, podríamos tener interés en determinar cosas tan diversas como qué tan fuerte es la correlación entre la masa de una estrella y su luminosidad, o entre el nivel socioeconómico y el índice de masa corporal (IMC) en un país determinado. No obstante, es muy poco probable que podamos obtener información sobre la población entera (de estrellas en el universo o de personas del país), por lo que debemos hacer uso de muestras de esa población para inferir la magnitud del efecto.
 
 Sin embargo, a menudo, diferentes estudios obtienen coeficientes de correlación ligeramente diferentes (en algunos casos, muy diferentes). Esta variabilidad no es sorprendente, ya que cada muestra es solo una visualización parcial (y de alguna manera sesgada) de la correlación en la población entera.
 
 Por ejemplo mira la simulación a continuación (Fig. \ref{fig:efecto}). En el panel \textbf{A} he simulado una población con un \emph{N} de 6095 elementos (por ejemplo, personas, estrellas, o lo que sea relevante para ti). En esa población hipotética, la correlación entre dos variables es de \(r\) = 0.25.
 
-Ahora imagina que tú quieres establecer esa correlación real (\(r\) = 0.25), pero no la conoces, y no tienes acceso a la población completa de 6095 elementos. Tu mejor apuesta es tomar una muestra aleatoria, que en principio tendería a darte un resultado \emph{similar} al real. En el panel \textbf{B} hay 25 muestra aleatorias de esos 6095 elementos, y en cada una se reporta tanto en tamaño de la muestra (\emph{n}, que va desde una muestra muy pequeña de apenas 14 observaciones, hasta una muy respetable de 493), como la correlación encontrada en esa muestra (\emph{r}, que va desde 0.10 hasta 0.46).
-
 \begin{figure}
 \centering
 \includegraphics{images/sim_estabilidad.pdf}
-\caption{\label{fig:efecto}Simulación de una población hipotética de \emph{N} = 6095 elementos, en la que dos variables se correlacionan positivamente (\emph{r} = 0.25). \textbf{A.} Simulación de la población y correlación entre dos variables. \textbf{B.} 25 muestras aleatorias de diferentes tamaños (\emph{n}) de esa población, y la correlación encontrada en cada una (\emph{r}). En naranja se resaltan los elementos seleccionados aleatoriamente en cada muestra, así como la correlación encontrada, sobre el total de la población y la correlación real de la población (en negro, como referencia).}
+\caption{\label{fig:efecto}Simulación de una población hipotética de \emph{N} = 6095 elementos, en la que dos variables se correlacionan positivamente (\emph{r} = 0.25). \textbf{A.} Simulación de la población y correlación entre dos variables. \textbf{B.} 25 muestras aleatorias de diferentes tamaños (\emph{n}) de esa población, y la correlación encontrada en cada una (\emph{r}). En naranja se resaltan los elementos seleccionados aleatoriamente y la correlación encontrada en cada muestra, superpuestos sobre el total de la población y la correlación real (en negro, como referencia).}
 \end{figure}
+
+Ahora imagina que tú quieres establecer esa correlación real (\(r\) = 0.25), pero no la conoces, y no tienes acceso a la población completa de 6095 elementos. Tu mejor apuesta es tomar una muestra aleatoria, que en principio tendería a darte un resultado \emph{similar} al real. En el panel \textbf{B} hay 25 muestra aleatorias de esos 6095 elementos, y en cada una se reporta tanto en tamaño de la muestra (\emph{n}, que va desde una muestra muy pequeña de apenas 14 observaciones, hasta una muy respetable de 493), como la correlación encontrada en esa muestra (\emph{r}, que va desde 0.10 hasta 0.46).
 
 Entre las 25 muestra aleatorias de nuestra población (Fig. \ref{fig:efecto}B), hay varias que encuentran una correlación similar a la real (que, como es simulada, sabemos que es exactamente de \(r\) = 0.25), pero hay otras que se alejan bastante. Analiza detalladamente esos resultados y trata de ver si las que más de alejan (estando por debajo o por encima de 0.25), tienen algo en común.
 
-Si miras con cuidado, verás algo claro: las muestras más grandes tienden a encontrar resultados similares al de nuestra población simulada (\(r\) = 0.25), pero las muestra pequeñas son menos confiables. Aunque algunas muestras pequeñas encuentran correlaciones muy cercanas a la real, otras se alejan mucho. Para ilustrar esto, voy a graficar la correlación encontrada en cada muestra, y cómo se asocia con su tamaño de muestra (Fig. \ref{fig:dist-sim}).
+Si miras con cuidado, verás algo claro: las muestras más grandes tienden a encontrar resultados similares al de nuestra población simulada (\(r\) = 0.25). Sin embargo, las muestra pequeñas son menos confiables: aunque algunas muestras pequeñas encuentran correlaciones muy cercanas a la real, otras se alejan mucho. Para ilustrar esto, voy a graficar la correlación encontrada en cada muestra, y cómo se asocia con su tamaño de muestra (Fig. \ref{fig:dist-sim}).
 
 \begin{figure}
 
@@ -258,49 +258,44 @@ Si miras con cuidado, verás algo claro: las muestras más grandes tienden a enc
 \caption{Relación entre el efecto encontrado (eje $X$) y el tamaño de muestra (eje $Y$) en 25 muestras aleatorias de una población simulada donde la correlación entre las variables es de $r$ = 0.25. Mientras que las muestras grandes (arriba) son confiables y tienden a encontrar resultados similares al del efeto real, muestras pequeñas (abajo)son menos confiables y puyeden producir estimaciones del efecto que se alejan mucho del real.}\label{fig:dist-sim}
 \end{figure}
 
+\hypertarget{quuxe9-es-un-meta-anuxe1lisis-y-por-quuxe9-es-importante}{%
+\subsection{¿Qué es un meta-análisis y por qué es importante?}\label{quuxe9-es-un-meta-anuxe1lisis-y-por-quuxe9-es-importante}}
+
 De manera más general, se puede entender así: aunque hay técnicas de muestreo que tienden a hacer que las muestras se \emph{parezcan} más a la población, cada muestra tiene características particulares que conducen a resultados diferentes. Entonces, cuando debemos hacer inferencia con base en muestras porque no podemos tener acceso a la población entera, ¿cómo podemos saber cuál es el efecto real si cada estudio obtiene un resultado distinto?
 
 Una herramienta útil para abordar este problema es el meta-análisis, que es una técnica estadística que nos permite obtener una estimación más precisa del efecto \emph{real} de la correlación. Por supuesto, la palabra clave acá es \emph{estimación}, pues aunque el efecto real es algo que rara vez podremos determinar con absoluta certeza, sí es algo que podemos acercarnos a conocer.
 
-El meta-análisis se puede entender como una especie \emph{promediación} de los efectos encontrados en diversos estudios, dando mayor peso a estudios que tienen más credibilidad (es decir, mayor probabilidad de mostrar un resultado cercano a la verdad).
+El meta-análisis se puede entender como una especie \emph{promediación} de los efectos encontrados en diversos estudios, dando mayor peso a estudios que tienen más credibilidad (es decir, mayor probabilidad de mostrar un resultado cercano a la verdad). ¿Cómo se hace esto? Como se ve en la Figura \ref{fig:dist-sim}, el tamaño de una muestra afecta la confiabilidad de un resultado.
 
-¿Cómo se hace esto? Como se ve en la Figura \ref{fig:dist-sim}, el tamaño de una muestra afecta la confiabilidad de un resultado. Para decirlo de manera más técnica directamente, el tamaño de muestra afecta el poder estadístico así como el error en la estimación del efecto (\protect\hyperlink{ref-leongomezAnalisisPoderEstadistico2020}{Leongómez, 2020a}, \protect\hyperlink{ref-leongomezPoderRvid2020}{2020b}); entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen). Por esto, podemos usar estas medidas como un indicador de la credibilidad del efecto encontrado por un estudio (Fig. \ref{fig:teoria-meta1}).
+Para decirlo de manera más técnica, el tamaño de muestra afecta el poder estadístico así como el error en la estimación del efecto (\protect\hyperlink{ref-leongomezAnalisisPoderEstadistico2020}{Leongómez, 2020a}, \protect\hyperlink{ref-leongomezPoderRvid2020}{2020b}); entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen y por tanto son más confiables). Por esto, podemos usar estas medidas como indicadores de la credibilidad del efecto encontrado por un estudio.
 
-\begin{figure}
+\hypertarget{sesgos-de-publicaciuxf3n}{%
+\subsection{Sesgos de publicación}\label{sesgos-de-publicaciuxf3n}}
 
-{\centering \includegraphics[width=400px]{images/Teoria-meta} 
+Sin embargo, además de las diferencias que pueda tener cada estudio debido a las peculiaridades y tamaño de su muestra, con frecuencia al hacer meta-análisis nos enfrentamos a un riesgo más sutil y menos predecible: los sesgos de publicación.
 
-}
-
-\caption{Ejemplo de distribución de resultados de diferentes estudios (puntos grises) en relación a un efecto real (línea gris vertical). Los estudios realizados con diferentes muestras tienden a estar a ambos lados del efecto real (efectos mayores al real a la derecha y efectos menores a la izquierda). Sin embargo, entre mayor sea la muestra (arriba) los estudios tienden a estar más cerca del efecto real (tienen menor error), pero estudios con muestras pequeñas (abajo) son más variables (y en promedio tienen mayor error), y pueden tener efectos muy alejados del efecto real. Esto forma una especie de triángulo simétrico, con el efecto real en el centro. Esta idea, aunque simplificada en este ejemplo, está en la base misma del meta-análisis, y es similar a lo que comúnmente se representa en un diagrama de embudo (\textit{funnel plot}).}\label{fig:teoria-meta1}
-\end{figure}
-
-Sin embargo, además de las diferencias que pueda tener cada estudio debido a las peculiaridades de su muestra, y al tamaño de la misma, con frecuencia al hacer meta-análisis nos enfrentamos a un riesgo mayor: los sesgos de publicación.
-
-Los sesgos de publicación son una amenaza importante para la integridad de la investigación científica. Se refieren a la tendencia de los investigadores y editores de revistas a publicar estudios que muestran resultados positivos y a rechazar aquellos que no encuentran ningún efecto o que muestran resultados negativos o contrarios a las hipótesis de sus autores. Estos sesgos pueden afectar a todas las áreas de la investigación, pasando por ejemplo por la medicina, la psicología y la biología.
+Los sesgos de publicación son una amenaza importante para la integridad de la investigación científica. Se refieren a la tendencia de los investigadores y editores de revistas a no publicar estudios que no encuentran un efecto significativo o que muestran resultados contrarios a las hipótesis de sus autores. Estos sesgos pueden afectar a todas las áreas de la investigación, pasando por ejemplo por la medicina, la psicología y la biología (e.g., \protect\hyperlink{ref-baker500ScientistsLift2016}{Baker, 2016}; \protect\hyperlink{ref-kleinManyLabsInvestigating2018}{Klein et al., 2018}).
 
 Como resultado, los estudios publicados pueden no ser representativos de la verdadera relación entre las variables que se están investigando, lo que puede llevar a conclusiones erróneas y a decisiones equivocadas, incluyendo áreas tan críticas como la práctica clínica y la toma de decisiones políticas, por ejemplo.
 
-Imagina, por ejemplo, que frente a un efecto estudiado se publicaron preferentemente estudios que encontraron una correlación positiva y significativa, mientras que otros estudios ---que no encontraron una correlación o encontraron una correlación negativa--- tendieron a no ser publicados. Al hacer un meta-análisis de los estudios publicados, nuestra estimación del efecto \emph{real} estaría sesgada hacia una correlación positiva, probablemente sobre-estimando el efecto (Fig. \ref{fig:teoria-meta2}).
+Imagina, por ejemplo, que frente a un efecto estudiado se publicaron preferentemente estudios que encontraron una correlación positiva y significativa, mientras que otros estudios ---que no encontraron una correlación o encontraron una correlación negativa--- tendieron a no ser publicados por los autores, o a ser rechazados por editores. Al hacer un meta-análisis de los estudios publicados, nuestra estimación del efecto \emph{real} estaría sesgada, sobre-estimando el efecto (Fig. \ref{fig:teoria-meta}).
 
 \begin{figure}
-
-{\centering \includegraphics[width=400px]{images/Teoria-meta2} 
-
-}
-
-\caption{Ejemplo de distribución de resultados de diferentes estudios (puntos grises) idéntico al de la Figura \ref{fig:teoria-meta1}. Supongamos, sin embargo, que en este caso algunos estudios no fueron publicados (puntos naraja claros). Debido a esto, un meta-análisis realizado a partir de los estudios publicados (puntos grises) estaría sesgado, y el efecto estimado (línea gris punteada) sería mayor al efecto real (línea gris sólida).}\label{fig:teoria-meta2}
+\centering
+\includegraphics{images/Teoria-meta_FIN.pdf}
+\caption{\label{fig:teoria-meta}Ejemplo hipotético de distribución de resultados de diferentes estudios (puntos grises) en relación a un efecto real (línea gris vertical). Los estudios realizados con diferentes muestras tienden a estar a ambos lados del efecto real (efectos mayores al real a la derecha y efectos menores a la izquierda). Sin embargo, entre mayor sea la muestra (arriba) los estudios tienden a estar más cerca del efecto real (tienen menor error), pero estudios con muestras pequeñas (abajo) son más variables (y en promedio tienen mayor error), y pueden tener efectos muy alejados del efecto real. Esto forma una especie de triángulo simétrico, con el efecto real en el centro. Esta idea, aunque simplificada en este ejemplo, está en la base misma del meta-análisis, y es similar a lo que comúnmente se representa en un diagrama de embudo (\textit{funnel plot}). \textbf{A.} Distribución cuando no hay sesgo de publicación. \textbf{B.} Distribución de resultados en el caso hipotético de que algunos estudios con efectos bajos no fueran publicados (puntos naraja claros). Debido a esto, un meta-análisis estaría sesgado, y el efecto estimado (línea gris punteada) sería mayor al efecto real (línea gris sólida).}
 \end{figure}
 
 Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publicación en los estudios incluidos en un meta-análisis, y hacer estimaciones corregidas del efecto \emph{real} que tengan estos sesgos en cuenta para hacer estimaciones más precisas.
+
+\hypertarget{motivaciuxf3n}{%
+\subsection{Motivación}\label{motivaciuxf3n}}
 
 Teniendo en cuenta la importancia de éstas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores curtidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
 
 A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \ref{meta-cor}), incluyendo cómo hacer análisis de heterogeneidad (sección \ref{heterog-inf}) y diagnósticos de influencia (sección \ref{diag-inf}), creación de gráficos de bosque (\emph{forest plots}; sección \ref{forest-inf}) y gráficos de embudo (\emph{funnel plots}; sección \ref{funnel-inf}), así como estrategias para detectar posibles sesgos de publicación (secciones \ref{sesgo-pub} y \ref{todas-combinaciones}), y para determinar el poder estadístico de un meta-análisis (sección \ref{poder-inf}). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \ref{met-moderation}).
 
-Adicionalmente, he incluido algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \ref{apendice-alt}), incluyendo instrucciones para hacer una curva de valores \(p\) (\emph{p-curve}; Apéndice \ref{p-curve}), así como la manera correcta de citar paquetes de R (Apéndice \ref{paquetes-cit}) y, con fines de garantizar la reproducibilidad de éste documento, una lista de los paquetes usados para la creación de ésta guía, con sus respectivas versiones (Apéndice \ref{paquetes-list}).
-
-Aunque he hecho un gran esfuerzo por mantener un alto nivel de calidad, si encuentras algún error por favor contáctame y házmelo saber para corregirlo inmediatamente.
+Adicionalmente, he incluido algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \hyperlink{apendice-alt}{A}), incluyendo instrucciones para hacer una curva de valores \(p\) (\emph{p-curve}; Apéndice \hyperlink{p-curve}{A1}), así como la manera correcta de citar paquetes de R (Apéndice \hyperlink{paquetes-cit}{B}) y, con fines de garantizar la reproducibilidad de éste documento, una lista de los paquetes usados para la creación de ésta guía, con sus respectivas versiones (Apéndice \hyperlink{paquetes-list}{C}).
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -309,7 +304,7 @@ Aunque he hecho un gran esfuerzo por mantener un alto nivel de calidad, si encue
 
 A lo largo de esta guía usaré la base de datos \texttt{dat.molloy2014}, tomada de Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}). Esta base de datos viene incluida con el paquete \texttt{metafor} de R.
 
-Básicamente, Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}) estudiaron si existe una asociación entre la concienciación (\emph{conscientiousness}\footnote{Para una definición detallada del concepto de concienciación, ver John \& Srivastava (\protect\hyperlink{ref-johnBigFiveTrait1999}{1999}).}) y la adherencia a la medicación. En otras palabras, ¿las personas más \emph{concienciadas} tienden a cumplir más con la medicación prescrita?
+Básicamente, Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}) estudiaron si existe una asociación entre la escrupulosidad (\emph{conscientiousness}\footnote{En el contexto de los rasgos de personalidad, la dimensión de la \emph{escrupulosidad} (también llamada conciencia o ``voluntad de logro''), se refiere al auto-control, incluyendo la planificación y ejecución de tareas. Para una definición detallada del concepto de escrupulosidad en este contexto, ver John \& Srivastava (\protect\hyperlink{ref-johnBigFiveTrait1999}{1999}).}) y la adherencia a la medicación. En otras palabras, ¿las personas más \emph{escrupulosas} tienden a cumplir más con la medicación prescrita?
 
 Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: \texttt{metafor} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \texttt{metaviz} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}) para hacer e ilustrar los resultados del meta-análisis, así como \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}), \texttt{magrittr} (\protect\hyperlink{ref-magrittrcite}{Bache \& Wickham, 2022}) y \texttt{forecats} (\protect\hyperlink{ref-Wickhamforcats2022}{Wickham, 2022}) para manipular y organizar la base de datos.
 
@@ -409,7 +404,7 @@ Después hay unas columnas que contienen variables específicas para este este e
 \item
   \texttt{a\_measure}: tipo de medida de adherencia (``\texttt{self-report}'': autoinforme u ``\texttt{other}'': otro tipo de medida más \emph{objetivo})
 \item
-  \texttt{c\_measure}: tipo de medida de concienciación (si se midió con alguna versión del inventario de personalidad NEO o con alguna otra escala)
+  \texttt{c\_measure}: tipo de medida de escrupulosidad (si se midió con alguna versión del inventario de personalidad NEO o con alguna otra escala)
 \item
   \texttt{meanage}: edad promedio de la muestra de cada estudio
 \item
@@ -602,13 +597,13 @@ De todos estos, los más comúnmente reportados son \(\tau^2\), \(\tau\), \(I^2\
 
 En nuestro caso, el estadístico \(Q\) sugiere que hay una heterogeneidad significativa en los estudios meta-analizados (\(p\) = 0.0009). \(I^2\), sugiere una heterogeneidad moderada, lo que quiere decir que se estima que más de la mitad (61.73\%) de la varianza se deriva de diferencias en los tamaños de efecto.
 
-Más abajo, el \emph{output} de la consola de R nos muestra los resultados de nuestro meta-análisis (\texttt{Model\ results}); en otras palabras, ¿cuál es el tamaño de efecto de la asociación entre concienciación (\emph{conscientiousness}) y la adherencia a la medicación, según nuestro meta-análisis?
+Más abajo, el \emph{output} de la consola de R nos muestra los resultados de nuestro meta-análisis (\texttt{Model\ results}); en otras palabras, ¿cuál es el tamaño de efecto de la asociación entre escrupulosidad (\emph{conscientiousness}) y la adherencia a la medicación, según nuestro meta-análisis?
 
 Esta parte nos provee varios resultados:
 
 \begin{itemize}
 \item
-  \texttt{Estimate\ (0.1499)}: estimado de la correlación entre concienciación y adherencia a la medicación, en este caso en valores \emph{z} de Fisher, pues así transformamos los coeficientes de cada estudio
+  \texttt{Estimate\ (0.1499)}: estimado de la correlación entre escrupulosidad y adherencia a la medicación, en este caso en valores \emph{z} de Fisher, pues así transformamos los coeficientes de cada estudio
 \item
   \texttt{se\ (0.0316)}: error estándar del estimado de la asociación (en valores \emph{z} de Fisher)
 \item
@@ -625,7 +620,7 @@ Esta parte nos provee varios resultados:
   \texttt{Signif.\ codes:\ 0\ ’***’\ 0.001\ ’**’\ 0.01\ ’*’\ 0.05\ ’.’\ 0.1\ ’\ ’\ 1}: Clave para interpretar los niveles de significación. Aunque puede parecer complejo, básicamente, quiere decir que tres asteriscos (\texttt{***}) representan un valor \emph{p} entre 0 y 0.001 (lo que comúnmente se representa como \emph{p} \textless{} .001); dos asteriscos (\texttt{**}) un valor \emph{p} entre 0.001 y 0.01 (\emph{p} \textless{} .01); un asterisco (\texttt{*}) un valor \emph{p} entre 0.01 y 0.05 (\emph{p} \textless{} .05); un punto (\texttt{.}) un valor \emph{p} entre 0.05 y 0.01 (\emph{p} \textless{} .1, que ya no es significativo); y si no hay ningún símbolo, un valor \emph{p} entre 0.1 y 1 (\emph{p} \textgreater{} .1, no significativo)
 \end{itemize}
 
-En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre concienciación y adherencia a la medicación (coeficiente de correlación transformado en \emph{z} de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (\emph{Z} = 4.7501, \(p\) \textless{} .0001), y nos muestra el intervalo de confianza del 95\% (o IC 95\%); los intervalos de confianza (en este caso del 95\%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (\emph{z} = .0881) y superior (\emph{z} = .2118) de estos intervalos de confianza.
+En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre escrupulosidad y adherencia a la medicación (coeficiente de correlación transformado en \emph{z} de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (\emph{Z} = 4.7501, \(p\) \textless{} .0001), y nos muestra el intervalo de confianza del 95\% (o IC 95\%); los intervalos de confianza (en este caso del 95\%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (\emph{z} = .0881) y superior (\emph{z} = .2118) de estos intervalos de confianza.
 
 \hypertarget{reporte1}{%
 \subsubsection{Reporte del meta-análisis básico}\label{reporte1}}
@@ -637,7 +632,7 @@ Esto se podría resumir, por ejemplo, como:
   title=Ejemplo de reporte básico,fonttitle=\bfseries,
   boxed title style={size=small,colframe=iacol} ]
   
-Este meta-análisis examinó la relación entre la concienciación y la adherencia a la medicación a través de 16 estudios. Los resultados indicaron una asociación significativa y positiva entre ambos factores ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). Sin embargo, se encontró una moderada pero significativa heterogeneidad en cuanto al tamaño del efecto entre los estudios incluidos ($\tau^2$ ± $se$ =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%). Por tanto, es importante interpretar los resultados con precaución debido a la amplia variabilidad en el tamaño del efecto entre los estudios. A pesar de estas limitaciones, los hallazgos sugieren que la concienciación puede tener un efecto positivo en la adherencia a la medicación.
+Este meta-análisis examinó la relación entre la escrupulosidad y la adherencia a la medicación a través de 16 estudios. Los resultados indicaron una asociación significativa y positiva entre ambos factores ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). Sin embargo, se encontró una moderada pero significativa heterogeneidad en cuanto al tamaño del efecto entre los estudios incluidos ($\tau^2$ ± $se$ =  0.0081 ± 0.0055; $\tau$ = 0.0901; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%). Por tanto, es importante interpretar los resultados con precaución debido a la amplia variabilidad en el tamaño del efecto entre los estudios. A pesar de estas limitaciones, los hallazgos sugieren que la escrupulosidad puede tener un efecto positivo en la adherencia a la medicación.
 
 \end{tcolorbox}
 
@@ -724,7 +719,7 @@ Estos intervalos de confianza que también pueden ser reportados junto a sus cor
   title=Ejemplo de reporte con intervalos de confianza para heterogeneidad,fonttitle=\bfseries,
   boxed title style={size=small,colframe=iacol} ]
   
-El meta-análisis incluyó 16 estudios que examinaron la relación entre la concienciación y la adherencia a la medicación. Los estudios incluidos variaron en cuanto al diseño, la población de pacientes y la intervención evaluada. Los resultados del meta-análisis indicaron una asociación positiva significativa entre la concienciación y la adherencia a la medicación ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). La heterogeneidad en torno al tamaño medio del efecto entre los estudios incluidos fue moderada pero significativa ($\tau^2$ ± $se$ =  0.0081 ± 0.0055, IC 95\% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95\% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%, IC 95\% [25.28\%, 88.25\%]). Se observó una amplia variabilidad en el tamaño del efecto entre los estudios, lo que sugiere que los resultados deben interpretarse con precaución. A pesar de estas limitaciones, los hallazgos sugieren que es probable que la concienciación tenga un efecto positivo en la adherencia a la medicación. Es importante tener en cuenta que la calidad metodológica de los estudios incluidos en el meta-análisis fue variable, lo que puede afectar la validez y generalización de las conclusiones.
+El meta-análisis incluyó 16 estudios que examinaron la relación entre la escrupulosidad y la adherencia a la medicación. Los estudios incluidos variaron en cuanto al diseño, la población de pacientes y la intervención evaluada. Los resultados del meta-análisis indicaron una asociación positiva significativa entre la escrupulosidad y la adherencia a la medicación ($z$ ± $se$ = 0.15 ± 0.032, IC 95\% [0.09, 0.21]; $Z$ = 4.75, $p$ < .0001). La heterogeneidad en torno al tamaño medio del efecto entre los estudios incluidos fue moderada pero significativa ($\tau^2$ ± $se$ =  0.0081 ± 0.0055, IC 95\% [0.0017, 0.0378]; $\tau$ = 0.0901, IC 95\% [0.0412, 0.1944]; $Q$(15) =  38.16, $p$ < .001; $I^2$ = 61.7\%, IC 95\% [25.28\%, 88.25\%]). Se observó una amplia variabilidad en el tamaño del efecto entre los estudios, lo que sugiere que los resultados deben interpretarse con precaución. A pesar de estas limitaciones, los hallazgos sugieren que es probable que la escrupulosidad tenga un efecto positivo en la adherencia a la medicación. Es importante tener en cuenta que la calidad metodológica de los estudios incluidos en el meta-análisis fue variable, lo que puede afectar la validez y generalización de las conclusiones.
 
 \end{tcolorbox}
 
@@ -1143,7 +1138,7 @@ Si quieres profundizar en el método de recorte y relleno (\emph{trim and fill})
 \hypertarget{vevea-hedges}{%
 \subsubsection{Modelo de función de peso de Vevea y Hedges}\label{vevea-hedges}}
 
-El modelo de función de peso de Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{Vevea \& Hedges, 1995}; \protect\hyperlink{ref-veveaPublicationBiasResearch2005}{Vevea \& Woods, 2005}) es uno de los modelos se selección (en inglés, \emph{selection models}) más conocidos\footnote{El otro modelo de selección muy conocido, es el modelo de Copas y Shi (\protect\hyperlink{ref-copasSensitivityAnalysisPublication2001}{2001}, \protect\hyperlink{ref-copasMetaanalysisFunnelPlots2000}{2000}). Aunque no lo incluyo en ésta guía, es importante mencionar que hay evidencia que muestra que es preferible a métodos como el de \emph{trim and fill} (\protect\hyperlink{ref-schwarzerEmpiricalEvaluationSuggests2010}{Schwarzer et al., 2010}). En R, éste método se puede implementar con la función \texttt{copas} del paquete \texttt{metasens} (\protect\hyperlink{ref-schwarzerMetasensPackage}{Schwarzer et al., 2023}; ver también Capítulo 5 en \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}).}.
+El modelo de función de peso de Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}; ver también \protect\hyperlink{ref-veveaPublicationBiasResearch2005}{Vevea \& Woods, 2005}) es uno de los modelos se selección (en inglés, \emph{selection models}) más conocidos\footnote{El otro modelo de selección muy conocido, es el modelo de Copas y Shi (\protect\hyperlink{ref-copasSensitivityAnalysisPublication2001}{2001}, \protect\hyperlink{ref-copasMetaanalysisFunnelPlots2000}{2000}). Aunque no lo incluyo en ésta guía, es importante mencionar que hay evidencia que muestra que es preferible a métodos como el de \emph{trim and fill} (\protect\hyperlink{ref-schwarzerEmpiricalEvaluationSuggests2010}{Schwarzer et al., 2010}). En R, éste método se puede implementar con la función \texttt{copas} del paquete \texttt{metasens} (\protect\hyperlink{ref-schwarzerMetasensPackage}{Schwarzer et al., 2023}; ver también Capítulo 5 en \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}).}.
 
 Los modelos de selección intentan describir el mecanismo de supresión del efecto y combinarlo con un modelo de tamaño del efecto que describa la distribución de los efectos en ausencia de sesgo de publicación.
 
@@ -1151,7 +1146,9 @@ El modelo de Vevea y Hedges da más peso a ciertos tamaños de efecto. La realid
 
 En R, para estimar el sesgo de publicación de un meta-análisis usando el modelo de función de peso de Vevea y Hedges, se puede usar la función \texttt{weightfunct} del paquete \texttt{weightr} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}).
 
-Esta función que nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea \& Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea \& Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005})'', como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}.
+Tal como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}, esta función nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea \& Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea \& Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005})''.
+
+En este caso, usaré esta función, asignando el resultado a un objeto que llamaré \texttt{wf}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1159,7 +1156,55 @@ Esta función que nos permite ``estimar tanto el modelo de función de peso para
 \end{Highlighting}
 \end{Shaded}
 
-En este caso, usaré esta función, asignando el resultado a un objeto que llamaré \texttt{wf}.
+\begin{verbatim}
+Loading required package: scales
+\end{verbatim}
+
+\begin{verbatim}
+
+Attaching package: 'scales'
+\end{verbatim}
+
+\begin{verbatim}
+The following objects are masked from 'package:psych':
+
+    alpha, rescale
+\end{verbatim}
+
+\begin{verbatim}
+The following object is masked from 'package:purrr':
+
+    discard
+\end{verbatim}
+
+\begin{verbatim}
+The following object is masked from 'package:readr':
+
+    col_factor
+\end{verbatim}
+
+\begin{verbatim}
+
+Attaching package: 'weightr'
+\end{verbatim}
+
+\begin{verbatim}
+The following object is masked from 'package:metafor':
+
+    funnel
+\end{verbatim}
+
+\begin{verbatim}
+The following object is masked from 'package:metadat':
+
+    dat.bangertdrowns2004
+\end{verbatim}
+
+\begin{verbatim}
+The following object is masked from 'package:stats':
+
+    density
+\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1238,7 +1283,7 @@ La idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente pa
 
 Para este ejemplo, asumiré que el efecto \emph{real} es el estimado en nuestro análisis original (\emph{z} = 0.15), pues este efecto es mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
 
-Para hacer esto, usaré el paquete \texttt{metameta} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}, \protect\hyperlink{ref-quintanaGuideMetaPower}{in press}), que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos \emph{reales} estimados.
+Para hacer esto, usaré el paquete \texttt{metameta} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}, \protect\hyperlink{ref-quintanaGuideMetaPower}{2023}), que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos \emph{reales} estimados.
 
 \hypertarget{instalaciuxf3n-de-metameta}{%
 \subsubsection{\texorpdfstring{Instalación de \texttt{metameta}}{Instalación de metameta}}\label{instalaciuxf3n-de-metameta}}
@@ -1325,7 +1370,7 @@ Para ver el objeto, como siempre, solo tengo que llamarlo por el nombre que le h
 
 Por ejemplo, nos muestra que para detectar un efecto de \emph{z} = 0.1 (\texttt{es01}), se estima un poder de \texttt{0.1762492}; para un poder de \emph{z} = 0.2 (\texttt{es02}), se estima un poder de \texttt{0.5356629}, y continúa así hasta un poder de \emph{z} = 1.0 (\texttt{es1}).
 
-Finalmente, nos muestra el poder estimado para detectar un efecto del tamaño del que estimamos como \emph{real} (en nuestro caso, \emph{z} = 0.15), bajo el encabezado \texttt{es\_observed}. Como se ve, el poder es de tan solo \texttt{0.3364197}, lo que quiere decir que, si el efecto \emph{real} de la asociación entre concienciación y la adherencia a la medicación fuese \emph{z} = 0.15, un meta-análisis como el nuestro sólo detectaría esa correlación como significativa en el 33.64\% de os casos.
+Finalmente, nos muestra el poder estimado para detectar un efecto del tamaño del que estimamos como \emph{real} (en nuestro caso, \emph{z} = 0.15), bajo el encabezado \texttt{es\_observed}. Como se ve, el poder es de tan solo \texttt{0.3364197}, lo que quiere decir que, si el efecto \emph{real} de la asociación entre escrupulosidad y la adherencia a la medicación fuese \emph{z} = 0.15, un meta-análisis como el nuestro sólo detectaría esa correlación como significativa en el 33.64\% de os casos.
 
 Lo que es más, podemos concluir que solo tenemos suficiente poder estadístico para detectar como significativos efectos desde aproximadamente \emph{z} = 0.3 (\texttt{es03} = \texttt{0.8673657}, donde por fin tenemos un poder mayor a 0.8, o lo que es lo mismo, 80\%). Sin embargo, nuestras estimaciones del efecto \emph{real} están por debajo de este umbral, ya que en nuestro meta-análisis original fue de \emph{z} = 0.15 y en el meta-análisis con pesos ajustados fue de \emph{z} = 0.09.
 
@@ -1495,14 +1540,14 @@ Si el poder estadístico de nuestro meta-análisis para detectar ese efecto (\em
 
 Como hemos visto, al realizar un meta-análisis, es fundamental tomar decisiones que pueden influir significativamente en los resultados y conclusiones. Una de las preguntas más importantes es qué estudios incluir en el análisis y si es necesario excluir algún estudio. Aunque nuestro diagnóstico inicial de influencia (sección \ref{diag-inf}) no mostró la presencia de estudios atípicos en nuestro meta-análisis, en ocasiones se requiere un análisis más exhaustivo.
 
-En esta sección explicaré dos técnicas: \emph{leave-one-out} (sección \ref{leave-one-out}), que consiste en realizar una serie de meta-análisis excluyendo uno de los estudios incluidos en cada iteración, y meta-análisis combinatorio (sección \ref{gosh}), que permite crear todas las combinaciones posibles de estudios y, por lo tanto, evaluar la robustez de los resultados en diferentes escenarios.
+En esta sección, que se basa por completo en la explicación y ejemplos de Quintana (\protect\hyperlink{ref-quintanaOhMyGOSH2020}{2020}), explicaré dos técnicas: \emph{leave-one-out} (sección \ref{leave-one-out}), que consiste en realizar una serie de meta-análisis excluyendo uno de los estudios incluidos en cada iteración, y meta-análisis combinatorio (sección \ref{gosh}), que permite crear todas las combinaciones posibles de estudios y, por lo tanto, evaluar la robustez de los resultados en diferentes escenarios.
 
 \hypertarget{leave-one-out}{%
 \subsubsection{\texorpdfstring{\emph{Leave-one-out}}{Leave-one-out}}\label{leave-one-out}}
 
 La técnica de \emph{leave-one-out} realiza una serie de meta-análisis dejando fuera cada uno de los estudios incluidos. En nuestro caso, dado que tenemos 16 estudios, esta técnica ajustará 16 modelos (uno excluyendo cada estudio).
 
-Esta técnica no sólo se hace como parte de un diagnóstico de influencia (como se muestra en la sección \ref{diag-inf}), sino que también se puede hacer para ver la estimación del efecto meta-analizado al excluir cada uno de los estudios de nuestra base de datos.
+Esta técnica no sólo se puede hacer como parte de un diagnóstico de influencia (como se muestra en la sección \ref{diag-inf}), sino que también se puede hacer para ver la estimación del efecto meta-analizado al excluir cada uno de los estudios de nuestra base de datos.
 
 Hacerlo sólo requiere usar la función \texttt{leave1out} del paquete \texttt{metafor}, usando como argumento el resultado de nuestro meta-análisis original (en este caso, \texttt{res}):
 
@@ -1696,14 +1741,14 @@ La inclusión de moderadores en un meta-análisis mediante una técnica llamada 
 
 Por ejemplo, en el caso de la relación entre la altura de una planta y la cantidad de luz que recibe, el tipo de suelo puede actuar como variable moderadora. Es decir, el efecto de la cantidad de luz en la altura de la planta puede ser diferente dependiendo del tipo de suelo, y estudios hechos en diferentes tipos de suelo podrían tender a encontrar resultados distintos. Por lo tanto, en este caso, el tipo de suelo actuaría como una variable moderadora de la relación entre la cantidad de luz y la altura de la planta, que deberíamos tener en cuenta en cualquier meta-análisis.
 
-En nuestro caso, variables como la cantidad de variables controladas (\texttt{controls}), el diseño de cada estudio (\texttt{design}), la forma en la que se midieron la adherencia al tratamiento (\texttt{a\_measure}) y la concienciación (\texttt{c\_measure}), la edad de los participantes (\texttt{meanage}) y/o la calidad metodológica de los estudios (\texttt{quality}), son características que podrían haber afectado el coeficiente de correlación que encontraron (todas estas variables se explican con mayor detalle en la sección \ref{variables-inf}). Por ejemplo, estudios con menor calidad metodológica podrían haber tendido a sobrestimar el efecto, encontrando correlaciones más fuertes y positivas entre concienciación y adherencia al tratamiento, sesgando así nuestra estimación del efecto \emph{real}.
+En nuestro caso, variables como la cantidad de variables controladas (\texttt{controls}), el diseño de cada estudio (\texttt{design}), la forma en la que se midieron la adherencia al tratamiento (\texttt{a\_measure}) y la escrupulosidad (\texttt{c\_measure}), la edad de los participantes (\texttt{meanage}) y/o la calidad metodológica de los estudios (\texttt{quality}), son características que podrían haber afectado el coeficiente de correlación que encontraron (todas estas variables se explican con mayor detalle en la sección \ref{variables-inf}). Por ejemplo, estudios con menor calidad metodológica podrían haber tendido a sobrestimar el efecto, encontrando correlaciones más fuertes y positivas entre escrupulosidad y adherencia al tratamiento, sesgando así nuestra estimación del efecto \emph{real}.
 
 Los moderadores pueden ser tanto variables continuas, como categóricas, y en las siguientes secciones daré ejemplos para cada caso.
 
 \hypertarget{ex.mod1}{%
 \subsection{Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes)}\label{ex.mod1}}
 
-Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, \texttt{meanage}) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios\footnote{De hecho, mientras que en el estudio de Axelsson et al.~(2009) la edad promedio fue de 22, en el estudio de Jerant et al.~(2011) la edad promedio fue de 78.6.}, lo que podría moderar (afectar) la asociación entre concienciación (\emph{conscientiousness}) y adherencia a la medicación prescrita.
+Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, \texttt{meanage}) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios\footnote{De hecho, mientras que en el estudio de Axelsson et al.~(2009) la edad promedio fue de 22, en el estudio de Jerant et al.~(2011) la edad promedio fue de 78.6.}, lo que podría moderar (afectar) la asociación entre escrupulosidad (\emph{conscientiousness}) y adherencia a la medicación prescrita.
 
 Para esto, de nuevo podemos usar la función \texttt{rma} de paquete \texttt{metafor} de la misma manera que en la sección \ref{meta-cor}, pero agregando nuestra variable moderadora (\texttt{meanage}) al argumento \texttt{mods}. En este caso voy a asignar a un objeto llamado \texttt{res.modage}, para diferenciarlo del objeto \texttt{res} al que asigné el meta-análisis básico, sin moderadores.
 
@@ -1752,12 +1797,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Estos resultados tienen la misma organización que los del análisis sin moderadores (sección \ref{meta-cor}). Este resultado nos muestra que, a pesar de la gran diferencia de edad entre estudios, la edad no tiene un efecto significativo, como se puede ver en la sección ``\texttt{Test\ of\ Moderators\ (coefficient\ 2)}'' (al final nos muestra el valor \emph{p} como ``\texttt{p-val =  0.2320}''), así como los resultados para el efecto de \texttt{meanage} en la tabla \texttt{Model\ Results} (donde nos da el mismo resultado: ``\texttt{0.2320}'').
 
-En la tabla de \texttt{Model\ results} los estimados (columna \texttt{estimate}) se pueden leer tal cual como si fueran una regresión, pero teniendo en cuenta que acá nuestra variable dependiente sería la correlación entre concienciación y adherencia al tratamiento (en valores \emph{z}). Entonces, como el intercepto (\texttt{intrcpt}) tiene un valor estimado de 0.2741, para estudios con participantes que tuviesen una edad media de 0 años, se estimaría que la asociación entre concienciación y adherencia al tratamiento sería de \emph{z} = 0.2741. Por su parte el efecto de la edad media (\texttt{meanage}), nuestro moderador, es de -0.0024, lo que indica que por cada año de aumento en la edad promedio de los participantes, la correlación entre concienciación y adherencia disminuye \emph{z} = -0.0024. Para decirlo de manera sencilla, en nuestra muestra de estudios, la correlación entre adherencia y concienciación tiende a disminuir con la edad, pero esta tendencia no es significativa.
+En la tabla de \texttt{Model\ results} los estimados (columna \texttt{estimate}) se pueden leer tal cual como si fueran una regresión, pero teniendo en cuenta que acá nuestra variable dependiente sería la correlación entre escrupulosidad y adherencia al tratamiento (en valores \emph{z}). Entonces, como el intercepto (\texttt{intrcpt}) tiene un valor estimado de 0.2741, para estudios con participantes que tuviesen una edad media de 0 años, se estimaría que la asociación entre escrupulosidad y adherencia al tratamiento sería de \emph{z} = 0.2741. Por su parte el efecto de la edad media (\texttt{meanage}), nuestro moderador, es de -0.0024, lo que indica que por cada año de aumento en la edad promedio de los participantes, la correlación entre escrupulosidad y adherencia disminuye \emph{z} = -0.0024. Para decirlo de manera sencilla, en nuestra muestra de estudios, la correlación entre adherencia y escrupulosidad tiende a disminuir con la edad, pero esta tendencia no es significativa.
 
 \hypertarget{pred-mods}{%
 \subsubsection{Más información e interpretación de la moderación}\label{pred-mods}}
 
-Para más información, podemos \emph{predecir} el efecto (en este caso, la correlación entre la concienciación y la adherencia a la medicación), a diferentes edades, usando la función \texttt{predict}.
+Para más información, podemos \emph{predecir} el efecto (en este caso, la correlación entre la escrupulosidad y la adherencia a la medicación), a diferentes edades, usando la función \texttt{predict}.
 
 En este ejemplo, como argumentos de esta función incluiré el objeto que contiene el meta-análisis con la edad como variable moderadora (\texttt{res.modage}), y los los valores para los cuales quiero saber el coeficiente de correlación predicho (argumento \texttt{newmods}); en este ejemplo voy a usar ``\texttt{seq(20,\ 80,\ by\ =\ 10)}'', lo que produce la secuencia de números de 20 a 80, cada 10 (es decir: 20, 30, 40, 50, 60, 70, 80), que serán las edades para las cuales obtendré el coeficiente de correlación estimado por el modelo\footnote{Escogí edades entre 20 y 80 como referencia, pues están cerca al rango de valores de de las edades promedio de los estudios meta-analizados (22 a 78.6), y con edades cada 10 años, para obtener un número manejable pero informativo de predicciones.}.
 
@@ -1809,7 +1854,7 @@ Con esto, el objeto \texttt{pred.res.modage}, al que he asignado esta predicció
   \textbf{\texttt{pi.ub}}: límite superior del intervalo de predicción (en inglés \emph{prediction interval upper bound})
 \end{itemize}
 
-Las columnas \texttt{age} (edad) y \texttt{pred} (efecto predicho), nos muestran que, para estudios donde los participantes son en promedio más jóvenes, se esperaría una correlación más fuerte; por ejemplo, mientras que para estudios con personas de 20 años de edad en promedio se esperaría una correlación de \emph{z} = 0.226, para estudios con participantes con una edad promedio de 80 años, el modelo estima un efecto de \emph{z} = 0.082. En otras palabras, en nuestra muestra de estudios, la asociación entre concienciación y adherencia a la medicación tiende a reducirse ligeramente con la edad promedio de la muestra.
+Las columnas \texttt{age} (edad) y \texttt{pred} (efecto predicho), nos muestran que, para estudios donde los participantes son en promedio más jóvenes, se esperaría una correlación más fuerte; por ejemplo, mientras que para estudios con personas de 20 años de edad en promedio se esperaría una correlación de \emph{z} = 0.226, para estudios con participantes con una edad promedio de 80 años, el modelo estima un efecto de \emph{z} = 0.082. En otras palabras, en nuestra muestra de estudios, la asociación entre escrupulosidad y adherencia a la medicación tiende a reducirse ligeramente con la edad promedio de la muestra.
 
 Sin embargo, este efecto moderador de la edad \underline{no es significativo}, por lo que no tenemos evidencia suficiente para inferir que se da más allá de nuestra muestra de estudios.
 
@@ -1822,7 +1867,7 @@ Alternativamente, cuando tenemos un modelo con moderador, también podemos ver l
 \begin{Highlighting}[]
 \FunctionTok{regplot}\NormalTok{(res.modage,}
         \AttributeTok{ylab =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{,}
-        \AttributeTok{xlab =} \StringTok{"Edad promedio del estudio"}\NormalTok{)}
+        \AttributeTok{xlab =} \StringTok{"Edad promedio de muestra"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1886,9 +1931,9 @@ Por supuesto, al igual que como se explica en la sección \ref{heterog-inf}, tam
   title=Ejemplo de reporte con moderador continuo,fonttitle=\bfseries, parbox=false,
   boxed title style={size=small,colframe=iacol} ]
   
-Dado que hay una considerable variación en la edad media de los participantes entre los estudios incluídos (con un rango entre 22 y 78.6), volvimos a ajustar el mismo meta-análisis, pero incluyendo la edad media de los participantes de cada estudio como variable moderadora. Esta meta-regresión reveló que, aunque en los estudios icluídos la asociación entre concienciación y adherencia disminuye al aumentar la edad media de las muestras, esta moderación no es significativa (intercepto: $z$ ± $se$ = 0.27 ± 0.11, IC 95\% [0.06, 0.49]; $Z$ = 2.51, $p$ = .012; edad promedio: $z$ ± $se$ = -0.002 ± 0.002, IC 95\% [-0.006, 0.002]; $Z$ = -1.195, $Q$(1) = 1.429,   $p$ = .232). 
+Dado que hay una considerable variación en la edad media de los participantes entre los estudios incluídos (con un rango entre 22 y 78.6), volvimos a ajustar el mismo meta-análisis, pero incluyendo la edad media de los participantes de cada estudio como variable moderadora. Esta meta-regresión reveló que, aunque en los estudios icluídos la asociación entre escrupulosidad y adherencia disminuye al aumentar la edad media de las muestras, esta moderación no es significativa (intercepto: $z$ ± $se$ = 0.27 ± 0.11, IC 95\% [0.06, 0.49]; $Z$ = 2.51, $p$ = .012; edad promedio: $z$ ± $se$ = -0.002 ± 0.002, IC 95\% [-0.006, 0.002]; $Z$ = -1.195, $Q$(1) = 1.429,   $p$ = .232). 
 
-Adicionalmente, la heterogeneidad moderada y significatica se mantuvo, incluso al incluir este moderador ($\tau^2$ ± $se$ =  0.0072 ± 0.0054, IC 95\% [0.0010, 0.0403]; $\tau$ = 0.0846, IC 95\% [0.0315, 0.2007]; $Q$(14) =  30.91, $p$ = .006; $I^2$ = 56.50\%, IC 95\% [15.24\%, 87.97\%]). Por esto, no podemos inferir que la edad promedio de las muestras tenga un efecto en la estimación de la asociación entre concienciación y adherencia al tratamiento.  
+Adicionalmente, la heterogeneidad moderada y significatica se mantuvo, incluso al incluir este moderador ($\tau^2$ ± $se$ =  0.0072 ± 0.0054, IC 95\% [0.0010, 0.0403]; $\tau$ = 0.0846, IC 95\% [0.0315, 0.2007]; $Q$(14) =  30.91, $p$ = .006; $I^2$ = 56.50\%, IC 95\% [15.24\%, 87.97\%]). Por esto, no podemos inferir que la edad promedio de las muestras tenga un efecto en la estimación de la asociación entre escrupulosidad y adherencia al tratamiento.  
 
 \end{tcolorbox}
 
@@ -1901,7 +1946,7 @@ Aunque estoy siendo extremadamente exhaustivo en la manera de reportar toda la i
 \hypertarget{ejemplo-2-moderaciuxf3n-de-una-variable-categuxf3rica-controles-usados-en-cada-estudio-meta-analizado}{%
 \subsection{Ejemplo 2: Moderación de una variable categórica (controles usados en cada estudio meta-analizado)}\label{ejemplo-2-moderaciuxf3n-de-una-variable-categuxf3rica-controles-usados-en-cada-estudio-meta-analizado}}
 
-Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre concienciación (\emph{conscientiousness}) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado \texttt{res.contr}.
+Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre escrupulosidad (\emph{conscientiousness}) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado \texttt{res.contr}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1943,7 +1988,7 @@ En éste caso, a diferencia del ejemplo de moderación anteriores, la variable m
 
 De nuevo, en la tabla de \texttt{Model\ results} los estimados (columna \texttt{estimate}) se pueden leer tal cual como si fueran una regresión. Sin embargo es importante tener en cuenta que, dado que nuestra variable moderadora es categórica, el intercepto acá será en valor estimado de la correlación para el primer nivel (o categoría) de nuestra variable moderadora. Si recuerdas, como se explica en la sección \ref{variables-inf} la variable que estamos usando como moderadora, \texttt{controls} contiene información de si cada estudio no controló ninguna variable (\texttt{none}), o controló múltiples variables (\texttt{multiple}). Es decir, es una variable categórica con 2 niveles (\texttt{none}, \texttt{multiple}).
 
-Entonces, como el intercepto (\texttt{intrcpt}) tiene un valor estimado de 0.1788, se estima que la asociación entre concienciación y adherencia al tratamiento fue de \emph{z} = 0.1788 para estudios que no controlaron ninguna variable. Después, frente al efecto de nuestro moderador (\texttt{controlsmultiple}, que pone de manera conjunta la variable \texttt{controls} más el nivel \texttt{multiple}), nos da un estimado de -0.1621, lo que quiere decir que la correlación disminuye \emph{z} = -0.1621 cuando se trata de estudios que controlaron múltiples variables, \underline{con relación al intercepto} (\texttt{none}, en nuestro caso). De manera concreta, el modelo estimó una correlación de \emph{z} = 0.1788 para estudios que no controlaron ninguna variable, y una correlación de \emph{z} = 0.0167 (o, lo que es lo mismo, 0.1788 - 0.1621) cuando los estudios usaron varios controles.
+Entonces, como el intercepto (\texttt{intrcpt}) tiene un valor estimado de 0.1788, se estima que la asociación entre escrupulosidad y adherencia al tratamiento fue de \emph{z} = 0.1788 para estudios que no controlaron ninguna variable. Después, frente al efecto de nuestro moderador (\texttt{controlsmultiple}, que pone de manera conjunta la variable \texttt{controls} más el nivel \texttt{multiple}), nos da un estimado de -0.1621, lo que quiere decir que la correlación disminuye \emph{z} = -0.1621 cuando se trata de estudios que controlaron múltiples variables, \underline{con relación al intercepto} (\texttt{none}, en nuestro caso). De manera concreta, el modelo estimó una correlación de \emph{z} = 0.1788 para estudios que no controlaron ninguna variable, y una correlación de \emph{z} = 0.0167 (o, lo que es lo mismo, 0.1788 - 0.1621) cuando los estudios usaron varios controles.
 
 \hypertarget{pred-mods2}{%
 \subsubsection{Más información e interpretación de la moderación}\label{pred-mods2}}
@@ -2091,7 +2136,7 @@ De nuevo, y tal como lo hicimos en la sección \ref{heterog-inf} y en la secció
   title=Ejemplo de reporte con moderador categórico,fonttitle=\bfseries, parbox=false,
   boxed title style={size=small,colframe=iacol} ]
   
-Dado que hay estudios que controlaron variables y otros que no controlaron ninguna, ajustamos de nuevo el meta-análisis, pero incluyendo este factor como variable moderadora. Al incluir la variable moderadora de controles en el meta-análisis, se encontró que esta tuvo un efecto significativo en la estimación de la correlación entre la concienciación y la adherencia al tratamiento ($Q$(1) = 20.122, $p$ < .0001). De hecho, los estudios que no incorporaron controles estimaron una asociación más alta ($z$ ± $se$ = 0.179 ± 0.021, IC 95\% [0.138, 0.219]) que los estudios que incluyeron múltiples controles ($z$ ± $se$ = 0.017 ± 0.030, IC 95\% [-0.041, 0.075]).
+Dado que hay estudios que controlaron variables y otros que no controlaron ninguna, ajustamos de nuevo el meta-análisis, pero incluyendo este factor como variable moderadora. Al incluir la variable moderadora de controles en el meta-análisis, se encontró que esta tuvo un efecto significativo en la estimación de la correlación entre la escrupulosidad y la adherencia al tratamiento ($Q$(1) = 20.122, $p$ < .0001). De hecho, los estudios que no incorporaron controles estimaron una asociación más alta ($z$ ± $se$ = 0.179 ± 0.021, IC 95\% [0.138, 0.219]) que los estudios que incluyeron múltiples controles ($z$ ± $se$ = 0.017 ± 0.030, IC 95\% [-0.041, 0.075]).
 
 Al incluir esta variable moderadora, se redujo enormemente la heterogeneidad entre los estudios ($\tau^2$ ± $se$ =  0.00 ± 0.0015, IC 95\% [0.0000, 0.0244]; $\tau$ = 0.0002, IC 95\% [0.000, 0.1562]; $Q$(14) = 18.037, $p$ = .205; $I^2$ = 0.00\%, IC 95\% [0.00\%, 80.96\%]), lo que indica que la heterogeneidad original se debía en gran parte a las diferencias metodológicas entre los estudios.  
 
@@ -2111,13 +2156,13 @@ Hacer un meta-análisis de correlación en R no es necesariamente complejo, pero
 \hypertarget{pasos-para-hacer-tu-meta-anuxe1lisis}{%
 \subsection{Pasos para hacer tu meta-análisis}\label{pasos-para-hacer-tu-meta-anuxe1lisis}}
 
-Primero, debes tener hacer una selección de artículos buena y no sesgada\footnote{Para esto existen varias guías, e incluso la \emph{Declaración PRISMA} que está diseñada para abordar los problemas en la publicación de revisiones sistemáticas y meta-análisis (para información en español, ver e.g., \protect\hyperlink{ref-huttonExtensionDeclaracionPRISMA2016}{Hutton et al., 2016}; \protect\hyperlink{ref-pageDeclaracionPRISMA20202021}{Page et al., 2021}).}. Esto mínimamente incluye:
+Primero, debes tener hacer una selección de artículos buena y no sesgada\footnote{Para esto existen varias guías, e incluso la \emph{Declaración PRISMA} que está diseñada para abordar los problemas en la publicación de revisiones sistemáticas y meta-análisis (para información en español, ver e.g., \protect\hyperlink{ref-huttonExtensionDeclaracionPRISMA2016}{Hutton et al., 2016}; \protect\hyperlink{ref-pageDeclaracionPRISMA20202021}{Page et al., 2021}).
 
-A. Formular la pregunta de investigación clara, con base en teoría
+  A. Formular la pregunta de investigación clara, con base en teoría
 
-B. Identificar la bibliografía pertinente
+  B. Identificar la bibliografía pertinente
 
-C. Extraer y consolidar los datos de los estudios (en el caso de correlaciones, cuando menos \emph{r} y \emph{n})
+  C. Extraer y consolidar los datos de los estudios (en el caso de correlaciones, cuando menos \emph{r} y \emph{n})}. Esto mínimamente incluye:
 
 Con esto deberías ya poder hacer una base de datos para un meta-análisis de correlación simple. Mientras tengas en tu base de datos algún identificador de cada estudio, el tamaño de efecto (\emph{r}) y el tamaño de muestra (\emph{n}), tendrías todo lo necesario para hacerlo. Por ejemplo:
 
@@ -2167,9 +2212,13 @@ Adicionalmente, podrías:
 \hypertarget{conclusiuxf3n}{%
 \subsection{Conclusión}\label{conclusiuxf3n}}
 
-Si haces esto, tendrás una base sólida y transparente para hacer y comunicar tu meta-análisis, independientemente de sus resultados. Es importante recordar que, aunque el meta-análisis es una herramienta poderosa, no es una solución mágica para todos los problemas de investigación. La calidad de los estudios incluidos, la heterogeneidad de los datos y otras limitaciones pueden afectar los resultados y la interpretación del meta-análisis.
+Es fundamental tener en cuenta que el meta-análisis, aunque es una herramienta poderosa, no es una solución mágica para resolver los problemas de investigación. La calidad de los estudios incluidos, la heterogeneidad de los datos y otras limitaciones pueden influir en los resultados y su interpretación. En última instancia, el éxito de un meta-análisis dependerá del rigor y la transparencia del investigador o investigadora en su implementación y en la interpretación de sus resultados.
 
-En última instancia, el éxito del meta-análisis depende de la habilidad y el rigor del investigador o investigadora en su implementación y en la interpretación de sus resultados.
+Sin embargo, si tienes en cuenta y de manera rigurosa las recomendaciones de esta guía, tendrás una base sólida para hacer y comunicar tu meta-análisis de manera transparente, sin importar los resultados obtenidos.
+
+Lamentablemente, en el mundo hispano, especialmente en Latinoamérica, todavía se presentan importantes rezagos en la producción científica, que son resultado en parte del insuficiente apoyo gubernamental y de un sistema global que desfavorece a los países en vías de desarrollo. Sin embargo, también son producto de una falta de confianza en las capacidades propias y de ciertos déficits reales en educación.
+
+Mi objetivo con esta guía es inspirar a investigadores hispanohablantes, ya sean establecidos o en formación, y de diversas disciplinas, a conocer los fundamentos del meta-análisis y su implementación de forma transparente. El fortalecimiento de nuestras habilidades analíticas es un paso fundamental para mejorar nuestra formación y contribuir al conocimiento global.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -2184,6 +2233,9 @@ En última instancia, el éxito del meta-análisis depende de la habilidad y el 
 \begin{CSLReferences}{1}{0}
 \leavevmode\vadjust pre{\hypertarget{ref-magrittrcite}{}}%
 Bache, S. M., \& Wickham, H. (2022). \emph{{magrittr}: A forward-pipe operator for {R}}. \url{https://CRAN.R-project.org/package=magrittr}
+
+\leavevmode\vadjust pre{\hypertarget{ref-baker500ScientistsLift2016}{}}%
+Baker, M. (2016). 1,500 scientists lift the lid on reproducibility. \emph{Nature News}, \emph{533}(7604), 452. \url{https://doi.org/10.1038/533452a}
 
 \leavevmode\vadjust pre{\hypertarget{ref-BalduzziMeta2019}{}}%
 Balduzzi, S., Rücker, G., \& Schwarzer, G. (2019). How to perform a meta-analysis with {R}: A practical tutorial. \emph{Evidence-Based Mental Health}, \emph{22}, 153--160. \url{https://doi.org/10.1136/ebmental-2019-300117}
@@ -2234,7 +2286,7 @@ Fisher, R. A. (1915). Frequency {Distribution} of the {Values} of the {Correlati
 Gómez-Restrepo, C. (2008). {Acerca del sesgo de publicación en literatura sobre antidepresivos}. \emph{Revista Colombiana de Psiquiatría}, \emph{37}(1), 8--10. \url{http://www.scielo.org.co/scielo.php?script=sci_arttext\&pid=S0034-74502008000100001}
 
 \leavevmode\vadjust pre{\hypertarget{ref-harrer2021doing}{}}%
-Harrer, M., Cuijpers, P., A, F. T., \& Ebert, D. D. (2021). \emph{{Doing Meta-Analysis With {R}: A Hands-On Guide}} (1st ed.). Chapman \& Hall/CRC Press. \url{https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/}
+Harrer, M., Cuijpers, P., A, F. T., \& Ebert, D. D. (2021). \emph{{Doing Meta-Analysis With {R}: A Hands-On Guide}} (1st ed.). {Chapman \& Hall/CRC Press}. \url{https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/}
 
 \leavevmode\vadjust pre{\hypertarget{ref-Harrer2019dmetar}{}}%
 Harrer, M., Cuijpers, P., Furukawa, T., \& Ebert, D. D. (2019). \emph{{dmetar: Companion R Package For The Guide 'Doing Meta-Analysis in R'}}. \url{http://dmetar.protectlab.org/}
@@ -2250,6 +2302,9 @@ Hutton, B., Catalá-López, F., \& Moher, D. (2016). {La extensión de la declar
 
 \leavevmode\vadjust pre{\hypertarget{ref-johnBigFiveTrait1999}{}}%
 John, O. P., \& Srivastava, S. (1999). The {Big Five Trait} taxonomy: {History}, measurement, and theoretical perspectives. In L. A. Pervin \& O. P. John (Eds.), \emph{Handbook of personality: {Theory} and research, 2nd ed} (pp. 102--138). {Guilford Press}. \url{http://jenni.uchicago.edu/econ-psych-traits/John_Srivastava_1995_big5.pdf}
+
+\leavevmode\vadjust pre{\hypertarget{ref-kleinManyLabsInvestigating2018}{}}%
+Klein, R. A., Vianello, M., Hasselman, F., Adams, B. G., Adams, R. B., Alper, S., Aveyard, M., Axt, J. R., Babalola, M. T., Bahník, Š., Batra, R., Berkics, M., Bernstein, M. J., Berry, D. R., Bialobrzeska, O., Binan, E. D., Bocian, K., Brandt, M. J., Busching, R., \ldots{} Nosek, B. A. (2018). Many {Labs} 2: {Investigating Variation} in {Replicability Across Samples} and {Settings}. \emph{Advances in Methods and Practices in Psychological Science}, \emph{1}(4), 443--490. \url{https://doi.org/10.1177/2515245918810225}
 
 \leavevmode\vadjust pre{\hypertarget{ref-KossmeierMetaviz}{}}%
 Kossmeier, M., Tran, U. S., \& Voracek, M. (2020). \emph{{metaviz: Forest Plots, Funnel Plots, and Visual Funnel Plot Inference for Meta-Analysis}}. \url{https://CRAN.R-project.org/package=metaviz}
@@ -2281,11 +2336,14 @@ Olkin, I., Dahabreh, I. J., \& Trikalinos, T. A. (2012). {GOSH} \textendash{} a 
 \leavevmode\vadjust pre{\hypertarget{ref-pageDeclaracionPRISMA20202021}{}}%
 Page, M. J., McKenzie, J. E., Bossuyt, P. M., Boutron, I., Hoffmann, T. C., Mulrow, C. D., Shamseer, L., Tetzlaff, J. M., Akl, E. A., Brennan, S. E., Chou, R., Glanville, J., Grimshaw, J. M., Hróbjartsson, A., Lalu, M. M., Li, T., Loder, E. W., Mayo-Wilson, E., McDonald, S., \ldots{} Alonso-Fernández, S. (2021). {Declaración PRISMA 2020: una guía actualizada para la publicación de revisiones sistemáticas}. \emph{Revista Española de Cardiología}, \emph{74}(9), 790--799. \url{https://doi.org/10.1016/j.recesp.2021.06.016}
 
+\leavevmode\vadjust pre{\hypertarget{ref-quintanaOhMyGOSH2020}{}}%
+Quintana, D. S. (2020). \emph{{Oh My GOSH: Calculating All Possible Meta-Analysis Study Combinations} \emph{{[}{B}log{]}}}. {Hormones, brain, and behavior.} \url{https://www.dsquintana.blog/combinatorial-meta-analysis/}
+
 \leavevmode\vadjust pre{\hypertarget{ref-quintanaMetameta2022}{}}%
 Quintana, D. S. (2022). \emph{Metameta: A suite of tools to re-evaluate published meta-analyses}. \url{https://github.com/dsquintana/metameta}
 
 \leavevmode\vadjust pre{\hypertarget{ref-quintanaGuideMetaPower}{}}%
-Quintana, D. S. (in press). A guide for calculating study-level statistical power for meta-analyses. \emph{{Advances in Methods and Practices in Psychological Science}}. \url{https://doi.org/10.31219/osf.io/js79t}
+Quintana, D. S. (2023). A guide for calculating study-level statistical power for meta-analyses. \emph{{Advances in Methods and Practices in Psychological Science}}, \emph{6}(1), 1--18. \url{https://doi.org/10.1177/25152459221147260}
 
 \leavevmode\vadjust pre{\hypertarget{ref-revellePsych2021}{}}%
 Revelle, W. (2021). \emph{Psych: Procedures for psychological, psychometric, and personality research}. Northwestern University. \url{https://CRAN.R-project.org/package=psych}
@@ -2351,8 +2409,6 @@ Wickham, H., François, R., Henry, L., \& Müller, K. (2021). \emph{Dplyr: A gra
 
 \end{multicols}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
 \hypertarget{apuxe9ndices}{%
 \section*{APÉNDICES}\label{apuxe9ndices}}
 \addcontentsline{toc}{section}{APÉNDICES}
@@ -2368,26 +2424,22 @@ Wickham, H., François, R., Henry, L., \& Müller, K. (2021). \emph{Dplyr: A gra
 \subsection*{\texorpdfstring{\emph{Apéndice A.} Alternativas a \texttt{metafor}}{Apéndice A. Alternativas a metafor}}\label{apendice-alt}}
 \addcontentsline{toc}{subsection}{\emph{Apéndice A.} Alternativas a \texttt{metafor}}
 
-Acá he usado principalmente una ruta para hacer meta-análisis basada en el paquete \texttt{metafor}, acompañado de \texttt{metaviz} para visualizaciones, \texttt{weightr} para ajustar pesos y detectar sesgos de publicación, y \texttt{metameta} para estimar el poder estadístico de un meta-análisis.
+A lo largo de ésta guía he usado una ruta para hacer meta-análisis que parte de objetos generados con el paquete \texttt{metafor}. Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro \emph{Doing meta-analysis with R: a hands-on guide} (\protect\hyperlink{ref-harrer2021doing}{Harrer et al., 2021}) se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} (\protect\hyperlink{ref-Harrer2019dmetar}{Harrer et al., 2019}), que contiene y explica opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}).
 
-Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro \emph{Doing meta-analysis with R: a hands-on guide} (\protect\hyperlink{ref-harrer2021doing}{Harrer et al., 2021}) se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} (\protect\hyperlink{ref-Harrer2019dmetar}{Harrer et al., 2019}), que contiene opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}).
-
-De manera importante, los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), y \emph{p-curve} o curva de valores \(p\) (\protect\hyperlink{ref-simonsohnPcurveWonYour2019}{Simonsohn et al., 2019}, \protect\hyperlink{ref-simonsohnPCurveEffectSize2014}{2014}), así como opciones para hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
+Los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), y \emph{p-curve} o curva de valores \(p\) (\protect\hyperlink{ref-simonsohnPcurveWonYour2019}{Simonsohn et al., 2019}, \protect\hyperlink{ref-simonsohnPCurveEffectSize2014}{2014}), y permiten hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
 
 \hypertarget{p-curve}{%
 \subsubsection*{\texorpdfstring{\emph{A1.} Ejemplo: curva de valores \(p\) (\emph{p-curve})}{A1. Ejemplo: curva de valores p (p-curve)}}\label{p-curve}}
 \addcontentsline{toc}{subsubsection}{\emph{A1.} Ejemplo: curva de valores \(p\) (\emph{p-curve})}
 
-Como ejemplo corto, la curva de valores \(p\) (en inglés \emph{p-curve}) de nuestro meta-análisis se podría hacer tras ajustar de nuevo el modelo con la función \texttt{metacor} (que hace meta-análisis de correlaciones) del paquete \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}). Para este ejemplo asignaré el resultado a un objeto que llamaré \texttt{res.meta}.
+Como ejemplo puntual, la curva de valores \(p\) (en inglés \emph{p-curve}) de nuestro meta-análisis se podría hacer tras ajustar el modelo con la función \texttt{metacor} (que hace meta-análisis de correlaciones) del paquete \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}). Para este ejemplo asignaré el resultado a un objeto que llamaré \texttt{res.meta}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(meta)}
-\NormalTok{res.meta }\OtherTok{\textless{}{-}} \FunctionTok{metacor}\NormalTok{(}\AttributeTok{cor =}\NormalTok{ yi, }
-                    \AttributeTok{n =}\NormalTok{ ni, }
+\NormalTok{res.meta }\OtherTok{\textless{}{-}} \FunctionTok{metacor}\NormalTok{(}\AttributeTok{cor =}\NormalTok{ yi, }\AttributeTok{n =}\NormalTok{ ni, }
                     \AttributeTok{studlab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{), }
-                    \AttributeTok{data =}\NormalTok{ dat,}
-                    \AttributeTok{sm =} \StringTok{"ZCOR"}\NormalTok{)}
+                    \AttributeTok{data =}\NormalTok{ dat, }\AttributeTok{sm =} \StringTok{"ZCOR"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2402,7 +2454,7 @@ El objeto resultante (\texttt{res.meta}) puede usarse directamente como argument
 
 \begin{figure}
 
-{\centering \includegraphics[width=400px]{images/pcurve} 
+{\centering \includegraphics[width=300px]{images/pcurve} 
 
 }
 
@@ -2415,9 +2467,9 @@ La función \texttt{pcurve} produce varios elementos relacionados la curva de va
 \subsection*{\texorpdfstring{\emph{Apéndice B.} Citas y referencias de paquetes de R}{Apéndice B. Citas y referencias de paquetes de R}}\label{paquetes-cit}}
 \addcontentsline{toc}{subsection}{\emph{Apéndice B.} Citas y referencias de paquetes de R}
 
-Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función \texttt{citation} en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato \texttt{BibTex} que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia como \href{https://www.zotero.org/}{Zotero} (alternativamente, nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente, o crear referencias en diversos estilos usando, por ejemplo, \href{https://bibtex.online/}{BibTeX Online Converter}).
+Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función \texttt{citation} en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato \texttt{BibTex} que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia como \href{https://www.zotero.org/}{Zotero}. Alternativamente, el formato formato \texttt{BibTex} nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente, o incluso crear referencias en diversos estilos usando, por ejemplo, \href{https://asouqi.github.io/bibtex-converter/}{Online Bibtex Converter}.
 
-Como ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) para manipular los datos, y usando la función \texttt{citation}:
+Como ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) para manipular los datos. Usando la función \texttt{citation}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2461,9 +2513,9 @@ A BibTeX entry for LaTeX users is
 \emph{stats}, \emph{graphics}, \emph{grDevices}, \emph{utils}, \emph{datasets}, \emph{methods} and \emph{base}
 
 \textbf{other attached packages:}
-\emph{meta(v.6.2-1)}, \emph{metameta(v.0.2)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.13.0)}, \emph{zoo(v.1.8-11)}, \emph{psych(v.2.3.3)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.6.0)}, \emph{lubridate(v.1.9.2)}, \emph{forcats(v.1.0.0)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.1.1)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.4)}, \emph{tidyr(v.1.3.0)}, \emph{tibble(v.3.2.1)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.2.0.0)}, \emph{metafor(v.4.0-0)}, \emph{numDeriv(v.2016.8-1.1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.1)} and \emph{knitr(v.1.42)}
+\emph{meta(v.6.2-1)}, \emph{metameta(v.0.1.1)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.13.0)}, \emph{zoo(v.1.8-11)}, \emph{psych(v.2.3.3)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.6.0)}, \emph{lubridate(v.1.9.2)}, \emph{forcats(v.1.0.0)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.1.1)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.4)}, \emph{tidyr(v.1.3.0)}, \emph{tibble(v.3.2.1)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.2.0.0)}, \emph{metafor(v.4.0-0)}, \emph{numDeriv(v.2016.8-1.1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.1)} and \emph{knitr(v.1.42)}
 
 \textbf{loaded via a namespace (and not attached):}
-\emph{nlme(v.3.1-162)}, \emph{webshot(v.0.5.4)}, \emph{RColorBrewer(v.1.1-3)}, \emph{httr(v.1.4.5)}, \emph{tools(v.4.2.3)}, \emph{backports(v.1.4.1)}, \emph{utf8(v.1.2.3)}, \emph{R6(v.2.5.1)}, \emph{mgcv(v.1.8-42)}, \emph{colorspace(v.2.1-0)}, \emph{withr(v.2.5.0)}, \emph{tidyselect(v.1.2.0)}, \emph{gridExtra(v.2.3)}, \emph{mnormt(v.2.1.1)}, \emph{curl(v.5.0.0)}, \emph{compiler(v.4.2.3)}, \emph{cli(v.3.6.0)}, \emph{rvest(v.1.0.3)}, \emph{xml2(v.1.3.3)}, \emph{labeling(v.0.4.2)}, \emph{bookdown(v.0.33)}, \emph{quadprog(v.1.5-8)}, \emph{systemfonts(v.1.0.4)}, \emph{digest(v.0.6.31)}, \emph{minqa(v.1.2.5)}, \emph{rmarkdown(v.2.21)}, \emph{svglite(v.2.1.1)}, \emph{pkgconfig(v.2.0.3)}, \emph{htmltools(v.0.5.5)}, \emph{lme4(v.1.1-32)}, \emph{fastmap(v.1.1.1)}, \emph{highr(v.0.10)}, \emph{ggthemes(v.4.2.4)}, \emph{rlang(v.1.1.0)}, \emph{rstudioapi(v.0.14)}, \emph{generics(v.0.1.3)}, \emph{farver(v.2.1.1)}, \emph{jsonlite(v.1.8.4)}, \emph{car(v.3.1-2)}, \emph{magrittr(v.2.0.3)}, \emph{Rcpp(v.1.0.10)}, \emph{Quandl(v.2.11.0)}, \emph{munsell(v.0.5.0)}, \emph{fansi(v.1.0.4)}, \emph{abind(v.1.4-5)}, \emph{lifecycle(v.1.0.3)}, \emph{stringi(v.1.7.12)}, \emph{yaml(v.2.3.7)}, \emph{CompQuadForm(v.1.4.3)}, \emph{carData(v.3.0-5)}, \emph{MASS(v.7.3-58.2)}, \emph{mathjaxr(v.1.6-0)}, \emph{grid(v.4.2.3)}, \emph{parallel(v.4.2.3)}, \emph{lattice(v.0.20-45)}, \emph{cowplot(v.1.1.1)}, \emph{splines(v.4.2.3)}, \emph{pander(v.0.6.5)}, \emph{hms(v.1.1.3)}, \emph{pillar(v.1.9.0)}, \emph{boot(v.1.3-28.1)}, \emph{ggsignif(v.0.6.4)}, \emph{glue(v.1.6.2)}, \emph{evaluate(v.0.20)}, \emph{nloptr(v.2.0.3)}, \emph{vctrs(v.0.6.1)}, \emph{tzdb(v.0.3.0)}, \emph{gtable(v.0.3.3)}, \emph{xfun(v.0.38)}, \emph{broom(v.1.0.4)}, \emph{rstatix(v.0.7.2)}, \emph{viridisLite(v.0.4.1)} and \emph{timechange(v.0.2.0)}
+\emph{nlme(v.3.1-162)}, \emph{webshot(v.0.5.4)}, \emph{RColorBrewer(v.1.1-3)}, \emph{httr(v.1.4.5)}, \emph{tools(v.4.2.3)}, \emph{backports(v.1.4.1)}, \emph{utf8(v.1.2.3)}, \emph{R6(v.2.5.1)}, \emph{mgcv(v.1.8-42)}, \emph{colorspace(v.2.1-0)}, \emph{withr(v.2.5.0)}, \emph{tidyselect(v.1.2.0)}, \emph{gridExtra(v.2.3)}, \emph{mnormt(v.2.1.1)}, \emph{curl(v.5.0.0)}, \emph{compiler(v.4.2.3)}, \emph{cli(v.3.6.1)}, \emph{rvest(v.1.0.3)}, \emph{xml2(v.1.3.3)}, \emph{labeling(v.0.4.2)}, \emph{bookdown(v.0.33)}, \emph{quadprog(v.1.5-8)}, \emph{systemfonts(v.1.0.4)}, \emph{digest(v.0.6.31)}, \emph{minqa(v.1.2.5)}, \emph{rmarkdown(v.2.21)}, \emph{svglite(v.2.1.1)}, \emph{pkgconfig(v.2.0.3)}, \emph{htmltools(v.0.5.5)}, \emph{lme4(v.1.1-32)}, \emph{fastmap(v.1.1.1)}, \emph{highr(v.0.10)}, \emph{ggthemes(v.4.2.4)}, \emph{rlang(v.1.1.0)}, \emph{rstudioapi(v.0.14)}, \emph{generics(v.0.1.3)}, \emph{farver(v.2.1.1)}, \emph{jsonlite(v.1.8.4)}, \emph{car(v.3.1-1)}, \emph{magrittr(v.2.0.3)}, \emph{Rcpp(v.1.0.10)}, \emph{Quandl(v.2.11.0)}, \emph{munsell(v.0.5.0)}, \emph{fansi(v.1.0.4)}, \emph{abind(v.1.4-5)}, \emph{lifecycle(v.1.0.3)}, \emph{stringi(v.1.7.12)}, \emph{yaml(v.2.3.7)}, \emph{CompQuadForm(v.1.4.3)}, \emph{carData(v.3.0-5)}, \emph{MASS(v.7.3-58.2)}, \emph{mathjaxr(v.1.6-0)}, \emph{grid(v.4.2.3)}, \emph{parallel(v.4.2.3)}, \emph{lattice(v.0.20-45)}, \emph{cowplot(v.1.1.1)}, \emph{splines(v.4.2.3)}, \emph{pander(v.0.6.5)}, \emph{hms(v.1.1.3)}, \emph{pillar(v.1.9.0)}, \emph{boot(v.1.3-28.1)}, \emph{ggsignif(v.0.6.4)}, \emph{glue(v.1.6.2)}, \emph{evaluate(v.0.20)}, \emph{nloptr(v.2.0.3)}, \emph{vctrs(v.0.6.1)}, \emph{tzdb(v.0.3.0)}, \emph{gtable(v.0.3.3)}, \emph{xfun(v.0.38)}, \emph{broom(v.1.0.4)}, \emph{rstatix(v.0.7.2)}, \emph{viridisLite(v.0.4.1)} and \emph{timechange(v.0.2.0)}
 
 \end{document}
