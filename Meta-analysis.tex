@@ -1657,9 +1657,9 @@ La inclusión del estudio 12 en los modelos de meta-análisis provoca un cambio 
 En resumen, el meta-análisis combinatorio, junto con la visualización de datos mediante gráficos \emph{GOSH}, permite demostrar cómo las opciones de análisis pueden influir en los resultados y conclusiones de un meta-análisis. Es fundamental realizar una selección cuidadosa de los estudios incluidos y llevar a cabo un análisis crítico y riguroso de los resultados obtenidos para garantizar la fiabilidad y validez del meta-análisis.
 
 \hypertarget{fancy-gosh}{%
-\paragraph{\texorpdfstring{Diagnóstico a partir del \emph{GOSH plot}}{Diagnóstico a partir del GOSH plot}}\label{fancy-gosh}}
+\paragraph{\texorpdfstring{Identificación de estudios que contribuyen a los patrones de heterogeneidad a partir del \emph{GOSH plot}}{Identificación de estudios que contribuyen a los patrones de heterogeneidad a partir del GOSH plot}}\label{fancy-gosh}}
 
-Una limitación del meta-análisis combinatorio (y el \emph{GOSH plot}), es que no necesariamente nos permite ver qué estudios están influyendo de manera preocupante en nuestro resultado. En el ejemplo pasado, sabíamos que el estudio 12 era el \emph{culpable} pues así lo manipulamos. Sin embargo, no necesariamente sabes cuáles estudios son sospechosos. Por esto, tener herramientas que nos permitan identificar estudios potencialmente influyentes, es importante.
+Una limitación del meta-análisis combinatorio (y el \emph{GOSH plot}), es que no necesariamente nos permite identificar qué estudios están influyendo de manera preocupante en nuestro resultado. En el ejemplo pasado, sabíamos que el estudio 12 era el \emph{culpable} pues así lo manipulamos. Sin embargo, al hacer un meta-análisis no necesariamente sabemos cuáles estudios son sospechosos. Por esto, tener herramientas que nos permitan identificar estudios potencialmente influyentes, es importante.
 
 Por ejemplo, la función \texttt{gosh.diagnostics} del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} \autocite{Harrer2019dmetar} se puede usar para crear análisis y visualizaciones muy completas a partir de los objetos generados con la función \texttt{gosh} del paquete \texttt{metafor}, como los que creamos en la sección \ref{gosh}, inmediatamente anterior \footnote{El libro \emph{Doing meta-analysis with R: a hands-on guide} \autocite{harrer2021doing} se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} \autocite{Harrer2019dmetar}, y contiene y explica opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de otros paquetes (más información en el Apéndice \hyperlink{apendice-alt}{A}).}.
 
@@ -1672,8 +1672,7 @@ Es importante tener en cuenta que, al menos por ahora, y tal como sucede con \te
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\#se debe tener instalado el paquete devtools}
-\FunctionTok{library}\NormalTok{(devtools)}
-\FunctionTok{install\_github}\NormalTok{(}\StringTok{"MathiasHarrer/dmetar"}\NormalTok{)}
+\NormalTok{devtools}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"MathiasHarrer/dmetar"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1691,7 +1690,7 @@ Sin embargo, es posible agregar parámetros a cada algoritmo como argumentos. Si
 
 En este caso, voy a agregar el argumento \texttt{km.params\ =\ list(centers\ =\ 2)} para especificar que el algoritmo \emph{k-means} debe buscar dos \emph{clusters} (\texttt{centers}) en nuestros datos (esto no es estrictamente necesario, pero de manera automática el algoritmo buscará tres; decidí poner dos, pues visiblemente hay dos grupos de resultados, como se ve en la Fig. \ref{fig:gosh2} y especialmente en la Fig. \ref{fig:gosh3}).
 
-Adicionalmente, incluiré el argumento \texttt{db.params\ =\ list(eps\ =\ 0.1,\ MinPts\ =\ 50)}, para especificar parámetros para el algoritmo \emph{DBSCAN}, pues los \emph{clusters} requieren un número mínimo de puntos (\texttt{MinPts}) dentro de una distancia máxima (\texttt{eps}) alrededor de uno de sus miembros (o semilla). En este caso, agregué \texttt{eps\ =\ 0.1} para especificar que la ``distancia de \emph{alcanzabilidad}'' (en inglés, \emph{reachability distance}) es de 0.1, y \texttt{MinPts\ =\ 50} determinar el número mínimo de puntos necesarios para cada \emph{cluster} (en este caso, 50). Si quieres información detallada y profunda sobre estos parámetros, te recomiendo leer \textcite{esterAlgorithm}.
+Adicionalmente, incluiré el argumento \texttt{db.params\ =\ list(eps\ =\ 0.1,\ MinPts\ =\ 50)}, para especificar parámetros para el algoritmo \emph{DBSCAN}, pues los \emph{clusters} requieren un número mínimo de puntos (\texttt{MinPts}: \emph{minimum number of points} que se refiere mínimo número de puntos por \emph{cluster}) dentro de una distancia máxima (\texttt{eps}: \(\epsilon\) o épsilon) alrededor de uno de sus miembros (o ``semilla'')\footnote{Elegir los parámetros \texttt{eps} y \texttt{MinPts} no es necesariamente una tarea sencilla. No hay una única forma de elegir estos parámetros, ni una manera automática y sencilla de hacerlo. Las técnicas existentes son relativamente complejas, por lo que no las incluyo acá. Si quieres información detallada y más profunda sobre estos parámetros, te recomiendo leer \textcite{esterAlgorithm} y \textcite{schubertDBSCANRevisitedRevisited2017}, así como buscar diferentes maneras prácticas de elegir los valores para estos parámetros propuestas en \emph{blogs} como \href{https://www.projectpro.io/recipes/do-dbscan-clustering-r}{este} en inglés, o \href{http://exponentis.es/parametrizacion-automatica-de-dbscan-en-r-a-partir-de-la-curva-elbow}{este} en español.}. En este caso, agregué \texttt{eps\ =\ 0.1} para especificar que la ``distancia de \emph{alcanzabilidad}'' (en inglés, \emph{reachability distance}) es de 0.1, y \texttt{MinPts\ =\ 50} para determinar el número mínimo de puntos en cada \emph{cluster} (en este caso, 50).
 
 En este caso, asignaré el resultado a un objeto que llamaré \texttt{gp\_diag}.
 
@@ -1699,8 +1698,7 @@ En este caso, asignaré el resultado a un objeto que llamaré \texttt{gp\_diag}.
 \begin{Highlighting}[]
 \NormalTok{gp\_mo\_diag }\OtherTok{\textless{}{-}} \FunctionTok{gosh.diagnostics}\NormalTok{(gp\_mo,}
                                \AttributeTok{km.params =} \FunctionTok{list}\NormalTok{(}\AttributeTok{centers =} \DecValTok{2}\NormalTok{),}
-                               \AttributeTok{db.params =} \FunctionTok{list}\NormalTok{(}\AttributeTok{eps =} \FloatTok{0.1}\NormalTok{,}
-                                                \AttributeTok{MinPts =} \DecValTok{50}\NormalTok{))}
+                               \AttributeTok{db.params =} \FunctionTok{list}\NormalTok{(}\AttributeTok{eps =} \FloatTok{0.1}\NormalTok{, }\AttributeTok{MinPts =} \DecValTok{50}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1754,7 +1752,7 @@ Para ver esto gráficamente, puedo sencillamente usar la función \texttt{plot} 
 \end{Highlighting}
 \end{Shaded}
 
-Esto creará una serie de figuras; primero, una figura por cada algoritmo (\emph{K-means}, \emph{DBSCAN} y \emph{GMM}), y después una figura por cada estudio potencialmente atípico que se haya identificado (en nuestro caso, los estudios 12 y 10; si no se identificara ninguno, estas gráficas no se harían). Si estás usando RStudio, deberás moverte entre las figuras usando las flechas que están sobre el panel \emph{Plots} donde aparecen, pues sólo será visible la última figura.
+Esto creará una serie de figuras; primero, una figura por cada algoritmo (\emph{K-means}, \emph{DBSCAN} y \emph{GMM}), y después una figura por cada estudio potencialmente atípico que se haya identificado (en nuestro caso, los estudios 12 y 10; si no se identificara ninguno, estas gráficas no se harían). Si estás usando RStudio, deberás moverte entre las figuras usando las flechas que están sobre la pestaña \emph{Plots} del panel donde aparecen, pues sólo será visible la última figura.
 
 En este caso, voy a producir cada figura independientemente para analizarla.
 
@@ -1762,7 +1760,7 @@ Primero, tenemos la Figura \ref{fig:fancy-gosh1} que muestra los resultados del 
 
 \begin{figure}
 
-{\centering \includegraphics[height=200px]{images/fancy_gosh_P1} 
+{\centering \includegraphics[height=170px]{images/fancy_gosh_P1} 
 
 }
 
@@ -1777,7 +1775,7 @@ Luego, tenemos la Figura \ref{fig:fancy-gosh2} que muestra los resultados del al
 
 \begin{figure}
 
-{\centering \includegraphics[height=200px]{images/fancy_gosh_P2} 
+{\centering \includegraphics[height=170px]{images/fancy_gosh_P2} 
 
 }
 
@@ -1792,7 +1790,7 @@ Finalmente, tenemos la Figura \ref{fig:fancy-gosh3} que muestra los resultados d
 
 \begin{figure}
 
-{\centering \includegraphics[height=200px]{images/fancy_gosh_P3} 
+{\centering \includegraphics[height=170px]{images/fancy_gosh_P3} 
 
 }
 
@@ -1809,7 +1807,7 @@ Como mencioné antes, la función \texttt{plot} también crea una figura por cad
 
 }
 
-\caption{*GOSH plot* de cada estudio identificado como potencialmente atípico por los algoritmos de la función \texttt{gosh.diagnostics}. En este caso, los estudios 12 (izquiera) y 10 (derecha). En azul claro se resaltan los resultados de las combinaciones de estudios que incluyen cada uno de esos estudios potencialmente atípicos.}\label{fig:fancy-gosh4}
+\caption{\textit{GOSH plot} de cada estudio identificado como potencialmente atípico por los algoritmos de la función \texttt{gosh.diagnostics}. En este caso, los estudios 12 (izquiera) y 10 (derecha). En azul claro se resaltan los resultados de las combinaciones de estudios que incluyen cada uno de esos estudios potencialmente atípicos.}\label{fig:fancy-gosh4}
 \end{figure}
 
 Como verás, la Figura \ref{fig:fancy-gosh4} es simplemente una serie \emph{GOSH plots}, señalando en azul claro las combinaciones de estudios que incluyen cada uno de los estudios identificados como potencialmente atípicos: el estudio 12 (izquierda) y el estudio 10 (derecha). En este caso, por supuesto, la figura que resalta las combinaciones que incluyen el estudio 12 corresponde completamente a lo mostrado en la Figura \ref{fig:gosh2}.
@@ -2126,24 +2124,38 @@ Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versi
 \CommentTok{\# Definir base de datos, así como ejes X (controls) y Y (yi)}
 \FunctionTok{ggplot}\NormalTok{(dat, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ controls, }\AttributeTok{y =}\NormalTok{ yi)) }\SpecialCharTok{+}
   \CommentTok{\# Agregar puntos para cada estudio, con tamaño y color según tamaño de muestra (ni)}
-  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{size =}\NormalTok{ ni, }\AttributeTok{color =}\NormalTok{ ni), }\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{size =}\NormalTok{ ni, }
+                 \AttributeTok{color =}\NormalTok{ ni), }
+             \AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Definir escala de colores}
-  \FunctionTok{scale\_colour\_gradient}\NormalTok{(}\AttributeTok{low =} \StringTok{"red"}\NormalTok{, }\AttributeTok{high =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_colour\_gradient}\NormalTok{(}\AttributeTok{low =} \StringTok{"red"}\NormalTok{, }
+                        \AttributeTok{high =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Definir rango de tamaño de los puntos}
   \FunctionTok{scale\_size\_continuous}\NormalTok{(}\AttributeTok{range =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{10}\NormalTok{)) }\SpecialCharTok{+}
   \CommentTok{\# Combinar colores y tamaños de puntos en una sola leyenda}
-  \FunctionTok{guides}\NormalTok{(}\AttributeTok{color =} \FunctionTok{guide\_legend}\NormalTok{(), }\AttributeTok{size =} \FunctionTok{guide\_legend}\NormalTok{()) }\SpecialCharTok{+}
+  \FunctionTok{guides}\NormalTok{(}\AttributeTok{color =} \FunctionTok{guide\_legend}\NormalTok{(), }
+         \AttributeTok{size =} \FunctionTok{guide\_legend}\NormalTok{()) }\SpecialCharTok{+}
   \CommentTok{\# Traducir etiquetas del eje X en español}
-  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"none"} \OtherTok{=} \StringTok{"Ninguno"}\NormalTok{, }\StringTok{"multiple"} \OtherTok{=} \StringTok{"Múltiples"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"none"} \OtherTok{=} \StringTok{"Ninguno"}\NormalTok{, }
+                              \StringTok{"multiple"} \OtherTok{=} \StringTok{"Múltiples"}\NormalTok{)) }\SpecialCharTok{+}
   \CommentTok{\# Cambiar títulos de ejes a español}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Controles"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Controles"}\NormalTok{, }
+       \AttributeTok{y =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Agregar barras de error para cada categoría, con base en predicción hecha en sección 4.2.1}
-  \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ ci.lb, }\AttributeTok{ymax =}\NormalTok{ ci.ub),}
-                \AttributeTok{width =} \FloatTok{0.1}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr, }
+                \AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ ci.lb, }
+                              \AttributeTok{ymax =}\NormalTok{ ci.ub),}
+                \AttributeTok{width =} \FloatTok{0.1}\NormalTok{, }
+                \AttributeTok{color =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Agregar puntos blancos representando predicción para cada categoría hecha en sección 4.2.1}
-  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr, }\AttributeTok{shape =} \DecValTok{21}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{data =}\NormalTok{ pred.res.contr, }
+             \AttributeTok{shape =} \DecValTok{21}\NormalTok{, }
+             \AttributeTok{size =} \DecValTok{3}\NormalTok{, }
+             \AttributeTok{color =} \StringTok{"black"}\NormalTok{, }
+             \AttributeTok{fill =} \StringTok{"white"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Cambiar título de leyenda}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{color =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{, }\AttributeTok{size =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{) }\CommentTok{\# "\textbackslash{}n" para salto de línea}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{color =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{, }
+       \AttributeTok{size =} \StringTok{"Tamaño de }\SpecialCharTok{\textbackslash{}n}\StringTok{muestra"}\NormalTok{) }\CommentTok{\# "\textbackslash{}n" para salto de línea}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2177,7 +2189,7 @@ Por supuesto, \emph{forest plots} y \emph{funnel plots} pueden ser creados, tal 
 \end{Highlighting}
 \end{Shaded}
 
-Ese código produce esta Figura \ref{fig:for-plot-mod2}.
+Ese código produce la Figura \ref{fig:for-plot-mod2}.
 
 \begin{figure}
 \centering
@@ -2268,7 +2280,7 @@ Una vez tengas tu base de datos lista, deberías, cuando menos:
 
   1.1 Reportar información sobre heterogeneidad (sección \ref{heterog-inf})
 
-  1.2 Hacer un diagnóstico de influencia (sección \ref{diag-inf}; incluir, si es posible y no tienes un número grande de estudios, un meta-análisis combinatorio, sección \ref{gosh}, e idealmente un análisis de influencia a partir del \emph{GOSH plot}, sección sección \ref{fancy-gosh})
+  1.2 Hacer un diagnóstico de influencia (sección \ref{diag-inf}; incluir, si es posible y no tienes un número grande de estudios, un meta-análisis combinatorio, sección \ref{gosh}, e idealmente la identificación de estudios que contribuyen a los patrones de heterogeneidad a partir del \emph{GOSH plot}, sección \ref{fancy-gosh})
 
   1.3 Reportar los resultados usando un \emph{forest plot} (diagrama de bosque; sección \ref{forest-inf})
 
@@ -2313,7 +2325,8 @@ Mi objetivo con esta guía es inspirar a investigadores hispanohablantes, ya sea
 \end{multicols}
 
 \def\printbibliography{}
-\newpage
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{apuxe9ndices}{%
 \section*{APÉNDICES}\label{apuxe9ndices}}
