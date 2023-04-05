@@ -102,30 +102,7 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newlength{\cslentryspacingunit} % times entry-spacing
-\setlength{\cslentryspacingunit}{\parskip}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1
-  \let\oldpar\par
-  \def\par{\hangindent=\cslhangindent\oldpar}
-  \fi
-  % set entry spacing
-  \setlength{\parskip}{#2\cslentryspacingunit}
- }%
- {}
-\usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 1}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{csquotes} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{multicol} \usepackage{fontawesome5} \usepackage{svg} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \newcommand{\opensupplement}{\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}} \newcommand{\closesupplement}{\setcounter{table}{0} \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{\arabic{figure}}}
+\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 1}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{csquotes} \usepackage[style=apa,backend=biber]{biblatex} \DeclareLanguageMapping{spanish}{spanish-apa} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{multicol} \usepackage{fontawesome5} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \newcommand{\opensupplement}{\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}} \newcommand{\closesupplement}{\setcounter{table}{0} \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{\arabic{figure}}}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -143,6 +120,8 @@
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
+\usepackage[]{biblatex}
+\addbibresource{bib/references.bib}
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
@@ -152,7 +131,7 @@
   colorlinks=true,
   linkcolor={iacoldark},
   filecolor={Maroon},
-  citecolor={Blue},
+  citecolor={iacoldark},
   urlcolor={blue},
   pdfcreator={LaTeX via pandoc}}
 
@@ -165,7 +144,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{03 abril, 2023}
+\date{05 abril, 2023}
 
 \begin{document}
 \maketitle
@@ -197,7 +176,7 @@
 \leftskip3em
 \rightskip\leftskip
 
-El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo estudiantes, profesionales e investigadores carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una variedad de herramientas para realizar meta-análisis de correlaciones en R, mediante el uso de ejemplos reales. Incluye desde análisis simples y su interpretación, hasta el análisis de moderadores (meta-regresión), usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}). También incluye explicaciones para la transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher (y viceversa), creación de gráficos de bosque (\emph{forest plots}) y gráficos de embudo (\emph{funnel plots}), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete \href{https://www.r-pkg.org/pkg/weightr}{\texttt{weightr}} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}), y para determinar el poder estadístico de un meta-análisis utilizando \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{\texttt{metameta}} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}). Con esta guía, los lectores podrán adquirir las habilidades necesarias para realizar meta-análisis de correlaciones de manera efectiva en R y obtener resultados confiables.
+El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo estudiantes, profesionales e investigadores carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una variedad de herramientas para realizar meta-análisis de correlaciones en R, mediante el uso de ejemplos reales. Incluye desde análisis simples y su interpretación, hasta el análisis de moderadores (meta-regresión), usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} \autocite{viechtbauer2010} y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} \autocite{KossmeierMetaviz}. También incluye explicaciones para la transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher (y viceversa), creación de gráficos de bosque (\emph{forest plots}) y gráficos de embudo (\emph{funnel plots}), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete \href{https://www.r-pkg.org/pkg/weightr}{\texttt{weightr}} \autocite{coburnWeightr2019}, y para determinar el poder estadístico de un meta-análisis utilizando \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{\texttt{metameta}} \autocite{quintanaMetameta2022}. Con esta guía, los lectores podrán adquirir las habilidades necesarias para realizar meta-análisis de correlaciones de manera efectiva en R y obtener resultados confiables.
 
 \par
 \endgroup
@@ -210,7 +189,7 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 
 \href{https://www.youtube.com/@InvestigacionAbierta}{\includegraphics{images/Logo-IA-Rectangulo.pdf}}
 
-\textbf{Conocimientos necesarios:} Esta guía asume (1) un manejo básico de R, (2) comprensión de correlaciones y regresiones, y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video} introductorio al meta-análisis en \emph{jamovi} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}) que publiqué en mi canal de YouTube \href{https://www.youtube.com/@InvestigacionAbierta}{\emph{Investigación Abierta}}.
+\textbf{Conocimientos necesarios:} Esta guía asume (1) un manejo básico de R, (2) comprensión de correlaciones y regresiones, y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video} introductorio al meta-análisis en \emph{jamovi} \autocite{leongomezMetaanalysis2021} que publiqué en mi canal de YouTube \href{https://www.youtube.com/@InvestigacionAbierta}{\emph{Investigación Abierta}}.
 
 \par
 \endgroup
@@ -267,14 +246,14 @@ Una herramienta útil para abordar este problema es el meta-análisis, que es un
 
 El meta-análisis se puede entender como una especie \emph{promediación} de los efectos encontrados en diversos estudios, dando mayor peso a estudios que tienen más credibilidad (es decir, mayor probabilidad de mostrar un resultado cercano a la verdad). ¿Cómo se hace esto? Como se ve en la Figura \ref{fig:dist-sim}, el tamaño de una muestra afecta la confiabilidad de un resultado.
 
-Para decirlo de manera más técnica, el tamaño de muestra afecta el poder estadístico así como el error en la estimación del efecto (\protect\hyperlink{ref-leongomezAnalisisPoderEstadistico2020}{Leongómez, 2020a}, \protect\hyperlink{ref-leongomezPoderRvid2020}{2020b}); entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen y por tanto son más confiables). Por esto, podemos usar estas medidas como indicadores de la credibilidad del efecto encontrado por un estudio.
+Para decirlo de manera más técnica, el tamaño de muestra afecta el poder estadístico así como el error en la estimación del efecto \autocite{leongomezPoderRvid2020,leongomezAnalisisPoderEstadistico2020}; entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen y por tanto son más confiables). Por esto, podemos usar estas medidas como indicadores de la credibilidad del efecto encontrado por un estudio.
 
 \hypertarget{sesgos-de-publicaciuxf3n}{%
 \subsection{Sesgos de publicación}\label{sesgos-de-publicaciuxf3n}}
 
 Sin embargo, además de las diferencias que pueda tener cada estudio debido a las peculiaridades y tamaño de su muestra, con frecuencia al hacer meta-análisis nos enfrentamos a un riesgo más sutil y menos predecible: los sesgos de publicación.
 
-Los sesgos de publicación son una amenaza importante para la integridad de la investigación científica. Se refieren a la tendencia de los investigadores y editores de revistas a no publicar estudios que no encuentran un efecto significativo o que muestran resultados contrarios a las hipótesis de sus autores. Estos sesgos pueden afectar a todas las áreas de la investigación, pasando por ejemplo por la medicina, la psicología y la biología (e.g., \protect\hyperlink{ref-baker500ScientistsLift2016}{Baker, 2016}; \protect\hyperlink{ref-kleinManyLabsInvestigating2018}{Klein et al., 2018}).
+Los sesgos de publicación son una amenaza importante para la integridad de la investigación científica. Se refieren a la tendencia de los investigadores y editores de revistas a no publicar estudios que no encuentran un efecto significativo o que muestran resultados contrarios a las hipótesis de sus autores. Estos sesgos pueden afectar a todas las áreas de la investigación, pasando por ejemplo por la medicina, la psicología y la biología \autocites[e.g.,][]{baker500ScientistsLift2016,kleinManyLabsInvestigating2018}.
 
 Como resultado, los estudios publicados pueden no ser representativos de la verdadera relación entre las variables que se están investigando, lo que puede llevar a conclusiones erróneas y a decisiones equivocadas, incluyendo áreas tan críticas como la práctica clínica y la toma de decisiones políticas, por ejemplo.
 
@@ -302,11 +281,11 @@ Adicionalmente, he incluido algunos apéndices, donde encontrarás información 
 \hypertarget{base-de-datos-de-ejemplo}{%
 \section{Base de datos de ejemplo}\label{base-de-datos-de-ejemplo}}
 
-A lo largo de esta guía usaré la base de datos \texttt{dat.molloy2014}, tomada de Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}). Esta base de datos viene incluida con el paquete \texttt{metafor} de R.
+A lo largo de esta guía usaré la base de datos \texttt{dat.molloy2014}, tomada de \textcite{molloy2013}. Esta base de datos viene incluida con el paquete \texttt{metafor} de R.
 
-Básicamente, Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}) estudiaron si existe una asociación entre la escrupulosidad (\emph{conscientiousness}\footnote{En el contexto de los rasgos de personalidad, la dimensión de la \emph{escrupulosidad} (también llamada conciencia o ``voluntad de logro''), se refiere al auto-control, incluyendo la planificación y ejecución de tareas. Para una definición detallada del concepto de escrupulosidad en este contexto, ver John \& Srivastava (\protect\hyperlink{ref-johnBigFiveTrait1999}{1999}).}) y la adherencia a la medicación. En otras palabras, ¿las personas más \emph{escrupulosas} tienden a cumplir más con la medicación prescrita?
+Básicamente, \textcite{molloy2013} estudiaron si existe una asociación entre la escrupulosidad (\emph{conscientiousness}\footnote{En el contexto de los rasgos de personalidad, la dimensión de la \emph{escrupulosidad} (también llamada conciencia o ``voluntad de logro''), se refiere al auto-control, incluyendo la planificación y ejecución de tareas. Para una definición detallada del concepto de escrupulosidad en este contexto, ver \textcite{johnBigFiveTrait1999}.}) y la adherencia a la medicación. En otras palabras, ¿las personas más \emph{escrupulosas} tienden a cumplir más con la medicación prescrita?
 
-Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: \texttt{metafor} (\protect\hyperlink{ref-viechtbauer2010}{Viechtbauer, 2010}) y \texttt{metaviz} (\protect\hyperlink{ref-KossmeierMetaviz}{Kossmeier et al., 2020}) para hacer e ilustrar los resultados del meta-análisis, así como \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}), \texttt{magrittr} (\protect\hyperlink{ref-magrittrcite}{Bache \& Wickham, 2022}) y \texttt{forecats} (\protect\hyperlink{ref-Wickhamforcats2022}{Wickham, 2022}) para manipular y organizar la base de datos.
+Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: \texttt{metafor} \autocite{viechtbauer2010} y \texttt{metaviz} \autocite{KossmeierMetaviz} para hacer e ilustrar los resultados del meta-análisis, así como \texttt{dplyr} \autocite{WickhamDplyr2021}, \texttt{magrittr} \autocite{magrittrcite} y \texttt{forecats} \autocite{Wickhamforcats2022} para manipular y organizar la base de datos.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -400,7 +379,7 @@ Después hay unas columnas que contienen variables específicas para este este e
 \item
   \texttt{controls}: cantidad de variables controladas (``\texttt{none}'': ninguna o ``\texttt{multiple}'': múltiples)
 \item
-  \texttt{design}: si se utilizó un diseño transversal (``\texttt{cross-section}'') o prospectivo (``\texttt{prospective}'') (para más información acerca de estos tipos de diseño, ver por ejemplo \protect\hyperlink{ref-Manterola2019}{Manterola et al., 2019})
+  \texttt{design}: si se utilizó un diseño transversal (``\texttt{cross-section}'') o prospectivo (``\texttt{prospective}'') \autocite[para más información acerca de estos tipos de diseño, ver por ejemplo][]{Manterola2019}
 \item
   \texttt{a\_measure}: tipo de medida de adherencia (``\texttt{self-report}'': autoinforme u ``\texttt{other}'': otro tipo de medida más \emph{objetivo})
 \item
@@ -408,7 +387,7 @@ Después hay unas columnas que contienen variables específicas para este este e
 \item
   \texttt{meanage}: edad promedio de la muestra de cada estudio
 \item
-  \texttt{quality}: calidad metodológica (la calidad metodológica fue calificada por los autores del meta-análisis en una escala de 1 a 4, donde las puntuaciones más altas indican una mayor calidad; para información respecto a cómo se obtuvo esta puntuación, ver el artículo original de Molloy et al. (\protect\hyperlink{ref-molloy2013}{2013}).
+  \texttt{quality}: calidad metodológica (la calidad metodológica fue calificada por los autores del meta-análisis en una escala de 1 a 4, donde las puntuaciones más altas indican una mayor calidad; para información respecto a cómo se obtuvo esta puntuación, ver el artículo original de \textcite{molloy2013}.
 \end{itemize}
 
 Por supuesto, el \emph{output} de la consola no es la forma más clara de ver la base de datos, pero para una versión más legible, se puede usar la función \texttt{View}, y el nombre de la base de datos o tabla como argumento (en este caso \texttt{View(dat)}). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión (y no como sale en la consola de R), para que sean más fáciles de leer.
@@ -466,7 +445,7 @@ study\_id & authors & year & ni & ri & controls & design & a\_measure & c\_measu
 \hypertarget{preparaciuxf3n-de-los-datos-transformaciuxf3n-de-coeficientes-r-de-pearson-a-z-de-fisher}{%
 \subsection{\texorpdfstring{Preparación de los datos: transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher}{Preparación de los datos: transformación de coeficientes r de Pearson a z de Fisher}}\label{preparaciuxf3n-de-los-datos-transformaciuxf3n-de-coeficientes-r-de-pearson-a-z-de-fisher}}
 
-Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeño (\protect\hyperlink{ref-shadishCombiningEstimatesEffect2009}{Shadish \& Haddock, 2009}). Por esto, lo mejor es transformar los coeficientes \emph{r} de Pearson a \emph{z} de Fisher (\protect\hyperlink{ref-fisherFrequencyDistributionValues1915}{1915}), que no tienen este problema\footnote{Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (\emph{r}), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significación para coeficientes \emph{r} (e.g., \protect\hyperlink{ref-shadishCombiningEstimatesEffect2009}{Shadish \& Haddock, 2009}). La transformación de Fisher de valores \emph{r} a \emph{z} ---que es la \href{https://es.wikipedia.org/wiki/Tangente_hiperb\%C3\%B3lica}{tangente hiperbólica inversa} de \emph{r}--- resuelve este problema, pues los coeficientes \emph{z} tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de \emph{r} (para una demostración en español, ver \protect\hyperlink{ref-sanchez-brunoTransformacionFisherPara2005}{Sánchez-Bruno \& Borges del Rosal, 2005}).}.
+Los coeficientes de Pearson no se distribuyen normalmente, lo que podría llevar a calcular varianzas incorrectas, especialmente cuando se trata de correlaciones con tamaños de muestra pequeño \autocite{shadishCombiningEstimatesEffect2009}. Por esto, lo mejor es transformar los coeficientes \emph{r} de Pearson a \emph{z} de Fisher \autocite*{fisherFrequencyDistributionValues1915}, que no tienen este problema\footnote{Para decirlo de manera más precisa, el problema es que la distribución del coeficiente de correlación de Pearson (\emph{r}), es muy sesgada cuando se trata de variables altamente correlacionadas (positiva, o negativamente). Esto dificulta la estimación de los intervalos de confianza y por tanto la aplicación de las pruebas de significación para coeficientes \emph{r} \autocite[e.g.,][]{shadishCombiningEstimatesEffect2009}. La transformación de Fisher de valores \emph{r} a \emph{z} ---que es la \href{https://es.wikipedia.org/wiki/Tangente_hiperb\%C3\%B3lica}{tangente hiperbólica inversa} de \emph{r}--- resuelve este problema, pues los coeficientes \emph{z} tienen una distribución aproximadamente normal, y una varianza estable a lo largo de diferentes valores posibles de \emph{r} \autocite[para una demostración en español, ver][]{sanchez-brunoTransformacionFisherPara2005}.}.
 
 Para transformar los coeficientes \emph{r} de Pearson a coeficientes \emph{z} de Fisher, usaré la función \texttt{escalc} del paquete \texttt{metafor}, que sirve para calcular diversos tamaños de efecto que se utilizan comúnmente en meta-análisis. Los argumentos que requiere esta función, además del tipo de transformación a realizar (en este caso \texttt{measure\ =\ "ZCOR"}), son los coeficientes de correlación (\texttt{ri}), el tamaño de muestra de cada correlación (\texttt{ni}), y la base de datos que contiene estos valores (\texttt{data}). En nuestro caso, las columnas donde están estos valores, tienen los mismos nombres (\texttt{ri}, \texttt{ni}). En este ejemplo, asignaré el resultado de esta función al mismo objeto \texttt{dat}, que contiene la base de datos, para sobrescribirlo y no crear objetos adicionales.
 
@@ -592,7 +571,7 @@ De todos estos, los más comúnmente reportados son \(\tau^2\), \(\tau\), \(I^2\
 \item
   \(Q\): aunque no es sensible al tamaño de muestra, es sensible al número de estudios meta-analizados. Tiene la ventaja de ser un test de hipótesis, y como tal, puede ser interpretado a partir de su valor \emph{p}.
 \item
-  \(\tau^2\): no tiene problemas de sensibilidad a los tamaños de muestra o número de estudios meta-analizados, pero es más difícil de interpretar. \(\tau^2\) es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio (para más información, ver \protect\hyperlink{ref-borensteinIdentifyingQuantifyingHeterogeneity2009}{Borenstein et al., 2009}).
+  \(\tau^2\): no tiene problemas de sensibilidad a los tamaños de muestra o número de estudios meta-analizados, pero es más difícil de interpretar. \(\tau^2\) es una estimación de la varianza de los tamaños de los efectos reales entre los estudios meta-analizados. Se usa, principalmente, para asignar pesos a cada estudio \autocite[para más información, ver][]{borensteinIdentifyingQuantifyingHeterogeneity2009}.
 \end{itemize}
 
 En nuestro caso, el estadístico \(Q\) sugiere que hay una heterogeneidad significativa en los estudios meta-analizados (\(p\) = 0.0009). \(I^2\), sugiere una heterogeneidad moderada, lo que quiere decir que se estima que más de la mitad (61.73\%) de la varianza se deriva de diferencias en los tamaños de efecto.
@@ -641,7 +620,7 @@ Siempre es buena idea citar tablas y figuras relevantes junto al reporte de los 
 \hypertarget{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}{%
 \subsubsection{\texorpdfstring{Alternativa: reportar el estimado como \emph{r} de Pearson en vez de \emph{z} de Fisher}{Alternativa: reportar el estimado como r de Pearson en vez de z de Fisher}}\label{alternativa-reportar-el-estimado-como-r-de-pearson-en-vez-de-z-de-fisher}}
 
-Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pearson en vez de la transformación a \emph{z} de Fisher, puedes transformar los valores \emph{z} de Fisher de vuelta a \emph{r} de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función \texttt{tanh}, que calcula la tangente hiperbólica, o la función \texttt{fisherz2r} del paquete \texttt{psych} (\protect\hyperlink{ref-revellePsych2021}{Revelle, 2021}). Por ejemplo, para transformar el estimado de nuestro meta-análisis a \emph{r} de Pearson, sólo debo usar alguna de esas funciones, y agregar el valor \emph{z} (0.1499 en nuestro caso) como único argumento:
+Para reportar la correlación, si prefieres reportar coeficientes \emph{r} de Pearson en vez de la transformación a \emph{z} de Fisher, puedes transformar los valores \emph{z} de Fisher de vuelta a \emph{r} de Pearson. Para esto existen múltiples opciones en R, incluyendo simplemente usar la función \texttt{tanh}, que calcula la tangente hiperbólica, o la función \texttt{fisherz2r} del paquete \texttt{psych} \autocite{revellePsych2021}. Por ejemplo, para transformar el estimado de nuestro meta-análisis a \emph{r} de Pearson, sólo debo usar alguna de esas funciones, y agregar el valor \emph{z} (0.1499 en nuestro caso) como único argumento:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -685,7 +664,7 @@ Por supuesto, si decides reportar los resultados de tu meta-análisis en coefici
 
 Es importante tener en cuenta que la heterogeneidad no es un \emph{supuesto} que se deba cumplir al hacer un meta-análisis, y por ende una heterogeneidad moderada o alta no invalida sus resultados. Sencillamente es información útil que se debe reportar y tener en cuenta al interpretar el resultado de un meta-análisis. En este caso, la presencia de heterogeneidad sugiere que los estudios meta-analizados varían y no suelen reportar resultados similares.
 
-De manera general, y para decirlo de manera más técnica, la presencia de heterogeneidad estadística es indicativa de una variación entre los estudios en la magnitud y la dirección de la estimación del efecto estudiado (para más información y ejemplos, ver \protect\hyperlink{ref-sedgwickMetaanalysesWhatHeterogeneity2015}{Sedgwick, 2015}).
+De manera general, y para decirlo de manera más técnica, la presencia de heterogeneidad estadística es indicativa de una variación entre los estudios en la magnitud y la dirección de la estimación del efecto estudiado \autocite[para más información y ejemplos, ver][]{sedgwickMetaanalysesWhatHeterogeneity2015}.
 
 Por esto, reportar información detallada acerca de la heterogeneidad de los estudios meta-analizados es siempre útil. De hecho, además de reportar los estadísticos \(\tau^2\), \(\tau\), \(I^2\) y \(Q\) (como expliqué en la sección \ref{meta-interp}), podemos fácilmente calcular los intervalos de confianza para \(\tau^2\), \(\tau\), e \(I^2\) (además de \(H^2\), que no he usado) con la función \texttt{confint}.
 
@@ -778,9 +757,9 @@ Las columnas que incluye son:
 \item
   \texttt{rstudent}: residuos estandarizados externamente. Esto \textbf{no} corresponde al coeficiente de correlación de cada estudio, sino a la diferencia entre el tamaño de efecto observado en cada estudio, y la predicción de dicho valor cuando dicho estudio se elimina del meta-análisis
 \item
-  \texttt{dffits}: diferencia de ajuste(s) (en inglés \emph{difference in fit(s)}). Es una medida diagnóstica de la influencia de cada punto en una regresión (en este caso, cada estudio en un meta-análisis) propuesta originalmente por Belsley et al. (\protect\hyperlink{ref-belsleyRegressionDiagnosticsIdentifying1980}{1980})
+  \texttt{dffits}: diferencia de ajuste(s) (en inglés \emph{difference in fit(s)}). Es una medida diagnóstica de la influencia de cada punto en una regresión (en este caso, cada estudio en un meta-análisis) propuesta originalmente por \textcite{belsleyRegressionDiagnosticsIdentifying1980}
 \item
-  \texttt{cook.d}: Distancia de Cook (en inglés, \emph{Cook's distance}). Es otra medida diagnóstica de la influencia, propuesta originalmente por Cook (\protect\hyperlink{ref-cookDetectionInfluentialObservation1977}{1977}). Es conceptualmente idéntica a DFFITS (\texttt{dffits}), y de hecho existe una fórmula para convertir una medida en la otra (\protect\hyperlink{ref-Henry2003}{Henry et al., 2003}). Aunque no hay un acuerdo absoluto al respecto, comúnmente se asume que valores mayores a 1 (\(D_{i} > 1\)), representan puntos (o, en este caso, estudios) influyentes en un modelo (\protect\hyperlink{ref-cookResidualsInfluenceRegression1982}{Cook \& Weisberg, 1982}), que probablemente deban ser excluidos
+  \texttt{cook.d}: Distancia de Cook (en inglés, \emph{Cook's distance}). Es otra medida diagnóstica de la influencia, propuesta originalmente por \textcite{cookDetectionInfluentialObservation1977}. Es conceptualmente idéntica a DFFITS (\texttt{dffits}), y de hecho existe una fórmula para convertir una medida en la otra \autocite{Henry2003}. Aunque no hay un acuerdo absoluto al respecto, comúnmente se asume que valores mayores a 1 (\(D_{i} > 1\)), representan puntos (o, en este caso, estudios) influyentes en un modelo \autocite{cookResidualsInfluenceRegression1982}, que probablemente deban ser excluidos
 \item
   \texttt{cov.r}: relación (o proporción) de covarianza. Es el determinante de la matriz de varianza-covarianza de las estimaciones de los parámetros basadas en el conjunto de datos, cuando cada estudio se elimina del meta-análisis, dividido por el mismo determinante de la matriz de varianza-covarianza cuando se incluyen todos los estudios. Sé que suena complejo, pero básicamente, un valor menor a 1 indica que la eliminación de ese estudio produce estimaciones más precisas de los coeficientes del modelo
 \item
@@ -920,9 +899,9 @@ La creación e interpretación del \emph{Funnel plot} es crucial, y aporta infor
 \hypertarget{err-funnel-egger}{%
 \subsubsection{\texorpdfstring{Errores en la interpretación del \emph{Funnel plot} y la regresión de Egger}{Errores en la interpretación del Funnel plot y la regresión de Egger}}\label{err-funnel-egger}}
 
-El principal error que la mayoría de los investigadores podemos cometer\footnote{Me incluyo pues por supuesto también soy culpable de haber cometido este error en el pasado, incluyendo algunas ideas que expuse en mi video sobre meta-análisis en \emph{jamovi} (\protect\hyperlink{ref-leongomezMetaanalysis2021}{Leongómez, 2021}).}, es concluir que un meta-análisis tiene (o no) riesgo de sufrir de sesgos de publicación, simplemente basándonos en la evaluación de la asimetría en el \emph{funnel plot} y la regresión de Egger (\protect\hyperlink{ref-eggerBiasMetaanalysisDetected1997}{Egger et al., 1997}) (sección \ref{reg-egger}).
+El principal error que la mayoría de los investigadores podemos cometer\footnote{Me incluyo pues por supuesto también soy culpable de haber cometido este error en el pasado, incluyendo algunas ideas que expuse en mi video sobre meta-análisis en \emph{jamovi} \autocite{leongomezMetaanalysis2021}.}, es concluir que un meta-análisis tiene (o no) riesgo de sufrir de sesgos de publicación, simplemente basándonos en la evaluación de la asimetría en el \emph{funnel plot} y la regresión de Egger \autocite{eggerBiasMetaanalysisDetected1997} (sección \ref{reg-egger}).
 
-Estos métodos, sin embargo, no son pruebas exclusivas de sesgo de publicación, sino de sesgo de estudios de tamaño muestral pequeño (ver e.g. \protect\hyperlink{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{Schwarzer et al., 2015b}), que pueden incluir sesgo de publicación, pero no se centran exclusivamente en esto (explico algunas técnicas específicas para estimar el sesgo de publicación en la sección \ref{sesgo-pub}).
+Estos métodos, sin embargo, no son pruebas exclusivas de sesgo de publicación, sino de sesgo de estudios de tamaño muestral pequeño \autocite[ver e.g.][]{schwarzerSmallStudyEffectsMetaAnalysis2015}, que pueden incluir sesgo de publicación, pero no se centran exclusivamente en esto (explico algunas técnicas específicas para estimar el sesgo de publicación en la sección \ref{sesgo-pub}).
 
 A pesar de esto, tanto la regresión de Egger como el \emph{funnel plot} son interesantes, pues es importante considerar el sesgo que podrían generar estudios con tamaño de muestra pequeño en nuestra estimación del efecto \emph{real} (o, para decirlo más técnicamente, el sesgo que podrían introducir estudios con poder estadístico bajo).
 
@@ -979,7 +958,7 @@ De nuevo, para una versión más sofisticada, se puede usar el paquete \href{htt
 \caption{\label{fig:funnel-plot2}\emph{Funnel plot} creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5\% (i.e.~\(p\) \textless{} 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1\% (i.e.~\(p\) \textless{} 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger.}
 \end{figure}
 
-Alternativamente, el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} tiene la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#sunset-power-enhanced-funnel-plots}{\texttt{viz\_sunset}}, que permite además mostrar el poder estadístico (o potencia) de los estudios meta-analizados para detectar un efecto de interés mediante una prueba de Wald de dos colas. De ser necesario, para entender las bases del poder estadístico, recomiendo ver \href{https://youtube.com/playlist?list\%20=\%20PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}{esta serie de videos} (\protect\hyperlink{ref-leongomezPoderRvid2020}{Leongómez, 2020b}) y/o, para mayor profundidad, leer \href{https://doi.org/10.5281/zenodo.3988776}{esta guía} (\protect\hyperlink{ref-leongomezAnalisisPoderEstadistico2020}{Leongómez, 2020a}) que publiqué anteriormente.
+Alternativamente, el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} tiene la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#sunset-power-enhanced-funnel-plots}{\texttt{viz\_sunset}}, que permite además mostrar el poder estadístico (o potencia) de los estudios meta-analizados para detectar un efecto de interés mediante una prueba de Wald de dos colas. De ser necesario, para entender las bases del poder estadístico, recomiendo ver \href{https://youtube.com/playlist?list\%20=\%20PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}{esta serie de videos} \autocite{leongomezPoderRvid2020} y/o, para mayor profundidad, leer \href{https://doi.org/10.5281/zenodo.3988776}{esta guía} \autocite{leongomezAnalisisPoderEstadistico2020} que publiqué anteriormente.
 
 A continuación, muestro dos versiones de \emph{funnel plots} creados con la función \texttt{viz\_sunset} (Fig. \ref{fig:funnel-plot3}). En ambos casos, agregué el efecto \emph{real} estimado a partir del meta-análisis (\texttt{contours\ =\ TRUE}), y transformé los tamaños de efecto de regreso a \(r\) de Pearson (\texttt{x\_trans\_function\ =\ tanh}).
 
@@ -1007,9 +986,9 @@ A continuación, muestro dos versiones de \emph{funnel plots} creados con la fun
 \hypertarget{reg-egger}{%
 \subsubsection{Regresión de Egger}\label{reg-egger}}
 
-Para hacer una prueba formal de sesgo de estudios pequeños (\protect\hyperlink{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{Schwarzer et al., 2015b}; \protect\hyperlink{ref-sternePublicationRelatedBias2000}{Sterne et al., 2000}, \protect\hyperlink{ref-sterneRecommendationsExaminingInterpreting2011}{2011}), a partir de la asimetría en el \emph{funnel plot}, podemos hacer una prueba o regresión de Egger (\protect\hyperlink{ref-eggerBiasMetaanalysisDetected1997}{Egger et al., 1997}).
+Para hacer una prueba formal de sesgo de estudios pequeños \autocite{sternePublicationRelatedBias2000,sterneRecommendationsExaminingInterpreting2011,schwarzerSmallStudyEffectsMetaAnalysis2015}, a partir de la asimetría en el \emph{funnel plot}, podemos hacer una prueba o regresión de Egger \autocite{eggerBiasMetaanalysisDetected1997}.
 
-Es importante tener en cuenta que la regresión de Egger puede carecer de poder para detectar sesgos cuando el número de estudios es pequeño; Sterne et al. (\protect\hyperlink{ref-sterneRecommendationsExaminingInterpreting2011}{2011}), de hecho, recomiendan no usar este técnica cuando tenemos menos de 10 estudios (\(k < 10\)). En nuestro ejemplo, dado que tenemos 16 estudios (\(k = 16\)), esto no debería ser un problema.
+Es importante tener en cuenta que la regresión de Egger puede carecer de poder para detectar sesgos cuando el número de estudios es pequeño; \textcite{sterneRecommendationsExaminingInterpreting2011}, de hecho, recomiendan no usar este técnica cuando tenemos menos de 10 estudios (\(k < 10\)). En nuestro ejemplo, dado que tenemos 16 estudios (\(k = 16\)), esto no debería ser un problema.
 
 En \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}}, podemos hacer una regresión de Egger con la función \texttt{regtest}, de nuevo usando como único argumento el objeto al que asignamos el resultado de nuestro meta-análisis (\texttt{res}).
 
@@ -1045,7 +1024,7 @@ Existen diferentes opciones para estimar el sesgo de publicación de un meta-an�
 \hypertarget{trim-fill}{%
 \subsubsection{\texorpdfstring{Método \emph{trim and fill} (recorte y relleno)}{Método trim and fill (recorte y relleno)}}\label{trim-fill}}
 
-El método de recorte y relleno (\emph{trim and fill}) es una técnica no paramétrica para aumentar datos (\protect\hyperlink{ref-duvalNonparametricTrimFill2000}{Duval \& Tweedie, 2000a}, \protect\hyperlink{ref-duvalTrimFillSimple2000}{2000b}; ver también \protect\hyperlink{ref-duvalTrimFillMethod2005}{Duval, 2005}). Este método estima los estudios potencialmente ausentes debido al sesgo de publicación en el gráfico de embudo, y ajusta la estimación del efecto \emph{real}. Aunque muy útil, es importante tener en cuenta que este método tiene algunas limitaciones:
+El método de recorte y relleno (\emph{trim and fill}) es una técnica no paramétrica para aumentar datos \autocites{duvalNonparametricTrimFill2000,duvalTrimFillSimple2000}[ver también][]{duvalTrimFillMethod2005}. Este método estima los estudios potencialmente ausentes debido al sesgo de publicación en el gráfico de embudo, y ajusta la estimación del efecto \emph{real}. Aunque muy útil, es importante tener en cuenta que este método tiene algunas limitaciones:
 
 \begin{itemize}
 \item
@@ -1133,81 +1112,26 @@ De nuevo, alternativamente podemos usar la función \texttt{viz\_funnel} del paq
 
 El resultado nos muestra que el análisis aumentó dos estudios hipotéticos a la izquierda. Es decir, sugiere que hay \emph{cierto} nivel de sesgo de publicación. De hecho, la estimación del efecto al aumentar estos estudios hipotéticos para que la distribución sea realmente simétrica, disminuye a 0.1288, algo menor que el 0.1499 que nos sugería el análisis inicial.
 
-Si quieres profundizar en el método de recorte y relleno (\emph{trim and fill}), su interpretación, así como sus fortalezas y limitaciones, te recomiendo leer el artículo de Shi \& Lin (\protect\hyperlink{ref-shiTrimandfill2019}{2019}) al respecto.
+Si quieres profundizar en el método de recorte y relleno (\emph{trim and fill}), su interpretación, así como sus fortalezas y limitaciones, te recomiendo leer el artículo de \textcite{shiTrimandfill2019} al respecto.
 
 \hypertarget{vevea-hedges}{%
 \subsubsection{Modelo de función de peso de Vevea y Hedges}\label{vevea-hedges}}
 
-El modelo de función de peso de Vevea y Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}; ver también \protect\hyperlink{ref-veveaPublicationBiasResearch2005}{Vevea \& Woods, 2005}) es uno de los modelos se selección (en inglés, \emph{selection models}) más conocidos\footnote{El otro modelo de selección muy conocido, es el modelo de Copas y Shi (\protect\hyperlink{ref-copasSensitivityAnalysisPublication2001}{2001}, \protect\hyperlink{ref-copasMetaanalysisFunnelPlots2000}{2000}). Aunque no lo incluyo en ésta guía, es importante mencionar que hay evidencia que muestra que es preferible a métodos como el de \emph{trim and fill} (\protect\hyperlink{ref-schwarzerEmpiricalEvaluationSuggests2010}{Schwarzer et al., 2010}). En R, éste método se puede implementar con la función \texttt{copas} del paquete \texttt{metasens} (\protect\hyperlink{ref-schwarzerMetasensPackage}{Schwarzer et al., 2023}; ver también Capítulo 5 en \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}).}.
+El modelo de función de peso de Vevea y Hedges \autocites*{veveaGeneralLinearModel1995}[ver también][]{veveaPublicationBiasResearch2005} es uno de los modelos se selección (en inglés, \emph{selection models}) más conocidos\footnote{El otro modelo de selección muy conocido, es el modelo de Copas y Shi \autocite*{copasMetaanalysisFunnelPlots2000,copasSensitivityAnalysisPublication2001}. Aunque no lo incluyo en ésta guía, es importante mencionar que hay evidencia que muestra que es preferible a métodos como el de \emph{trim and fill} \autocite{schwarzerEmpiricalEvaluationSuggests2010}. En R, éste método se puede implementar con la función \texttt{copas} del paquete \texttt{metasens} \autocites{schwarzerMetasensPackage}[ver también Capítulo 5 en][]{schwarzerMetaAnalysis2015}.}.
 
 Los modelos de selección intentan describir el mecanismo de supresión del efecto y combinarlo con un modelo de tamaño del efecto que describa la distribución de los efectos en ausencia de sesgo de publicación.
 
-El modelo de Vevea y Hedges da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores \(p\) (\protect\hyperlink{ref-coburnPublicationBiasFunction2015}{Coburn \& Vevea, 2015}; para una descripción sencilla y general, ver por ejemplo \protect\hyperlink{ref-SesgoPublicacion2008}{Gómez-Restrepo, 2008}). En particular, es más probable que sean publicados los estudios con resultados \emph{significativo} (típicamente, \(p < 0.05\), usando un \(\alpha\) tradicional de 0.05), en comparación con estudios con resultados no significativos (es decir, con resultados que no permiten rechazar la hipótesis nula). Estos sesgos pueden por supuesto sesgar la literatura publicada, y afectar nuestro meta-análisis.
+El modelo de Vevea y Hedges da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores \(p\) \autocites{coburnPublicationBiasFunction2015}[para una descripción sencilla y general, ver por ejemplo][]{SesgoPublicacion2008}. En particular, es más probable que sean publicados los estudios con resultados \emph{significativo} (típicamente, \(p < 0.05\), usando un \(\alpha\) tradicional de 0.05), en comparación con estudios con resultados no significativos (es decir, con resultados que no permiten rechazar la hipótesis nula). Estos sesgos pueden por supuesto sesgar la literatura publicada, y afectar nuestro meta-análisis.
 
-En R, para estimar el sesgo de publicación de un meta-análisis usando el modelo de función de peso de Vevea y Hedges, se puede usar la función \texttt{weightfunct} del paquete \texttt{weightr} (\protect\hyperlink{ref-coburnWeightr2019}{Coburn \& Vevea, 2019}).
+En R, para estimar el sesgo de publicación de un meta-análisis usando el modelo de función de peso de Vevea y Hedges, se puede usar la función \texttt{weightfunct} del paquete \texttt{weightr} \autocite{coburnWeightr2019}.
 
-Tal como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}, esta función nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en Vevea \& Hedges (\protect\hyperlink{ref-veveaGeneralLinearModel1995}{1995}) como la versión modificada presentada en Vevea \& Woods (\protect\hyperlink{ref-veveaPublicationBiasResearch2005}{2005})''.
+Tal como se describe en la \href{https://www.rdocumentation.org/packages/weightr/versions/2.0.2/topics/weightfunct}{documentación} de la función \texttt{weightfunct}, esta función nos permite ``estimar tanto el modelo de función de peso para el sesgo de publicación que se publicó originalmente en \textcite{veveaGeneralLinearModel1995} como la versión modificada presentada en \textcite{veveaPublicationBiasResearch2005}''.
 
 En este caso, usaré esta función, asignando el resultado a un objeto que llamaré \texttt{wf}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(weightr)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Loading required package: scales
-\end{verbatim}
-
-\begin{verbatim}
-
-Attaching package: 'scales'
-\end{verbatim}
-
-\begin{verbatim}
-The following objects are masked from 'package:psych':
-
-    alpha, rescale
-\end{verbatim}
-
-\begin{verbatim}
-The following object is masked from 'package:purrr':
-
-    discard
-\end{verbatim}
-
-\begin{verbatim}
-The following object is masked from 'package:readr':
-
-    col_factor
-\end{verbatim}
-
-\begin{verbatim}
-
-Attaching package: 'weightr'
-\end{verbatim}
-
-\begin{verbatim}
-The following object is masked from 'package:metafor':
-
-    funnel
-\end{verbatim}
-
-\begin{verbatim}
-The following object is masked from 'package:metadat':
-
-    dat.bangertdrowns2004
-\end{verbatim}
-
-\begin{verbatim}
-The following object is masked from 'package:stats':
-
-    density
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{wf }\OtherTok{\textless{}{-}} \FunctionTok{weightfunct}\NormalTok{(}\AttributeTok{effect =}\NormalTok{ dat}\SpecialCharTok{$}\NormalTok{yi, }\AttributeTok{v =}\NormalTok{ dat}\SpecialCharTok{$}\NormalTok{vi, }\AttributeTok{table =} \ConstantTok{TRUE}\NormalTok{)}
 \NormalTok{wf}
 \end{Highlighting}
@@ -1269,7 +1193,7 @@ Sin embargo, la función \texttt{weightfunct} incrementa el peso de estudios que
 
 Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el meta-análisis original nos daba como resultado un efecto de \textasciitilde0.15, esta técnica nos estima un efecto de \textasciitilde0.09. Ha \emph{encogido} nuestro tamaño de efecto, asumiendo que nuestro resultado original estaba sesgado.
 
-Al final, está el \emph{Likelihood ratio test} (en español, ``Prueba de la razón de verosimilitud''), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí, con base en la relación de su verosimilitud\footnote{Aunque no voy a entrar en detalles respecto a técnicas de inferencia estadística basadas en verosimilitud, si quieres conocer más acerca de estos métodos, así como de estadística Bayesiana (que tiene mucho que ver con verosimilitud) y frecuentista (la que solemos usar, que hace inferencia a partir de valores \(p\)), con énfasis en las fortalezas y limitaciones de cada enfoque, recomiendo encarecidamente el libro \emph{``Improving Your Statistical Inferences''} de Daniël Lakens (\protect\hyperlink{ref-lakensImprovingYourStatistical2022}{2022}). Este libro, completamente gratuito y abierto, integra además los contenidos de dos cursos gratuitos del mismo autor (\emph{``\href{https://www.coursera.org/learn/statistical-inferences}{Improving Your Statistical Inferences}''} y \emph{``\href{https://www.coursera.org/learn/improving-statistical-questions}{Improving Your Statistical Questions}''}), que también recomiendo hacer a cualquier persona que quiera dedicarse a hacer investigación y use técnicas estadísticas.}. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
+Al final, está el \emph{Likelihood ratio test} (en español, ``Prueba de la razón de verosimilitud''), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí, con base en la relación de su verosimilitud\footnote{Aunque no voy a entrar en detalles respecto a técnicas de inferencia estadística basadas en verosimilitud, si quieres conocer más acerca de estos métodos, así como de estadística Bayesiana (que tiene mucho que ver con verosimilitud) y frecuentista (la que solemos usar, que hace inferencia a partir de valores \(p\)), con énfasis en las fortalezas y limitaciones de cada enfoque, recomiendo encarecidamente el libro \emph{``Improving Your Statistical Inferences''} de Daniël Lakens \autocite*{lakensImprovingYourStatistical2022}. Este libro, completamente gratuito y abierto, integra además los contenidos de dos cursos gratuitos del mismo autor (\emph{``\href{https://www.coursera.org/learn/statistical-inferences}{Improving Your Statistical Inferences}''} y \emph{``\href{https://www.coursera.org/learn/improving-statistical-questions}{Improving Your Statistical Questions}''}), que también recomiendo hacer a cualquier persona que quiera dedicarse a hacer investigación y use técnicas estadísticas.}. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
 
 Este resultado nos da una tendencia no descartable (\texttt{p-val\ =\ 0.084043}; menor que 0.10 y por tanto significativa si asumimos un análisis de una cola), que nos da evidencia de que en efecto hay un sesgo de publicación, a pesar de que el \emph{funnel plot} (Figs. \ref{fig:funnel-plot1}, \ref{fig:funnel-plot1a}, \ref{fig:funnel-plot2} y \ref{fig:funnel-plot3}) y la regresión de Egger (sección \ref{reg-egger}), sugerían lo contrario.
 
@@ -1277,13 +1201,13 @@ Este resultado nos da una tendencia no descartable (\texttt{p-val\ =\ 0.084043};
 \subsection{Poder estadístico del meta-análisis}\label{poder-inf}}
 
 En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis.
-Como mencioné anteriormente, de ser necesario, para entender las bases del poder estadístico, recomiendo ver \href{https://youtube.com/playlist?list\%20=\%20PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}{esta serie de videos} (\protect\hyperlink{ref-leongomezPoderRvid2020}{Leongómez, 2020b}) y/o, para mayor profundidad, leer \href{https://doi.org/10.5281/zenodo.3988776}{esta guía} (\protect\hyperlink{ref-leongomezAnalisisPoderEstadistico2020}{Leongómez, 2020a}) que publiqué anteriormente.
+Como mencioné anteriormente, de ser necesario, para entender las bases del poder estadístico, recomiendo ver \href{https://youtube.com/playlist?list\%20=\%20PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}{esta serie de videos} \autocite{leongomezPoderRvid2020} y/o, para mayor profundidad, leer \href{https://doi.org/10.5281/zenodo.3988776}{esta guía} \autocite{leongomezAnalisisPoderEstadistico2020} que publiqué anteriormente.
 
 La idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto \emph{real} estimado mediante nuestro análisis (en nuestro caso \emph{z} = 0.15 para el meta-análisis original ``\texttt{res}'', o \emph{z} = 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}'').
 
 Para este ejemplo, asumiré que el efecto \emph{real} es el estimado en nuestro análisis original (\emph{z} = 0.15), pues este efecto es mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
 
-Para hacer esto, usaré el paquete \texttt{metameta} (\protect\hyperlink{ref-quintanaMetameta2022}{Quintana, 2022}, \protect\hyperlink{ref-quintanaGuideMetaPower}{2023}), que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos \emph{reales} estimados.
+Para hacer esto, usaré el paquete \texttt{metameta} \autocite{quintanaGuideMetaPower,quintanaMetameta2022}, que permite calcular y visualizar el poder estadístico de un meta-análisis para detectar un rango de posibles efectos \emph{reales} estimados.
 
 \hypertarget{instalaciuxf3n-de-metameta}{%
 \subsubsection{\texorpdfstring{Instalación de \texttt{metameta}}{Instalación de metameta}}\label{instalaciuxf3n-de-metameta}}
@@ -1484,7 +1408,7 @@ También, nos permite ver el poder estadístico de cada estudio para detectar un
 \hypertarget{firepower-plot}{%
 \subsubsection{\texorpdfstring{Visualización del análisis de poder (\emph{Firepower plot})}{Visualización del análisis de poder (Firepower plot)}}\label{firepower-plot}}
 
-Estos análisis muestran que, en promedio, nuestro meta-análisis sólo alcanza un poder estadístico suficiente (mayor a 0.8 u 80\%) para detectar de manera confiable efectos mayores a \textasciitilde0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados). De hecho, el poder estimado para detectar un efecto de 0.15 es de apenas 33.64\% (reportado como \texttt{es\_observed}, con un valor de \texttt{0.3364197} en el Output 10 de la sección \ref{poder-mediano}).
+Estos análisis muestran que, en promedio, nuestro meta-análisis sólo alcanza un poder estadístico suficiente (mayor a 0.8 u 80\%) para detectar de manera confiable efectos mayores a \textasciitilde0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados). De hecho, el poder estimado para detectar un efecto de 0.15 es de apenas 33.64\% (reportado como \texttt{es\_observed}, con un valor de \texttt{0.3364197} en el \emph{output} 10 de la sección \ref{poder-mediano}).
 
 Puedo fácilmente crear una visualización de esto con la función \texttt{firepower} del paquete \texttt{metameta}. Solo tengo que agregar, como único argumento, el objeto en el que guardé la lista de poder mediano estimado para diferentes tamaños de efecto (que en este caso asigné a un objeto que llamé \texttt{lista\_poder} en la sección \ref{poder-mediano}).
 
@@ -1540,7 +1464,7 @@ Si el poder estadístico de nuestro meta-análisis para detectar ese efecto (\em
 
 Como hemos visto, al realizar un meta-análisis, es fundamental tomar decisiones que pueden influir significativamente en los resultados y conclusiones. Una de las preguntas más importantes es qué estudios incluir en el análisis y si es necesario excluir algún estudio. Aunque nuestro diagnóstico inicial de influencia (sección \ref{diag-inf}) no mostró la presencia de estudios atípicos en nuestro meta-análisis, en ocasiones se requiere un análisis más exhaustivo.
 
-En esta sección, que se basa por completo en la explicación y ejemplos de Quintana (\protect\hyperlink{ref-quintanaOhMyGOSH2020}{2020}), explicaré dos técnicas: \emph{leave-one-out} (sección \ref{leave-one-out}), que consiste en realizar una serie de meta-análisis excluyendo uno de los estudios incluidos en cada iteración, y meta-análisis combinatorio (sección \ref{gosh}), que permite crear todas las combinaciones posibles de estudios y, por lo tanto, evaluar la robustez de los resultados en diferentes escenarios.
+En esta sección, que se basa por completo en la explicación y ejemplos de \textcite{quintanaOhMyGOSH2020}, explicaré dos técnicas: \emph{leave-one-out} (sección \ref{leave-one-out}), que consiste en realizar una serie de meta-análisis excluyendo uno de los estudios incluidos en cada iteración, y meta-análisis combinatorio (sección \ref{gosh}), que permite crear todas las combinaciones posibles de estudios y, por lo tanto, evaluar la robustez de los resultados en diferentes escenarios.
 
 \hypertarget{leave-one-out}{%
 \subsubsection{\texorpdfstring{\emph{Leave-one-out}}{Leave-one-out}}\label{leave-one-out}}
@@ -1642,7 +1566,7 @@ Como se puede ver en la Tabla \ref{tab:gosh-combs}, el número de combinaciones 
 
 En nuestro ejemplo, estamos meta-analizando 16 estudios, lo que significa que necesitamos ajustar 65 535 modelos (\(2^{16} - 1\)). Ajustar todos estos modelos puede llevar bastante tiempo, aunque esto dependerá de las especificaciones de tu equipo (en mi portátil, tarda alrededor de 5 minutos).
 
-Para visualizar la heterogeneidad entre los estudios, podemos utilizar una técnica llamada \emph{visualización gráfica de la heterogeneidad de los estudios} (en inglés, \emph{Graphical Display of Study Heterogeneity} o simplemente \emph{GOSH}), propuesta por Olkin et al. (\protect\hyperlink{ref-olkinGOSHGraphicalDisplay2012}{2012}). En R, podemos realizar esta visualización utilizando la función \texttt{gosh} del paquete \texttt{metafor}. Simplemente necesitamos proporcionar el resultado de nuestro meta-análisis original (\texttt{res}) como argumento. Opcionalmente, también podemos agregar el argumento \texttt{progbar\ =\ TRUE} para ver el progreso del análisis en la consola. Guardaré el resultado de este análisis en un objeto llamado \texttt{gp} para su posterior uso.
+Para visualizar la heterogeneidad entre los estudios, podemos utilizar una técnica llamada \emph{visualización gráfica de la heterogeneidad de los estudios} (en inglés, \emph{Graphical Display of Study Heterogeneity} o simplemente \emph{GOSH}), propuesta por \textcite{olkinGOSHGraphicalDisplay2012}. En R, podemos realizar esta visualización utilizando la función \texttt{gosh} del paquete \texttt{metafor}. Simplemente necesitamos proporcionar el resultado de nuestro meta-análisis original (\texttt{res}) como argumento. Opcionalmente, también podemos agregar el argumento \texttt{progbar\ =\ TRUE} para ver el progreso del análisis en la consola. Guardaré el resultado de este análisis en un objeto llamado \texttt{gp} para su posterior uso.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1671,7 +1595,7 @@ Los tamaños del efecto que se obtienen de los estudios incluidos en un meta-an�
 
 Para ilustrar mejor esto, voy a manipular manualmente el tamaño de efecto de uno de los estudios. Por ejemplo, en nuestro caso, podemos cambiar el tamaño del efecto del estudio 12, que inicialmente tenía un valor \emph{z} de Fisher de 0.39, a un valor mucho mayor, de 0.70. Aunque esta base de datos alterada pierde validez para realizar cualquier análisis, nos permite visualizar el efecto de valores atípicos en una base de datos\footnote{Normalmente identificamos formalmente estudios con resultados atípicos a partir un diagnóstico de influencia (\ref{diag-inf}) y técnicas tipo \emph{leave-one-out} (sección \ref{leave-one-out}), apoyándonos informalmente en el \emph{forest plot} (sección \ref{forest-inf}) y el \emph{funnel plot} (sección \ref{funnel-inf}).}.
 
-Para evitar afectar nuestra base de datos original, creamos una copia de los datos en un objeto llamado \texttt{dat\_mo}. Luego, utilizamos las funciones \texttt{mutate} y \texttt{replace} del paquete \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) para cambiar los tamaños de efecto del estudio 12 en la nueva base de datos.
+Para evitar afectar nuestra base de datos original, creamos una copia de los datos en un objeto llamado \texttt{dat\_mo}. Luego, utilizamos las funciones \texttt{mutate} y \texttt{replace} del paquete \texttt{dplyr} \autocite{WickhamDplyr2021} para cambiar los tamaños de efecto del estudio 12 en la nueva base de datos.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1731,6 +1655,166 @@ En la parte superior de la Figura \ref{fig:gosh2} hay un claro grupo de tamaños
 La inclusión del estudio 12 en los modelos de meta-análisis provoca un cambio notable en la distribución de las estimaciones del tamaño del efecto \emph{real}. Este cambio indica la importancia de considerar cuidadosamente la inclusión de cada estudio en un meta-análisis, ya que la inclusión de valores atípicos o estudios que no cumplan los criterios de calidad puede tener un impacto significativo en los resultados.
 
 En resumen, el meta-análisis combinatorio, junto con la visualización de datos mediante gráficos \emph{GOSH}, permite demostrar cómo las opciones de análisis pueden influir en los resultados y conclusiones de un meta-análisis. Es fundamental realizar una selección cuidadosa de los estudios incluidos y llevar a cabo un análisis crítico y riguroso de los resultados obtenidos para garantizar la fiabilidad y validez del meta-análisis.
+
+\hypertarget{fancy-gosh}{%
+\paragraph{\texorpdfstring{Diagnóstico a partir del \emph{GOSH plot}}{Diagnóstico a partir del GOSH plot}}\label{fancy-gosh}}
+
+Una limitación del meta-análisis combinatorio (y el \emph{GOSH plot}), es que no necesariamente nos permite ver qué estudios están influyendo de manera preocupante en nuestro resultado. En el ejemplo pasado, sabíamos que el estudio 12 era el \emph{culpable} pues así lo manipulamos. Sin embargo, no necesariamente sabes cuáles estudios son sospechosos. Por esto, tener herramientas que nos permitan identificar estudios potencialmente influyentes, es importante.
+
+Por ejemplo, la función \texttt{gosh.diagnostics} del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} \autocite{Harrer2019dmetar} se puede usar para crear análisis y visualizaciones muy completas a partir de los objetos generados con la función \texttt{gosh} del paquete \texttt{metafor}, como los que creamos en la sección \ref{gosh}, inmediatamente anterior \footnote{El libro \emph{Doing meta-analysis with R: a hands-on guide} \autocite{harrer2021doing} se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} \autocite{Harrer2019dmetar}, y contiene y explica opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de otros paquetes (más información en el Apéndice \hyperlink{apendice-alt}{A}).}.
+
+La función \texttt{gosh.diagnostics} utiliza tres algoritmos de aprendizaje automático (\emph{machine learning}) para detectar patrones en nuestros datos: el algoritmo \emph{k-means} \autocite{hartiganAlgorithm136KMeans1979}, la agrupación de densidad alcanzabilidad y conectividad, o \emph{DBSCAN} \autocite{schubertDBSCANRevisitedRevisited2017}, y los modelos de mezcla gaussiana, o \emph{GMM} \autocite{fraleyModelBasedClusteringDiscriminant2002}.
+
+Básicamente, usa esos tres métodos para buscar grupos de resultados (o \emph{clusters}) entre todas las combinaciones posibles de estudios que creamos con la función \texttt{gosh}. Con esto, y como explicaré en esta sección, ayuda a identificar estudios influyentes en nuestro resultado a partir de una identificación de posibles valores atípicos.
+
+Es importante tener en cuenta que, al menos por ahora, y tal como sucede con \texttt{metameta}, el paquete \texttt{dmetar} debe instalarse desde GitHub:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#se debe tener instalado el paquete devtools}
+\FunctionTok{library}\NormalTok{(devtools)}
+\FunctionTok{install\_github}\NormalTok{(}\StringTok{"MathiasHarrer/dmetar"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Una vez hemos instalado \texttt{dmetar}, podemos cargar el paquete.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dmetar)}
+\end{Highlighting}
+\end{Shaded}
+
+Como ejemplo, voy a usar el objeto \texttt{gp\_mo} que creamos antes, a partir de la base de datos alterada que contiene el resultado atípico (estudio 12). Voy a usar la función \texttt{gosh.diagnostics} usando ese objeto como argumento.
+
+Sin embargo, es posible agregar parámetros a cada algoritmo como argumentos. Si quieres información detallada y más profunda, puedes ver la \href{https://dmetar.protectlab.org/reference/gosh.diagnostics}{documentación} de la función \texttt{gosh.diagnostics}, y los ejemplos en el capítulo 5 del libro \emph{Doing Meta-Analysis in R: A Hands-on Guide} \autocite{harrer2021doing}.
+
+En este caso, voy a agregar el argumento \texttt{km.params\ =\ list(centers\ =\ 2)} para especificar que el algoritmo \emph{k-means} debe buscar dos \emph{clusters} (\texttt{centers}) en nuestros datos (esto no es estrictamente necesario, pero de manera automática el algoritmo buscará tres; decidí poner dos, pues visiblemente hay dos grupos de resultados, como se ve en la Fig. \ref{fig:gosh2} y especialmente en la Fig. \ref{fig:gosh3}).
+
+Adicionalmente, incluiré el argumento \texttt{db.params\ =\ list(eps\ =\ 0.1,\ MinPts\ =\ 50)}, para especificar parámetros para el algoritmo \emph{DBSCAN}, pues los \emph{clusters} requieren un número mínimo de puntos (\texttt{MinPts}) dentro de una distancia máxima (\texttt{eps}) alrededor de uno de sus miembros (o semilla). En este caso, agregué \texttt{eps\ =\ 0.1} para especificar que la ``distancia de \emph{alcanzabilidad}'' (en inglés, \emph{reachability distance}) es de 0.1, y \texttt{MinPts\ =\ 50} determinar el número mínimo de puntos necesarios para cada \emph{cluster} (en este caso, 50). Si quieres información detallada y profunda sobre estos parámetros, te recomiendo leer \textcite{esterAlgorithm}.
+
+En este caso, asignaré el resultado a un objeto que llamaré \texttt{gp\_diag}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gp\_mo\_diag }\OtherTok{\textless{}{-}} \FunctionTok{gosh.diagnostics}\NormalTok{(gp\_mo,}
+                               \AttributeTok{km.params =} \FunctionTok{list}\NormalTok{(}\AttributeTok{centers =} \DecValTok{2}\NormalTok{),}
+                               \AttributeTok{db.params =} \FunctionTok{list}\NormalTok{(}\AttributeTok{eps =} \FloatTok{0.1}\NormalTok{,}
+                                                \AttributeTok{MinPts =} \DecValTok{50}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+De manera conveniente, en la consola se puede ver el progreso de la función.
+
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
+                \begin{verbatim}   
+ Perform Clustering... 
+ |==========================================================================================| DONE 
+ \end{verbatim}
+                \end{footnotesize}
+                \end{ROut}
+
+Para ver un resumen, solo tengo que usar la función \texttt{summary} agregando como argumento el objeto generado con la función \texttt{gosh.diagnostics} (\texttt{gp\_mo\_diag}):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(gp\_mo\_diag)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{ROut}{Consola de R: Output~\thetcbcounter}
+                \begin{footnotesize}
+                \begin{verbatim} GOSH Diagnostics 
+================================ 
+
+ - Number of K-means clusters detected: 2
+ - Number of DBSCAN clusters detected: 3
+ - Number of GMM clusters detected: 9
+
+ Identification of potential outliers 
+ --------------------------------- 
+
+ - K-means: Study 12
+ - DBSCAN: Study 10, Study 12
+ - Gaussian Mixture Model: Study 10, Study 12
+ \end{verbatim}
+                \end{footnotesize}
+                \end{ROut}
+
+En el \emph{output}, vemos el número de \emph{clusters} que ha detectado cada algoritmo. En este caso, el modelo \emph{K-means} detectó 2 \emph{clusters}, \emph{DBSCAN} detectó 3, y \emph{GMM} detectó 9. Dado que cada enfoque utiliza una estrategia matemática diferente para segmentar los datos, es normal que el número de \emph{clusters} no sea el mismo.
+
+De manera importante, el \emph{output} también nos reporta explícitamente los estudios identificados como potencialmente atípicos, bajo el encabezado ``\texttt{Identification\ of\ potential\ outliers}''. En este caso, mientras que el modelo \emph{K-means} sugiere que el estudio 12 es atípico (e influyente), los modelos \emph{DBSCAN} y \emph{GMM} detectaron tanto el estudio 12, como el estudio 10 como potencialmente atípicos. En otras palabras, los tres modelos coinciden en señalar en estudio 12 como atípico.
+
+Para ver esto gráficamente, puedo sencillamente usar la función \texttt{plot} incluyendo como argumento el objeto que creamos con la función \texttt{gosh.diagnostics} (en este caso, \texttt{gp\_mo\_diag}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(gp\_mo\_diag)}
+\end{Highlighting}
+\end{Shaded}
+
+Esto creará una serie de figuras; primero, una figura por cada algoritmo (\emph{K-means}, \emph{DBSCAN} y \emph{GMM}), y después una figura por cada estudio potencialmente atípico que se haya identificado (en nuestro caso, los estudios 12 y 10; si no se identificara ninguno, estas gráficas no se harían). Si estás usando RStudio, deberás moverte entre las figuras usando las flechas que están sobre el panel \emph{Plots} donde aparecen, pues sólo será visible la última figura.
+
+En este caso, voy a producir cada figura independientemente para analizarla.
+
+Primero, tenemos la Figura \ref{fig:fancy-gosh1} que muestra los resultados del algoritmo \emph{K-means}. Incluye 3 paneles, llamados \emph{K-means Algorithm}, que es un \emph{GOSH plot} pero resaltando en colores las combinaciones de estudios asignadas a cada \emph{cluster} (izquierda); \emph{Cluster imbalance (K-means algorithm)}, que representa el porcentaje de cambio entre los \emph{clusters} producto de cada estudio (derecha, arriba); y \emph{Cluster imbalance (Cook's Distance)}, que nos muestra la distancia de Cook producto de cada estudio para cada \emph{cluster} (derecha, abajo).
+
+\begin{figure}
+
+{\centering \includegraphics[height=200px]{images/fancy_gosh_P1} 
+
+}
+
+\caption{\textit{GOSH plot}, desequilibrio de \textit{clusters} y distancia de Cook estimados usando el algoritmo \textit{K-means}. Los \textit{clusters} identificados se representan con diferentes colores, y sus efectos se muestran en los 3 paneles. Este algoritmo identificó 2 \textit{clusters}, pues así fue especificado.}\label{fig:fancy-gosh1}
+\end{figure}
+
+¿Qué nos muestra la Figura \ref{fig:fancy-gosh1}? Primero, en el \emph{GOSH plot} podemos ver que los dos \emph{clusters} coinciden casi perfectamente con los que encontramos en la Figura \ref{fig:gosh2}, cuando especificamos explícitamente que se debían agrupar las combinaciones que incluían el estudio 12. Esto es importante pues acá no especificamos qué estudios son sospechosos, y el algoritmo mismo está identificando un \emph{cluster} que sabemos, contiene un estudio con un resultado atípico e influyente.
+
+Pero, de manera aún más clara, vemos que hay un gran desbalance entre \emph{clusters} al incluir el estudio 12. Si medimos el desbalance entre \emph{clusters} como porcentaje de cambio, podemos ver que los dos \emph{clusters} se alejan muchísimo en el estudio 12; si medimos el desbalance como distancia de Cook, podemos ver que hay un pico muy importante para ambos \emph{clusters} en el estudio 12, lo que quiere decir que ese estudio influye muchísimo en la distancia entre esos dos \emph{clusters}.
+
+Luego, tenemos la Figura \ref{fig:fancy-gosh2} que muestra los resultados del algoritmo \emph{DBSCAN}. Incluye también 3 paneles, equivalentes a los de la Figura \ref{fig:fancy-gosh1}, pero acá llamados \emph{DBSCAN Algorithm (black dots are outliers)}, \emph{Cluster imbalance (Density-Based Clustering)}, y al igual que en la Figura \ref{fig:fancy-gosh1}, \emph{Cluster imbalance (Cook's Distance)}.
+
+\begin{figure}
+
+{\centering \includegraphics[height=200px]{images/fancy_gosh_P2} 
+
+}
+
+\caption{\textit{GOSH plot}, desequilibrio de \textit{clusters} y distancia de Cook estimados usando el algoritmo \textit{DBSCAN}. Los \textit{clusters} identificados se representan con diferentes colores, y sus efectos se muestran en los 3 paneles. En el \textit{GOSH plot}, las combinaciones de estudios que no pudieron ser asignadas a ningún \textit{cluster} están en negro. Este algoritmo identificó 3 \textit{clusters}.}\label{fig:fancy-gosh2}
+\end{figure}
+
+En el \emph{GOSH plot} de la Figura \ref{fig:fancy-gosh2} muestra los tres clusters detectados por el algoritmo \emph{DBSCAN} (verde, azul claro y morado), así como las combinaciones de estudios que ---dados los parámetros \texttt{eps} y \texttt{MinPts} que usamos en la función \texttt{gosh.diagnostics}--- no fueron clasificadas en ningún \emph{cluster} (\emph{Outlier}, en negro). El \emph{cluster} 2 (azul claro), corresponde en buena medida al \emph{cluster} 2 de la Figura \ref{fig:fancy-gosh1}, que a su vez coincide ampliamente con la Figura \ref{fig:gosh2}.
+
+Adicionalmente, el desbalance entre \emph{clusters} muestra picos para el estudio 12, tanto cuando es medido como porcentaje de cambio, como cuando es medido como distancia de Cook. Sin embargo, acá también encontramos un pico de menor tamaño para el Estudio 10, que explica por qué fue señalado como potencialmente atípico.
+
+Finalmente, tenemos la Figura \ref{fig:fancy-gosh3} que muestra los resultados del algoritmo \emph{GMM}. Incluye de nuevo tres paneles equivalentes, llamados \emph{Gaussian Mixture Model}, \emph{Cluster imbalance (GMM)}, y al igual que en la Figuras \ref{fig:fancy-gosh1} y \ref{fig:fancy-gosh2}, \emph{Cluster imbalance (Cook's Distance)}.
+
+\begin{figure}
+
+{\centering \includegraphics[height=200px]{images/fancy_gosh_P3} 
+
+}
+
+\caption{\textit{GOSH plot}, desequilibrio de \textit{clusters} y distancia de Cook estimados usando el algoritmo de modelos de mezcla gaussiana (en inglés, \textit{Gaussian Mixture Model} o \textit{GMM} por sus siglas). Los \textit{clusters} identificados se representan con diferentes colores, y sus efectos se muestran en los 3 paneles. Este algoritmo identificó 9 \textit{clusters}.}\label{fig:fancy-gosh3}
+\end{figure}
+
+El \emph{GOSH plot} de la Figura \ref{fig:fancy-gosh3} muestra los nueve clusters detectados por el algoritmo \emph{GMM}. Aunque en este caso no hay ningún \emph{cluster} que corresponda tan claramente con el \emph{cluster} 2 de las Figuras \ref{fig:fancy-gosh1} o \ref{fig:fancy-gosh2}, o con la Figura \ref{fig:gosh2}, sí vemos de nuevo picos muy importantes para el estudio 12, especialmente cuando el desbalance entre \emph{clusters} es medido como distancia de Cook. En últimas, los tres algoritmos coinciden en señalar que el estudio 12 es potencialmente atípico y podría tener demasiada influencia en nuestra estimación del efecto \emph{real}.
+
+Como mencioné antes, la función \texttt{plot} también crea una figura por cada estudio potencialmente atípico que se haya identificado (en nuestro caso, los estudios 12 y 10; Fig \ref{fig:fancy-gosh4}).
+
+\begin{figure}
+
+{\centering \includegraphics[height=150px]{images/fancy_gosh_P4} 
+
+}
+
+\caption{*GOSH plot* de cada estudio identificado como potencialmente atípico por los algoritmos de la función \texttt{gosh.diagnostics}. En este caso, los estudios 12 (izquiera) y 10 (derecha). En azul claro se resaltan los resultados de las combinaciones de estudios que incluyen cada uno de esos estudios potencialmente atípicos.}\label{fig:fancy-gosh4}
+\end{figure}
+
+Como verás, la Figura \ref{fig:fancy-gosh4} es simplemente una serie \emph{GOSH plots}, señalando en azul claro las combinaciones de estudios que incluyen cada uno de los estudios identificados como potencialmente atípicos: el estudio 12 (izquierda) y el estudio 10 (derecha). En este caso, por supuesto, la figura que resalta las combinaciones que incluyen el estudio 12 corresponde completamente a lo mostrado en la Figura \ref{fig:gosh2}.
+
+En conjunto, estas técnicas incluidas en la función \texttt{gosh.diagnostics} nos permiten identificar estudios potencialmente atípicos, incluso cuando no tenemos indicación o sospecha de algún o algunos estudios. En este caso, la función indicó dos estudios como potencialmente atípicos (estudios 12 y 10), y los tres algoritmos, a pesar de ser distintos, coincidieron en señalar especialmente al estudio 12 como influyente (algo que en este caso sabemos que es verdad, pues manipulamos su resultado).
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -1874,7 +1958,7 @@ Alternativamente, cuando tenemos un modelo con moderador, también podemos ver l
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/reg-plot1-1.pdf}
-\caption{\label{fig:reg-plot1}Gráfico de dispersión meta-analítico (\emph{Meta-Analytic Scatter Plot}). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \texttt{meanage}, edad promedio), que por supuesto coincide con las predicciones del objeto \texttt{pred.res.modage} (Output 11, en la sección \ref{pred-mods}); la banda gris demilitada por líneas punteadas representa el intervalo de confianza del 95\%.}
+\caption{\label{fig:reg-plot1}Gráfico de dispersión meta-analítico (\emph{Meta-Analytic Scatter Plot}). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \texttt{meanage}, edad promedio), que por supuesto coincide con las predicciones del objeto \texttt{pred.res.modage} (Output 16, en la sección \ref{pred-mods}); la banda gris demilitada por líneas punteadas representa el intervalo de confianza del 95\%.}
 \end{figure}
 
 \hypertarget{plot-mod}{%
@@ -1941,7 +2025,7 @@ Por supuesto, este resultado está pensado acá para ser reportado tras el repor
 
 De nuevo, ten en cuenta que siempre es buena idea citar tablas y figuras relevantes junto al reporte de los resultados que ilustran, pues esto facilitará la comunicación de resultados complejos. En este caso, yo citaría el gráfico de dispersión meta-analítico (\emph{Meta-Analytic Scatter Plot}; sección \ref{meta-scatter}) al presentar los resultados de la edad promedio, y el \emph{forest plot} y el \emph{funnel plot} de este meta-análisis con moderador (sección \ref{plot-mod}) al hablar de heterogeneidad.
 
-Aunque estoy siendo extremadamente exhaustivo en la manera de reportar toda la información, hay diferentes formas de reportar tus resultados. Puedes por supuesto usar ejemplos de artículos que reporten meta-análisis para usarlos como modelo; por ejemplo, Salsman et al. (\protect\hyperlink{ref-salsmanMetaanalyticApproachExamining2015}{2015}) y Shi et al. (\protect\hyperlink{ref-shiCorrelationAdherenceRates2010}{2010}) hacen reportes distintos pero claros, y el estudio de Hidalgo-Fuentes (\protect\hyperlink{ref-hidalgo-fuentesUsoProblematicoInternet2022}{2022}) es un ejemplo sencillo del reporte de un meta-análisis de correlación, con y sin moderador, en español.
+Aunque estoy siendo extremadamente exhaustivo en la manera de reportar toda la información, hay diferentes formas de reportar tus resultados. Puedes por supuesto usar ejemplos de artículos que reporten meta-análisis para usarlos como modelo; por ejemplo, \textcite{salsmanMetaanalyticApproachExamining2015} y \textcite{shiCorrelationAdherenceRates2010} hacen reportes distintos pero claros, y el estudio de \textcite{hidalgo-fuentesUsoProblematicoInternet2022} es un ejemplo sencillo del reporte de un meta-análisis de correlación, con y sin moderador, en español.
 
 \hypertarget{ejemplo-2-moderaciuxf3n-de-una-variable-categuxf3rica-controles-usados-en-cada-estudio-meta-analizado}{%
 \subsection{Ejemplo 2: Moderación de una variable categórica (controles usados en cada estudio meta-analizado)}\label{ejemplo-2-moderaciuxf3n-de-una-variable-categuxf3rica-controles-usados-en-cada-estudio-meta-analizado}}
@@ -2050,7 +2134,7 @@ Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versi
   \CommentTok{\# Combinar colores y tamaños de puntos en una sola leyenda}
   \FunctionTok{guides}\NormalTok{(}\AttributeTok{color =} \FunctionTok{guide\_legend}\NormalTok{(), }\AttributeTok{size =} \FunctionTok{guide\_legend}\NormalTok{()) }\SpecialCharTok{+}
   \CommentTok{\# Traducir etiquetas del eje X en español}
-  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\StringTok{"none"} \OtherTok{=} \StringTok{"Ninguno"}\NormalTok{, }\StringTok{"multiple"} \OtherTok{=} \StringTok{"Múltiples"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"none"} \OtherTok{=} \StringTok{"Ninguno"}\NormalTok{, }\StringTok{"multiple"} \OtherTok{=} \StringTok{"Múltiples"}\NormalTok{)) }\SpecialCharTok{+}
   \CommentTok{\# Cambiar títulos de ejes a español}
   \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Controles"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{) }\SpecialCharTok{+}
   \CommentTok{\# Agregar barras de error para cada categoría, con base en predicción hecha en sección 4.2.1}
@@ -2063,7 +2147,7 @@ Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versi
 \end{Highlighting}
 \end{Shaded}
 
-El código anterior puede verse algo confuso para quien no haya usado \texttt{ggplot2} antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación\footnote{Debido a sus enormes y numerosas posibilidades, \texttt{ggplot2} es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía, y posiblemente requeriría múltiples tutoriales independientes. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este \href{https://rpubs.com/anlope10/562981}{tutorial} (\protect\hyperlink{ref-lopezpenarandaTutorialGgplot22019}{López Peñaranda, 2019}) o ver este \href{https://youtu.be/BUzTAr_QqKs}{video} (\protect\hyperlink{ref-datademiaAprendeGgplot22018}{Datademia, 2018}).}. Este código produce la Figura \ref{fig:reg-plot3}.
+El código anterior puede verse algo confuso para quien no haya usado \texttt{ggplot2} antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación\footnote{Debido a sus enormes y numerosas posibilidades, \texttt{ggplot2} es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este \href{https://rpubs.com/anlope10/562981}{tutorial} \autocite{lopezpenarandaTutorialGgplot22019} o ver este \href{https://youtu.be/BUzTAr_QqKs}{video} \autocite{datademiaAprendeGgplot22018}.}. Este código produce la Figura \ref{fig:reg-plot3}.
 
 \begin{figure}
 \centering
@@ -2140,7 +2224,7 @@ Al incluir esta variable moderadora, se redujo enormemente la heterogeneidad ent
 
 Como antes, es importante tener en cuenta que este resultado debería ser reportado después del meta-análisis básico, como se muestra en las secciones \ref{reporte1} y \ref{reporte2}. Además, al presentar los resultados, te recomiendo citar las tablas y figuras pertinentes que los ilustren, ya que esto puede facilitar la comunicación de resultados complejos. En particular, al reportar los resultados de la moderación, se podría hacer referencia al gráfico de dispersión meta-analítico (sección \ref{meta-scatter2}). Asimismo, para hablar de la heterogeneidad, se podría citar el \emph{forest plot} y el \emph{funnel plot} correspondientes a este meta-análisis con moderador (sección \ref{plot-mod2}).
 
-Aunque es importante proporcionar información detallada y exhaustiva en el reporte de los resultados de un meta-análisis, existen diferentes formas de hacerlo. Una recomendación es utilizar como modelos algunos artículos que hayan reportado meta-análisis previamente. Por ejemplo, el trabajo de Hidalgo-Fuentes (\protect\hyperlink{ref-hidalgo-fuentesUsoProblematicoInternet2022}{2022}) es un ejemplo sencillo de cómo reportar un meta-análisis de correlación, tanto con como sin moderador, en español. Poor otro lado, los estudios de Salsman et al. (\protect\hyperlink{ref-salsmanMetaanalyticApproachExamining2015}{2015}) y Shi et al. (\protect\hyperlink{ref-shiCorrelationAdherenceRates2010}{2010}) presentan reportes de manera distinta pero clara (en inglés).
+Aunque es importante proporcionar información detallada y exhaustiva en el reporte de los resultados de un meta-análisis, existen diferentes formas de hacerlo. Una recomendación es utilizar como modelos algunos artículos que hayan reportado meta-análisis previamente. Por ejemplo, el trabajo de \textcite{hidalgo-fuentesUsoProblematicoInternet2022} es un ejemplo sencillo de cómo reportar un meta-análisis de correlación, tanto con como sin moderador, en español. Poor otro lado, los estudios de \textcite{salsmanMetaanalyticApproachExamining2015} y \textcite{shiCorrelationAdherenceRates2010} presentan reportes de manera distinta pero clara (en inglés).
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -2152,7 +2236,7 @@ Hacer un meta-análisis de correlación en R no es necesariamente complejo, pero
 \hypertarget{pasos-para-hacer-tu-meta-anuxe1lisis}{%
 \subsection{Pasos para hacer tu meta-análisis}\label{pasos-para-hacer-tu-meta-anuxe1lisis}}
 
-Primero, debes tener hacer una selección de artículos buena y no sesgada\footnote{Para esto existen varias guías, e incluso la \emph{Declaración PRISMA} que está diseñada para abordar los problemas en la publicación de revisiones sistemáticas y meta-análisis (para información en español, ver e.g., \protect\hyperlink{ref-huttonExtensionDeclaracionPRISMA2016}{Hutton et al., 2016}; \protect\hyperlink{ref-pageDeclaracionPRISMA20202021}{Page et al., 2021}).
+Primero, debes tener hacer una selección de artículos buena y no sesgada\footnote{Para esto existen varias guías, e incluso la \emph{Declaración PRISMA} que está diseñada para abordar los problemas en la publicación de revisiones sistemáticas y meta-análisis \autocites[para información en español, ver e.g.,][]{huttonExtensionDeclaracionPRISMA2016,pageDeclaracionPRISMA20202021}.
 
   A. Formular la pregunta de investigación clara, con base en teoría
 
@@ -2184,7 +2268,7 @@ Una vez tengas tu base de datos lista, deberías, cuando menos:
 
   1.1 Reportar información sobre heterogeneidad (sección \ref{heterog-inf})
 
-  1.2 Hacer un diagnóstico de influencia (sección \ref{diag-inf}; incluir, si es posible y no tienes un número grande de estudios, un meta-análisis combinatorio, sección \ref{gosh})
+  1.2 Hacer un diagnóstico de influencia (sección \ref{diag-inf}; incluir, si es posible y no tienes un número grande de estudios, un meta-análisis combinatorio, sección \ref{gosh}, e idealmente un análisis de influencia a partir del \emph{GOSH plot}, sección sección \ref{fancy-gosh})
 
   1.3 Reportar los resultados usando un \emph{forest plot} (diagrama de bosque; sección \ref{forest-inf})
 
@@ -2222,188 +2306,13 @@ Mi objetivo con esta guía es inspirar a investigadores hispanohablantes, ya sea
 \section*{Referencias}\label{referencias}}
 \addcontentsline{toc}{section}{Referencias}
 
-\footnotesize
 \begin{multicols}{2}
-
-\hypertarget{refs}{}
-\begin{CSLReferences}{1}{0}
-\leavevmode\vadjust pre{\hypertarget{ref-magrittrcite}{}}%
-Bache, S. M., \& Wickham, H. (2022). \emph{{magrittr}: A forward-pipe operator for {R}}. \url{https://CRAN.R-project.org/package=magrittr}
-
-\leavevmode\vadjust pre{\hypertarget{ref-baker500ScientistsLift2016}{}}%
-Baker, M. (2016). 1,500 scientists lift the lid on reproducibility. \emph{Nature News}, \emph{533}(7604), 452. \url{https://doi.org/10.1038/533452a}
-
-\leavevmode\vadjust pre{\hypertarget{ref-BalduzziMeta2019}{}}%
-Balduzzi, S., Rücker, G., \& Schwarzer, G. (2019). How to perform a meta-analysis with {R}: A practical tutorial. \emph{Evidence-Based Mental Health}, \emph{22}, 153--160. \url{https://doi.org/10.1136/ebmental-2019-300117}
-
-\leavevmode\vadjust pre{\hypertarget{ref-belsleyRegressionDiagnosticsIdentifying1980}{}}%
-Belsley, D. A., Kuh, E., \& Welsch, R. E. (1980). \emph{Regression {Diagnostics}: {Identifying Influential Data} and {Sources} of {Collinearity}}. {John Wiley \& Sons, Inc.} \url{https://doi.org/10.1002/0471725153}
-
-\leavevmode\vadjust pre{\hypertarget{ref-borensteinIdentifyingQuantifyingHeterogeneity2009}{}}%
-Borenstein, M., Hedges, L. V., Higgns, J. P. T., \& Rothstein, H. R. (2009). Identifying and {Quantifying Heterogeneity}. In \emph{Introduction to {Meta}-{Analysis}} (pp. 107--125). Wiley. \url{https://doi.org/10.1002/9780470743386.ch16}
-
-\leavevmode\vadjust pre{\hypertarget{ref-coburnPublicationBiasFunction2015}{}}%
-Coburn, K. M., \& Vevea, J. L. (2015). Publication bias as a function of study characteristics. \emph{Psychological Methods}, \emph{20}(3), 310--330. \url{https://doi.org/10.1037/met0000046}
-
-\leavevmode\vadjust pre{\hypertarget{ref-coburnWeightr2019}{}}%
-Coburn, K. M., \& Vevea, J. L. (2019). \emph{Weightr: Estimating weight-function models for publication bias}. \url{https://CRAN.R-project.org/package=weightr}
-
-\leavevmode\vadjust pre{\hypertarget{ref-cookDetectionInfluentialObservation1977}{}}%
-Cook, R. D. (1977). Detection of {Influential Observation} in {Linear Regression}. \emph{Technometrics}, \emph{19}(1), 15--18. \url{https://doi.org/10.2307/1268249}
-
-\leavevmode\vadjust pre{\hypertarget{ref-cookResidualsInfluenceRegression1982}{}}%
-Cook, R. D., \& Weisberg, S. (1982). \emph{Residuals and {Influence} in {Regression}}. {New York: Chapman and Hall}. \url{https://hdl.handle.net/11299/37076}
-
-\leavevmode\vadjust pre{\hypertarget{ref-copasSensitivityAnalysisPublication2001}{}}%
-Copas, J., \& Shi, J. Q. (2001). A sensitivity analysis for publication bias in systematic reviews. \emph{Statistical Methods in Medical Research}, \emph{10}(4), 251--265. \url{https://doi.org/10.1177/096228020101000402}
-
-\leavevmode\vadjust pre{\hypertarget{ref-copasMetaanalysisFunnelPlots2000}{}}%
-Copas, J., \& Shi, J. Q. (2000). Meta-analysis, funnel plots and sensitivity analysis. \emph{Biostatistics}, \emph{1}(3), 247--262. \url{https://doi.org/10.1093/biostatistics/1.3.247}
-
-\leavevmode\vadjust pre{\hypertarget{ref-datademiaAprendeGgplot22018}{}}%
-Datademia. (2018). \emph{Aprende {Ggplot2} en {R} \emph{{[}video{]}}}. YouTube. \url{https://youtu.be/BUzTAr_QqKs}.
-
-\leavevmode\vadjust pre{\hypertarget{ref-duvalTrimFillMethod2005}{}}%
-Duval, S. (2005). The {Trim} and {Fill Method}. In H. R. Rothstein, A. J. Sutton, \& M. Borenstein (Eds.), \emph{Publication {Bias} in {Meta-Analysis}} (pp. 127--144). {John Wiley \& Sons}. \url{https://doi.org/10.1002/0470870168.ch8}
-
-\leavevmode\vadjust pre{\hypertarget{ref-duvalNonparametricTrimFill2000}{}}%
-Duval, S., \& Tweedie, R. (2000a). A {Nonparametric} {``{Trim} and {Fill}''} {Method} of {Accounting} for {Publication Bias} in {Meta-Analysis}. \emph{Journal of the American Statistical Association}, \emph{95}(449), 89--98. \url{https://doi.org/10.1080/01621459.2000.10473905}
-
-\leavevmode\vadjust pre{\hypertarget{ref-duvalTrimFillSimple2000}{}}%
-Duval, S., \& Tweedie, R. (2000b). Trim and {Fill}: {A Simple Funnel-Plot-Based Method} of {Testing} and {Adjusting} for {Publication Bias} in {Meta-Analysis}. \emph{Biometrics}, \emph{56}(2), 455--463. \url{https://doi.org/10.1111/j.0006-341X.2000.00455.x}
-
-\leavevmode\vadjust pre{\hypertarget{ref-eggerBiasMetaanalysisDetected1997}{}}%
-Egger, M., Smith, G. D., Schneider, M., \& Minder, C. (1997). {Bias in Meta-Analysis Detected by a Simple, Graphical Test}. \emph{BMJ}, \emph{315}(7109), 629--634. \url{https://doi.org/10.1136/bmj.315.7109.629}
-
-\leavevmode\vadjust pre{\hypertarget{ref-fisherFrequencyDistributionValues1915}{}}%
-Fisher, R. A. (1915). Frequency {Distribution} of the {Values} of the {Correlation Coefficient} in {Samples} from an {Indefinitely Large Population}. \emph{Biometrika}, \emph{10}(4), 507--521. \url{https://doi.org/10.2307/2331838}
-
-\leavevmode\vadjust pre{\hypertarget{ref-SesgoPublicacion2008}{}}%
-Gómez-Restrepo, C. (2008). {Acerca del sesgo de publicación en literatura sobre antidepresivos}. \emph{Revista Colombiana de Psiquiatría}, \emph{37}(1), 8--10. \url{http://www.scielo.org.co/scielo.php?script=sci_arttext\&pid=S0034-74502008000100001}
-
-\leavevmode\vadjust pre{\hypertarget{ref-harrer2021doing}{}}%
-Harrer, M., Cuijpers, P., A, F. T., \& Ebert, D. D. (2021). \emph{{Doing Meta-Analysis With {R}: A Hands-On Guide}} (1st ed.). {Chapman \& Hall/CRC Press}. \url{https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/}
-
-\leavevmode\vadjust pre{\hypertarget{ref-Harrer2019dmetar}{}}%
-Harrer, M., Cuijpers, P., Furukawa, T., \& Ebert, D. D. (2019). \emph{{dmetar: Companion R Package For The Guide 'Doing Meta-Analysis in R'}}. \url{http://dmetar.protectlab.org/}
-
-\leavevmode\vadjust pre{\hypertarget{ref-Henry2003}{}}%
-Henry, N. W., Cohen, J., \& Cohen, P. (2003). \emph{Applied {Multiple Regression}/{Correlation Analysis} for the {Behavioral Sciences}.} (3rd ed.). {Lawrence Erlbaum Associates}. \url{https://doi.org/10.4324/9780203774441}
-
-\leavevmode\vadjust pre{\hypertarget{ref-hidalgo-fuentesUsoProblematicoInternet2022}{}}%
-Hidalgo-Fuentes, S. (2022). {Uso problemático de Internet y procrastinación en estudiantes: un meta-análisis}. \emph{European Journal of Education and Psychology}, 1--18. \url{https://doi.org/10.32457/ejep.v15i1.1815}
-
-\leavevmode\vadjust pre{\hypertarget{ref-huttonExtensionDeclaracionPRISMA2016}{}}%
-Hutton, B., Catalá-López, F., \& Moher, D. (2016). {La extensión de la declaración PRISMA para revisiones sistemáticas que incorporan metaanálisis en red: PRISMA-NMA}. \emph{Medicina Clínica}, \emph{147}(6), 262--266. \url{https://doi.org/10.1016/j.medcli.2016.02.025}
-
-\leavevmode\vadjust pre{\hypertarget{ref-johnBigFiveTrait1999}{}}%
-John, O. P., \& Srivastava, S. (1999). The {Big Five Trait} taxonomy: {History}, measurement, and theoretical perspectives. In L. A. Pervin \& O. P. John (Eds.), \emph{Handbook of personality: {Theory} and research, 2nd ed} (pp. 102--138). {Guilford Press}. \url{http://jenni.uchicago.edu/econ-psych-traits/John_Srivastava_1995_big5.pdf}
-
-\leavevmode\vadjust pre{\hypertarget{ref-kleinManyLabsInvestigating2018}{}}%
-Klein, R. A., Vianello, M., Hasselman, F., Adams, B. G., Adams, R. B., Alper, S., Aveyard, M., Axt, J. R., Babalola, M. T., Bahník, Š., Batra, R., Berkics, M., Bernstein, M. J., Berry, D. R., Bialobrzeska, O., Binan, E. D., Bocian, K., Brandt, M. J., Busching, R., \ldots{} Nosek, B. A. (2018). Many {Labs} 2: {Investigating Variation} in {Replicability Across Samples} and {Settings}. \emph{Advances in Methods and Practices in Psychological Science}, \emph{1}(4), 443--490. \url{https://doi.org/10.1177/2515245918810225}
-
-\leavevmode\vadjust pre{\hypertarget{ref-KossmeierMetaviz}{}}%
-Kossmeier, M., Tran, U. S., \& Voracek, M. (2020). \emph{{metaviz: Forest Plots, Funnel Plots, and Visual Funnel Plot Inference for Meta-Analysis}}. \url{https://CRAN.R-project.org/package=metaviz}
-
-\leavevmode\vadjust pre{\hypertarget{ref-lakensImprovingYourStatistical2022}{}}%
-Lakens, D. (2022). \emph{Improving {Your Statistical Inferences}}. \url{https://lakens.github.io/statistical_inferences/}
-
-\leavevmode\vadjust pre{\hypertarget{ref-leongomezMetaanalysis2021}{}}%
-Leongómez, J. D. (2021). \emph{Hacer meta-análisis en jamovi es muy fácil \emph{{[}video{]}}}. YouTube. \url{https://youtu.be/ntBbkOn9D_o}.
-
-\leavevmode\vadjust pre{\hypertarget{ref-leongomezAnalisisPoderEstadistico2020}{}}%
-Leongómez, J. D. (2020a). \emph{Análisis de poder estadístico y cálculo de tamaño de muestra en {R}: {Guía} práctica}. {Zenodo}. \url{https://doi.org/10.5281/zenodo.3988776}
-
-\leavevmode\vadjust pre{\hypertarget{ref-leongomezPoderRvid2020}{}}%
-Leongómez, J. D. (2020b). \emph{Poder estadístico y tamaño de muestra en {R} \emph{{[}serie de videos{]}}}. YouTube. \url{https://youtube.com/playlist?list=PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}.
-
-\leavevmode\vadjust pre{\hypertarget{ref-lopezpenarandaTutorialGgplot22019}{}}%
-López Peñaranda, A. (2019). \emph{Tutorial de ggplot2}. RPubs. \url{https://rpubs.com/anlope10/562981}.
-
-\leavevmode\vadjust pre{\hypertarget{ref-Manterola2019}{}}%
-Manterola, C., Quiroz, G., Salazar, P., \& García, N. (2019). Metodología de los tipos y diseños de estudio más frecuentemente utilizados en investigación clínica. \emph{Revista Médica Clínica Las Condes}, \emph{30}(1), 36--49. https://doi.org/\url{https://doi.org/10.1016/j.rmclc.2018.11.005}
-
-\leavevmode\vadjust pre{\hypertarget{ref-molloy2013}{}}%
-Molloy, G. J., O'Carroll, R. E., \& Ferguson, E. (2013). Conscientiousness and medication adherence: A meta-analysis. \emph{Annals of Behavioral Medicine}, \emph{47}(1), 92--101. \url{https://doi.org/10.1007/s12160-013-9524-4}
-
-\leavevmode\vadjust pre{\hypertarget{ref-olkinGOSHGraphicalDisplay2012}{}}%
-Olkin, I., Dahabreh, I. J., \& Trikalinos, T. A. (2012). {GOSH} \textendash{} a graphical display of study heterogeneity. \emph{Research Synthesis Methods}, \emph{3}(3), 214--223. \url{https://doi.org/10.1002/jrsm.1053}
-
-\leavevmode\vadjust pre{\hypertarget{ref-pageDeclaracionPRISMA20202021}{}}%
-Page, M. J., McKenzie, J. E., Bossuyt, P. M., Boutron, I., Hoffmann, T. C., Mulrow, C. D., Shamseer, L., Tetzlaff, J. M., Akl, E. A., Brennan, S. E., Chou, R., Glanville, J., Grimshaw, J. M., Hróbjartsson, A., Lalu, M. M., Li, T., Loder, E. W., Mayo-Wilson, E., McDonald, S., \ldots{} Alonso-Fernández, S. (2021). {Declaración PRISMA 2020: una guía actualizada para la publicación de revisiones sistemáticas}. \emph{Revista Española de Cardiología}, \emph{74}(9), 790--799. \url{https://doi.org/10.1016/j.recesp.2021.06.016}
-
-\leavevmode\vadjust pre{\hypertarget{ref-quintanaOhMyGOSH2020}{}}%
-Quintana, D. S. (2020). \emph{{Oh My GOSH: Calculating All Possible Meta-Analysis Study Combinations} \emph{{[}{B}log{]}}}. {Hormones, brain, and behavior.} \url{https://www.dsquintana.blog/combinatorial-meta-analysis/}
-
-\leavevmode\vadjust pre{\hypertarget{ref-quintanaMetameta2022}{}}%
-Quintana, D. S. (2022). \emph{Metameta: A suite of tools to re-evaluate published meta-analyses}. \url{https://github.com/dsquintana/metameta}
-
-\leavevmode\vadjust pre{\hypertarget{ref-quintanaGuideMetaPower}{}}%
-Quintana, D. S. (2023). A guide for calculating study-level statistical power for meta-analyses. \emph{{Advances in Methods and Practices in Psychological Science}}, \emph{6}(1), 1--18. \url{https://doi.org/10.1177/25152459221147260}
-
-\leavevmode\vadjust pre{\hypertarget{ref-revellePsych2021}{}}%
-Revelle, W. (2021). \emph{Psych: Procedures for psychological, psychometric, and personality research}. Northwestern University. \url{https://CRAN.R-project.org/package=psych}
-
-\leavevmode\vadjust pre{\hypertarget{ref-salsmanMetaanalyticApproachExamining2015}{}}%
-Salsman, J. M., Pustejovsky, J. E., Jim, H. S. L., Munoz, A. R., Merluzzi, T. V., George, L., Park, C. L., Danhauer, S. C., Sherman, A. C., Snyder, M. A., \& Fitchett, G. (2015). A meta-analytic approach to examining the correlation between religion/spirituality and mental health in cancer. \emph{Cancer}, \emph{121}(21), 3769--3778. \url{https://doi.org/10.1002/cncr.29350}
-
-\leavevmode\vadjust pre{\hypertarget{ref-sanchez-brunoTransformacionFisherPara2005}{}}%
-Sánchez-Bruno, A., \& Borges del Rosal, Á. (2005). {Transformación Z de Fisher para la determinación de intervalos de confianza del coeficiente de correlación de Pearson}. \emph{Psicothema}, \emph{17}(1), 148--153. \url{https://www.redalyc.org/articulo.oa?id=72717124}
-
-\leavevmode\vadjust pre{\hypertarget{ref-schwarzerMetaAnalysis2015}{}}%
-Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015a). \emph{Meta-{Analysis} with {R}}. {Springer International Publishing}. \url{https://doi.org/10.1007/978-3-319-21416-0}
-
-\leavevmode\vadjust pre{\hypertarget{ref-schwarzerSmallStudyEffectsMetaAnalysis2015}{}}%
-Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2015b). Small-{Study Effects} in {Meta}-{Analysis}. In \emph{Meta-{Analysis} with {R}} (pp. 107--141). \url{https://doi.org/10.1007/978-3-319-21416-0_5}
-
-\leavevmode\vadjust pre{\hypertarget{ref-schwarzerMetasensPackage}{}}%
-Schwarzer, G., Carpenter, J. R., \& Rücker, G. (2023). \emph{Metasens: Statistical methods for sensitivity analysis in meta-analysis}. \url{https://CRAN.R-project.org/package=metasens}
-
-\leavevmode\vadjust pre{\hypertarget{ref-schwarzerEmpiricalEvaluationSuggests2010}{}}%
-Schwarzer, G., Carpenter, J., \& Rücker, G. (2010). Empirical evaluation suggests {Copas} selection model preferable to trim-and-fill method for selection bias in meta-analysis. \emph{Journal of Clinical Epidemiology}, \emph{63}(3), 282--288. \url{https://doi.org/10.1016/j.jclinepi.2009.05.008}
-
-\leavevmode\vadjust pre{\hypertarget{ref-sedgwickMetaanalysesWhatHeterogeneity2015}{}}%
-Sedgwick, P. (2015). Meta-analyses: What is heterogeneity? \emph{BMJ}, \emph{350}, h1435. \url{https://doi.org/10.1136/bmj.h1435}
-
-\leavevmode\vadjust pre{\hypertarget{ref-shadishCombiningEstimatesEffect2009}{}}%
-Shadish, W. R., \& Haddock, C. K. (2009). Combining estimates of effect size. In H. M. Cooper, L. V. Hedges, \& J. C. Valentine (Eds.), \emph{The handbook of research synthesis and meta-analysis} (2nd ed., pp. 257--277). {Russell Sage Foundation}.
-
-\leavevmode\vadjust pre{\hypertarget{ref-shiTrimandfill2019}{}}%
-Shi, L., \& Lin, L. (2019). The trim-and-fill method for publication bias: Practical guidelines and recommendations based on a large database of meta-analyses. \emph{Medicine}, \emph{98}(23), e15987. \url{https://doi.org/10.1097/MD.0000000000015987}
-
-\leavevmode\vadjust pre{\hypertarget{ref-shiCorrelationAdherenceRates2010}{}}%
-Shi, L., Liu, J., Fonseca, V., Walker, P., Kalsekar, A., \& Pawaskar, M. (2010). Correlation between adherence rates measured by {MEMS} and self-reported questionnaires: A meta-analysis. \emph{Health and Quality of Life Outcomes}, \emph{8}(1), 99. \url{https://doi.org/10.1186/1477-7525-8-99}
-
-\leavevmode\vadjust pre{\hypertarget{ref-simonsohnPcurveWonYour2019}{}}%
-Simonsohn, U., Nelson, L. D., \& Simmons, J. P. (2019). P-curve won't do your laundry, but it will distinguish replicable from non-replicable findings in observational research: {Comment} on {Bruns} \& {Ioannidis} (2016). \emph{PLOS ONE}, \emph{14}(3), e0213454. \url{https://doi.org/10.1371/journal.pone.0213454}
-
-\leavevmode\vadjust pre{\hypertarget{ref-simonsohnPCurveEffectSize2014}{}}%
-Simonsohn, U., Nelson, L. D., \& Simmons, J. P. (2014). P-{Curve} and {Effect Size}: {Correcting} for {Publication Bias Using Only Significant Results}. \emph{Perspectives on Psychological Science}, \emph{9}(6), 666--681. \url{https://doi.org/10.1177/1745691614553988}
-
-\leavevmode\vadjust pre{\hypertarget{ref-sternePublicationRelatedBias2000}{}}%
-Sterne, J. A. C., Gavaghan, D., \& Egger, M. (2000). Publication and related bias in meta-analysis. \emph{Journal of Clinical Epidemiology}, \emph{53}(11), 1119--1129. \url{https://doi.org/10.1016/S0895-4356(00)00242-0}
-
-\leavevmode\vadjust pre{\hypertarget{ref-sterneRecommendationsExaminingInterpreting2011}{}}%
-Sterne, J. A. C., Sutton, A. J., Ioannidis, J. P. A., Terrin, N., Jones, D. R., Lau, J., Carpenter, J., Rucker, G., Harbord, R. M., Schmid, C. H., Tetzlaff, J., Deeks, J. J., Peters, J., Macaskill, P., Schwarzer, G., Duval, S., Altman, D. G., Moher, D., \& Higgins, J. P. T. (2011). Recommendations for examining and interpreting funnel plot asymmetry in meta-analyses of randomised controlled trials. \emph{BMJ}, \emph{343}(1), d4002. \url{https://doi.org/10.1136/bmj.d4002}
-
-\leavevmode\vadjust pre{\hypertarget{ref-veveaGeneralLinearModel1995}{}}%
-Vevea, J. L., \& Hedges, L. V. (1995). A general linear model for estimating effect size in the presence of publication bias. \emph{Psychometrika}, \emph{60}(3), 419--435. \url{https://doi.org/10.1007/BF02294384}
-
-\leavevmode\vadjust pre{\hypertarget{ref-veveaPublicationBiasResearch2005}{}}%
-Vevea, J. L., \& Woods, C. M. (2005). Publication bias in research synthesis: Sensitivity analysis using a priori weight functions. \emph{Psychological Methods}, \emph{10}(4), 428--443. \url{https://doi.org/10.1037/1082-989X.10.4.428}
-
-\leavevmode\vadjust pre{\hypertarget{ref-viechtbauer2010}{}}%
-Viechtbauer, W. (2010). Conducting meta-analyses in {R} with the metafor package. \emph{Journal of Statistical Software}, \emph{36}(3). \url{https://doi.org/10.18637/jss.v036.i03}
-
-\leavevmode\vadjust pre{\hypertarget{ref-Wickhamforcats2022}{}}%
-Wickham, H. (2022). \emph{Forcats: Tools for working with categorical variables (factors)}. \url{https://CRAN.R-project.org/package=forcats}
-
-\leavevmode\vadjust pre{\hypertarget{ref-WickhamDplyr2021}{}}%
-Wickham, H., François, R., Henry, L., \& Müller, K. (2021). \emph{Dplyr: A grammar of data manipulation}. \url{https://CRAN.R-project.org/package=dplyr}
-
-\end{CSLReferences}
-
+\AtNextBibliography{\footnotesize}
+\printbibliography[heading=none]
+\normalsize
 \end{multicols}
+
+\def\printbibliography{}
 \newpage
 
 \hypertarget{apuxe9ndices}{%
@@ -2414,22 +2323,23 @@ Wickham, H., François, R., Henry, L., \& Müller, K. (2021). \emph{Dplyr: A gra
 \appendix}
 
 
-\opensupplement
-\normalsize
+\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}
 
 \hypertarget{apendice-alt}{%
 \subsection*{\texorpdfstring{\emph{Apéndice A.} Alternativas a \texttt{metafor}}{Apéndice A. Alternativas a metafor}}\label{apendice-alt}}
 \addcontentsline{toc}{subsection}{\emph{Apéndice A.} Alternativas a \texttt{metafor}}
 
-A lo largo de ésta guía he usado una ruta para hacer meta-análisis que parte de objetos generados con el paquete \texttt{metafor}. Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro \emph{Doing meta-analysis with R: a hands-on guide} (\protect\hyperlink{ref-harrer2021doing}{Harrer et al., 2021}) se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} (\protect\hyperlink{ref-Harrer2019dmetar}{Harrer et al., 2019}), que contiene y explica opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}).
+A lo largo de ésta guía he usado una ruta para hacer meta-análisis que parte de objetos generados con el paquete \texttt{metafor}. Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro \emph{Doing meta-analysis with R: a hands-on guide} \autocite{harrer2021doing} se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} \autocite{Harrer2019dmetar}, que contiene y explica opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de \texttt{meta} \autocite{BalduzziMeta2019,schwarzerMetaAnalysis2015}.
 
-Los objetos generados por \texttt{meta} al realizar un meta-análisis permiten hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), y \emph{p-curve} o curva de valores \(p\) (\protect\hyperlink{ref-simonsohnPcurveWonYour2019}{Simonsohn et al., 2019}, \protect\hyperlink{ref-simonsohnPCurveEffectSize2014}{2014}), y permiten hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
+Los objetos generados por \texttt{meta} al realizar un meta-análisis, permiten usar funciones de \texttt{dmetar} para hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), y \emph{p-curve} o curva de valores \(p\) \autocites[e.g.,][]{simonsohnPCurveEffectSize2014,simonsohnPcurveWonYour2019}, y permiten hacer gráficos distintos.
+
+Para una guía resumida y concreta de estas opciones (en inglés), recomiendo ver el sitio web del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, y en especial la página \href{https://dmetar.protectlab.org/articles/dmetar.html}{\emph{Get Started}}.
 
 \hypertarget{p-curve}{%
 \subsubsection*{\texorpdfstring{\emph{A1.} Ejemplo: curva de valores \(p\) (\emph{p-curve})}{A1. Ejemplo: curva de valores p (p-curve)}}\label{p-curve}}
 \addcontentsline{toc}{subsubsection}{\emph{A1.} Ejemplo: curva de valores \(p\) (\emph{p-curve})}
 
-Como ejemplo puntual, la curva de valores \(p\) (en inglés \emph{p-curve}) de nuestro meta-análisis se podría hacer tras ajustar el modelo con la función \texttt{metacor} (que hace meta-análisis de correlaciones) del paquete \texttt{meta} (\protect\hyperlink{ref-BalduzziMeta2019}{Balduzzi et al., 2019}; \protect\hyperlink{ref-schwarzerMetaAnalysis2015}{Schwarzer et al., 2015a}). Para este ejemplo asignaré el resultado a un objeto que llamaré \texttt{res.meta}.
+Como ejemplo puntual, la curva de valores \(p\) (en inglés \emph{p-curve}) de nuestro meta-análisis se podría hacer tras ajustar el modelo con la función \texttt{metacor} (que hace meta-análisis de correlaciones) del paquete \texttt{meta} \autocite{BalduzziMeta2019,schwarzerMetaAnalysis2015}. Para este ejemplo asignaré el resultado a un objeto que llamaré \texttt{res.meta}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2440,7 +2350,7 @@ Como ejemplo puntual, la curva de valores \(p\) (en inglés \emph{p-curve}) de n
 \end{Highlighting}
 \end{Shaded}
 
-El objeto resultante (\texttt{res.meta}) puede usarse directamente como argumento a la función \texttt{pcurve} del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, para obtener una gráfica con la curva de valores \(p\) (\emph{p-curve}). Es importante tener en cuenta que, al menos por ahora, \texttt{dmetar} debe instalarse desde GitHub tal como \texttt{metameta} (en este caso, con el comando \texttt{devtools::install\_github("MathiasHarrer/dmetar")}).
+El objeto resultante (\texttt{res.meta}) puede usarse directamente como argumento a la función \texttt{pcurve} del paquete \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}, para obtener una gráfica con la curva de valores \(p\) (\emph{p-curve}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2460,13 +2370,15 @@ El objeto resultante (\texttt{res.meta}) puede usarse directamente como argument
 
 La función \texttt{pcurve} produce varios elementos relacionados la curva de valores \(p\), incluyendo la Figura \ref{fig:pcurve-plot} que resume éste análisis.
 
+Es importante tener en cuenta que, al menos por ahora, el paquete \texttt{dmetar} debe instalarse desde GitHub tal como \texttt{metameta} (en este caso, con el comando \texttt{devtools::install\_github("MathiasHarrer/dmetar")}).
+
 \hypertarget{paquetes-cit}{%
 \subsection*{\texorpdfstring{\emph{Apéndice B.} Citas y referencias de paquetes de R}{Apéndice B. Citas y referencias de paquetes de R}}\label{paquetes-cit}}
 \addcontentsline{toc}{subsection}{\emph{Apéndice B.} Citas y referencias de paquetes de R}
 
 Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función \texttt{citation} en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato \texttt{BibTex} que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia como \href{https://www.zotero.org/}{Zotero}. Alternativamente, el formato formato \texttt{BibTex} nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente, o incluso crear referencias en diversos estilos usando, por ejemplo, \href{https://asouqi.github.io/bibtex-converter/}{Online Bibtex Converter}.
 
-Como ejemplo, en ésta guía usé \texttt{dplyr} (\protect\hyperlink{ref-WickhamDplyr2021}{Wickham et al., 2021}) para manipular los datos. Usando la función \texttt{citation}:
+Como ejemplo, en ésta guía usé \texttt{dplyr} \autocite{WickhamDplyr2021} para manipular los datos. Usando la función \texttt{citation}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2510,9 +2422,11 @@ A BibTeX entry for LaTeX users is
 \emph{stats}, \emph{graphics}, \emph{grDevices}, \emph{utils}, \emph{datasets}, \emph{methods} and \emph{base}
 
 \textbf{other attached packages:}
-\emph{meta(v.6.2-1)}, \emph{metameta(v.0.1.1)}, \emph{weightr(v.2.0.2)}, \emph{scales(v.1.2.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.13.0)}, \emph{zoo(v.1.8-11)}, \emph{psych(v.2.3.3)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.6.0)}, \emph{lubridate(v.1.9.2)}, \emph{forcats(v.1.0.0)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.1.1)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.4)}, \emph{tidyr(v.1.3.0)}, \emph{tibble(v.3.2.1)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.2.0.0)}, \emph{metafor(v.4.0-0)}, \emph{numDeriv(v.2016.8-1.1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.1)} and \emph{knitr(v.1.42)}
+\emph{meta(v.6.2-1)}, \emph{dmetar(v.0.0.9000)}, \emph{metameta(v.0.1.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.13.0)}, \emph{zoo(v.1.8-11)}, \emph{psych(v.2.3.3)}, \emph{scales(v.1.2.1)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.6.0)}, \emph{lubridate(v.1.9.2)}, \emph{forcats(v.1.0.0)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.1.1)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.4)}, \emph{tidyr(v.1.3.0)}, \emph{tibble(v.3.2.1)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.2.0.0)}, \emph{metafor(v.4.0-0)}, \emph{numDeriv(v.2016.8-1.1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.1)} and \emph{knitr(v.1.42)}
 
 \textbf{loaded via a namespace (and not attached):}
-\emph{nlme(v.3.1-162)}, \emph{webshot(v.0.5.4)}, \emph{RColorBrewer(v.1.1-3)}, \emph{httr(v.1.4.5)}, \emph{tools(v.4.2.3)}, \emph{backports(v.1.4.1)}, \emph{utf8(v.1.2.3)}, \emph{R6(v.2.5.1)}, \emph{mgcv(v.1.8-42)}, \emph{colorspace(v.2.1-0)}, \emph{withr(v.2.5.0)}, \emph{tidyselect(v.1.2.0)}, \emph{gridExtra(v.2.3)}, \emph{mnormt(v.2.1.1)}, \emph{curl(v.5.0.0)}, \emph{compiler(v.4.2.3)}, \emph{cli(v.3.6.1)}, \emph{rvest(v.1.0.3)}, \emph{xml2(v.1.3.3)}, \emph{labeling(v.0.4.2)}, \emph{bookdown(v.0.33)}, \emph{quadprog(v.1.5-8)}, \emph{systemfonts(v.1.0.4)}, \emph{digest(v.0.6.31)}, \emph{minqa(v.1.2.5)}, \emph{rmarkdown(v.2.21)}, \emph{svglite(v.2.1.1)}, \emph{pkgconfig(v.2.0.3)}, \emph{htmltools(v.0.5.5)}, \emph{lme4(v.1.1-32)}, \emph{fastmap(v.1.1.1)}, \emph{highr(v.0.10)}, \emph{ggthemes(v.4.2.4)}, \emph{rlang(v.1.1.0)}, \emph{rstudioapi(v.0.14)}, \emph{generics(v.0.1.3)}, \emph{farver(v.2.1.1)}, \emph{jsonlite(v.1.8.4)}, \emph{car(v.3.1-1)}, \emph{magrittr(v.2.0.3)}, \emph{Rcpp(v.1.0.10)}, \emph{Quandl(v.2.11.0)}, \emph{munsell(v.0.5.0)}, \emph{fansi(v.1.0.4)}, \emph{abind(v.1.4-5)}, \emph{lifecycle(v.1.0.3)}, \emph{stringi(v.1.7.12)}, \emph{yaml(v.2.3.7)}, \emph{CompQuadForm(v.1.4.3)}, \emph{carData(v.3.0-5)}, \emph{MASS(v.7.3-58.2)}, \emph{mathjaxr(v.1.6-0)}, \emph{grid(v.4.2.3)}, \emph{parallel(v.4.2.3)}, \emph{lattice(v.0.20-45)}, \emph{cowplot(v.1.1.1)}, \emph{splines(v.4.2.3)}, \emph{pander(v.0.6.5)}, \emph{hms(v.1.1.3)}, \emph{pillar(v.1.9.0)}, \emph{boot(v.1.3-28.1)}, \emph{ggsignif(v.0.6.4)}, \emph{glue(v.1.6.2)}, \emph{evaluate(v.0.20)}, \emph{nloptr(v.2.0.3)}, \emph{vctrs(v.0.6.1)}, \emph{tzdb(v.0.3.0)}, \emph{gtable(v.0.3.3)}, \emph{xfun(v.0.38)}, \emph{broom(v.1.0.4)}, \emph{rstatix(v.0.7.2)}, \emph{viridisLite(v.0.4.1)} and \emph{timechange(v.0.2.0)}
+\emph{minqa(v.1.2.5)}, \emph{colorspace(v.2.1-0)}, \emph{ggsignif(v.0.6.4)}, \emph{class(v.7.3-21)}, \emph{modeltools(v.0.2-23)}, \emph{mclust(v.6.0.0)}, \emph{rstudioapi(v.0.14)}, \emph{farver(v.2.1.1)}, \emph{ggrepel(v.0.9.3)}, \emph{flexmix(v.2.3-19)}, \emph{fansi(v.1.0.4)}, \emph{mathjaxr(v.1.6-0)}, \emph{xml2(v.1.3.3)}, \emph{splines(v.4.2.3)}, \emph{mnormt(v.2.1.1)}, \emph{robustbase(v.0.95-0)}, \emph{jsonlite(v.1.8.4)}, \emph{nloptr(v.2.0.3)}, \emph{broom(v.1.0.4)}, \emph{kernlab(v.0.9-32)}, \emph{cluster(v.2.1.4)}, \emph{compiler(v.4.2.3)}, \emph{httr(v.1.4.5)}, \emph{backports(v.1.4.1)}, \emph{fastmap(v.1.1.1)}, \emph{cli(v.3.6.1)}, \emph{htmltools(v.0.5.5)}, \emph{tools(v.4.2.3)}, \emph{gtable(v.0.3.3)}, \emph{glue(v.1.6.2)}, \emph{ggthemes(v.4.2.4)}, \emph{Rcpp(v.1.0.10)}, \emph{carData(v.3.0-5)}, \emph{vctrs(v.0.6.1)}, \emph{svglite(v.2.1.1)}, \emph{nlme(v.3.1-162)}, \emph{fpc(v.2.2-10)}, \emph{xfun(v.0.38)}, \emph{lme4(v.1.1-32)}, \emph{rvest(v.1.0.3)}, \emph{timechange(v.0.2.0)}, \emph{CompQuadForm(v.1.4.3)}, \emph{lifecycle(v.1.0.3)}, \emph{rstatix(v.0.7.2)}, \emph{DEoptimR(v.1.0-11)}, \emph{MASS(v.7.3-58.2)}, \emph{hms(v.1.1.3)}, \emph{parallel(v.4.2.3)}, \emph{RColorBrewer(v.1.1-3)}, \emph{yaml(v.2.3.7)}, \emph{curl(v.5.0.0)}, \emph{gridExtra(v.2.3)}, \emph{pander(v.0.6.5)}, \emph{MuMIn(v.1.47.5)}, \emph{stringi(v.1.7.12)}, \emph{highr(v.0.10)}, \emph{poibin(v.1.5)}, \emph{boot(v.1.3-28.1)}, \emph{rlang(v.1.1.0)}, \emph{pkgconfig(v.2.0.3)}, \emph{systemfonts(v.1.0.4)}, \emph{prabclus(v.2.3-2)}, \emph{evaluate(v.0.20)}, \emph{lattice(v.0.20-45)}, \emph{labeling(v.0.4.2)}, \emph{cowplot(v.1.1.1)}, \emph{tidyselect(v.1.2.0)}, \emph{magrittr(v.2.0.3)}, \emph{bookdown(v.0.33)}, \emph{R6(v.2.5.1)}, \emph{generics(v.0.1.3)}, \emph{pillar(v.1.9.0)}, \emph{withr(v.2.5.0)}, \emph{mgcv(v.1.8-42)}, \emph{abind(v.1.4-5)}, \emph{nnet(v.7.3-18)}, \emph{car(v.3.1-1)}, \emph{Quandl(v.2.11.0)}, \emph{utf8(v.1.2.3)}, \emph{tzdb(v.0.3.0)}, \emph{rmarkdown(v.2.21)}, \emph{grid(v.4.2.3)}, \emph{netmeta(v.2.8-1)}, \emph{diptest(v.0.76-0)}, \emph{digest(v.0.6.31)}, \emph{webshot(v.0.5.4)}, \emph{stats4(v.4.2.3)}, \emph{munsell(v.0.5.0)}, \emph{viridisLite(v.0.4.1)}, \emph{magic(v.1.6-1)} and \emph{quadprog(v.1.5-8)}
+
+\printbibliography
 
 \end{document}

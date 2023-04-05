@@ -7,6 +7,7 @@ author:
 date: "`r Sys.setlocale('LC_TIME');format(Sys.Date(),'%d %B, %Y')`"
 output:
   bookdown::pdf_document2:
+    citation_package: biblatex
     number_sections: yes
     keep_tex:  true
     toc: no
@@ -34,13 +35,14 @@ header-includes:
   \renewcommand{\abstractname}{Descripción}
   \usepackage[spanish]{babel}
   \usepackage{csquotes}
+  \usepackage[style=apa,backend=biber]{biblatex}
+  \DeclareLanguageMapping{spanish}{spanish-apa}
   \usepackage{hanging}
   \usepackage{amsthm,amssymb,amsfonts}
   \usepackage{tikz,lipsum,lmodern}
   \usepackage[most]{tcolorbox}
   \usepackage{multicol}
   \usepackage{fontawesome5}
-  \usepackage{svg}
   \usepackage{multirow,booktabs,caption}
   \renewcommand\spanishtablename{Tabla}
   \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]}
@@ -67,9 +69,10 @@ header-includes:
     \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0}
     \renewcommand{\thefigure}{\arabic{figure}}}
 always_allow_html: yes
-csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+csl: apa.csl
 urlcolor: blue
 linkcolor: iacoldark
+citecolor: iacoldark
 link-citations: true
 bibliography: bib/references.bib
 ---
@@ -110,6 +113,7 @@ library(metafor)
 library(tidyverse)
 library(ggpubr)
 library(kableExtra)
+library(scales)
 ```
 
 ```{=latex}
@@ -179,7 +183,7 @@ Entre las 25 muestra aleatorias de nuestra población (Fig. \@ref(fig:efecto)B),
 
 Si miras con cuidado, verás algo claro: las muestras más grandes tienden a encontrar resultados similares al de nuestra población simulada ($r$ = 0.25). Sin embargo, las muestra pequeñas son menos confiables: aunque algunas muestras pequeñas encuentran correlaciones muy cercanas a la real, otras se alejan mucho. Para ilustrar esto, voy a graficar la correlación encontrada en cada muestra, y cómo se asocia con su tamaño de muestra (Fig. \@ref(fig:dist-sim)).
 
-```{r dist-sim, echo = FALSE, fig.height = 200, fig.align = "center", fig.cap = "Relación entre el efecto encontrado (eje $X$) y el tamaño de muestra (eje $Y$) en 25 muestras aleatorias de una población simulada donde la correlación entre las variables es de $r$ = 0.25. Mientras que las muestras grandes (arriba) son confiables y tienden a encontrar resultados similares al del efeto real, muestras pequeñas (abajo)son menos confiables y puyeden producir estimaciones del efecto que se alejan mucho del real."}
+```{r dist-sim, echo = FALSE, fig.align = "center", fig.cap = "Relación entre el efecto encontrado (eje $X$) y el tamaño de muestra (eje $Y$) en 25 muestras aleatorias de una población simulada donde la correlación entre las variables es de $r$ = 0.25. Mientras que las muestras grandes (arriba) son confiables y tienden a encontrar resultados similares al del efeto real, muestras pequeñas (abajo)son menos confiables y puyeden producir estimaciones del efecto que se alejan mucho del real."}
 knitr::include_graphics("images/dist-sim.pdf")
 ```
 
@@ -830,7 +834,7 @@ funnel(tf,
 
 De nuevo, alternativamente podemos usar la función `viz_funnel` del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html), para crear este *funnel plot* representando los estudios *rellenados* con el método de recorte y relleno. Sin embargo, para esto usaremos como argumento el meta-análisis original (`res`), pero agregando los argumentos `trim_and_fill = TRUE` y `trim_and_fill_side = "left"` ("left" dado que sabemos que los estudios *faltantes* están a la izquierd). 
 
-```{r tf-plot2, fig.height = 3.5, fig.cap = "*Funnel plot* creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) usando el método de recorte y relleno (*trim and fill*). En blanco los estudios meta-analizados; en negro, los estudios *rellenados*."}
+```{r tf-plot2, cache = TRUE, fig.height = 3.5, fig.cap = "*Funnel plot* creado con [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) usando el método de recorte y relleno (*trim and fill*). En blanco los estudios meta-analizados; en negro, los estudios *rellenados*."}
 viz_funnel(res, 
            contours_col = "Oranges",
            trim_and_fill = TRUE, 
@@ -862,7 +866,7 @@ Tal como se describe en la [documentación](https://www.rdocumentation.org/packa
 
 En este caso, usaré esta función, asignando el resultado a un objeto que llamaré `wf`.
 
-```{r}
+```{r cache = TRUE}
 library(weightr)
 wf <- weightfunct(effect = dat$yi, v = dat$vi, table = TRUE)
 wf
@@ -979,7 +983,7 @@ También, nos permite ver el poder estadístico de cada estudio para detectar un
 
 ### Visualización del análisis de poder (*Firepower plot*) {#firepower-plot}
 
-Estos análisis muestran que, en promedio, nuestro meta-análisis sólo alcanza un poder estadístico suficiente (mayor a 0.8 u 80%) para detectar de manera confiable efectos mayores a ~0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados). De hecho, el poder estimado para detectar un efecto de 0.15 es de apenas 33.64% (reportado como `es_observed`, con un valor de `0.3364197` en el Output 10 de la sección \@ref(poder-mediano)).
+Estos análisis muestran que, en promedio, nuestro meta-análisis sólo alcanza un poder estadístico suficiente (mayor a 0.8 u 80%) para detectar de manera confiable efectos mayores a ~0.3, lo que está muy por encima de nuestras estimaciones del efecto real (0.15 en nuestro meta-análisis original, 0.09 en nuestro meta-análisis con pesos ajustados). De hecho, el poder estimado para detectar un efecto de 0.15 es de apenas 33.64% (reportado como `es_observed`, con un valor de `0.3364197` en el *output* 10 de la sección \@ref(poder-mediano)).
 
 Puedo fácilmente crear una visualización de esto con la función `firepower` del paquete `metameta`. Solo tengo que agregar, como único argumento, el objeto en el que guardé la lista de poder mediano estimado para diferentes tamaños de efecto (que en este caso asigné a un objeto que llamé `lista_poder` en la sección \@ref(poder-mediano)). 
 
@@ -1157,6 +1161,116 @@ La inclusión del estudio 12 en los modelos de meta-análisis provoca un cambio 
 
 En resumen, el meta-análisis combinatorio, junto con la visualización de datos mediante gráficos *GOSH*, permite demostrar cómo las opciones de análisis pueden influir en los resultados y conclusiones de un meta-análisis. Es fundamental realizar una selección cuidadosa de los estudios incluidos y llevar a cabo un análisis crítico y riguroso de los resultados obtenidos para garantizar la fiabilidad y validez del meta-análisis.
 
+#### Identificación de estudios que contribuyen a los patrones de heterogeneidad a partir del *GOSH plot* {#fancy-gosh}
+
+Una limitación del meta-análisis combinatorio (y el *GOSH plot*), es que no necesariamente nos permite identificar qué estudios están influyendo de manera preocupante en nuestro resultado. En el ejemplo pasado, sabíamos que el estudio 12 era el *culpable* pues así lo manipulamos. Sin embargo, al hacer un meta-análisis no necesariamente sabemos cuáles estudios son sospechosos. Por esto, tener herramientas que nos permitan identificar estudios potencialmente influyentes, es importante. 
+
+Por ejemplo, la función `gosh.diagnostics` del paquete [`dmetar`](https://dmetar.protectlab.org/index.html) [@Harrer2019dmetar] se puede usar para crear análisis y visualizaciones muy completas a partir de los objetos generados con la función `gosh` del paquete `metafor`, como los que creamos en la sección \@ref(gosh), inmediatamente anterior [^14].
+
+[^14]: El libro *Doing meta-analysis with R: a hands-on guide* [@harrer2021doing] se acompaña del paquete [`dmetar`](https://dmetar.protectlab.org/index.html) [@Harrer2019dmetar], y contiene y explica opciones para hacer meta-análisis tanto a partir de `metafor`, como a partir de otros paquetes (más información en el Apéndice \hyperlink{apendice-alt}{A}).
+
+La función `gosh.diagnostics` utiliza tres algoritmos de aprendizaje automático (*machine learning*) para detectar patrones en nuestros datos: el algoritmo *k-means* [@hartiganAlgorithm136KMeans1979], la agrupación de densidad alcanzabilidad y conectividad, o *DBSCAN* [@schubertDBSCANRevisitedRevisited2017], y los modelos de mezcla gaussiana, o *GMM* [@fraleyModelBasedClusteringDiscriminant2002].
+
+Básicamente, usa esos tres métodos para buscar grupos de resultados (o *clusters*) entre todas las combinaciones posibles de estudios que creamos con la función `gosh`. Con esto, y como explicaré en esta sección, ayuda a identificar estudios influyentes en nuestro resultado a partir de una identificación de posibles valores atípicos.
+
+Es importante tener en cuenta que, al menos por ahora, y tal como sucede con `metameta`, el paquete `dmetar` debe instalarse desde GitHub:
+
+```{r eval = FALSE}
+#se debe tener instalado el paquete devtools
+library(devtools)
+install_github("MathiasHarrer/dmetar")
+```
+
+Una vez hemos instalado `dmetar`, podemos cargar el paquete.
+
+```{r message = FALSE}
+library(dmetar)
+```
+
+Como ejemplo, voy a usar el objeto `gp_mo` que creamos antes, a partir de la base de datos alterada que contiene el resultado atípico (estudio 12). Voy a usar la función `gosh.diagnostics` usando ese objeto como argumento.
+
+Sin embargo, es posible agregar parámetros a cada algoritmo como argumentos. Si quieres información detallada y más profunda, puedes ver la [documentación](https://dmetar.protectlab.org/reference/gosh.diagnostics) de la función `gosh.diagnostics`, y los ejemplos en el capítulo 5 del libro *Doing Meta-Analysis in R: A Hands-on Guide* [@harrer2021doing]. 
+
+En este caso, voy a agregar el argumento `km.params = list(centers = 2)` para especificar que el algoritmo *k-means* debe buscar dos *clusters* (`centers`) en nuestros datos (esto no es estrictamente necesario, pero de manera automática el algoritmo buscará tres; decidí poner dos, pues visiblemente hay dos grupos de resultados, como se ve en la Fig. \@ref(fig:gosh2) y especialmente en la Fig. \@ref(fig:gosh3)). 
+
+Adicionalmente, incluiré el argumento `db.params = list(eps = 0.1, MinPts = 50)`, para especificar parámetros para el algoritmo *DBSCAN*, pues los *clusters* requieren un número mínimo de puntos (`MinPts`) dentro de una distancia máxima (`eps`) alrededor de uno de sus miembros (o semilla). En este caso, agregué `eps = 0.1` para especificar que la "distancia de *alcanzabilidad*" (en inglés, *reachability distance*) es de 0.1, y `MinPts = 50` determinar el número mínimo de puntos necesarios para cada *cluster* (en este caso, 50). Si quieres información detallada y profunda sobre estos parámetros, te recomiendo leer @esterAlgorithm.
+
+En este caso, asignaré el resultado a un objeto que llamaré `gp_diag`.
+
+```{r eval = FALSE}
+gp_mo_diag <- gosh.diagnostics(gp_mo,
+                               km.params = list(centers = 2),
+                               db.params = list(eps = 0.1,
+                                                MinPts = 50))
+```
+
+De manera conveniente, en la consola se puede ver el progreso de la función.
+
+```{r cahe = TRUE, echo = FALSE, message = FALSE}
+gp_mo_diag <- gosh.diagnostics(gp_mo,
+                               km.params = list(centers = 2),
+                               db.params = list(eps = 0.1,
+                                                MinPts = 50))
+```
+
+Para ver un resumen, solo tengo que usar la función `summary` agregando como argumento el objeto generado con la función `gosh.diagnostics` (`gp_mo_diag`):
+
+```{r}
+summary(gp_mo_diag)
+```
+
+En el *output*, vemos el número de *clusters* que ha detectado cada algoritmo. En este caso, el modelo *K-means* detectó 2 *clusters*, *DBSCAN* detectó 3, y *GMM* detectó 9.  Dado que cada enfoque utiliza una estrategia matemática diferente para segmentar los datos, es normal que el número de *clusters* no sea el mismo.
+
+De manera importante, el *output* también nos reporta explícitamente los estudios identificados como potencialmente atípicos, bajo el encabezado "`Identification of potential outliers`". En este caso, mientras que el modelo *K-means* sugiere que el estudio 12 es atípico (e influyente), los modelos *DBSCAN* y *GMM* detectaron tanto el estudio 12, como el estudio 10 como potencialmente atípicos. En otras palabras, los tres modelos coinciden en señalar en estudio 12 como atípico.
+
+Para ver esto gráficamente, puedo sencillamente usar la función `plot` incluyendo como argumento el objeto que creamos con la función `gosh.diagnostics` (en este caso, `gp_mo_diag`). 
+
+```{r  eval = FALSE}
+plot(gp_mo_diag)
+```
+
+Esto creará una serie de figuras; primero, una figura por cada algoritmo (*K-means*, *DBSCAN* y *GMM*), y después una figura por cada estudio potencialmente atípico que se haya identificado (en nuestro caso, los estudios 12 y 10; si no se identificara ninguno, estas gráficas no se harían). Si estás usando RStudio, deberás moverte entre las figuras usando las flechas que están sobre el panel *Plots* donde aparecen, pues sólo será visible la última figura. 
+
+En este caso, voy a producir cada figura independientemente para analizarla.
+
+Primero, tenemos la Figura \@ref(fig:fancy-gosh1) que muestra los resultados del algoritmo *K-means*. Incluye 3 paneles, llamados *K-means Algorithm*, que es un *GOSH plot* pero resaltando en colores las combinaciones de estudios asignadas a cada *cluster* (izquierda); *Cluster imbalance (K-means algorithm)*, que representa el porcentaje de cambio entre los *clusters* producto de cada estudio (derecha, arriba); y *Cluster imbalance (Cook's Distance)*, que nos muestra la distancia de Cook producto de cada estudio para cada *cluster* (derecha, abajo).
+
+```{r fancy-gosh1, echo = FALSE, out.height = "200px", fig.align = "center", fig.cap = "\\textit{GOSH plot}, desequilibrio de \\textit{clusters} y distancia de Cook estimados usando el algoritmo \\textit{K-means}. Los \\textit{clusters} identificados se representan con diferentes colores, y sus efectos se muestran en los 3 paneles. Este algoritmo identificó 2 \\textit{clusters}, pues así fue especificado."}
+knitr::include_graphics("images/fancy_gosh_P1.pdf")
+```
+
+¿Qué nos muestra la Figura \@ref(fig:fancy-gosh1)? Primero, en el *GOSH plot* podemos ver que los dos *clusters* coinciden casi perfectamente con los que encontramos en la Figura \ref{fig:gosh2}, cuando especificamos explícitamente que se debían agrupar las combinaciones que incluían el estudio 12. Esto es importante pues acá no especificamos qué estudios son sospechosos, y el algoritmo mismo está identificando un *cluster* que sabemos, contiene un estudio con un resultado atípico e influyente.
+
+Pero, de manera aún más clara, vemos que hay un gran desbalance entre *clusters* al incluir el estudio 12.  Si medimos el desbalance entre *clusters* como porcentaje de cambio, podemos ver que los dos *clusters* se alejan muchísimo en el estudio 12; si medimos el desbalance como distancia de Cook, podemos ver que hay un pico muy importante para ambos *clusters* en el estudio 12, lo que quiere decir que ese estudio influye muchísimo en la distancia entre esos dos *clusters*. 
+
+Luego, tenemos la Figura \@ref(fig:fancy-gosh2) que muestra los resultados del algoritmo *DBSCAN*. Incluye también 3 paneles, equivalentes a los de la Figura \@ref(fig:fancy-gosh1), pero acá llamados *DBSCAN Algorithm (black dots are outliers)*, *Cluster imbalance (Density-Based Clustering)*, y al igual que en la Figura \@ref(fig:fancy-gosh1), *Cluster imbalance (Cook's Distance)*.
+
+```{r fancy-gosh2, echo = FALSE, out.height = "200px", fig.align = "center", fig.cap = "\\textit{GOSH plot}, desequilibrio de \\textit{clusters} y distancia de Cook estimados usando el algoritmo \\textit{DBSCAN}. Los \\textit{clusters} identificados se representan con diferentes colores, y sus efectos se muestran en los 3 paneles. En el \\textit{GOSH plot}, las combinaciones de estudios que no pudieron ser asignadas a ningún \\textit{cluster} están en negro. Este algoritmo identificó 3 \\textit{clusters}."}
+knitr::include_graphics("images/fancy_gosh_P2.pdf")
+```
+
+En el *GOSH plot* de la Figura \@ref(fig:fancy-gosh2) muestra los tres clusters detectados por el algoritmo *DBSCAN* (verde, azul claro y morado), así como las combinaciones de estudios que —dados los parámetros `eps` y `MinPts` que usamos en la función `gosh.diagnostics`— no fueron clasificadas en ningún *cluster* (*Outlier*, en negro). El *cluster* 2 (azul claro), corresponde en buena medida al *cluster* 2 de la Figura \@ref(fig:fancy-gosh1), que a su vez coincide ampliamente con la Figura \ref{fig:gosh2}.
+
+Adicionalmente, el desbalance entre *clusters* muestra picos para el estudio 12, tanto cuando es medido como porcentaje de cambio, como cuando es medido como distancia de Cook. Sin embargo, acá también encontramos un pico de menor tamaño para el Estudio 10, que explica por qué fue señalado como potencialmente atípico.
+
+Finalmente, tenemos la Figura \@ref(fig:fancy-gosh3) que muestra los resultados del algoritmo *GMM*. Incluye de nuevo tres paneles equivalentes, llamados *Gaussian Mixture Model*, *Cluster imbalance (GMM)*, y al igual que en la Figuras \@ref(fig:fancy-gosh1) y \@ref(fig:fancy-gosh2), *Cluster imbalance (Cook's Distance)*.
+
+```{r fancy-gosh3, echo = FALSE, out.height = "200px", fig.align = "center", fig.cap = "\\textit{GOSH plot}, desequilibrio de \\textit{clusters} y distancia de Cook estimados usando el algoritmo de modelos de mezcla gaussiana (en inglés, \\textit{Gaussian Mixture Model} o \\textit{GMM} por sus siglas). Los \\textit{clusters} identificados se representan con diferentes colores, y sus efectos se muestran en los 3 paneles. Este algoritmo identificó 9 \\textit{clusters}."}
+knitr::include_graphics("images/fancy_gosh_P3.pdf")
+```
+
+El *GOSH plot* de la Figura \@ref(fig:fancy-gosh3) muestra los nueve clusters detectados por el algoritmo *GMM*. Aunque en este caso no hay ningún *cluster* que corresponda tan claramente con el *cluster* 2 de las Figuras \@ref(fig:fancy-gosh1) o \@ref(fig:fancy-gosh2), o con la Figura \ref{fig:gosh2}, sí vemos de nuevo picos muy importantes para el estudio 12, especialmente cuando el desbalance entre *clusters* es medido como distancia de Cook. En últimas, los tres algoritmos coinciden en señalar que el estudio 12 es potencialmente atípico y podría tener demasiada influencia en nuestra estimación del efecto *real*.
+
+Como mencioné antes, la función `plot` también crea una figura por cada estudio potencialmente atípico que se haya identificado (en nuestro caso, los estudios 12 y 10; Fig \ref{fig:fancy-gosh4}).
+
+```{r fancy-gosh4, echo = FALSE, out.height = "150px", fig.align = "center", fig.cap = "\\textit{GOSH plot} de cada estudio identificado como potencialmente atípico por los algoritmos de la función \\texttt{gosh.diagnostics}. En este caso, los estudios 12 (izquiera) y 10 (derecha). En azul claro se resaltan los resultados de las combinaciones de estudios que incluyen cada uno de esos estudios potencialmente atípicos."}
+knitr::include_graphics("images/fancy_gosh_P4.pdf")
+```
+
+Como verás, la Figura \ref{fig:fancy-gosh4} es simplemente una serie *GOSH plots*, señalando en azul claro las combinaciones de estudios que incluyen cada uno de los estudios identificados como potencialmente atípicos: el estudio 12 (izquierda) y el estudio 10 (derecha). En este caso, por supuesto, la figura que resalta las combinaciones que incluyen el estudio 12 corresponde completamente a lo mostrado en la Figura \ref{fig:gosh2}.
+
+En conjunto, estas técnicas incluidas en la función `gosh.diagnostics` nos permiten identificar estudios potencialmente atípicos, incluso cuando no tenemos indicación o sospecha de algún o algunos estudios. En este caso, la función indicó dos estudios como potencialmente atípicos (estudios 12 y 10), y los tres algoritmos, a pesar de ser distintos, coincidieron en señalar especialmente al estudio 12 como influyente (algo que en este caso sabemos que es verdad, pues manipulamos su resultado).
+
 ---------------
 
 # Meta-análisis de correlación con moderador (meta-regresión) {#met-moderation}
@@ -1171,9 +1285,9 @@ Los moderadores pueden ser tanto variables continuas, como categóricas, y en la
 
 ## Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes) {#ex-mod1}
 
-Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^14], lo que podría moderar (afectar) la asociación entre escrupulosidad (*conscientiousness*) y adherencia a la medicación prescrita.
+Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^15], lo que podría moderar (afectar) la asociación entre escrupulosidad (*conscientiousness*) y adherencia a la medicación prescrita.
 
-[^14]: De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
+[^15]: De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
 
 Para esto, de nuevo podemos usar la función `rma` de paquete `metafor` de la misma manera que en la sección \@ref(meta-cor), pero agregando nuestra variable moderadora (`meanage`) al argumento `mods`. En este caso voy a asignar a un objeto llamado `res.modage`, para diferenciarlo del objeto `res` al que asigné el meta-análisis básico, sin moderadores.
 
@@ -1195,13 +1309,13 @@ En la tabla de `Model results` los estimados (columna `estimate`) se pueden leer
 
 Para más información, podemos *predecir* el efecto (en este caso, la correlación entre la escrupulosidad y la adherencia a la medicación), a diferentes edades, usando la función `predict`. 
 
-En este ejemplo, como argumentos de esta función incluiré el objeto que contiene el meta-análisis con la edad como variable moderadora (`res.modage`), y los los valores para los cuales quiero saber el coeficiente de correlación predicho (argumento `newmods`); en este ejemplo voy a usar "`seq(20, 80, by = 10)`", lo que produce la secuencia de números de 20 a 80, cada 10 (es decir: 20, 30, 40, 50, 60, 70, 80), que serán las edades para las cuales obtendré el coeficiente de correlación estimado por el modelo[^15].
+En este ejemplo, como argumentos de esta función incluiré el objeto que contiene el meta-análisis con la edad como variable moderadora (`res.modage`), y los los valores para los cuales quiero saber el coeficiente de correlación predicho (argumento `newmods`); en este ejemplo voy a usar "`seq(20, 80, by = 10)`", lo que produce la secuencia de números de 20 a 80, cada 10 (es decir: 20, 30, 40, 50, 60, 70, 80), que serán las edades para las cuales obtendré el coeficiente de correlación estimado por el modelo[^16].
 
-[^15]: Escogí edades entre 20 y 80 como referencia, pues están cerca al rango de valores de de las edades promedio de los estudios meta-analizados (`r min(dat$meanage)` a `r max(dat$meanage)`), y con edades cada 10 años, para obtener un número manejable pero informativo de predicciones.
+[^16]: Escogí edades entre 20 y 80 como referencia, pues están cerca al rango de valores de de las edades promedio de los estudios meta-analizados (`r min(dat$meanage)` a `r max(dat$meanage)`), y con edades cada 10 años, para obtener un número manejable pero informativo de predicciones.
 
-Adicionalmente, voy a convertir esta tabla a un objeto clase `data.frame` (usando la función `as.data.frame()`), crearé una nueva variable llamada `meanage` que contiene las edades para las cuales he calculado la predicción (`mutate(meanageage = seq(20, 80, by = 10))`[^16]), y reorganizado el orden de las columnas (`select(7, 1:6)`). Asignaré esta tabla a un objeto llamado `pred.res.modage`.
+Adicionalmente, voy a convertir esta tabla a un objeto clase `data.frame` (usando la función `as.data.frame()`), crearé una nueva variable llamada `meanage` que contiene las edades para las cuales he calculado la predicción (`mutate(meanageage = seq(20, 80, by = 10))`[^17]), y reorganizado el orden de las columnas (`select(7, 1:6)`). Asignaré esta tabla a un objeto llamado `pred.res.modage`.
 
-[^16]: Para agregar los valores de la variable moderadora para los cuales se hace la predicción, alternativamente se puede agregar el argumento `addx = TRUE` a la función `predict` (en este caso, por ejemplo, `predict(res.modage, newmods = seq(20, 80, by = 10), addx = TRUE)`). Sin embargo, para evitar crear columnas adicionales y tener una tabla en un formato más sencillo y claro, he decidido crear la columna `meanage` manualmente. Si usara el argumento `addx = TRUE`, crearía las columnas `X.intrcpt` con el intercepto, y `X.meanage`con los valores de `meanage`.
+[^17]: Para agregar los valores de la variable moderadora para los cuales se hace la predicción, alternativamente se puede agregar el argumento `addx = TRUE` a la función `predict` (en este caso, por ejemplo, `predict(res.modage, newmods = seq(20, 80, by = 10), addx = TRUE)`). Sin embargo, para evitar crear columnas adicionales y tener una tabla en un formato más sencillo y claro, he decidido crear la columna `meanage` manualmente. Si usara el argumento `addx = TRUE`, crearía las columnas `X.intrcpt` con el intercepto, y `X.meanage`con los valores de `meanage`.
 
 ```{r pred-mod1}
 # Calcular efecto ajustado para diferentes edades
@@ -1238,7 +1352,7 @@ Sin embargo, este efecto moderador de la edad \underline{no es significativo}, p
 
 Alternativamente, cuando tenemos un modelo con moderador, también podemos ver la asociación entre la variable moderadora, y el efecto de cada estudio meta-analizado, a modo de regresión. La función `regplot` hace precisamente esto (Fig. \@ref(fig:reg-plot1)).
 
-```{r reg-plot1, fig.height = 4.8, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{meanage}, edad promedio), que por supuesto coincide  con las predicciones del objeto `pred.res.modage` (Output 11, en la sección \\@ref(pred-mods)); la banda gris demilitada por líneas punteadas representa el intervalo de confianza del 95%."}
+```{r reg-plot1, fig.height = 4.8, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*). El tamaño de los puntos es proporcional al peso que recibieron los estudios en el meta-análisis (puntos más grandes para los estudios con más peso, pues tienen un tamaño de muestra mayor y con un menor error estimado). La línea negra representa el efecto previsto en función del predictor (en este caso \\texttt{meanage}, edad promedio), que por supuesto coincide  con las predicciones del objeto `pred.res.modage` (Output 16, en la sección \\@ref(pred-mods)); la banda gris demilitada por líneas punteadas representa el intervalo de confianza del 95%."}
 regplot(res.modage,
         ylab = "Coeficiente de correlación (z de Fisher)",
         xlab = "Edad promedio de muestra")
@@ -1246,9 +1360,9 @@ regplot(res.modage,
 
 ### *Forest plot* y *funnel plot* {#plot-mod}
 
-Por supuesto, de estos resultados también puedo crear *forest plots* y *funnel plots*, siguiendo los ejemplos y código de la sección \@ref(meta-cor). Para el *forest plot*, hago a continuación un ejemplo anotado y mejorado[^17] (Fig. \@ref(fig:for-plot-mod1), con un código similar al usado como ejemplo en la Fig. \@ref(fig:for-plot2)). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto *real* estimado como producto del meta-análisis.
+Por supuesto, de estos resultados también puedo crear *forest plots* y *funnel plots*, siguiendo los ejemplos y código de la sección \@ref(meta-cor). Para el *forest plot*, hago a continuación un ejemplo anotado y mejorado[^18] (Fig. \@ref(fig:for-plot-mod1), con un código similar al usado como ejemplo en la Fig. \@ref(fig:for-plot2)). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto *real* estimado como producto del meta-análisis.
 
-[^17]: La función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) no puede crear un *forest plot* de un meta-análisis ajustado con `metafor` cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, sólo podrá hacer el *forest plot* si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.
+[^18]: La función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) no puede crear un *forest plot* de un meta-análisis ajustado con `metafor` cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, sólo podrá hacer el *forest plot* si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.
 
 ```{r eval = FALSE}
 # forest plot con anotaciones adicionales
@@ -1372,7 +1486,7 @@ ggplot(dat, aes(x = controls, y = yi)) +
   # Combinar colores y tamaños de puntos en una sola leyenda
   guides(color = guide_legend(), size = guide_legend()) +
   # Traducir etiquetas del eje X en español
-  scale_x_discrete(labels=c("none" = "Ninguno", "multiple" = "Múltiples")) +
+  scale_x_discrete(labels = c("none" = "Ninguno", "multiple" = "Múltiples")) +
   # Cambiar títulos de ejes a español
   labs(x = "Controles", y = "Coeficiente de correlación (z de Fisher)") +
   # Agregar barras de error para cada categoría, con base en predicción hecha en sección 4.2.1
@@ -1384,11 +1498,11 @@ ggplot(dat, aes(x = controls, y = yi)) +
   labs(color = "Tamaño de \nmuestra", size = "Tamaño de \nmuestra") # "\n" para salto de línea
 ```
 
-El código anterior puede verse algo confuso para quien no haya usado `ggplot2` antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación[^18]. Este código produce la Figura \@ref(fig:reg-plot3).
+El código anterior puede verse algo confuso para quien no haya usado `ggplot2` antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación[^19]. Este código produce la Figura \@ref(fig:reg-plot3).
 
-[^18]: Debido a sus enormes y numerosas posibilidades, `ggplot2` es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía, y posiblemente requeriría múltiples tutoriales independientes. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este [tutorial](https://rpubs.com/anlope10/562981) [@lopezpenarandaTutorialGgplot22019] o ver este [video](https://youtu.be/BUzTAr_QqKs) [@datademiaAprendeGgplot22018]. 
+[^19]: Debido a sus enormes y numerosas posibilidades, `ggplot2` es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este [tutorial](https://rpubs.com/anlope10/562981) [@lopezpenarandaTutorialGgplot22019] o ver este [video](https://youtu.be/BUzTAr_QqKs) [@datademiaAprendeGgplot22018]. 
 
-```{r reg-plot3, fig.height =  2.5, fig.width = 3.5, echo = FALSE, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*) creado manualmente con [ggplot2](https://ggplot2.tidyverse.org/) para hacer una mejor representación de un moderador categírico. Los puntos de colores representan el coeficiente de correlación en función de la presencia o ausencia de controles. El tamaño de los puntos es proporcional al tamaño de muestra de los estudios inluidos en el meta-análisis (puntos más grandes y azules para los estudios con mayor tamaño de muestra). Los puntos blancos superpuetos representan el efecto estimado para cada categoría, y las barras de error representan los intervalos de confianza del 95%."}
+```{r reg-plot3, fig.height =  2.7, fig.width = 4.5, echo = FALSE, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*) creado manualmente con [ggplot2](https://ggplot2.tidyverse.org/) para hacer una mejor representación de un moderador categírico. Los puntos de colores representan el coeficiente de correlación en función de la presencia o ausencia de controles. El tamaño de los puntos es proporcional al tamaño de muestra de los estudios inluidos en el meta-análisis (puntos más grandes y azules para los estudios con mayor tamaño de muestra). Los puntos blancos superpuetos representan el efecto estimado para cada categoría, y las barras de error representan los intervalos de confianza del 95%."}
 ggplot(dat, aes(x = controls, y = yi)) +
   geom_point(aes(size = ni, color = ni),
              alpha = 0.5) +
@@ -1499,9 +1613,9 @@ Hacer un meta-análisis de correlación en R no es necesariamente complejo, pero
 
 ## Pasos para hacer tu meta-análisis
 
-Primero, debes tener hacer una selección de artículos buena y no sesgada[^19]. Esto mínimamente incluye:
+Primero, debes tener hacer una selección de artículos buena y no sesgada[^20]. Esto mínimamente incluye:
 
-[^19]: Para esto existen varias guías, e incluso la *Declaración PRISMA* que está diseñada para abordar los problemas en la publicación de revisiones sistemáticas y meta-análisis [para información en español, ver e.g., @huttonExtensionDeclaracionPRISMA2016; @pageDeclaracionPRISMA20202021].
+[^20]: Para esto existen varias guías, e incluso la *Declaración PRISMA* que está diseñada para abordar los problemas en la publicación de revisiones sistemáticas y meta-análisis [para información en español, ver e.g., @huttonExtensionDeclaracionPRISMA2016; @pageDeclaracionPRISMA20202021].
 
     A. Formular la pregunta de investigación clara, con base en teoría
 
@@ -1525,7 +1639,7 @@ Una vez tengas tu base de datos lista, deberías, cuando menos:
 
     1.1 Reportar información sobre heterogeneidad (sección \@ref(heterog-inf))
   
-    1.2 Hacer un diagnóstico de influencia (sección \@ref(diag-inf); incluir, si es posible y no tienes un número grande de estudios, un meta-análisis combinatorio, sección \@ref(gosh))
+    1.2 Hacer un diagnóstico de influencia (sección \@ref(diag-inf); incluir, si es posible y no tienes un número grande de estudios, un meta-análisis combinatorio, sección \@ref(gosh), e idealmente la identificación de estudios que contribuyen a los patrones de heterogeneidad a partir del *GOSH plot*, sección \@ref(fancy-gosh))
   
     1.3 Reportar los resultados usando un *forest plot* (diagrama de bosque; sección \@ref(forest-inf))
   
@@ -1553,32 +1667,28 @@ Mi objetivo con esta guía es inspirar a investigadores hispanohablantes, ya sea
 
 # Referencias {-}
 
-```{=latex}
-\footnotesize
 \begin{multicols}{2}
-```
-
-<div id="refs"></div>
-
-```{=latex}
+\AtNextBibliography{\footnotesize}
+\printbibliography[heading=none]
+\normalsize
 \end{multicols}
+
+\def\printbibliography{}
 \newpage
-```
 
 # APÉNDICES {.unnumbered}
 
 # (APPENDIX) Apéndice {-}  
 
-```{=latex}
 \opensupplement
-\normalsize
-```
 
 ## *Apéndice A.* Alternativas a `metafor` {.unnumbered #apendice-alt}
 
 A lo largo de ésta guía he usado una ruta para hacer meta-análisis que parte de objetos generados con el paquete `metafor`. Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro *Doing meta-analysis with R: a hands-on guide* [@harrer2021doing] se acompaña del paquete [`dmetar`](https://dmetar.protectlab.org/index.html) [@Harrer2019dmetar], que contiene y explica opciones para hacer meta-análisis tanto a partir de `metafor`, como a partir de `meta` [@BalduzziMeta2019; @schwarzerMetaAnalysis2015].
 
-Los objetos generados por `meta` al realizar un meta-análisis permiten hacer otros análisis como *risk of bias* (riesgo de sesgo), inferencia multi-modelo, detección de *outliers* (valores atípicos), y *p-curve* o curva de valores $p$ [@simonsohnPCurveEffectSize2014; @simonsohnPcurveWonYour2019], y permiten hacer gráficos distintos. Para una guía resumida y concreta (en inglés) de estas opciones, recomiendo ver el sitio web del paquete [`dmetar`](http://dmetar.protectlab.org/), y en especial la página [*Get Started*](https://dmetar.protectlab.org/articles/dmetar.html).
+Los objetos generados por `meta` al realizar un meta-análisis, permiten usar funciones de `dmetar` para hacer otros análisis como *risk of bias* (riesgo de sesgo), inferencia multi-modelo, detección de *outliers* (valores atípicos), y *p-curve* o curva de valores $p$ [e.g., @simonsohnPCurveEffectSize2014; @simonsohnPcurveWonYour2019], y permiten hacer gráficos distintos. 
+
+Para una guía resumida y concreta de estas opciones (en inglés), recomiendo ver el sitio web del paquete [`dmetar`](http://dmetar.protectlab.org/), y en especial la página [*Get Started*](https://dmetar.protectlab.org/articles/dmetar.html).
 
 ### *A1.* Ejemplo: curva de valores $p$ (*p-curve*) {.unnumbered #p-curve}
 
@@ -1591,7 +1701,7 @@ res.meta <- metacor(cor = yi, n = ni,
                     data = dat, sm = "ZCOR")
 ```
 
-El objeto resultante (`res.meta`) puede usarse directamente como argumento a la función `pcurve` del paquete [`dmetar`](http://dmetar.protectlab.org/), para obtener una gráfica con la curva de valores $p$ (*p-curve*). Es importante tener en cuenta que, al menos por ahora, `dmetar` debe instalarse desde GitHub tal como `metameta` (en este caso, con el comando `devtools::install_github("MathiasHarrer/dmetar")`).
+El objeto resultante (`res.meta`) puede usarse directamente como argumento a la función `pcurve` del paquete [`dmetar`](http://dmetar.protectlab.org/), para obtener una gráfica con la curva de valores $p$ (*p-curve*).
 
 ```{r eval = FALSE}
 library(dmetar)
@@ -1603,6 +1713,8 @@ knitr::include_graphics("images/pcurve.pdf")
 ```
 
 La función `pcurve` produce varios elementos relacionados la curva de valores $p$, incluyendo la Figura \@ref(fig:pcurve-plot) que resume éste análisis.
+
+Es importante tener en cuenta que, al menos por ahora, el paquete `dmetar` debe instalarse desde GitHub tal como `metameta` (en este caso, con el comando `devtools::install_github("MathiasHarrer/dmetar")`).
 
 ## *Apéndice B.* Citas y referencias de paquetes de R {.unnumbered #paquetes-cit}
 
