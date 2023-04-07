@@ -102,7 +102,7 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.5281/zenodo.5640182}{10.5281/zenodo.5640182}}} \lfoot{\footnotesize{Versión 1}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{csquotes} \usepackage[style=apa,backend=biber]{biblatex} \DeclareLanguageMapping{spanish}{spanish-apa} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{multicol} \usepackage{fontawesome5} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \newcommand{\opensupplement}{\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}} \newcommand{\closesupplement}{\setcounter{table}{0} \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{\arabic{figure}}}
+\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.XXXXXX}{10.XXXXXX}}} \lfoot{\footnotesize{Versión 1}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{csquotes} \usepackage[style=apa,backend=biber]{biblatex} \DeclareLanguageMapping{spanish}{spanish-apa} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{multicol} \usepackage{fontawesome5} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \newcommand{\opensupplement}{\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}} \newcommand{\closesupplement}{\setcounter{table}{0} \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{\arabic{figure}}}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -144,7 +144,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{05 abril, 2023}
+\date{07 abril, 2023}
 
 \begin{document}
 \maketitle
@@ -189,7 +189,7 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 
 \href{https://www.youtube.com/@InvestigacionAbierta}{\includegraphics{images/Logo-IA-Rectangulo.pdf}}
 
-\textbf{Conocimientos necesarios:} Esta guía asume (1) un manejo básico de R, (2) comprensión de correlaciones y regresiones, y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video} introductorio al meta-análisis en \emph{jamovi} \autocite{leongomezMetaanalysis2021} que publiqué en mi canal de YouTube \href{https://www.youtube.com/@InvestigacionAbierta}{\emph{Investigación Abierta}}.
+\textbf{Conocimientos necesarios:} Esta guía asume (1) un manejo básico de R, (2) comprensión de correlaciones y regresiones, y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video} introductorio al meta-análisis en \emph{jamovi} \autocite{leongomezMetaanalysis2021} publicado en mi canal de YouTube \href{https://www.youtube.com/@InvestigacionAbierta}{\emph{Investigación Abierta}}.
 
 \par
 \endgroup
@@ -198,7 +198,7 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 \textbf{Cita esta guía como } \hrulefill 
 
 \begin{hangparas}{.25in}{1}
-Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R: Guía práctica. \textit{Zenodo}. \url{https://doi.org/10.5281/zenodo.5640182}
+Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R: Guía práctica. \textit{MetaArXiv}. \url{https://doi.org/10.XXXXXX}
 \end{hangparas}
 \newpage
 
@@ -270,11 +270,11 @@ Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publi
 \hypertarget{motivaciuxf3n}{%
 \subsection{Motivación}\label{motivaciuxf3n}}
 
-Teniendo en cuenta la importancia de éstas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores curtidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
+Teniendo en cuenta la importancia de estas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores curtidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
 
 A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \ref{meta-cor}), incluyendo cómo hacer análisis de heterogeneidad (sección \ref{heterog-inf}) y diagnósticos de influencia (sección \ref{diag-inf}), creación de gráficos de bosque (\emph{forest plots}; sección \ref{forest-inf}) y gráficos de embudo (\emph{funnel plots}; sección \ref{funnel-inf}), así como estrategias para detectar posibles sesgos de publicación (secciones \ref{sesgo-pub} y \ref{todas-combinaciones}), y para determinar el poder estadístico de un meta-análisis (sección \ref{poder-inf}). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \ref{met-moderation}).
 
-Adicionalmente, he incluido algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \hyperlink{apendice-alt}{A}), incluyendo instrucciones para hacer una curva de valores \(p\) (\emph{p-curve}; Apéndice \hyperlink{p-curve}{A1}), así como la manera correcta de citar paquetes de R (Apéndice \hyperlink{paquetes-cit}{B}) y, con fines de garantizar la reproducibilidad de éste documento, una lista de los paquetes usados para la creación de ésta guía, con sus respectivas versiones (Apéndice \hyperlink{paquetes-list}{C}).
+Adicionalmente, he incluido algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \hyperlink{apendice-alt}{A}), incluyendo instrucciones para hacer una curva de valores \(p\) (\emph{p-curve}; Apéndice \hyperlink{p-curve}{A1}), así como la manera correcta de citar paquetes de R (Apéndice \hyperlink{paquetes-cit}{B}) y, con fines de garantizar la reproducibilidad de este documento, una lista de los paquetes usados para la creación de esta guía, con sus respectivas versiones (Apéndice \hyperlink{paquetes-list}{C}).
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -285,7 +285,7 @@ A lo largo de esta guía usaré la base de datos \texttt{dat.molloy2014}, tomada
 
 Básicamente, \textcite{molloy2013} estudiaron si existe una asociación entre la escrupulosidad (\emph{conscientiousness}\footnote{En el contexto de los rasgos de personalidad, la dimensión de la \emph{escrupulosidad} (también llamada conciencia o ``voluntad de logro''), se refiere al auto-control, incluyendo la planificación y ejecución de tareas. Para una definición detallada del concepto de escrupulosidad en este contexto, ver \textcite{johnBigFiveTrait1999}.}) y la adherencia a la medicación. En otras palabras, ¿las personas más \emph{escrupulosas} tienden a cumplir más con la medicación prescrita?
 
-Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: \texttt{metafor} \autocite{viechtbauer2010} y \texttt{metaviz} \autocite{KossmeierMetaviz} para hacer e ilustrar los resultados del meta-análisis, así como \texttt{dplyr} \autocite{WickhamDplyr2021}, \texttt{magrittr} \autocite{magrittrcite} y \texttt{forecats} \autocite{Wickhamforcats2022} para manipular y organizar la base de datos.
+Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: \texttt{metafor} \autocite{viechtbauer2010} y \texttt{metaviz} \autocite{KossmeierMetaviz} para hacer e ilustrar los resultados del meta-análisis, así como \texttt{dplyr} \autocite{WickhamDplyr2021}, \texttt{magrittr} \autocite{magrittrcite} y \texttt{forecats} \autocite{Wickhamforcats2022} para manipular y organizar la base de datos, y \texttt{ggplot2} \autocite{Wickhamggplot22016} para hacer algunas gráficas más adelante\footnote{Los paquetes \texttt{dplyr}, \texttt{magrittr}, \texttt{forecats} y \texttt{ggplot2} hacen parte de \href{https://www.tidyverse.org/}{\texttt{tidyverse}} \autocite{Wickhamtidyverse2019}, una colección de paquetes para ciencia de datos que comparten un mismo diseño y gramática. Por esto, en vez de cargar cada paquete independientemente, si instalas \texttt{tidyverse}, puedes cargar los paquetes de esta colección usando \texttt{library(tidyverse)}.}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -294,10 +294,11 @@ Primero, debemos cargar los principales paquetes que usaré a lo largo de esta g
 \FunctionTok{library}\NormalTok{(dplyr)}
 \FunctionTok{library}\NormalTok{(magrittr)}
 \FunctionTok{library}\NormalTok{(forcats)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
 \end{Highlighting}
 \end{Shaded}
 
-Como ya hemos cargado el paquete \texttt{metafor}, ya podemos cargar la base de datos \texttt{dat.molloy2014}. En éste caso, para poder \emph{llamarla} cuando sea necesario, la asignaré a un objeto que llamaré simplemente \texttt{dat}.
+Como ya hemos cargado el paquete \texttt{metafor}, ya podemos cargar la base de datos \texttt{dat.molloy2014}. En este caso, para poder \emph{llamarla} cuando sea necesario, la asignaré a un objeto que llamaré simplemente \texttt{dat}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -599,7 +600,7 @@ Esta parte nos provee varios resultados:
   \texttt{Signif.\ codes:\ 0\ ’***’\ 0.001\ ’**’\ 0.01\ ’*’\ 0.05\ ’.’\ 0.1\ ’\ ’\ 1}: Clave para interpretar los niveles de significación. Aunque puede parecer complejo, básicamente, quiere decir que tres asteriscos (\texttt{***}) representan un valor \emph{p} entre 0 y 0.001 (lo que comúnmente se representa como \emph{p} \textless{} .001); dos asteriscos (\texttt{**}) un valor \emph{p} entre 0.001 y 0.01 (\emph{p} \textless{} .01); un asterisco (\texttt{*}) un valor \emph{p} entre 0.01 y 0.05 (\emph{p} \textless{} .05); un punto (\texttt{.}) un valor \emph{p} entre 0.05 y 0.01 (\emph{p} \textless{} .1, que ya no es significativo); y si no hay ningún símbolo, un valor \emph{p} entre 0.1 y 1 (\emph{p} \textgreater{} .1, no significativo)
 \end{itemize}
 
-En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre escrupulosidad y adherencia a la medicación (coeficiente de correlación transformado en \emph{z} de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (\emph{Z} = 4.7501, \(p\) \textless{} .0001), y nos muestra el intervalo de confianza del 95\% (o IC 95\%); los intervalos de confianza (en este caso del 95\%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de éstas contendrían una asociación que estaría entre los límites inferior (\emph{z} = .0881) y superior (\emph{z} = .2118) de estos intervalos de confianza.
+En este caso, el meta-análisis nos sugiere que en efecto existe una asociación positiva entre escrupulosidad y adherencia a la medicación (coeficiente de correlación transformado en \emph{z} de Fisher = .1499), con un error estándar de 0.0316. Así mismo, sugiere que esa asociación es significativa (\emph{Z} = 4.7501, \(p\) \textless{} .0001), y nos muestra el intervalo de confianza del 95\% (o IC 95\%); los intervalos de confianza (en este caso del 95\%) lo que estiman es que, si hiciéramos 100 muestras independientes, 95 de estas contendrían una asociación que estaría entre los límites inferior (\emph{z} = .0881) y superior (\emph{z} = .2118) de estos intervalos de confianza.
 
 \hypertarget{reporte1}{%
 \subsubsection{Reporte del meta-análisis básico}\label{reporte1}}
@@ -707,7 +708,7 @@ De nuevo, recuerda que siempre es buena idea citar tablas y figuras relevantes j
 \hypertarget{diag-inf}{%
 \subsection{Diagnóstico de influencia}\label{diag-inf}}
 
-Otro aspecto importante de un meta-análisis, es determinar si alguno o algunos de los estudios meta-analizados es o son particularmente influyentes en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, éste último tendrá una influencia enorme en nuestro resultado. Sería preocupante que nuestro meta-análisis sea dependiente principalmente de un único estudio.}. Para esto, se suele usar la técnica conocida como \emph{leave-one-out}, que se refiere al resultado del meta-análisis cuando se excluye cada estudio; al estimar cómo y cuánto cambia el resultado del modelo de meta-análisis al excluir cada estudio, podemos estimar su influencia en el resultado. Dicho de otra manera, si al excluir un estudio el resultado cambia mucho, sabemos que ese estudio tiene gran influencia en el meta-análisis y sería mejor excluirlo.
+Otro aspecto importante de un meta-análisis, es determinar si alguno o algunos de los estudios meta-analizados es o son particularmente influyentes en nuestro resultado\footnote{Por ejemplo, si estuviésemos meta-analizando 20 estudios, de los cuales 19 tienen un \emph{n} de 100, pero el otro tiene un \emph{n} de 10.000, este último tendrá una influencia enorme en nuestro resultado. Sería preocupante que nuestro meta-análisis sea dependiente principalmente de un único estudio.}. Para esto, se suele usar la técnica conocida como \emph{leave-one-out}, que se refiere al resultado del meta-análisis cuando se excluye cada estudio; al estimar cómo y cuánto cambia el resultado del modelo de meta-análisis al excluir cada estudio, podemos estimar su influencia en el resultado. Dicho de otra manera, si al excluir un estudio el resultado cambia mucho, sabemos que ese estudio tiene gran influencia en el meta-análisis y sería mejor excluirlo.
 
 Para hacer un análisis de influencia, podemos usar la función \texttt{influence} del paquete \texttt{metafor}, cuyo resultado, en este caso, asignaré a un objeto llamado \texttt{inf.res}.
 
@@ -778,7 +779,7 @@ Las columnas que incluye son:
 
 Aunque hay mucha información, lo más importante ahora es mirar la última columna, llamada \texttt{inf}. Si ahí aparecieran asteriscos para algún estudio meta-analizado (que no es nuestro caso), sugeriría que ese estudio es particularmente influyente y podría ser necesario eliminarlo del meta-análisis.
 
-Por último, podemos también ver ésta información que tenemos guardada en el objeto \texttt{inf.res}, de manera gráfica, usando la función \texttt{plot} (Fig. \ref{fig:infplot}).
+Por último, podemos también ver esta información que tenemos guardada en el objeto \texttt{inf.res}, de manera gráfica, usando la función \texttt{plot} (Fig. \ref{fig:infplot}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -789,7 +790,7 @@ Por último, podemos también ver ésta información que tenemos guardada en el 
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/infplot-1.pdf}
-\caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje \emph{X} representan cada estudio, como lo definimos en columna \texttt{study\_id} de la Tabla \ref{tab:estructuramod}. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo éste análisis sugiere que no es necesario excluir ningún estudio de nuestro meta-análisis.}
+\caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje \emph{X} representan cada estudio, como lo definimos en columna \texttt{study\_id} de la Tabla \ref{tab:estructuramod}. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo este análisis sugiere que no es necesario excluir ningún estudio de nuestro meta-análisis.}
 \end{figure}
 
 Más adelante, en la sección \ref{todas-combinaciones}, daré más información y técnicas más completas para identificar estudios atípicos que podrían sesgar nuestra estimación del efecto \emph{real}.
@@ -955,7 +956,7 @@ De nuevo, para una versión más sofisticada, se puede usar el paquete \href{htt
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/funnel-plot2-1.pdf}
-\caption{\label{fig:funnel-plot2}\emph{Funnel plot} creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5\% (i.e.~\(p\) \textless{} 0.05), y fuera de ésta, donde tendrían un efecto significativo al 1\% (i.e.~\(p\) \textless{} 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger.}
+\caption{\label{fig:funnel-plot2}\emph{Funnel plot} creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz}. En azul, se representa el área donde estudios, según su error (y su tamaño de muestra), tendrían un efecto significativo al 5\% (i.e.~\(p\) \textless{} 0.05), y fuera de esta, donde tendrían un efecto significativo al 1\% (i.e.~\(p\) \textless{} 0.01). La línea negra vertical representa el efecto meta-analizado, y el triángulo a partir de su inicio, el área donde se ubican los estudios que no se diferencian significativamente del resultado del meta-análisis. La línea roja punteada, representa la regresión de Egger.}
 \end{figure}
 
 Alternativamente, el paquete \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} tiene la función \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html\#sunset-power-enhanced-funnel-plots}{\texttt{viz\_sunset}}, que permite además mostrar el poder estadístico (o potencia) de los estudios meta-analizados para detectar un efecto de interés mediante una prueba de Wald de dos colas. De ser necesario, para entender las bases del poder estadístico, recomiendo ver \href{https://youtube.com/playlist?list\%20=\%20PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}{esta serie de videos} \autocite{leongomezPoderRvid2020} y/o, para mayor profundidad, leer \href{https://doi.org/10.5281/zenodo.3988776}{esta guía} \autocite{leongomezAnalisisPoderEstadistico2020} que publiqué anteriormente.
@@ -1117,7 +1118,7 @@ Si quieres profundizar en el método de recorte y relleno (\emph{trim and fill})
 \hypertarget{vevea-hedges}{%
 \subsubsection{Modelo de función de peso de Vevea y Hedges}\label{vevea-hedges}}
 
-El modelo de función de peso de Vevea y Hedges \autocites*{veveaGeneralLinearModel1995}[ver también][]{veveaPublicationBiasResearch2005} es uno de los modelos se selección (en inglés, \emph{selection models}) más conocidos\footnote{El otro modelo de selección muy conocido, es el modelo de Copas y Shi \autocite*{copasMetaanalysisFunnelPlots2000,copasSensitivityAnalysisPublication2001}. Aunque no lo incluyo en ésta guía, es importante mencionar que hay evidencia que muestra que es preferible a métodos como el de \emph{trim and fill} \autocite{schwarzerEmpiricalEvaluationSuggests2010}. En R, éste método se puede implementar con la función \texttt{copas} del paquete \texttt{metasens} \autocites{schwarzerMetasensPackage}[ver también Capítulo 5 en][]{schwarzerMetaAnalysis2015}.}.
+El modelo de función de peso de Vevea y Hedges \autocites*{veveaGeneralLinearModel1995}[ver también][]{veveaPublicationBiasResearch2005} es uno de los modelos se selección (en inglés, \emph{selection models}) más conocidos\footnote{El otro modelo de selección muy conocido, es el modelo de Copas y Shi \autocite*{copasMetaanalysisFunnelPlots2000,copasSensitivityAnalysisPublication2001}. Aunque no lo incluyo en esta guía, es importante mencionar que hay evidencia que muestra que es preferible a métodos como el de \emph{trim and fill} \autocite{schwarzerEmpiricalEvaluationSuggests2010}. En R, este método se puede implementar con la función \texttt{copas} del paquete \texttt{metasens} \autocites{schwarzerMetasensPackage}[ver también Capítulo 5 en][]{schwarzerMetaAnalysis2015}.}.
 
 Los modelos de selección intentan describir el mecanismo de supresión del efecto y combinarlo con un modelo de tamaño del efecto que describa la distribución de los efectos en ausencia de sesgo de publicación.
 
@@ -1189,9 +1190,9 @@ Pero lo más importante, es que en la segunda parte (el modelo ajustado) los res
 
 Esta técnica, a diferencia del método \emph{trim and fill} no ``recorta'' ni ``rellena'' estudios, por lo que el análisis se hace con el mismo número de estudios (en este caso, 16; por eso en encabezado dice \texttt{Adjusted\ Model\ (k\ =\ 16)}).
 
-Sin embargo, la función \texttt{weightfunct} incrementa el peso de estudios que tienen menos probabilidad de ser publicados (típicamente resultados no significativos), y reduce el peso de estudios con mayor probabilidad de ser publicados (los que encuentran resultados más extremos). Por esto, al usar ésta técnica, estás asumiendo que, de hecho, en el efecto que tratas de encontrar en tu meta-análisis hay un sesgo de publicación, lo que a menudo es una suposición bastante apropiada.
+Sin embargo, la función \texttt{weightfunct} incrementa el peso de estudios que tienen menos probabilidad de ser publicados (típicamente resultados no significativos), y reduce el peso de estudios con mayor probabilidad de ser publicados (los que encuentran resultados más extremos). Por esto, al usar esta técnica, estás asumiendo que, de hecho, en el efecto que tratas de encontrar en tu meta-análisis hay un sesgo de publicación, lo que a menudo es una suposición bastante apropiada.
 
-Al usar ésta técnica, tenemos un resultado bastante distinto. Mientras que el meta-análisis original nos daba como resultado un efecto de \textasciitilde0.15, esta técnica nos estima un efecto de \textasciitilde0.09. Ha \emph{encogido} nuestro tamaño de efecto, asumiendo que nuestro resultado original estaba sesgado.
+Al usar esta técnica, tenemos un resultado bastante distinto. Mientras que el meta-análisis original nos daba como resultado un efecto de \textasciitilde0.15, esta técnica nos estima un efecto de \textasciitilde0.09. Ha \emph{encogido} nuestro tamaño de efecto, asumiendo que nuestro resultado original estaba sesgado.
 
 Al final, está el \emph{Likelihood ratio test} (en español, ``Prueba de la razón de verosimilitud''), que evalúa la bondad del ajuste de dos modelos estadísticos que compiten entre sí, con base en la relación de su verosimilitud\footnote{Aunque no voy a entrar en detalles respecto a técnicas de inferencia estadística basadas en verosimilitud, si quieres conocer más acerca de estos métodos, así como de estadística Bayesiana (que tiene mucho que ver con verosimilitud) y frecuentista (la que solemos usar, que hace inferencia a partir de valores \(p\)), con énfasis en las fortalezas y limitaciones de cada enfoque, recomiendo encarecidamente el libro \emph{``Improving Your Statistical Inferences''} de Daniël Lakens \autocite*{lakensImprovingYourStatistical2022}. Este libro, completamente gratuito y abierto, integra además los contenidos de dos cursos gratuitos del mismo autor (\emph{``\href{https://www.coursera.org/learn/statistical-inferences}{Improving Your Statistical Inferences}''} y \emph{``\href{https://www.coursera.org/learn/improving-statistical-questions}{Improving Your Statistical Questions}''}), que también recomiendo hacer a cualquier persona que quiera dedicarse a hacer investigación y use técnicas estadísticas.}. En este caso, comparando el modelo original, con este modelo con pesos ajustados.
 
@@ -1203,7 +1204,7 @@ Este resultado nos da una tendencia no descartable (\texttt{p-val\ =\ 0.084043};
 En esta sección explicaré cómo hacer un análisis de poder de un meta-análisis.
 Como mencioné anteriormente, de ser necesario, para entender las bases del poder estadístico, recomiendo ver \href{https://youtube.com/playlist?list\%20=\%20PLHk7UNt35ccVdyHqnQ6oXVYA6JBNFrE1x}{esta serie de videos} \autocite{leongomezPoderRvid2020} y/o, para mayor profundidad, leer \href{https://doi.org/10.5281/zenodo.3988776}{esta guía} \autocite{leongomezAnalisisPoderEstadistico2020} que publiqué anteriormente.
 
-La idea de ésto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto \emph{real} estimado mediante nuestro análisis (en nuestro caso \emph{z} = 0.15 para el meta-análisis original ``\texttt{res}'', o \emph{z} = 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}'').
+La idea de esto es saber si nuestro meta-análisis tiene un poder suficiente para detectar el efecto \emph{real} estimado mediante nuestro análisis (en nuestro caso \emph{z} = 0.15 para el meta-análisis original ``\texttt{res}'', o \emph{z} = 0.09 el meta-análisis con pesos ajustados ``\texttt{wf}'').
 
 Para este ejemplo, asumiré que el efecto \emph{real} es el estimado en nuestro análisis original (\emph{z} = 0.15), pues este efecto es mayor. Si no tuviésemos el poder suficiente para detectar confiablemente ese efecto, menos lo tendríamos para un efecto menor, como el detectado en nuestro meta-análisis con pesos ajustados.
 
@@ -1260,7 +1261,7 @@ La función \texttt{mapower\_ul} requiere que asignemos la base de datos (\textt
 \end{Highlighting}
 \end{Shaded}
 
-Como veremos a continuación, éste objeto tiene varios elementos muy importantes.
+Como veremos a continuación, este objeto tiene varios elementos muy importantes.
 
 \hypertarget{poder-mediano}{%
 \paragraph{Poder mediano del meta-análisis para diferentes tamaños de efecto.}\label{poder-mediano}}
@@ -1432,7 +1433,7 @@ En este caso asigné el \emph{fireplot} resultante a un objeto, para poder modif
 \caption{\label{fig:fire-plot1}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis. \emph{Observed} hace referencia al tamaño de efecto observado en nuestro meta-análisis original; en este caso, 0.15.}
 \end{figure}
 
-El objeto \texttt{poder.plot} contiene dos elementos: los datos (\texttt{\$dat}) y la gráfica propiamente dicha (\texttt{\$fp\_plot}). Éste último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto'', el título de la leyenda a ``Poder'', y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.}. Por ejemplo:
+El objeto \texttt{poder.plot} contiene dos elementos: los datos (\texttt{\$dat}) y la gráfica propiamente dicha (\texttt{\$fp\_plot}). Este último elemento es de clase \texttt{ggplot}, por lo que podemos usar funciones de \texttt{ggplot2} para cambiar, por ejemplo, el título del eje \(X\) a ``Tamaño de efecto'', el título de la leyenda a ``Poder'', y el efecto observado de ``\emph{Observed}'' a ``Observado''\footnote{Para cambiar el título del eje \(X\) usé la función \texttt{xlab}; para el título de la leyenda la función \texttt{guides} (opción \texttt{fill\ =\ guide\_legend}); y para los valores del eje \(X\), la función \texttt{scale\_x\_discrete}\}.}. Por ejemplo:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2028,7 +2029,7 @@ Aunque estoy siendo extremadamente exhaustivo en la manera de reportar toda la i
 \hypertarget{ejemplo-2-moderaciuxf3n-de-una-variable-categuxf3rica-controles-usados-en-cada-estudio-meta-analizado}{%
 \subsection{Ejemplo 2: Moderación de una variable categórica (controles usados en cada estudio meta-analizado)}\label{ejemplo-2-moderaciuxf3n-de-una-variable-categuxf3rica-controles-usados-en-cada-estudio-meta-analizado}}
 
-Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre escrupulosidad (\emph{conscientiousness}) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer éste análisis, pero voy a asignar este meta-análisis a un objeto llamado \texttt{res.contr}.
+Como segundo ejemplo, voy a mirar si el hecho de que los estudios tengan variables que fueron controladas, modera la asociación entre escrupulosidad (\emph{conscientiousness}) y adherencia a la medicación prescrita. Siguiendo los mismos pasos, voy hacer este análisis, pero voy a asignar este meta-análisis a un objeto llamado \texttt{res.contr}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2066,7 +2067,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
                 \end{footnotesize}
                 \end{ROut}
 
-En éste caso, a diferencia del ejemplo de moderación anteriores, la variable moderadora (\texttt{controls}) sí tiene un efecto significativo, como se puede ver en el ``\texttt{Test\ of\ Moderators\ (coefficient\ 2)}'' y en la columna \texttt{pval} para el efecto de \texttt{controlsmultiple} (\textless.0001), sí como en los asteriscos que aparecen al final de esa fila (\texttt{***}).
+En este caso, a diferencia del ejemplo de moderación anteriores, la variable moderadora (\texttt{controls}) sí tiene un efecto significativo, como se puede ver en el ``\texttt{Test\ of\ Moderators\ (coefficient\ 2)}'' y en la columna \texttt{pval} para el efecto de \texttt{controlsmultiple} (\textless.0001), sí como en los asteriscos que aparecen al final de esa fila (\texttt{***}).
 
 De nuevo, en la tabla de \texttt{Model\ results} los estimados (columna \texttt{estimate}) se pueden leer tal cual como si fueran una regresión. Sin embargo es importante tener en cuenta que, dado que nuestra variable moderadora es categórica, el intercepto acá será en valor estimado de la correlación para el primer nivel (o categoría) de nuestra variable moderadora. Si recuerdas, como se explica en la sección \ref{variables-inf} la variable que estamos usando como moderadora, \texttt{controls} contiene información de si cada estudio no controló ninguna variable (\texttt{none}), o controló múltiples variables (\texttt{multiple}). Es decir, es una variable categórica con 2 niveles (\texttt{none}, \texttt{multiple}).
 
@@ -2117,7 +2118,7 @@ Al igual que en el ejemplo de meta-análisis con moderación de una variable con
 
 Aunque la Figura \ref{fig:reg-plot2} presenta información correcta, tal vez no es la más adecuada ni la más clara cuando se trata de representar meta-análisis con moderadores categóricos. Por ejemplo, a pesar de que nuestro moderador es un factor (controles) con dos niveles (ninguno, múltiples), en el eje \(X\) se representa como una variable continua con valores entre 0 y 1, que además tiene valores intermedios (0.2, 2.4, 0.6, 0.8) que en nuestro caso no tienen sentido.
 
-Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versión más adecuada usando, por ejemplo, \texttt{ggplot2}. El código siguiente permite crear una figura mucho más adecuada usando éste paquete.
+Sin embargo, de manera un poco más \emph{artesanal}, es posible crear una versión más adecuada usando, por ejemplo, \texttt{ggplot2}. El código siguiente permite crear una figura mucho más adecuada usando este paquete.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2342,7 +2343,7 @@ Mi objetivo con esta guía es inspirar a investigadores hispanohablantes, ya sea
 \subsection*{\texorpdfstring{\emph{Apéndice A.} Alternativas a \texttt{metafor}}{Apéndice A. Alternativas a metafor}}\label{apendice-alt}}
 \addcontentsline{toc}{subsection}{\emph{Apéndice A.} Alternativas a \texttt{metafor}}
 
-A lo largo de ésta guía he usado una ruta para hacer meta-análisis que parte de objetos generados con el paquete \texttt{metafor}. Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro \emph{Doing meta-analysis with R: a hands-on guide} \autocite{harrer2021doing} se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} \autocite{Harrer2019dmetar}, que contiene y explica opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de \texttt{meta} \autocite{BalduzziMeta2019,schwarzerMetaAnalysis2015}.
+A lo largo de esta guía he usado una ruta para hacer meta-análisis que parte de objetos generados con el paquete \texttt{metafor}. Sin embargo, existen rutas alternativas para realizar meta-análisis en R. El libro \emph{Doing meta-analysis with R: a hands-on guide} \autocite{harrer2021doing} se acompaña del paquete \href{https://dmetar.protectlab.org/index.html}{\texttt{dmetar}} \autocite{Harrer2019dmetar}, que contiene y explica opciones para hacer meta-análisis tanto a partir de \texttt{metafor}, como a partir de \texttt{meta} \autocite{BalduzziMeta2019,schwarzerMetaAnalysis2015}.
 
 Los objetos generados por \texttt{meta} al realizar un meta-análisis, permiten usar funciones de \texttt{dmetar} para hacer otros análisis como \emph{risk of bias} (riesgo de sesgo), inferencia multi-modelo, detección de \emph{outliers} (valores atípicos), y \emph{p-curve} o curva de valores \(p\) \autocites[e.g.,][]{simonsohnPCurveEffectSize2014,simonsohnPcurveWonYour2019}, y permiten hacer gráficos distintos.
 
@@ -2381,7 +2382,7 @@ El objeto resultante (\texttt{res.meta}) puede usarse directamente como argument
 \caption{Curva de valores $p$ (\textit{p-curve}) creada con \href{http://dmetar.protectlab.org/}{\texttt{dmetar}}. Para una entender una curva de valores $p$, su relevancia y su interpretación, sugiero leer Simonsohn et al. (2019, 2014), o ver el sitio web del paquete \texttt{dmetar}: \href{http://dmetar.protectlab.org/}{http://dmetar.protectlab.org/}.}\label{fig:pcurve-plot}
 \end{figure}
 
-La función \texttt{pcurve} produce varios elementos relacionados la curva de valores \(p\), incluyendo la Figura \ref{fig:pcurve-plot} que resume éste análisis.
+La función \texttt{pcurve} produce varios elementos relacionados la curva de valores \(p\), incluyendo la Figura \ref{fig:pcurve-plot} que resume este análisis.
 
 Es importante tener en cuenta que, al menos por ahora, el paquete \texttt{dmetar} debe instalarse desde GitHub tal como \texttt{metameta} (en este caso, con el comando \texttt{devtools::install\_github("MathiasHarrer/dmetar")}).
 
@@ -2391,7 +2392,7 @@ Es importante tener en cuenta que, al menos por ahora, el paquete \texttt{dmetar
 
 Por supuesto, los paquetes de R que usemos deben ser citados. Una manera fácil de encontrar la cita que los autores de un paquete quieren que usemos, es la función \texttt{citation} en R. Simplemente debemos usar esta función, agregando como argumento el nombre del paquete que queremos citar entre comillas. Esto nos dará la referencia en un formato estándar, así como como en un formato \texttt{BibTex} que puede ser usado en documentos \LaTeX, o por muchos gestores de referencia como \href{https://www.zotero.org/}{Zotero}. Alternativamente, el formato formato \texttt{BibTex} nos permite saber los campos como autores, título y demás, si vamos a crear las citas y referencias manualmente, o incluso crear referencias en diversos estilos usando, por ejemplo, \href{https://asouqi.github.io/bibtex-converter/}{Online Bibtex Converter}.
 
-Como ejemplo, en ésta guía usé \texttt{dplyr} \autocite{WickhamDplyr2021} para manipular los datos. Usando la función \texttt{citation}:
+Como ejemplo, en esta guía usé \texttt{dplyr} \autocite{WickhamDplyr2021} para manipular los datos. Usando la función \texttt{citation}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
