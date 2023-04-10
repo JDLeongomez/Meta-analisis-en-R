@@ -24,6 +24,7 @@ header-includes:
   \usepackage{setspace}
   \usepackage{float} 
   \floatplacement{figure}{H}
+  \usepackage[T1]{fontenc} 
   \usepackage[utf8]{inputenc}
   \usepackage{fancyhdr}
   \pagestyle{fancy}
@@ -130,7 +131,7 @@ library(scales)
 \rightskip\leftskip
 ```
 
-El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo estudiantes, profesionales e investigadores carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una variedad de herramientas para realizar meta-análisis de correlaciones en R, mediante el uso de ejemplos reales. Incluye desde análisis simples y su interpretación, hasta el análisis de moderadores (meta-regresión), usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. También incluye explicaciones para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa), creación de gráficos de bosque (*forest plots*) y gráficos de embudo (*funnel plots*), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], y para determinar el poder estadístico de un meta-análisis utilizando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022]. Con esta guía, los lectores podrán adquirir las habilidades necesarias para realizar meta-análisis de correlaciones de manera efectiva en R y obtener resultados confiables.
+El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo estudiantes, profesionales e investigadores a menudo carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una variedad de herramientas para realizar meta-análisis de correlaciones en R, mediante el uso de ejemplos reales. Incluye desde análisis simples y su interpretación, hasta el análisis de moderadores (meta-regresión), usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. También incluye explicaciones para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa), creación de gráficos de bosque (*forest plots*) y gráficos de embudo (*funnel plots*), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], y para determinar el poder estadístico de un meta-análisis utilizando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022]. Con esta guía, los lectores podrán adquirir las habilidades necesarias para realizar meta-análisis de correlaciones de manera efectiva en R y obtener resultados confiables.
 
 ```{=latex}
 \par
@@ -143,9 +144,11 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 \footnotesize
 ```
 
-[![Investigación Abierta](images%5CLogo-IA-Rectangulo.pdf)](https://www.youtube.com/@InvestigacionAbierta)
+[![Investigación Abierta](images%5CLogo-IA-Rectangulo.pdf){width=600px}](https://www.youtube.com/@InvestigacionAbierta)
 
 **Conocimientos necesarios:** Esta guía asume (1) un manejo básico de R, (2) comprensión de correlaciones y regresiones, y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver [este video](https://youtu.be/ntBbkOn9D_o) introductorio al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] publicado en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/@InvestigacionAbierta).
+
+**Versión de R:** Para poder correr el código tal cual aparece en esta guía, en se requiere R versión 4.1 o superior, pues he usado el *pipe* nativo de R (`|>`). En versiones anteriores de R, el *pipe* nativo puede ser reemplazado por el pipe de `magrittr` (`%>%`), cargando ese paquete [@magrittrcite]. Para más información, puedes ver la sección [11.1.5](https://datanalytics.com/libro_r/1100_programacion.html#tuber%C3%ADas-pipes) de @gil2023.
 
 ```{=latex}
 \par
@@ -177,13 +180,13 @@ Por ejemplo mira la simulación a continuación (Fig. \@ref(fig:efecto)). En el 
 knitr::include_graphics("images/sim_estabilidad.pdf")
 ```
 
-Ahora imagina que tú quieres establecer esa correlación real ($r$ = 0.25), pero no la conoces, y no tienes acceso a la población completa de 6095 elementos. Tu mejor apuesta es tomar una muestra aleatoria, que en principio tendería a darte un resultado *similar* al real. En el panel **B** hay 25 muestra aleatorias de esos 6095 elementos, y en cada una se reporta tanto en tamaño de la muestra (*n*, que va desde una muestra muy pequeña de apenas 14 observaciones, hasta una muy respetable de 493), como la correlación encontrada en esa muestra (*r*, que va desde 0.10 hasta 0.46). 
+Ahora imagina que tú quieres establecer esa correlación real ($r$ = 0.25), pero no la conoces, y no tienes acceso a la población completa de 6095 elementos. Tu mejor apuesta es tomar una muestra aleatoria, que en principio tendería a darte un resultado *similar* al real. En el panel **B** hay 25 muestras aleatorias de esos 6095 elementos, y en cada una se reporta tanto el tamaño de la muestra (*n*, que va desde una muestra muy pequeña de apenas 14 observaciones, hasta una muy respetable de 493), como la correlación encontrada en esa muestra (*r*, que va desde 0.10 hasta 0.46). 
 
-Entre las 25 muestra aleatorias de nuestra población (Fig. \@ref(fig:efecto)B), hay varias que encuentran una correlación similar a la real (que, como es simulada, sabemos que es exactamente de $r$ = 0.25), pero hay otras que se alejan bastante. Analiza detalladamente esos resultados y trata de ver si las que más de alejan (estando por debajo o por encima de 0.25), tienen algo en común.
+Entre las 25 muestras aleatorias de nuestra población (Fig. \@ref(fig:efecto)B), hay varias que encuentran una correlación similar a la real (que, como es simulada, sabemos que es exactamente de $r$ = 0.25), pero hay otras que se alejan bastante. Analiza detalladamente esos resultados y trata de ver si las que más se alejan (estando por debajo o por encima de 0.25), tienen algo en común.
 
-Si miras con cuidado, verás algo claro: las muestras más grandes tienden a encontrar resultados similares al de nuestra población simulada ($r$ = 0.25). Sin embargo, las muestra pequeñas son menos confiables: aunque algunas muestras pequeñas encuentran correlaciones muy cercanas a la real, otras se alejan mucho. Para ilustrar esto, voy a graficar la correlación encontrada en cada muestra, y cómo se asocia con su tamaño de muestra (Fig. \@ref(fig:dist-sim)).
+Si miras con cuidado, verás algo claro: las muestras más grandes tienden a encontrar resultados similares al de nuestra población simulada ($r$ = 0.25). Sin embargo, las muestras pequeñas son menos confiables: aunque algunas muestras pequeñas encuentran correlaciones muy cercanas a la real, otras se alejan mucho. Para ilustrar esto, voy a graficar la correlación encontrada en cada muestra, y cómo se asocia con su tamaño de muestra (Fig. \@ref(fig:dist-sim)).
 
-```{r dist-sim, echo = FALSE, fig.align = "center", fig.cap = "Relación entre el efecto encontrado (eje $X$) y el tamaño de muestra (eje $Y$) en 25 muestras aleatorias de una población simulada donde la correlación entre las variables es de $r$ = 0.25. Mientras que las muestras grandes (arriba) son confiables y tienden a encontrar resultados similares al del efeto real, muestras pequeñas (abajo)son menos confiables y puyeden producir estimaciones del efecto que se alejan mucho del real."}
+```{r dist-sim, echo = FALSE, fig.align = "center", fig.cap = "Relación entre el efecto encontrado (eje $X$) y el tamaño de muestra (eje $Y$) en 25 muestras aleatorias de una población simulada donde la correlación entre las variables es de $r$ = 0.25. Mientras que las muestras grandes (arriba) son confiables y tienden a encontrar resultados similares al del efeto real, muestras pequeñas (abajo) son menos confiables y pueden producir estimaciones del efecto que se alejan mucho del real."}
 knitr::include_graphics("images/dist-sim.pdf")
 ```
 
@@ -195,7 +198,7 @@ Una herramienta útil para abordar este problema es el meta-análisis, que es un
 
 El meta-análisis se puede entender como una especie *promediación* de los efectos encontrados en diversos estudios, dando mayor peso a estudios que tienen más credibilidad (es decir, mayor probabilidad de mostrar un resultado cercano a la verdad). ¿Cómo se hace esto? Como se ve en la Figura \@ref(fig:dist-sim), el tamaño de una muestra afecta la confiabilidad de un resultado. 
 
-Para decirlo de manera más técnica, el tamaño de muestra afecta el poder estadístico así como el error en la estimación del efecto [@leongomezPoderRvid2020; @leongomezAnalisisPoderEstadistico2020]; entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen y por tanto son más confiables). Por esto, podemos usar estas medidas como indicadores de la credibilidad del efecto encontrado por un estudio.
+Para decirlo de manera más técnica, el tamaño de la muestra afecta el poder estadístico así como el error en la estimación del efecto [@leongomezPoderRvid2020; @leongomezAnalisisPoderEstadistico2020]; entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen y por tanto son más confiables). Por esto, podemos usar estas medidas como indicadores de la credibilidad del efecto encontrado por un estudio.
 
 ## Sesgos de publicación
 
@@ -203,7 +206,7 @@ Sin embargo, además de las diferencias que pueda tener cada estudio debido a la
 
 Los sesgos de publicación son una amenaza importante para la integridad de la investigación científica. Se refieren a la tendencia de los investigadores y editores de revistas a no publicar estudios que no encuentran un efecto significativo o que muestran resultados contrarios a las hipótesis de sus autores. Estos sesgos pueden afectar a todas las áreas de la investigación, pasando por ejemplo por la medicina, la psicología y la biología [e.g., @baker500ScientistsLift2016; @kleinManyLabsInvestigating2018]. 
 
-Como resultado, los estudios publicados pueden no ser representativos de la verdadera relación entre las variables que se están investigando, lo que puede llevar a conclusiones erróneas y a decisiones equivocadas, incluyendo áreas tan críticas como la práctica clínica y la toma de decisiones políticas, por ejemplo.
+Como resultado, los estudios publicados pueden no ser representativos de la verdadera relación entre las variables que se están investigando, lo que puede llevar a conclusiones erróneas y a decisiones equivocadas, incluyendo áreas tan críticas como la práctica clínica y la toma de decisiones políticas, entre otras.
 
 Imagina, por ejemplo, que frente a un efecto estudiado se publicaron preferentemente estudios que encontraron una correlación positiva y significativa, mientras que otros estudios —que no encontraron una correlación o encontraron una correlación negativa—  tendieron a no ser publicados por los autores, o a ser rechazados por editores. Al hacer un meta-análisis de los estudios publicados, nuestra estimación del efecto *real* estaría sesgada, sobre-estimando el efecto (Fig. \@ref(fig:teoria-meta)).
 
@@ -215,7 +218,7 @@ Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publi
 
 ## Motivación
 
-Teniendo en cuenta la importancia de estas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores curtidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
+Teniendo en cuenta la importancia de estas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores establecidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
 
 A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \@ref(meta-cor)), incluyendo cómo hacer análisis de heterogeneidad (sección \@ref(heterog-inf)) y diagnósticos de influencia (sección \@ref(diag-inf)), creación de gráficos de bosque (*forest plots*; sección \@ref(forest-inf)) y gráficos de embudo (*funnel plots*; sección \@ref(funnel-inf)), así como estrategias para detectar posibles sesgos de publicación (secciones \@ref(sesgo-pub) y \@ref(todas-combinaciones)), y para determinar el poder estadístico de un meta-análisis (sección \@ref(poder-inf)). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \@ref(met-moderation)). 
 
@@ -231,15 +234,14 @@ Básicamente, @molloy2013 estudiaron si existe una asociación entre la escrupul
 
 [^1]: En el contexto de los rasgos de personalidad, la dimensión de la *escrupulosidad* (también llamada conciencia o "voluntad de logro"), se refiere al auto-control, incluyendo la planificación y ejecución de tareas. Para una definición detallada del concepto de escrupulosidad en este contexto, ver @johnBigFiveTrait1999.
 
-Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: `metafor` [@viechtbauer2010] y `metaviz` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `dplyr` [@WickhamDplyr2021], `magrittr` [@magrittrcite] y `forecats` [@Wickhamforcats2022] para manipular y organizar la base de datos, y `ggplot2` [@Wickhamggplot22016] para hacer algunas gráficas más adelante[^2].
+Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: `metafor` [@viechtbauer2010] y `metaviz` [@KossmeierMetaviz] para hacer e ilustrar los resultados del meta-análisis, así como `dplyr` [@WickhamDplyr2021] y `forecats` [@Wickhamforcats2022] para manipular y organizar la base de datos, y `ggplot2` [@Wickhamggplot22016] para hacer algunas gráficas más adelante[^2].
 
-[^2]: Los paquetes `dplyr`, `magrittr`, `forecats` y `ggplot2` hacen parte de [`tidyverse`](https://www.tidyverse.org/) [@Wickhamtidyverse2019], una colección de paquetes para ciencia de datos que comparten un mismo diseño y gramática. Por esto, en vez de cargar cada paquete independientemente, si instalas `tidyverse`, puedes cargar los paquetes de esta colección usando `library(tidyverse)`.
+[^2]: Los paquetes `dplyr`, `forecats` y `ggplot2` hacen parte de [`tidyverse`](https://www.tidyverse.org/) [@Wickhamtidyverse2019], una colección de paquetes para ciencia de datos que comparten un mismo diseño y gramática. Por esto, en vez de cargar cada paquete independientemente, si instalas `tidyverse`, puedes cargar los paquetes de esta colección usando `library(tidyverse)`.
 
 ```{r eval = FALSE}
 library(metafor)
 library(metaviz)
 library(dplyr)
-library(magrittr)
 library(forcats)
 library(ggplot2)
 ```
@@ -250,7 +252,7 @@ Como ya hemos cargado el paquete `metafor`, ya podemos cargar la base de datos `
 dat <- get(data(dat.molloy2014))
 ```
 
-Tras asignar la base de datos a este objeto (`dat`), la base de datos se puede ver como *output*[^3] en la consola de R sencillamente usando como comando el nombre que le dimos al objeto al que lo asignamos (en este caso, `dat`).
+Tras asignar la base de datos a este objeto (`dat`), la base de datos se puede ver como *output*[^3] en la consola de R sencillamente usando como comando el nombre que le dimos al objeto al que la asignamos (en este caso, `dat`).
 
 [^3]: En R y otros lenguajes de programación, se llama "*output*" a la *salida* o resultado visible de una función o proceso, en este caso en la consola (que en RStudio es normalmente el panel que está a la izquierda en la parte inferior).
 
@@ -272,7 +274,7 @@ Primero, hay unas columnas que contienen información absolutamente necesaria pa
 
 -   `ri`: coeficiente de correlación de Pearson de cada estudio
 
-Esas son las variables más importantes y son necesarias para hacer un meta-análisis de correlación simple: alguna columna o columnas con información que permita identificar cada estudio (en este caso `authors` y `year`), una columna con el tamaño de muestra de cada estudio (en este caso, `ni`), y finalmente una columna con los coeficientes de correlación (en este caso la columna `ri`). Si tu meta-análisis no requiere moderadores, con una estructura como esta sería suficiente.
+Esas son las variables más importantes y son necesarias para hacer un meta-análisis de correlación simple: alguna columna o columnas con información que permita identificar cada estudio (en este caso `authors` y `year`), una columna con el tamaño de muestra de cada estudio (en este caso, `ni`), y finalmente una columna con los coeficientes de correlación (en este caso la columna `ri`). Si tu meta-análisis no requiere moderadores (ver sección @ref(met-moderation)), con una estructura como esta sería suficiente.
 
 Después hay unas columnas que contienen variables específicas para este este ejemplo, y que son una serie de posibles moderadores que agrupan características de los estudios a meta-analizar:
 
@@ -293,15 +295,15 @@ Por supuesto, el *output* de la consola no es la forma más clara de ver la base
 Voy a volver a cargar la base de datos (sobrescribiendo el objeto `dat`), para organizarla un poco mejor. Primero, agregaré una nueva columna llamada `study_id`, en la que numeraré los estudios del 1 al 16, lo que será útil para identificar cada estudio en algunas gráficas y análisis. Después, reorganizaré las columnas para que `study_id` sea la primera, en vez de la última columna. Finalmente, las columnas de variables que son factores (`controls`, `design`, `a_measure`, `c_measure` y `quality`), pueden ser definidas como tal, para evitar pasos adicionales más adelante. En este caso, además, voy a reorganizar los niveles de la variable `controls` (primero `none` y después `multiple`); esto, aunque no es un paso necesario, puede ayudar con la interpretación de resultados.
 
 ```{r molloy2014}
-dat <- get(data(dat.molloy2014)) %>%
-  mutate(study_id = 1:16)  %>% # crear columna 'study_id' y agregar números del 1 al 16
-  select(study_id, authors:quality) %>% # mover 'study_id' como primera columna
+dat <- get(data(dat.molloy2014)) |>
+  mutate(study_id = 1:16)  |> # crear columna 'study_id' y agregar números del 1 al 16
+  select(study_id, authors:quality) |> # mover 'study_id' como primera columna
   mutate_at(c("controls", # transformar variables relevantes en factores
               "design",
               "a_measure",
               "c_measure",
               "quality"), 
-            as.factor) %>% 
+            as.factor) |> 
   mutate(controls = fct_relevel(controls, # reorganizar niveles de la variable 'controls'
                                 "none", "multiple"))  
 ```
@@ -312,8 +314,8 @@ Con esto, la base de datos tiene ahora la siguiente estructura (Tabla \@ref(tab:
 kable(dat, 
       linesep = "",
       booktabs = TRUE,
-      caption = "Estructura de la base de datos con estudios numerados") %>% 
-  kable_styling(latex_options = c("HOLD_position", "scale_down")) %>% 
+      caption = "Estructura de la base de datos con estudios numerados") |> 
+  kable_styling(latex_options = c("HOLD_position", "scale_down")) |> 
   footnote(general = "Datos tomados de Molloy et al. (2013).",
            general_title = "Nota:",
            footnote_as_chunk = TRUE)
@@ -337,14 +339,14 @@ Esta función agrega dos nuevas variables: `yi`, que es el tamaño de efecto (en
 kable(dat, 
       linesep = "",
       booktabs = TRUE,
-      caption = "Estructura de la base de datos, con transformación de los r de Pearon a z de Fisher") %>% 
-  kable_styling(latex_options = c("HOLD_position", "scale_down")) %>% 
+      caption = "Estructura de la base de datos, con transformación de los r de Pearon a z de Fisher") |> 
+  kable_styling(latex_options = c("HOLD_position", "scale_down")) |> 
   footnote(general = "Las nuevas columnas creadas usando la función \\\\texttt{escalc} 
            (\\\\texttt{yi} como tamaño de efecto y \\\\texttt{vi} como varianza) están 
            resaltadas en naranja",
            general_title = "Nota:",
            footnote_as_chunk = TRUE,
-           escape = FALSE) %>% 
+           escape = FALSE) |> 
   column_spec(12:13, background = "#f68212")
 ```
 
@@ -455,7 +457,7 @@ library(tidyquant)
 
 rVsz <- tibble(r = c(seq(-0.999, -0.901, by = 0.001), 
                      seq(-0.9, 0.9, by = 0.01), 
-                     seq(0.901, 0.999, by = 0.001))) %>%
+                     seq(0.901, 0.999, by = 0.001))) |>
   mutate(z = atanh(r))
   
 ggplot(rVsz, aes(x = r, y = z)) +
@@ -528,7 +530,7 @@ inf.res
 
 Esto me muestra gran cantidad de datos de cada estudio (en este caso, lo presento como una tabla sin formato, tal cual se ve en la consola de R), y contiene información que puede parecer muy compleja; sin embargo, como verás, la última columna resume la interpretación general de estos resultados de influencia, facilitando muchísimo su interpretación. 
 
-Las columnas que incluye son:
+Las columnas que incluye este *output* son las siguientes:
 
 -   `rstudent`: residuos estandarizados externamente. Esto **no** corresponde al coeficiente de correlación de cada estudio, sino a la diferencia entre el tamaño de efecto observado en cada estudio, y la predicción de dicho valor cuando dicho estudio se elimina del meta-análisis
 
@@ -554,7 +556,7 @@ Aunque hay mucha información, lo más importante ahora es mirar la última colu
 
 Por último, podemos también ver esta información que tenemos guardada en el objeto `inf.res`, de manera gráfica, usando la función `plot` (Fig. \@ref(fig:infplot)).
 
-```{r infplot, fig.height = 6.8, fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje *X* representan cada estudio, como lo definimos en columna \\texttt{study\\_id} de la Tabla \\@ref(tab:estructuramod). En este caso, no hay ningún estudio que se considere demasiado influyente, por lo este análisis sugiere que no es necesario excluir ningún estudio de nuestro meta-análisis."}
+```{r infplot, fig.height = 6.6, fig.cap = "Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje *X* representan cada estudio, como lo definimos en columna \\texttt{study\\_id} de la Tabla \\@ref(tab:estructuramod). En este caso, no hay ningún estudio que se considere demasiado influyente, por lo que este análisis sugiere que no es necesario excluir ningún estudio de nuestro meta-análisis."}
 plot(inf.res)
 ```
 
@@ -570,7 +572,7 @@ forest(res)
 
 Esto produce la Figura \@ref(fig:for-plot1).
 
-```{r for-plot1, echo = FALSE, fig.height = 4, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
+```{r for-plot1, echo = FALSE, fig.height = 4, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php). Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores *z* de Fisher), así como sus intervalos de confianza entre corchetes. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante."}
 par(mar = c(4,0,0,0))
 forest(res)
 ```
@@ -586,14 +588,11 @@ Para una versión más completa y anotada, también usando el *plot* básico de 
 ```{r eval = FALSE}
 # forest plot con anotaciones adicionales
 forest(res, cex = 0.75, xlim = c(-1.6, 1.6),
-       slab = paste(dat$authors, dat$year, sep = ", "),
-       showweights = TRUE,
-       xlab = "Coeficiente de correlación (z de Fisher)",
-       digits = c(2,3L),
+       slab = paste(dat$authors, dat$year, sep = ", "), showweights = TRUE,
+       xlab = "Coeficiente de correlación (z de Fisher)", digits = c(2,3L),
        mlab = bquote(paste("Modelo EA: Q(", .(res$k - res$p), ") = ",
-     .(formatC(res$QE, digits = 2, format = "f")),
-     ", p ", .(scales::pvalue(res$pval)), "; ", I^2, " = ",
-     .(formatC(res$I2, digits = 1, format = "f")), "%")))
+     .(formatC(res$QE, digits = 2, format = "f")), ", p ", .(scales::pvalue(res$pval)), 
+     "; ", I^2, " = ", .(formatC(res$I2, digits = 1, format = "f")), "%")))
 # agregar encabezados a las columnas (valores de X y Y deben ser ajustados)
 op <- par(cex = 0.8, font = 2) 
 text(x = -1.6, y = 18, labels = "Autor(es), Año", pos = 4)
@@ -849,19 +848,19 @@ viz_funnel(res,
   geom_vline(xintercept = 0, linetype = "dotted")
 ```
 
-El resultado nos muestra que el análisis aumentó dos estudios hipotéticos a la izquierda. Es decir, sugiere que hay *cierto* nivel de sesgo de publicación. De hecho, la estimación del efecto al aumentar estos estudios hipotéticos para que la distribución sea realmente simétrica, disminuye a 0.1288, algo menor que el 0.1499 que nos sugería el análisis inicial. 
+El resultado nos muestra que el análisis aumentó dos estudios hipotéticos a la izquierda. Es decir, sugiere que hay *cierto* nivel de sesgo de publicación. De hecho, la estimación del efecto al aumentar estos estudios hipotéticos para que la distribución sea realmente simétrica, disminuye a 0.1288, algo menor que el 0.1499 que nos sugería el análisis inicial. Se debe tener en cuenta que los estudios generados por el método *trim and fill*, son hipotéticos. Y que estos estudios se utilizan para estimar el tamaño y la dirección del sesgo de publicación, pero no son datos reales.Por esto, los resultados deben ser interpretados con precaución y no constituyen evidencia definitiva de sesgo de publicación.
 
 Si quieres profundizar en el método de recorte y relleno (*trim and fill*), su interpretación, así como sus fortalezas y limitaciones, te recomiendo leer el artículo de @shiTrimandfill2019 al respecto.
 
 ### Modelo de función de peso de Vevea y Hedges {#vevea-hedges}
 
-El modelo de función de peso de Vevea y Hedges [-@veveaGeneralLinearModel1995; ver también @veveaPublicationBiasResearch2005] es uno de los modelos se selección (en inglés, *selection models*) más conocidos[^10].
+El modelo de función de peso de Vevea y Hedges [-@veveaGeneralLinearModel1995; ver también @veveaPublicationBiasResearch2005] es uno de los modelos de selección (en inglés, *selection models*) más conocidos[^10].
 
 [^10]: El otro modelo de selección muy conocido, es el modelo de Copas y Shi [-@copasMetaanalysisFunnelPlots2000; -@copasSensitivityAnalysisPublication2001]. Aunque no lo incluyo en esta guía, es importante mencionar que hay evidencia que muestra que es preferible a métodos como el de *trim and fill* [@schwarzerEmpiricalEvaluationSuggests2010]. En R, este método se puede implementar con la función `copas` del paquete `metasens` [@schwarzerMetasensPackage; ver también Capítulo 5 en @schwarzerMetaAnalysis2015].
 
 Los modelos de selección intentan describir el mecanismo de supresión del efecto y combinarlo con un modelo de tamaño del efecto que describa la distribución de los efectos en ausencia de sesgo de publicación.
 
-El modelo de Vevea y Hedges da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores $p$ [@coburnPublicationBiasFunction2015; para una descripción sencilla y general, ver por ejemplo @SesgoPublicacion2008]. En particular, es más probable que sean publicados los estudios con resultados *significativo* (típicamente, $p < 0.05$, usando un $\alpha$ tradicional de 0.05), en comparación con estudios con resultados no significativos (es decir, con resultados que no permiten rechazar la hipótesis nula). Estos sesgos pueden por supuesto sesgar la literatura publicada, y afectar nuestro meta-análisis.
+El modelo de Vevea y Hedges da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores $p$ [@coburnPublicationBiasFunction2015; para una descripción sencilla y general, ver por ejemplo @SesgoPublicacion2008]. En particular, es más probable que sean publicados los estudios con resultados *significativos* (típicamente, $p < 0.05$, usando un $\alpha$ tradicional de 0.05), en comparación con estudios con resultados no significativos (es decir, con resultados que no permiten rechazar la hipótesis nula). Estos sesgos pueden por supuesto sesgar la literatura publicada, y afectar nuestro meta-análisis.
 
 En R, para estimar el sesgo de publicación de un meta-análisis usando el modelo de función de peso de Vevea y Hedges, se puede usar la función `weightfunct` del paquete `weightr` [@coburnWeightr2019].
 
@@ -881,9 +880,9 @@ El modelo no ajustado nos da un estimado muy similar (pero no idéntico) al del 
 
 Como antes, también nos da valores de heterogeneidad $\tau^2$, $\tau$ y $Q$.
 
-Pero lo más importante, es que en la segunda parte (el modelo ajustado) los resultado del meta-análisis se calculan de acuerdo con los pesos dados a cada efecto. 
+Pero lo más importante, es que en la segunda parte (el modelo ajustado) los resultados del meta-análisis se calculan de acuerdo con los pesos dados a cada efecto. 
 
-Esta técnica, a diferencia del método *trim and fill* no "recorta" ni "rellena" estudios, por lo que el análisis se hace con el mismo número de estudios (en este caso, 16; por eso en encabezado dice `Adjusted Model (k = 16)`).
+Esta técnica, a diferencia del método *trim and fill* no "recorta" ni "rellena" estudios, por lo que el análisis se hace con el mismo número de estudios (en este caso, 16; por eso el encabezado dice `Adjusted Model (k = 16)`).
 
 Sin embargo, la función `weightfunct` incrementa el peso de estudios que tienen menos probabilidad de ser publicados (típicamente resultados no significativos), y reduce el peso de estudios con mayor probabilidad de ser publicados (los que encuentran resultados más extremos). Por esto, al usar esta técnica, estás asumiendo que, de hecho, en el efecto que tratas de encontrar en tu meta-análisis hay un sesgo de publicación, lo que a menudo es una suposición bastante apropiada.
 
@@ -910,7 +909,7 @@ Para hacer esto, usaré el paquete `metameta` [@quintanaGuideMetaPower;@quintana
 
 El paquete `metameta` se debe instalar desde GitHub ya que, al día de hoy, no está aún disponible en CRAN[^12].
 
-[^12]: [CRAN](https://cran.r-project.org/) (siglas de *Comprehensive R Archive Network*) es una red de servidores de todo el mundo que almacenan versiones idénticas y actualizadas del código y la documentación de R (incluyendo el lenguaje mismo de R, paquetes aceptados por el equipo de CRAN, y toda la documentación). Es el repositorio oficial y dedicado a R, desde el que normalmente instalas cualquier paquete. [GitHub](https://github.com/), en cambio, es un repositorio general y abierto para para proyectos (típicamente programación) en el que, entre otras cosas, suelen estar alojados todos los paquetes de R en versiones de desarrollador, y antes de ser aceptados en CRAN. Por supuesto, a diferencia de CRAN, GitHub es un repositorio de código general, no específico para R.
+[^12]: [CRAN](https://cran.r-project.org/) (siglas de *Comprehensive R Archive Network*) es una red de servidores de todo el mundo que almacenan versiones idénticas y actualizadas del código y la documentación de R (incluyendo el lenguaje mismo de R, paquetes aceptados por el equipo de CRAN, y toda la documentación). Es el repositorio oficial y dedicado a R, desde el que normalmente instalas cualquier paquete. [GitHub](https://github.com/), en cambio, es un repositorio general y abierto para proyectos (típicamente programación) en el que, entre otras cosas, suelen estar alojados todos los paquetes de R en versiones de desarrollador, y antes de ser aceptados en CRAN. Por supuesto, a diferencia de CRAN, GitHub es un repositorio de código general, no específico para R.
 
 Para esto, debemos tener instalado el paquete `devtools`, y usar la función `install_github` que nos permite instalar paquetes directamente desde GitHub.
 
@@ -937,16 +936,16 @@ Para esto, la función `mapower_ul` requiere una base de datos que contenga info
 Esto lo puedo obtener de manera sencilla con la función `summary`, que agrega a la base de datos (`dat`) los límites inferior (`ci.lb`) y superior (`ci.ub`) de los intervalos de confianza. Sin embargo, aunque la columna con el tamaño de efecto (`yi`) ya tiene el nombre requerido, debo renombrar las columnas que tienen los límites de los intervalos de confianza (`ci.lb` y `ci.ub`) como `lower` y `upper`, usando la función `rename`. 
 
 ```{r}
-dat.poder <- summary(dat) %>%
+dat.poder <- summary(dat) |>
   rename(lower = ci.lb, upper = ci.ub)
 ```
 
 Asigné esta versión modificada de la base de datos a un objeto que llamé `dat.poder`. Ya con esta base de datos lista y con el formato correcto para usar la función `mapower_ul`, podemos seguir adelante. 
 
-La función `mapower_ul` requiere que asignemos la base de datos (`dat.poder`) al argumento `dat`, el tamaño de efecto que estimamos como efecto *real* (en este caso, 0.15) al argumento `observed_es`, así como un nombre que le daremos al meta-análisis al argumento `name` (en este caso lo llamaré "Molloy et al. 2014", pero por supuesto tú puedes darle el nombre que consideres adecuado, siempre entre comillas). Asignaré el resultado de este análisis a un objeto que simplemente llamaré `poder`.
+La función `mapower_ul` requiere que asignemos la base de datos (`dat.poder`) al argumento `dat`, el tamaño de efecto que estimamos como efecto *real* (en este caso, 0.15) al argumento `observed_es`, así como un nombre que le daremos al meta-análisis al argumento `name` (en este caso lo llamaré "Molloy et al. 2013", pero por supuesto tú puedes darle el nombre que consideres adecuado, siempre entre comillas). Asignaré el resultado de este análisis a un objeto que simplemente llamaré `poder`.
 
 ```{r}
-poder <- mapower_ul(dat = dat.poder, observed_es = 0.15, name = "Molloy et al. 2014")
+poder <- mapower_ul(dat = dat.poder, observed_es = 0.15, name = "Molloy et al. 2013")
 ```
 
 Como veremos a continuación, este objeto tiene varios elementos muy importantes.
@@ -967,7 +966,7 @@ lista_poder
 
 Por ejemplo, nos muestra que para detectar un efecto de *z* = 0.1 (`es01`), se estima un poder de `0.1762492`; para un poder de *z* = 0.2 (`es02`), se estima un poder de `0.5356629`, y continúa así hasta un poder de  *z* = 1.0 (`es1`). 
 
-Finalmente, nos muestra el poder estimado para detectar un efecto del tamaño del que estimamos como *real* (en nuestro caso, *z* = 0.15), bajo el encabezado `es_observed`. Como se ve, el poder es de tan solo `0.3364197`, lo que quiere decir que, si el efecto *real* de la asociación entre escrupulosidad y la adherencia a la medicación fuese *z* = 0.15, un meta-análisis como el nuestro sólo detectaría esa correlación como significativa en el 33.64% de os casos.
+Finalmente, nos muestra el poder estimado para detectar un efecto del tamaño del que estimamos como *real* (en nuestro caso, *z* = 0.15), bajo el encabezado `es_observed`. Como se ve, el poder es de tan solo `0.3364197`, lo que quiere decir que, si el efecto *real* de la asociación entre escrupulosidad y la adherencia a la medicación fuese *z* = 0.15, un meta-análisis como el nuestro sólo detectaría esa correlación como significativa en el 33.64% de los casos.
 
 Lo que es más, podemos concluir que solo tenemos suficiente poder estadístico para detectar como significativos efectos desde aproximadamente *z* = 0.3 (`es03` = `0.8673657`, donde por fin tenemos un poder mayor a 0.8, o lo que es lo mismo, 80%). Sin embargo, nuestras estimaciones del efecto *real* están por debajo de este umbral, ya que en nuestro meta-análisis original fue de *z* = 0.15 y en el meta-análisis con pesos ajustados fue de *z* = 0.09.
 
@@ -980,7 +979,7 @@ poder_full_dat <- poder$dat
 poder_full_dat
 ```
 
-Básicamente, esta tabla contiene información nos permite evaluar si cada estudio incluido en nuestro meta-análisis tenía o no un poder estadístico suficiente para detectar un rango de tamaños de efecto que, como antes van desde *z* = 0.1 (columna `power_es01`), hasta *z* = 1.0 (`power_es1`). 
+Básicamente, esta tabla contiene información que nos permite evaluar si cada estudio incluido en nuestro meta-análisis tenía o no un poder estadístico suficiente para detectar un rango de tamaños de efecto que, como antes van desde *z* = 0.1 (columna `power_es01`), hasta *z* = 1.0 (`power_es1`). 
 
 También, nos permite ver el poder estadístico de cada estudio para detectar un tamaño de efecto *real* como el que estimamos (*z* = 0.15), en la columna `power_es_observed` (la información de esta columna es análoga a la de los *funnel plot* creados con la función `viz_funnel` del paquete `metaviz`; Fig. \@ref(fig:funnel-plot3)A y B).
 
@@ -994,7 +993,7 @@ Puedo fácilmente crear una visualización de esto con la función `firepower` d
 poder.plot <- firepower(lista_poder)
 ```
 
-En este caso asigné el *fireplot* resultante a un objeto, para poder modificar después, que llamé `poder.plot`. Para verlo, entonces, debo correr el objeto para ver el resultado (Fig. \@ref(fig:fire-plot1)).
+En este caso asigné el *fireplot* resultante a un objeto, para poder modificar después, que llamé `poder.plot`. Entonces, para ver el resultado, debo correr el objeto (Fig. \@ref(fig:fire-plot1)).
 
 ```{r eval = FALSE}
 poder.plot
@@ -1039,7 +1038,7 @@ poder.plot$fp_plot +
                               "es1"  = 1))
 ```
 
-La Figura \@ref(fig:fire-plot2) nos permite comprobar, de nuevo, que el meta-análisis solamente alcanza un poder mínimo recomendado de 0.8 (80%) cuando se trata de efectos de *z* = 0.3 (o mayores), y que para nuestro efecto *observado* (*z* = 0.15), el poder apenas alcanza cerca de 0.4 (40%).
+La Figura \@ref(fig:fire-plot2) nos permite comprobar, de nuevo, que el meta-análisis solamente alcanza un poder mínimo recomendado de 0.8 (80%) cuando se trata de efectos *z* = 0.3 (o mayores), y que para nuestro efecto *observado* (*z* = 0.15), el poder apenas alcanza cerca de 0.4 (40%).
 
 Si el poder estadístico de nuestro meta-análisis para detectar ese efecto (*z* = 0.15) es demasiado bajo, por supuesto sería aún más deficiente para detectar un efecto menor, como el estimado en nuestro modelo con pesos corregidos (*z* = 0.09).
 
@@ -1079,9 +1078,9 @@ Un meta-análisis combinatorio ajusta una serie de meta-análisis a partir de to
 tibble(k = 5:17,
        Combinaciones = 2^(k) - 1,
        k2 = 18:30,
-       Combinaciones2 = 2^(k2) - 1) %>% 
+       Combinaciones2 = 2^(k2) - 1) |> 
   mutate(Combinaciones = scales::number(Combinaciones),
-         Combinaciones2 = scales::number(Combinaciones2)) %>% 
+         Combinaciones2 = scales::number(Combinaciones2)) |> 
   kable(linesep = "",
         booktabs = TRUE,
         align = c("c", "r", "c", "r"),
@@ -1091,16 +1090,16 @@ tibble(k = 5:17,
                                 "Posibles\ncombinaciones\n($2^{k} - 1$)"),
                               align = "c"),
         caption = "Número de posibles combinaciones según número de estudios (k)",
-        escape = FALSE) %>% 
-  kable_styling(latex_options = c("HOLD_position")) %>% 
-  row_spec(0, align = "c")  %>%
-  column_spec(2, border_right = TRUE) %>%
+        escape = FALSE) |> 
+  kable_styling(latex_options = c("HOLD_position")) |> 
+  row_spec(0, align = "c")  |>
+  column_spec(2, border_right = TRUE) |>
   column_spec(c(1,3), bold = TRUE)
 ```
 
 Como se puede ver en la Tabla \@ref(tab:gosh-combs), el número de combinaciones aumenta drásticamente a medida que aumenta el número de estudios en nuestro meta-análisis. Por ejemplo, si tuviéramos 5 estudios, habría solo 31 posibles combinaciones ($2^{5} - 1$ = `r number(31)`). Sin embargo, si tuviéramos 20 estudios, habría más de un millón de combinaciones ($2^{16} - 1$ = `r number(1048575)`) y si tuviéramos 30 estudios, habría más de mil millones de combinaciones (ver Tabla \@ref(tab:gosh-combs)). Dado que esto puede consumir muchos recursos computacionales, es importante tener precaución al realizar un meta-análisis combinatorio con un gran número de estudios. El análisis puede tardar mucho tiempo e incluso fallar si se usa toda la memoria RAM del ordenador.
 
-En nuestro ejemplo, estamos meta-analizando 16 estudios, lo que significa que necesitamos ajustar `r number(65535)` modelos ($2^{16} - 1$). Ajustar todos estos modelos puede llevar bastante tiempo, aunque esto dependerá de las especificaciones de tu equipo (en mi portátil, tarda alrededor de 5 minutos).
+En nuestro ejemplo, estamos meta-analizando 16 estudios, lo que significa que necesitamos ajustar `r number(65535)` modelos ($2^{16} - 1$). Ajustar todos estos modelos puede llevar bastante tiempo, aunque esto dependerá de las especificaciones de tu equipo (en mi portátil, tarda alrededor de 5 minutos, pero ten en cuenta que en equipos viejos podría tardar 20, 30 minutos o incluso más).
 
 Para visualizar la heterogeneidad entre los estudios, podemos utilizar una técnica llamada *visualización gráfica de la heterogeneidad de los estudios* (en inglés, *Graphical Display of Study Heterogeneity* o simplemente *GOSH*), propuesta por @olkinGOSHGraphicalDisplay2012. En R, podemos realizar esta visualización utilizando la función `gosh` del paquete `metafor`. Simplemente necesitamos proporcionar el resultado de nuestro meta-análisis original (`res`) como argumento. Opcionalmente, también podemos agregar el argumento `progbar = TRUE` para ver el progreso del análisis en la consola. Guardaré el resultado de este análisis en un objeto llamado `gp` para su posterior uso.
 
@@ -1126,7 +1125,7 @@ Para ilustrar mejor esto, voy a manipular manualmente el tamaño de efecto de un
 Para evitar afectar nuestra base de datos original, creamos una copia de los datos en un objeto llamado `dat_mo`. Luego, utilizamos las funciones `mutate` y `replace` del paquete `dplyr` [@WickhamDplyr2021] para cambiar los tamaños de efecto del estudio 12 en la nueva base de datos.
 
 ```{r}
-dat_mo <- dat %>%
+dat_mo <- dat |>
   mutate(yi = replace(yi, list = 12, values = 0.7))
 ```
 
@@ -1322,10 +1321,10 @@ Adicionalmente, voy a convertir esta tabla a un objeto clase `data.frame` (usand
 
 ```{r pred-mod1}
 # Calcular efecto ajustado para diferentes edades
-pred.res.modage <- predict(res.modage, newmods = seq(20, 80, by = 10)) %>% 
-  as.data.frame() %>% 
-  mutate_all(~round(., 3)) %>% 
-  mutate(meanage = seq(20, 80, by = 10)) %>% 
+pred.res.modage <- predict(res.modage, newmods = seq(20, 80, by = 10)) |> 
+  as.data.frame() |> 
+  mutate_all(~round(., 3)) |> 
+  mutate(meanage = seq(20, 80, by = 10)) |> 
   select(7, 1:6)
 # Ver la tabla
 pred.res.modage
@@ -1454,11 +1453,11 @@ Entonces, como el intercepto (`intrcpt`) tiene un valor estimado de 0.1788, se e
 ### Más información e interpretación de la moderación {#pred-mods2}
 
 ```{r}
-pred.res.contr <- predict(res.contr, newmods = c(0, 1)) %>% 
-  as.data.frame() %>% 
-  mutate_all(~round(., 3)) %>%
-  mutate(controls = levels(dat$controls)) %>% 
-  rename(yi = pred) %>% 
+pred.res.contr <- predict(res.contr, newmods = c(0, 1)) |> 
+  as.data.frame() |> 
+  mutate_all(~round(., 3)) |>
+  mutate(controls = levels(dat$controls)) |> 
+  rename(yi = pred) |> 
   select(7, 1:6)
 pred.res.contr
 ```
