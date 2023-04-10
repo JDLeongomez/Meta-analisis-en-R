@@ -102,7 +102,7 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.XXXXXX}{10.XXXXXX}}} \lfoot{\footnotesize{Versión 1}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{csquotes} \usepackage[style=apa,backend=biber]{biblatex} \DeclareLanguageMapping{spanish}{spanish-apa} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{multicol} \usepackage{fontawesome5} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \newcommand{\opensupplement}{\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}} \newcommand{\closesupplement}{\setcounter{table}{0} \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{\arabic{figure}}}
+\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[T1]{fontenc} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.XXXXXX}{10.XXXXXX}}} \lfoot{\footnotesize{Versión 1}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{csquotes} \usepackage[style=apa,backend=biber]{biblatex} \DeclareLanguageMapping{spanish}{spanish-apa} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{multicol} \usepackage{fontawesome5} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \newcommand{\opensupplement}{\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}} \newcommand{\closesupplement}{\setcounter{table}{0} \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{\arabic{figure}}}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -144,7 +144,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{07 abril, 2023}
+\date{10 abril, 2023}
 
 \begin{document}
 \maketitle
@@ -176,7 +176,7 @@
 \leftskip3em
 \rightskip\leftskip
 
-El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo, a menudo estudiantes, profesionales e investigadores carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una variedad de herramientas para realizar meta-análisis de correlaciones en R, mediante el uso de ejemplos reales. Incluye desde análisis simples y su interpretación, hasta el análisis de moderadores (meta-regresión), usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} \autocite{viechtbauer2010} y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} \autocite{KossmeierMetaviz}. También incluye explicaciones para la transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher (y viceversa), creación de gráficos de bosque (\emph{forest plots}) y gráficos de embudo (\emph{funnel plots}), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete \href{https://www.r-pkg.org/pkg/weightr}{\texttt{weightr}} \autocite{coburnWeightr2019}, y para determinar el poder estadístico de un meta-análisis utilizando \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{\texttt{metameta}} \autocite{quintanaMetameta2022}. Con esta guía, los lectores podrán adquirir las habilidades necesarias para realizar meta-análisis de correlaciones de manera efectiva en R y obtener resultados confiables.
+El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo estudiantes, profesionales e investigadores a menudo carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una variedad de herramientas para realizar meta-análisis de correlaciones en R, mediante el uso de ejemplos reales. Incluye desde análisis simples y su interpretación, hasta el análisis de moderadores (meta-regresión), usando los paquetes \href{https://www.metafor-project.org/doku.php}{\texttt{metafor}} \autocite{viechtbauer2010} y \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{\texttt{metaviz}} \autocite{KossmeierMetaviz}. También incluye explicaciones para la transformación de coeficientes \emph{r} de Pearson a \emph{z} de Fisher (y viceversa), creación de gráficos de bosque (\emph{forest plots}) y gráficos de embudo (\emph{funnel plots}), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete \href{https://www.r-pkg.org/pkg/weightr}{\texttt{weightr}} \autocite{coburnWeightr2019}, y para determinar el poder estadístico de un meta-análisis utilizando \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{\texttt{metameta}} \autocite{quintanaMetameta2022}. Con esta guía, los lectores podrán adquirir las habilidades necesarias para realizar meta-análisis de correlaciones de manera efectiva en R y obtener resultados confiables.
 
 \par
 \endgroup
@@ -187,9 +187,11 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 \rightskip\leftskip
 \footnotesize
 
-\href{https://www.youtube.com/@InvestigacionAbierta}{\includegraphics{images/Logo-IA-Rectangulo.pdf}}
+\href{https://www.youtube.com/@InvestigacionAbierta}{\includegraphics[width=6.25in,height=\textheight]{images/Logo-IA-Rectangulo.pdf}}
 
 \textbf{Conocimientos necesarios:} Esta guía asume (1) un manejo básico de R, (2) comprensión de correlaciones y regresiones, y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video} introductorio al meta-análisis en \emph{jamovi} \autocite{leongomezMetaanalysis2021} publicado en mi canal de YouTube \href{https://www.youtube.com/@InvestigacionAbierta}{\emph{Investigación Abierta}}.
+
+\textbf{Versión de R:} Para poder correr el código tal cual aparece en esta guía, en se requiere R versión 4.1 o superior, pues he usado el \emph{pipe} nativo de R (\texttt{\textbar{}\textgreater{}}). En versiones anteriores de R, el \emph{pipe} nativo puede ser reemplazado por el pipe de \texttt{magrittr} (\texttt{\%\textgreater{}\%}), cargando ese paquete \autocite{magrittrcite}. Para más información, puedes ver la sección \href{https://datanalytics.com/libro_r/1100_programacion.html\#tuber\%C3\%ADas-pipes}{11.1.5} de \textcite{gil2023}.
 
 \par
 \endgroup
@@ -222,11 +224,11 @@ Por ejemplo mira la simulación a continuación (Fig. \ref{fig:efecto}). En el p
 \caption{\label{fig:efecto}Simulación de una población hipotética de \emph{N} = 6095 elementos, en la que dos variables se correlacionan positivamente (\emph{r} = 0.25). \textbf{A.} Simulación de la población y correlación entre dos variables. \textbf{B.} 25 muestras aleatorias de diferentes tamaños (\emph{n}) de esa población, y la correlación encontrada en cada una (\emph{r}). En naranja se resaltan los elementos seleccionados aleatoriamente y la correlación encontrada en cada muestra, superpuestos sobre el total de la población y la correlación real (en negro, como referencia).}
 \end{figure}
 
-Ahora imagina que tú quieres establecer esa correlación real (\(r\) = 0.25), pero no la conoces, y no tienes acceso a la población completa de 6095 elementos. Tu mejor apuesta es tomar una muestra aleatoria, que en principio tendería a darte un resultado \emph{similar} al real. En el panel \textbf{B} hay 25 muestra aleatorias de esos 6095 elementos, y en cada una se reporta tanto en tamaño de la muestra (\emph{n}, que va desde una muestra muy pequeña de apenas 14 observaciones, hasta una muy respetable de 493), como la correlación encontrada en esa muestra (\emph{r}, que va desde 0.10 hasta 0.46).
+Ahora imagina que tú quieres establecer esa correlación real (\(r\) = 0.25), pero no la conoces, y no tienes acceso a la población completa de 6095 elementos. Tu mejor apuesta es tomar una muestra aleatoria, que en principio tendería a darte un resultado \emph{similar} al real. En el panel \textbf{B} hay 25 muestras aleatorias de esos 6095 elementos, y en cada una se reporta tanto el tamaño de la muestra (\emph{n}, que va desde una muestra muy pequeña de apenas 14 observaciones, hasta una muy respetable de 493), como la correlación encontrada en esa muestra (\emph{r}, que va desde 0.10 hasta 0.46).
 
-Entre las 25 muestra aleatorias de nuestra población (Fig. \ref{fig:efecto}B), hay varias que encuentran una correlación similar a la real (que, como es simulada, sabemos que es exactamente de \(r\) = 0.25), pero hay otras que se alejan bastante. Analiza detalladamente esos resultados y trata de ver si las que más de alejan (estando por debajo o por encima de 0.25), tienen algo en común.
+Entre las 25 muestras aleatorias de nuestra población (Fig. \ref{fig:efecto}B), hay varias que encuentran una correlación similar a la real (que, como es simulada, sabemos que es exactamente de \(r\) = 0.25), pero hay otras que se alejan bastante. Analiza detalladamente esos resultados y trata de ver si las que más se alejan (estando por debajo o por encima de 0.25), tienen algo en común.
 
-Si miras con cuidado, verás algo claro: las muestras más grandes tienden a encontrar resultados similares al de nuestra población simulada (\(r\) = 0.25). Sin embargo, las muestra pequeñas son menos confiables: aunque algunas muestras pequeñas encuentran correlaciones muy cercanas a la real, otras se alejan mucho. Para ilustrar esto, voy a graficar la correlación encontrada en cada muestra, y cómo se asocia con su tamaño de muestra (Fig. \ref{fig:dist-sim}).
+Si miras con cuidado, verás algo claro: las muestras más grandes tienden a encontrar resultados similares al de nuestra población simulada (\(r\) = 0.25). Sin embargo, las muestras pequeñas son menos confiables: aunque algunas muestras pequeñas encuentran correlaciones muy cercanas a la real, otras se alejan mucho. Para ilustrar esto, voy a graficar la correlación encontrada en cada muestra, y cómo se asocia con su tamaño de muestra (Fig. \ref{fig:dist-sim}).
 
 \begin{figure}
 
@@ -234,7 +236,7 @@ Si miras con cuidado, verás algo claro: las muestras más grandes tienden a enc
 
 }
 
-\caption{Relación entre el efecto encontrado (eje $X$) y el tamaño de muestra (eje $Y$) en 25 muestras aleatorias de una población simulada donde la correlación entre las variables es de $r$ = 0.25. Mientras que las muestras grandes (arriba) son confiables y tienden a encontrar resultados similares al del efeto real, muestras pequeñas (abajo)son menos confiables y puyeden producir estimaciones del efecto que se alejan mucho del real.}\label{fig:dist-sim}
+\caption{Relación entre el efecto encontrado (eje $X$) y el tamaño de muestra (eje $Y$) en 25 muestras aleatorias de una población simulada donde la correlación entre las variables es de $r$ = 0.25. Mientras que las muestras grandes (arriba) son confiables y tienden a encontrar resultados similares al del efeto real, muestras pequeñas (abajo) son menos confiables y pueden producir estimaciones del efecto que se alejan mucho del real.}\label{fig:dist-sim}
 \end{figure}
 
 \hypertarget{quuxe9-es-un-meta-anuxe1lisis-y-por-quuxe9-es-importante}{%
@@ -246,7 +248,7 @@ Una herramienta útil para abordar este problema es el meta-análisis, que es un
 
 El meta-análisis se puede entender como una especie \emph{promediación} de los efectos encontrados en diversos estudios, dando mayor peso a estudios que tienen más credibilidad (es decir, mayor probabilidad de mostrar un resultado cercano a la verdad). ¿Cómo se hace esto? Como se ve en la Figura \ref{fig:dist-sim}, el tamaño de una muestra afecta la confiabilidad de un resultado.
 
-Para decirlo de manera más técnica, el tamaño de muestra afecta el poder estadístico así como el error en la estimación del efecto \autocite{leongomezPoderRvid2020,leongomezAnalisisPoderEstadistico2020}; entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen y por tanto son más confiables). Por esto, podemos usar estas medidas como indicadores de la credibilidad del efecto encontrado por un estudio.
+Para decirlo de manera más técnica, el tamaño de la muestra afecta el poder estadístico así como el error en la estimación del efecto \autocite{leongomezPoderRvid2020,leongomezAnalisisPoderEstadistico2020}; entre mayor sea una muestra, mayor será el poder estadístico y menor tenderá a ser su variación con respecto al efecto real (en últimas, muestras más grandes tienden a parecerse más a la población de la que provienen y por tanto son más confiables). Por esto, podemos usar estas medidas como indicadores de la credibilidad del efecto encontrado por un estudio.
 
 \hypertarget{sesgos-de-publicaciuxf3n}{%
 \subsection{Sesgos de publicación}\label{sesgos-de-publicaciuxf3n}}
@@ -255,7 +257,7 @@ Sin embargo, además de las diferencias que pueda tener cada estudio debido a la
 
 Los sesgos de publicación son una amenaza importante para la integridad de la investigación científica. Se refieren a la tendencia de los investigadores y editores de revistas a no publicar estudios que no encuentran un efecto significativo o que muestran resultados contrarios a las hipótesis de sus autores. Estos sesgos pueden afectar a todas las áreas de la investigación, pasando por ejemplo por la medicina, la psicología y la biología \autocites[e.g.,][]{baker500ScientistsLift2016,kleinManyLabsInvestigating2018}.
 
-Como resultado, los estudios publicados pueden no ser representativos de la verdadera relación entre las variables que se están investigando, lo que puede llevar a conclusiones erróneas y a decisiones equivocadas, incluyendo áreas tan críticas como la práctica clínica y la toma de decisiones políticas, por ejemplo.
+Como resultado, los estudios publicados pueden no ser representativos de la verdadera relación entre las variables que se están investigando, lo que puede llevar a conclusiones erróneas y a decisiones equivocadas, incluyendo áreas tan críticas como la práctica clínica y la toma de decisiones políticas, entre otras.
 
 Imagina, por ejemplo, que frente a un efecto estudiado se publicaron preferentemente estudios que encontraron una correlación positiva y significativa, mientras que otros estudios ---que no encontraron una correlación o encontraron una correlación negativa--- tendieron a no ser publicados por los autores, o a ser rechazados por editores. Al hacer un meta-análisis de los estudios publicados, nuestra estimación del efecto \emph{real} estaría sesgada, sobre-estimando el efecto (Fig. \ref{fig:teoria-meta}).
 
@@ -270,7 +272,7 @@ Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publi
 \hypertarget{motivaciuxf3n}{%
 \subsection{Motivación}\label{motivaciuxf3n}}
 
-Teniendo en cuenta la importancia de estas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores curtidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
+Teniendo en cuenta la importancia de estas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores establecidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
 
 A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \ref{meta-cor}), incluyendo cómo hacer análisis de heterogeneidad (sección \ref{heterog-inf}) y diagnósticos de influencia (sección \ref{diag-inf}), creación de gráficos de bosque (\emph{forest plots}; sección \ref{forest-inf}) y gráficos de embudo (\emph{funnel plots}; sección \ref{funnel-inf}), así como estrategias para detectar posibles sesgos de publicación (secciones \ref{sesgo-pub} y \ref{todas-combinaciones}), y para determinar el poder estadístico de un meta-análisis (sección \ref{poder-inf}). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \ref{met-moderation}).
 
@@ -285,14 +287,13 @@ A lo largo de esta guía usaré la base de datos \texttt{dat.molloy2014}, tomada
 
 Básicamente, \textcite{molloy2013} estudiaron si existe una asociación entre la escrupulosidad (\emph{conscientiousness}\footnote{En el contexto de los rasgos de personalidad, la dimensión de la \emph{escrupulosidad} (también llamada conciencia o ``voluntad de logro''), se refiere al auto-control, incluyendo la planificación y ejecución de tareas. Para una definición detallada del concepto de escrupulosidad en este contexto, ver \textcite{johnBigFiveTrait1999}.}) y la adherencia a la medicación. En otras palabras, ¿las personas más \emph{escrupulosas} tienden a cumplir más con la medicación prescrita?
 
-Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: \texttt{metafor} \autocite{viechtbauer2010} y \texttt{metaviz} \autocite{KossmeierMetaviz} para hacer e ilustrar los resultados del meta-análisis, así como \texttt{dplyr} \autocite{WickhamDplyr2021}, \texttt{magrittr} \autocite{magrittrcite} y \texttt{forecats} \autocite{Wickhamforcats2022} para manipular y organizar la base de datos, y \texttt{ggplot2} \autocite{Wickhamggplot22016} para hacer algunas gráficas más adelante\footnote{Los paquetes \texttt{dplyr}, \texttt{magrittr}, \texttt{forecats} y \texttt{ggplot2} hacen parte de \href{https://www.tidyverse.org/}{\texttt{tidyverse}} \autocite{Wickhamtidyverse2019}, una colección de paquetes para ciencia de datos que comparten un mismo diseño y gramática. Por esto, en vez de cargar cada paquete independientemente, si instalas \texttt{tidyverse}, puedes cargar los paquetes de esta colección usando \texttt{library(tidyverse)}.}.
+Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: \texttt{metafor} \autocite{viechtbauer2010} y \texttt{metaviz} \autocite{KossmeierMetaviz} para hacer e ilustrar los resultados del meta-análisis, así como \texttt{dplyr} \autocite{WickhamDplyr2021} y \texttt{forecats} \autocite{Wickhamforcats2022} para manipular y organizar la base de datos, y \texttt{ggplot2} \autocite{Wickhamggplot22016} para hacer algunas gráficas más adelante\footnote{Los paquetes \texttt{dplyr}, \texttt{forecats} y \texttt{ggplot2} hacen parte de \href{https://www.tidyverse.org/}{\texttt{tidyverse}} \autocite{Wickhamtidyverse2019}, una colección de paquetes para ciencia de datos que comparten un mismo diseño y gramática. Por esto, en vez de cargar cada paquete independientemente, si instalas \texttt{tidyverse}, puedes cargar los paquetes de esta colección usando \texttt{library(tidyverse)}.}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(metafor)}
 \FunctionTok{library}\NormalTok{(metaviz)}
 \FunctionTok{library}\NormalTok{(dplyr)}
-\FunctionTok{library}\NormalTok{(magrittr)}
 \FunctionTok{library}\NormalTok{(forcats)}
 \FunctionTok{library}\NormalTok{(ggplot2)}
 \end{Highlighting}
@@ -306,7 +307,7 @@ Como ya hemos cargado el paquete \texttt{metafor}, ya podemos cargar la base de 
 \end{Highlighting}
 \end{Shaded}
 
-Tras asignar la base de datos a este objeto (\texttt{dat}), la base de datos se puede ver como \emph{output}\footnote{En R y otros lenguajes de programación, se llama ``\emph{output}'' a la \emph{salida} o resultado visible de una función o proceso, en este caso en la consola (que en RStudio es normalmente el panel que está a la izquierda en la parte inferior).} en la consola de R sencillamente usando como comando el nombre que le dimos al objeto al que lo asignamos (en este caso, \texttt{dat}).
+Tras asignar la base de datos a este objeto (\texttt{dat}), la base de datos se puede ver como \emph{output}\footnote{En R y otros lenguajes de programación, se llama ``\emph{output}'' a la \emph{salida} o resultado visible de una función o proceso, en este caso en la consola (que en RStudio es normalmente el panel que está a la izquierda en la parte inferior).} en la consola de R sencillamente usando como comando el nombre que le dimos al objeto al que la asignamos (en este caso, \texttt{dat}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -372,7 +373,7 @@ Primero, hay unas columnas que contienen información absolutamente necesaria pa
   \texttt{ri}: coeficiente de correlación de Pearson de cada estudio
 \end{itemize}
 
-Esas son las variables más importantes y son necesarias para hacer un meta-análisis de correlación simple: alguna columna o columnas con información que permita identificar cada estudio (en este caso \texttt{authors} y \texttt{year}), una columna con el tamaño de muestra de cada estudio (en este caso, \texttt{ni}), y finalmente una columna con los coeficientes de correlación (en este caso la columna \texttt{ri}). Si tu meta-análisis no requiere moderadores, con una estructura como esta sería suficiente.
+Esas son las variables más importantes y son necesarias para hacer un meta-análisis de correlación simple: alguna columna o columnas con información que permita identificar cada estudio (en este caso \texttt{authors} y \texttt{year}), una columna con el tamaño de muestra de cada estudio (en este caso, \texttt{ni}), y finalmente una columna con los coeficientes de correlación (en este caso la columna \texttt{ri}). Si tu meta-análisis no requiere moderadores (ver sección \textcite{ref}(met-moderation)), con una estructura como esta sería suficiente.
 
 Después hay unas columnas que contienen variables específicas para este este ejemplo, y que son una serie de posibles moderadores que agrupan características de los estudios a meta-analizar:
 
@@ -397,15 +398,15 @@ Voy a volver a cargar la base de datos (sobrescribiendo el objeto \texttt{dat}),
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{get}\NormalTok{(}\FunctionTok{data}\NormalTok{(dat.molloy2014)) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{study\_id =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{)  }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# crear columna \textquotesingle{}study\_id\textquotesingle{} y agregar números del 1 al 16}
-  \FunctionTok{select}\NormalTok{(study\_id, authors}\SpecialCharTok{:}\NormalTok{quality) }\SpecialCharTok{\%\textgreater{}\%} \CommentTok{\# mover \textquotesingle{}study\_id\textquotesingle{} como primera columna}
+\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{get}\NormalTok{(}\FunctionTok{data}\NormalTok{(dat.molloy2014)) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{study\_id =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{)  }\SpecialCharTok{|\textgreater{}} \CommentTok{\# crear columna \textquotesingle{}study\_id\textquotesingle{} y agregar números del 1 al 16}
+  \FunctionTok{select}\NormalTok{(study\_id, authors}\SpecialCharTok{:}\NormalTok{quality) }\SpecialCharTok{|\textgreater{}} \CommentTok{\# mover \textquotesingle{}study\_id\textquotesingle{} como primera columna}
   \FunctionTok{mutate\_at}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"controls"}\NormalTok{, }\CommentTok{\# transformar variables relevantes en factores}
               \StringTok{"design"}\NormalTok{,}
               \StringTok{"a\_measure"}\NormalTok{,}
               \StringTok{"c\_measure"}\NormalTok{,}
               \StringTok{"quality"}\NormalTok{), }
-\NormalTok{            as.factor) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{            as.factor) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{fct\_relevel}\NormalTok{(controls, }\CommentTok{\# reorganizar niveles de la variable \textquotesingle{}controls\textquotesingle{}}
                                 \StringTok{"none"}\NormalTok{, }\StringTok{"multiple"}\NormalTok{))  }
 \end{Highlighting}
@@ -752,7 +753,7 @@ Dado que lo asigné a un objeto (\texttt{inf.res}), para ver el resultado, debo 
 
 Esto me muestra gran cantidad de datos de cada estudio (en este caso, lo presento como una tabla sin formato, tal cual se ve en la consola de R), y contiene información que puede parecer muy compleja; sin embargo, como verás, la última columna resume la interpretación general de estos resultados de influencia, facilitando muchísimo su interpretación.
 
-Las columnas que incluye son:
+Las columnas que incluye este \emph{output} son las siguientes:
 
 \begin{itemize}
 \item
@@ -790,7 +791,7 @@ Por último, podemos también ver esta información que tenemos guardada en el o
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/infplot-1.pdf}
-\caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje \emph{X} representan cada estudio, como lo definimos en columna \texttt{study\_id} de la Tabla \ref{tab:estructuramod}. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo este análisis sugiere que no es necesario excluir ningún estudio de nuestro meta-análisis.}
+\caption{\label{fig:infplot}Diagnóstico de influencia. Estudios particularmente influyentes serían representados con un punto rojo. Los números 1 a 16 en el eje \emph{X} representan cada estudio, como lo definimos en columna \texttt{study\_id} de la Tabla \ref{tab:estructuramod}. En este caso, no hay ningún estudio que se considere demasiado influyente, por lo que este análisis sugiere que no es necesario excluir ningún estudio de nuestro meta-análisis.}
 \end{figure}
 
 Más adelante, en la sección \ref{todas-combinaciones}, daré más información y técnicas más completas para identificar estudios atípicos que podrían sesgar nuestra estimación del efecto \emph{real}.
@@ -811,7 +812,7 @@ Esto produce la Figura \ref{fig:for-plot1}.
 \begin{figure}
 \centering
 \includegraphics{Meta-analysis_files/figure-latex/for-plot1-1.pdf}
-\caption{\label{fig:for-plot1}\emph{Forest plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher), así como sus intervalos de confianza entre paréntesis cuadrados. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante.}
+\caption{\label{fig:for-plot1}\emph{Forest plot} básico de \href{https://www.metafor-project.org/doku.php}{metafor}. Para cada estudio meta-analizado, tenemos el efecto (correlación, en este caso en valores \emph{z} de Fisher), así como sus intervalos de confianza entre corchetes. Esta misma información está representada gráficamente, con los cuadrados representando el efecto de cada estudio así como sus intervalos de confianza como barras de error, y el tamaño de muestra representado por el tamaño del cuadrado. Bajo estos resultados, tenemos nuestro meta-análisis, con el mismo formato en texto, pero representando el efecto y sus intervalos de confianza con un diamante.}
 \end{figure}
 
 Como se puede ver en las Figuras \ref{fig:for-plot1}, \ref{fig:for-plot2} y \ref{fig:for-plot3b} (que son versiones del mismo \emph{forest plot}), no es una sorpresa que el análisis nos sugiera bastante heterogeneidad; las correlaciones encontradas entre los diferentes estudios varían mucho (están entre -0.09 y 0.37), y aunque son positivas en la mayoría de los casos, en algunos son prácticamente 0 o incluso negativas.
@@ -822,14 +823,11 @@ Para una versión más completa y anotada, también usando el \emph{plot} básic
 \begin{Highlighting}[]
 \CommentTok{\# forest plot con anotaciones adicionales}
 \FunctionTok{forest}\NormalTok{(res, }\AttributeTok{cex =} \FloatTok{0.75}\NormalTok{, }\AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\FloatTok{1.6}\NormalTok{),}
-       \AttributeTok{slab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{),}
-       \AttributeTok{showweights =} \ConstantTok{TRUE}\NormalTok{,}
-       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{,}
-       \AttributeTok{digits =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,3L),}
+       \AttributeTok{slab =} \FunctionTok{paste}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{authors, dat}\SpecialCharTok{$}\NormalTok{year, }\AttributeTok{sep =} \StringTok{", "}\NormalTok{), }\AttributeTok{showweights =} \ConstantTok{TRUE}\NormalTok{,}
+       \AttributeTok{xlab =} \StringTok{"Coeficiente de correlación (z de Fisher)"}\NormalTok{, }\AttributeTok{digits =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,3L),}
        \AttributeTok{mlab =} \FunctionTok{bquote}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Modelo EA: Q("}\NormalTok{, .(res}\SpecialCharTok{$}\NormalTok{k }\SpecialCharTok{{-}}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{p), }\StringTok{") = "}\NormalTok{,}
-\NormalTok{     .(}\FunctionTok{formatC}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{QE, }\AttributeTok{digits =} \DecValTok{2}\NormalTok{, }\AttributeTok{format =} \StringTok{"f"}\NormalTok{)),}
-     \StringTok{", p "}\NormalTok{, .(scales}\SpecialCharTok{::}\FunctionTok{pvalue}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{pval)), }\StringTok{"; "}\NormalTok{, I}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{, }\StringTok{" = "}\NormalTok{,}
-\NormalTok{     .(}\FunctionTok{formatC}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{I2, }\AttributeTok{digits =} \DecValTok{1}\NormalTok{, }\AttributeTok{format =} \StringTok{"f"}\NormalTok{)), }\StringTok{"\%"}\NormalTok{)))}
+\NormalTok{     .(}\FunctionTok{formatC}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{QE, }\AttributeTok{digits =} \DecValTok{2}\NormalTok{, }\AttributeTok{format =} \StringTok{"f"}\NormalTok{)), }\StringTok{", p "}\NormalTok{, .(scales}\SpecialCharTok{::}\FunctionTok{pvalue}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{pval)), }
+     \StringTok{"; "}\NormalTok{, I}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{, }\StringTok{" = "}\NormalTok{, .(}\FunctionTok{formatC}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{I2, }\AttributeTok{digits =} \DecValTok{1}\NormalTok{, }\AttributeTok{format =} \StringTok{"f"}\NormalTok{)), }\StringTok{"\%"}\NormalTok{)))}
 \CommentTok{\# agregar encabezados a las columnas (valores de X y Y deben ser ajustados)}
 \NormalTok{op }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{cex =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{font =} \DecValTok{2}\NormalTok{) }
 \FunctionTok{text}\NormalTok{(}\AttributeTok{x =} \SpecialCharTok{{-}}\FloatTok{1.6}\NormalTok{, }\AttributeTok{y =} \DecValTok{18}\NormalTok{, }\AttributeTok{labels =} \StringTok{"Autor(es), Año"}\NormalTok{, }\AttributeTok{pos =} \DecValTok{4}\NormalTok{)}
@@ -1111,18 +1109,18 @@ De nuevo, alternativamente podemos usar la función \texttt{viz\_funnel} del paq
 \caption{\label{fig:tf-plot2}\emph{Funnel plot} creado con \href{https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html}{metaviz} usando el método de recorte y relleno (\emph{trim and fill}). En blanco los estudios meta-analizados; en negro, los estudios \emph{rellenados}.}
 \end{figure}
 
-El resultado nos muestra que el análisis aumentó dos estudios hipotéticos a la izquierda. Es decir, sugiere que hay \emph{cierto} nivel de sesgo de publicación. De hecho, la estimación del efecto al aumentar estos estudios hipotéticos para que la distribución sea realmente simétrica, disminuye a 0.1288, algo menor que el 0.1499 que nos sugería el análisis inicial.
+El resultado nos muestra que el análisis aumentó dos estudios hipotéticos a la izquierda. Es decir, sugiere que hay \emph{cierto} nivel de sesgo de publicación. De hecho, la estimación del efecto al aumentar estos estudios hipotéticos para que la distribución sea realmente simétrica, disminuye a 0.1288, algo menor que el 0.1499 que nos sugería el análisis inicial. Se debe tener en cuenta que los estudios generados por el método \emph{trim and fill}, son hipotéticos. Y que estos estudios se utilizan para estimar el tamaño y la dirección del sesgo de publicación, pero no son datos reales.Por esto, los resultados deben ser interpretados con precaución y no constituyen evidencia definitiva de sesgo de publicación.
 
 Si quieres profundizar en el método de recorte y relleno (\emph{trim and fill}), su interpretación, así como sus fortalezas y limitaciones, te recomiendo leer el artículo de \textcite{shiTrimandfill2019} al respecto.
 
 \hypertarget{vevea-hedges}{%
 \subsubsection{Modelo de función de peso de Vevea y Hedges}\label{vevea-hedges}}
 
-El modelo de función de peso de Vevea y Hedges \autocites*{veveaGeneralLinearModel1995}[ver también][]{veveaPublicationBiasResearch2005} es uno de los modelos se selección (en inglés, \emph{selection models}) más conocidos\footnote{El otro modelo de selección muy conocido, es el modelo de Copas y Shi \autocite*{copasMetaanalysisFunnelPlots2000,copasSensitivityAnalysisPublication2001}. Aunque no lo incluyo en esta guía, es importante mencionar que hay evidencia que muestra que es preferible a métodos como el de \emph{trim and fill} \autocite{schwarzerEmpiricalEvaluationSuggests2010}. En R, este método se puede implementar con la función \texttt{copas} del paquete \texttt{metasens} \autocites{schwarzerMetasensPackage}[ver también Capítulo 5 en][]{schwarzerMetaAnalysis2015}.}.
+El modelo de función de peso de Vevea y Hedges \autocites*{veveaGeneralLinearModel1995}[ver también][]{veveaPublicationBiasResearch2005} es uno de los modelos de selección (en inglés, \emph{selection models}) más conocidos\footnote{El otro modelo de selección muy conocido, es el modelo de Copas y Shi \autocite*{copasMetaanalysisFunnelPlots2000,copasSensitivityAnalysisPublication2001}. Aunque no lo incluyo en esta guía, es importante mencionar que hay evidencia que muestra que es preferible a métodos como el de \emph{trim and fill} \autocite{schwarzerEmpiricalEvaluationSuggests2010}. En R, este método se puede implementar con la función \texttt{copas} del paquete \texttt{metasens} \autocites{schwarzerMetasensPackage}[ver también Capítulo 5 en][]{schwarzerMetaAnalysis2015}.}.
 
 Los modelos de selección intentan describir el mecanismo de supresión del efecto y combinarlo con un modelo de tamaño del efecto que describa la distribución de los efectos en ausencia de sesgo de publicación.
 
-El modelo de Vevea y Hedges da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores \(p\) \autocites{coburnPublicationBiasFunction2015}[para una descripción sencilla y general, ver por ejemplo][]{SesgoPublicacion2008}. En particular, es más probable que sean publicados los estudios con resultados \emph{significativo} (típicamente, \(p < 0.05\), usando un \(\alpha\) tradicional de 0.05), en comparación con estudios con resultados no significativos (es decir, con resultados que no permiten rechazar la hipótesis nula). Estos sesgos pueden por supuesto sesgar la literatura publicada, y afectar nuestro meta-análisis.
+El modelo de Vevea y Hedges da más peso a ciertos tamaños de efecto. La realidad de la literatura científica es que es más probable que algunos estudios sean publicados, dependiendo de sus valores \(p\) \autocites{coburnPublicationBiasFunction2015}[para una descripción sencilla y general, ver por ejemplo][]{SesgoPublicacion2008}. En particular, es más probable que sean publicados los estudios con resultados \emph{significativos} (típicamente, \(p < 0.05\), usando un \(\alpha\) tradicional de 0.05), en comparación con estudios con resultados no significativos (es decir, con resultados que no permiten rechazar la hipótesis nula). Estos sesgos pueden por supuesto sesgar la literatura publicada, y afectar nuestro meta-análisis.
 
 En R, para estimar el sesgo de publicación de un meta-análisis usando el modelo de función de peso de Vevea y Hedges, se puede usar la función \texttt{weightfunct} del paquete \texttt{weightr} \autocite{coburnWeightr2019}.
 
@@ -1186,9 +1184,9 @@ El modelo no ajustado nos da un estimado muy similar (pero no idéntico) al del 
 
 Como antes, también nos da valores de heterogeneidad \(\tau^2\), \(\tau\) y \(Q\).
 
-Pero lo más importante, es que en la segunda parte (el modelo ajustado) los resultado del meta-análisis se calculan de acuerdo con los pesos dados a cada efecto.
+Pero lo más importante, es que en la segunda parte (el modelo ajustado) los resultados del meta-análisis se calculan de acuerdo con los pesos dados a cada efecto.
 
-Esta técnica, a diferencia del método \emph{trim and fill} no ``recorta'' ni ``rellena'' estudios, por lo que el análisis se hace con el mismo número de estudios (en este caso, 16; por eso en encabezado dice \texttt{Adjusted\ Model\ (k\ =\ 16)}).
+Esta técnica, a diferencia del método \emph{trim and fill} no ``recorta'' ni ``rellena'' estudios, por lo que el análisis se hace con el mismo número de estudios (en este caso, 16; por eso el encabezado dice \texttt{Adjusted\ Model\ (k\ =\ 16)}).
 
 Sin embargo, la función \texttt{weightfunct} incrementa el peso de estudios que tienen menos probabilidad de ser publicados (típicamente resultados no significativos), y reduce el peso de estudios con mayor probabilidad de ser publicados (los que encuentran resultados más extremos). Por esto, al usar esta técnica, estás asumiendo que, de hecho, en el efecto que tratas de encontrar en tu meta-análisis hay un sesgo de publicación, lo que a menudo es una suposición bastante apropiada.
 
@@ -1213,7 +1211,7 @@ Para hacer esto, usaré el paquete \texttt{metameta} \autocite{quintanaGuideMeta
 \hypertarget{instalaciuxf3n-de-metameta}{%
 \subsubsection{\texorpdfstring{Instalación de \texttt{metameta}}{Instalación de metameta}}\label{instalaciuxf3n-de-metameta}}
 
-El paquete \texttt{metameta} se debe instalar desde GitHub ya que, al día de hoy, no está aún disponible en CRAN\footnote{\href{https://cran.r-project.org/}{CRAN} (siglas de \emph{Comprehensive R Archive Network}) es una red de servidores de todo el mundo que almacenan versiones idénticas y actualizadas del código y la documentación de R (incluyendo el lenguaje mismo de R, paquetes aceptados por el equipo de CRAN, y toda la documentación). Es el repositorio oficial y dedicado a R, desde el que normalmente instalas cualquier paquete. \href{https://github.com/}{GitHub}, en cambio, es un repositorio general y abierto para para proyectos (típicamente programación) en el que, entre otras cosas, suelen estar alojados todos los paquetes de R en versiones de desarrollador, y antes de ser aceptados en CRAN. Por supuesto, a diferencia de CRAN, GitHub es un repositorio de código general, no específico para R.}.
+El paquete \texttt{metameta} se debe instalar desde GitHub ya que, al día de hoy, no está aún disponible en CRAN\footnote{\href{https://cran.r-project.org/}{CRAN} (siglas de \emph{Comprehensive R Archive Network}) es una red de servidores de todo el mundo que almacenan versiones idénticas y actualizadas del código y la documentación de R (incluyendo el lenguaje mismo de R, paquetes aceptados por el equipo de CRAN, y toda la documentación). Es el repositorio oficial y dedicado a R, desde el que normalmente instalas cualquier paquete. \href{https://github.com/}{GitHub}, en cambio, es un repositorio general y abierto para proyectos (típicamente programación) en el que, entre otras cosas, suelen estar alojados todos los paquetes de R en versiones de desarrollador, y antes de ser aceptados en CRAN. Por supuesto, a diferencia de CRAN, GitHub es un repositorio de código general, no específico para R.}.
 
 Para esto, debemos tener instalado el paquete \texttt{devtools}, y usar la función \texttt{install\_github} que nos permite instalar paquetes directamente desde GitHub.
 
@@ -1246,18 +1244,18 @@ Esto lo puedo obtener de manera sencilla con la función \texttt{summary}, que a
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat.poder }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(dat) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{dat.poder }\OtherTok{\textless{}{-}} \FunctionTok{summary}\NormalTok{(dat) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{rename}\NormalTok{(}\AttributeTok{lower =}\NormalTok{ ci.lb, }\AttributeTok{upper =}\NormalTok{ ci.ub)}
 \end{Highlighting}
 \end{Shaded}
 
 Asigné esta versión modificada de la base de datos a un objeto que llamé \texttt{dat.poder}. Ya con esta base de datos lista y con el formato correcto para usar la función \texttt{mapower\_ul}, podemos seguir adelante.
 
-La función \texttt{mapower\_ul} requiere que asignemos la base de datos (\texttt{dat.poder}) al argumento \texttt{dat}, el tamaño de efecto que estimamos como efecto \emph{real} (en este caso, 0.15) al argumento \texttt{observed\_es}, así como un nombre que le daremos al meta-análisis al argumento \texttt{name} (en este caso lo llamaré ``Molloy et al.~2014'', pero por supuesto tú puedes darle el nombre que consideres adecuado, siempre entre comillas). Asignaré el resultado de este análisis a un objeto que simplemente llamaré \texttt{poder}.
+La función \texttt{mapower\_ul} requiere que asignemos la base de datos (\texttt{dat.poder}) al argumento \texttt{dat}, el tamaño de efecto que estimamos como efecto \emph{real} (en este caso, 0.15) al argumento \texttt{observed\_es}, así como un nombre que le daremos al meta-análisis al argumento \texttt{name} (en este caso lo llamaré ``Molloy et al.~2013'', pero por supuesto tú puedes darle el nombre que consideres adecuado, siempre entre comillas). Asignaré el resultado de este análisis a un objeto que simplemente llamaré \texttt{poder}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{poder }\OtherTok{\textless{}{-}} \FunctionTok{mapower\_ul}\NormalTok{(}\AttributeTok{dat =}\NormalTok{ dat.poder, }\AttributeTok{observed\_es =} \FloatTok{0.15}\NormalTok{, }\AttributeTok{name =} \StringTok{"Molloy et al. 2014"}\NormalTok{)}
+\NormalTok{poder }\OtherTok{\textless{}{-}} \FunctionTok{mapower\_ul}\NormalTok{(}\AttributeTok{dat =}\NormalTok{ dat.poder, }\AttributeTok{observed\_es =} \FloatTok{0.15}\NormalTok{, }\AttributeTok{name =} \StringTok{"Molloy et al. 2013"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1288,14 +1286,14 @@ Para ver el objeto, como siempre, solo tengo que llamarlo por el nombre que le h
   power_es_observed      es01      es02      es03      es04      es05      es06
 1                 0 0.1762492 0.5356629 0.8673657 0.9837594 0.9992182 0.9999858
        es07 es08 es09 es1 es_observed meta_analysis_name
-1 0.9999999    1    1   1   0.3364197 Molloy et al. 2014
+1 0.9999999    1    1   1   0.3364197 Molloy et al. 2013
  \end{verbatim}
                 \end{footnotesize}
                 \end{ROut}
 
 Por ejemplo, nos muestra que para detectar un efecto de \emph{z} = 0.1 (\texttt{es01}), se estima un poder de \texttt{0.1762492}; para un poder de \emph{z} = 0.2 (\texttt{es02}), se estima un poder de \texttt{0.5356629}, y continúa así hasta un poder de \emph{z} = 1.0 (\texttt{es1}).
 
-Finalmente, nos muestra el poder estimado para detectar un efecto del tamaño del que estimamos como \emph{real} (en nuestro caso, \emph{z} = 0.15), bajo el encabezado \texttt{es\_observed}. Como se ve, el poder es de tan solo \texttt{0.3364197}, lo que quiere decir que, si el efecto \emph{real} de la asociación entre escrupulosidad y la adherencia a la medicación fuese \emph{z} = 0.15, un meta-análisis como el nuestro sólo detectaría esa correlación como significativa en el 33.64\% de os casos.
+Finalmente, nos muestra el poder estimado para detectar un efecto del tamaño del que estimamos como \emph{real} (en nuestro caso, \emph{z} = 0.15), bajo el encabezado \texttt{es\_observed}. Como se ve, el poder es de tan solo \texttt{0.3364197}, lo que quiere decir que, si el efecto \emph{real} de la asociación entre escrupulosidad y la adherencia a la medicación fuese \emph{z} = 0.15, un meta-análisis como el nuestro sólo detectaría esa correlación como significativa en el 33.64\% de los casos.
 
 Lo que es más, podemos concluir que solo tenemos suficiente poder estadístico para detectar como significativos efectos desde aproximadamente \emph{z} = 0.3 (\texttt{es03} = \texttt{0.8673657}, donde por fin tenemos un poder mayor a 0.8, o lo que es lo mismo, 80\%). Sin embargo, nuestras estimaciones del efecto \emph{real} están por debajo de este umbral, ya que en nuestro meta-análisis original fue de \emph{z} = 0.15 y en el meta-análisis con pesos ajustados fue de \emph{z} = 0.09.
 
@@ -1402,7 +1400,7 @@ El otro elemento generado es una base de datos modificada que, de manera similar
                 \end{footnotesize}
                 \end{ROut}
 
-Básicamente, esta tabla contiene información nos permite evaluar si cada estudio incluido en nuestro meta-análisis tenía o no un poder estadístico suficiente para detectar un rango de tamaños de efecto que, como antes van desde \emph{z} = 0.1 (columna \texttt{power\_es01}), hasta \emph{z} = 1.0 (\texttt{power\_es1}).
+Básicamente, esta tabla contiene información que nos permite evaluar si cada estudio incluido en nuestro meta-análisis tenía o no un poder estadístico suficiente para detectar un rango de tamaños de efecto que, como antes van desde \emph{z} = 0.1 (columna \texttt{power\_es01}), hasta \emph{z} = 1.0 (\texttt{power\_es1}).
 
 También, nos permite ver el poder estadístico de cada estudio para detectar un tamaño de efecto \emph{real} como el que estimamos (\emph{z} = 0.15), en la columna \texttt{power\_es\_observed} (la información de esta columna es análoga a la de los \emph{funnel plot} creados con la función \texttt{viz\_funnel} del paquete \texttt{metaviz}; Fig. \ref{fig:funnel-plot3}A y B).
 
@@ -1419,7 +1417,7 @@ Puedo fácilmente crear una visualización de esto con la función \texttt{firep
 \end{Highlighting}
 \end{Shaded}
 
-En este caso asigné el \emph{fireplot} resultante a un objeto, para poder modificar después, que llamé \texttt{poder.plot}. Para verlo, entonces, debo correr el objeto para ver el resultado (Fig. \ref{fig:fire-plot1}).
+En este caso asigné el \emph{fireplot} resultante a un objeto, para poder modificar después, que llamé \texttt{poder.plot}. Entonces, para ver el resultado, debo correr el objeto (Fig. \ref{fig:fire-plot1}).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1456,7 +1454,7 @@ Este código produce la Figura \ref{fig:fire-plot2}, con todos los textos en esp
 \caption{\label{fig:fire-plot2}Fireplot básico de \href{https://www.dsquintana.blog/metameta-r-package-meta-analysis/}{metameta}, para un análisis de poder de nuestro meta-análisis, con el texto traducido a español y con la leyenda en una escala discreta para facilitar su lectura. \emph{Observado} hace referencia al tamaño de efecto observado en nuestro meta-análisis original (en este caso, 0.15).}
 \end{figure}
 
-La Figura \ref{fig:fire-plot2} nos permite comprobar, de nuevo, que el meta-análisis solamente alcanza un poder mínimo recomendado de 0.8 (80\%) cuando se trata de efectos de \emph{z} = 0.3 (o mayores), y que para nuestro efecto \emph{observado} (\emph{z} = 0.15), el poder apenas alcanza cerca de 0.4 (40\%).
+La Figura \ref{fig:fire-plot2} nos permite comprobar, de nuevo, que el meta-análisis solamente alcanza un poder mínimo recomendado de 0.8 (80\%) cuando se trata de efectos \emph{z} = 0.3 (o mayores), y que para nuestro efecto \emph{observado} (\emph{z} = 0.15), el poder apenas alcanza cerca de 0.4 (40\%).
 
 Si el poder estadístico de nuestro meta-análisis para detectar ese efecto (\emph{z} = 0.15) es demasiado bajo, por supuesto sería aún más deficiente para detectar un efecto menor, como el estimado en nuestro modelo con pesos corregidos (\emph{z} = 0.09).
 
@@ -1565,7 +1563,7 @@ Un meta-análisis combinatorio ajusta una serie de meta-análisis a partir de to
 
 Como se puede ver en la Tabla \ref{tab:gosh-combs}, el número de combinaciones aumenta drásticamente a medida que aumenta el número de estudios en nuestro meta-análisis. Por ejemplo, si tuviéramos 5 estudios, habría solo 31 posibles combinaciones (\(2^{5} - 1\) = 31). Sin embargo, si tuviéramos 20 estudios, habría más de un millón de combinaciones (\(2^{16} - 1\) = 1 048 575) y si tuviéramos 30 estudios, habría más de mil millones de combinaciones (ver Tabla \ref{tab:gosh-combs}). Dado que esto puede consumir muchos recursos computacionales, es importante tener precaución al realizar un meta-análisis combinatorio con un gran número de estudios. El análisis puede tardar mucho tiempo e incluso fallar si se usa toda la memoria RAM del ordenador.
 
-En nuestro ejemplo, estamos meta-analizando 16 estudios, lo que significa que necesitamos ajustar 65 535 modelos (\(2^{16} - 1\)). Ajustar todos estos modelos puede llevar bastante tiempo, aunque esto dependerá de las especificaciones de tu equipo (en mi portátil, tarda alrededor de 5 minutos).
+En nuestro ejemplo, estamos meta-analizando 16 estudios, lo que significa que necesitamos ajustar 65 535 modelos (\(2^{16} - 1\)). Ajustar todos estos modelos puede llevar bastante tiempo, aunque esto dependerá de las especificaciones de tu equipo (en mi portátil, tarda alrededor de 5 minutos, pero ten en cuenta que en equipos viejos podría tardar 20, 30 minutos o incluso más).
 
 Para visualizar la heterogeneidad entre los estudios, podemos utilizar una técnica llamada \emph{visualización gráfica de la heterogeneidad de los estudios} (en inglés, \emph{Graphical Display of Study Heterogeneity} o simplemente \emph{GOSH}), propuesta por \textcite{olkinGOSHGraphicalDisplay2012}. En R, podemos realizar esta visualización utilizando la función \texttt{gosh} del paquete \texttt{metafor}. Simplemente necesitamos proporcionar el resultado de nuestro meta-análisis original (\texttt{res}) como argumento. Opcionalmente, también podemos agregar el argumento \texttt{progbar\ =\ TRUE} para ver el progreso del análisis en la consola. Guardaré el resultado de este análisis en un objeto llamado \texttt{gp} para su posterior uso.
 
@@ -1600,7 +1598,7 @@ Para evitar afectar nuestra base de datos original, creamos una copia de los dat
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{dat\_mo }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{dat\_mo }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{yi =} \FunctionTok{replace}\NormalTok{(yi, }\AttributeTok{list =} \DecValTok{12}\NormalTok{, }\AttributeTok{values =} \FloatTok{0.7}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -1894,10 +1892,10 @@ Adicionalmente, voy a convertir esta tabla a un objeto clase \texttt{data.frame}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Calcular efecto ajustado para diferentes edades}
-\NormalTok{pred.res.modage }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.modage, }\AttributeTok{newmods =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{as.data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{mutate\_all}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(., }\DecValTok{3}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{meanage =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{pred.res.modage }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.modage, }\AttributeTok{newmods =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{as.data.frame}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate\_all}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(., }\DecValTok{3}\NormalTok{)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{meanage =} \FunctionTok{seq}\NormalTok{(}\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{select}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{)}
 \CommentTok{\# Ver la tabla}
 \NormalTok{pred.res.modage}
@@ -2078,11 +2076,11 @@ Entonces, como el intercepto (\texttt{intrcpt}) tiene un valor estimado de 0.178
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{pred.res.contr }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.contr, }\AttributeTok{newmods =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{as.data.frame}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{mutate\_all}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(., }\DecValTok{3}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{levels}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{controls)) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{rename}\NormalTok{(}\AttributeTok{yi =}\NormalTok{ pred) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{pred.res.contr }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(res.contr, }\AttributeTok{newmods =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{as.data.frame}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate\_all}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\FunctionTok{round}\NormalTok{(., }\DecValTok{3}\NormalTok{)) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{controls =} \FunctionTok{levels}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{controls)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{rename}\NormalTok{(}\AttributeTok{yi =}\NormalTok{ pred) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{select}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{)}
 \NormalTok{pred.res.contr}
 \end{Highlighting}
@@ -2436,10 +2434,10 @@ A BibTeX entry for LaTeX users is
 \emph{stats}, \emph{graphics}, \emph{grDevices}, \emph{utils}, \emph{datasets}, \emph{methods} and \emph{base}
 
 \textbf{other attached packages:}
-\emph{meta(v.6.2-1)}, \emph{dmetar(v.0.0.9000)}, \emph{metameta(v.0.1.1)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.13.0)}, \emph{zoo(v.1.8-11)}, \emph{psych(v.2.3.3)}, \emph{scales(v.1.2.1)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.6.0)}, \emph{lubridate(v.1.9.2)}, \emph{forcats(v.1.0.0)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.1.1)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.4)}, \emph{tidyr(v.1.3.0)}, \emph{tibble(v.3.2.1)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.2.0.0)}, \emph{metafor(v.4.0-0)}, \emph{numDeriv(v.2016.8-1.1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.1)} and \emph{knitr(v.1.42)}
+\emph{meta(v.6.2-1)}, \emph{dmetar(v.0.0.9000)}, \emph{metameta(v.0.2)}, \emph{metaviz(v.0.3.1)}, \emph{tidyquant(v.1.0.6)}, \emph{quantmod(v.0.4.20)}, \emph{TTR(v.0.24.3)}, \emph{PerformanceAnalytics(v.2.0.4)}, \emph{xts(v.0.13.0)}, \emph{zoo(v.1.8-11)}, \emph{psych(v.2.3.3)}, \emph{scales(v.1.2.1)}, \emph{kableExtra(v.1.3.4)}, \emph{ggpubr(v.0.6.0)}, \emph{lubridate(v.1.9.2)}, \emph{forcats(v.1.0.0)}, \emph{stringr(v.1.5.0)}, \emph{dplyr(v.1.1.1)}, \emph{purrr(v.1.0.1)}, \emph{readr(v.2.1.4)}, \emph{tidyr(v.1.3.0)}, \emph{tibble(v.3.2.1)}, \emph{ggplot2(v.3.4.1)}, \emph{tidyverse(v.2.0.0)}, \emph{metafor(v.4.0-0)}, \emph{numDeriv(v.2016.8-1.1)}, \emph{metadat(v.1.2-0)}, \emph{Matrix(v.1.5-3)}, \emph{robumeta(v.2.1)} and \emph{knitr(v.1.42)}
 
 \textbf{loaded via a namespace (and not attached):}
-\emph{minqa(v.1.2.5)}, \emph{colorspace(v.2.1-0)}, \emph{ggsignif(v.0.6.4)}, \emph{class(v.7.3-21)}, \emph{modeltools(v.0.2-23)}, \emph{mclust(v.6.0.0)}, \emph{rstudioapi(v.0.14)}, \emph{farver(v.2.1.1)}, \emph{ggrepel(v.0.9.3)}, \emph{flexmix(v.2.3-19)}, \emph{fansi(v.1.0.4)}, \emph{mathjaxr(v.1.6-0)}, \emph{xml2(v.1.3.3)}, \emph{splines(v.4.2.3)}, \emph{mnormt(v.2.1.1)}, \emph{robustbase(v.0.95-0)}, \emph{jsonlite(v.1.8.4)}, \emph{nloptr(v.2.0.3)}, \emph{broom(v.1.0.4)}, \emph{kernlab(v.0.9-32)}, \emph{cluster(v.2.1.4)}, \emph{compiler(v.4.2.3)}, \emph{httr(v.1.4.5)}, \emph{backports(v.1.4.1)}, \emph{fastmap(v.1.1.1)}, \emph{cli(v.3.6.1)}, \emph{htmltools(v.0.5.5)}, \emph{tools(v.4.2.3)}, \emph{gtable(v.0.3.3)}, \emph{glue(v.1.6.2)}, \emph{ggthemes(v.4.2.4)}, \emph{Rcpp(v.1.0.10)}, \emph{carData(v.3.0-5)}, \emph{vctrs(v.0.6.1)}, \emph{svglite(v.2.1.1)}, \emph{nlme(v.3.1-162)}, \emph{fpc(v.2.2-10)}, \emph{xfun(v.0.38)}, \emph{lme4(v.1.1-32)}, \emph{rvest(v.1.0.3)}, \emph{timechange(v.0.2.0)}, \emph{CompQuadForm(v.1.4.3)}, \emph{lifecycle(v.1.0.3)}, \emph{rstatix(v.0.7.2)}, \emph{DEoptimR(v.1.0-11)}, \emph{MASS(v.7.3-58.2)}, \emph{hms(v.1.1.3)}, \emph{parallel(v.4.2.3)}, \emph{RColorBrewer(v.1.1-3)}, \emph{yaml(v.2.3.7)}, \emph{curl(v.5.0.0)}, \emph{gridExtra(v.2.3)}, \emph{pander(v.0.6.5)}, \emph{MuMIn(v.1.47.5)}, \emph{stringi(v.1.7.12)}, \emph{highr(v.0.10)}, \emph{poibin(v.1.5)}, \emph{boot(v.1.3-28.1)}, \emph{rlang(v.1.1.0)}, \emph{pkgconfig(v.2.0.3)}, \emph{systemfonts(v.1.0.4)}, \emph{prabclus(v.2.3-2)}, \emph{evaluate(v.0.20)}, \emph{lattice(v.0.20-45)}, \emph{labeling(v.0.4.2)}, \emph{cowplot(v.1.1.1)}, \emph{tidyselect(v.1.2.0)}, \emph{magrittr(v.2.0.3)}, \emph{bookdown(v.0.33)}, \emph{R6(v.2.5.1)}, \emph{generics(v.0.1.3)}, \emph{pillar(v.1.9.0)}, \emph{withr(v.2.5.0)}, \emph{mgcv(v.1.8-42)}, \emph{abind(v.1.4-5)}, \emph{nnet(v.7.3-18)}, \emph{car(v.3.1-1)}, \emph{Quandl(v.2.11.0)}, \emph{utf8(v.1.2.3)}, \emph{tzdb(v.0.3.0)}, \emph{rmarkdown(v.2.21)}, \emph{grid(v.4.2.3)}, \emph{netmeta(v.2.8-1)}, \emph{diptest(v.0.76-0)}, \emph{digest(v.0.6.31)}, \emph{webshot(v.0.5.4)}, \emph{stats4(v.4.2.3)}, \emph{munsell(v.0.5.0)}, \emph{viridisLite(v.0.4.1)}, \emph{magic(v.1.6-1)} and \emph{quadprog(v.1.5-8)}
+\emph{minqa(v.1.2.5)}, \emph{colorspace(v.2.1-0)}, \emph{ggsignif(v.0.6.4)}, \emph{class(v.7.3-21)}, \emph{modeltools(v.0.2-23)}, \emph{mclust(v.6.0.0)}, \emph{rstudioapi(v.0.14)}, \emph{farver(v.2.1.1)}, \emph{ggrepel(v.0.9.3)}, \emph{flexmix(v.2.3-19)}, \emph{fansi(v.1.0.4)}, \emph{mathjaxr(v.1.6-0)}, \emph{xml2(v.1.3.3)}, \emph{splines(v.4.2.3)}, \emph{mnormt(v.2.1.1)}, \emph{robustbase(v.0.95-1)}, \emph{jsonlite(v.1.8.4)}, \emph{nloptr(v.2.0.3)}, \emph{broom(v.1.0.4)}, \emph{kernlab(v.0.9-32)}, \emph{cluster(v.2.1.4)}, \emph{compiler(v.4.2.3)}, \emph{httr(v.1.4.5)}, \emph{backports(v.1.4.1)}, \emph{fastmap(v.1.1.1)}, \emph{cli(v.3.6.0)}, \emph{htmltools(v.0.5.5)}, \emph{tools(v.4.2.3)}, \emph{gtable(v.0.3.3)}, \emph{glue(v.1.6.2)}, \emph{ggthemes(v.4.2.4)}, \emph{Rcpp(v.1.0.10)}, \emph{carData(v.3.0-5)}, \emph{vctrs(v.0.6.1)}, \emph{svglite(v.2.1.1)}, \emph{nlme(v.3.1-162)}, \emph{fpc(v.2.2-10)}, \emph{xfun(v.0.38)}, \emph{lme4(v.1.1-32)}, \emph{rvest(v.1.0.3)}, \emph{timechange(v.0.2.0)}, \emph{CompQuadForm(v.1.4.3)}, \emph{lifecycle(v.1.0.3)}, \emph{rstatix(v.0.7.2)}, \emph{DEoptimR(v.1.0-11)}, \emph{MASS(v.7.3-58.2)}, \emph{hms(v.1.1.3)}, \emph{parallel(v.4.2.3)}, \emph{RColorBrewer(v.1.1-3)}, \emph{yaml(v.2.3.7)}, \emph{curl(v.5.0.0)}, \emph{gridExtra(v.2.3)}, \emph{pander(v.0.6.5)}, \emph{MuMIn(v.1.47.5)}, \emph{stringi(v.1.7.12)}, \emph{highr(v.0.10)}, \emph{poibin(v.1.5)}, \emph{boot(v.1.3-28.1)}, \emph{rlang(v.1.1.0)}, \emph{pkgconfig(v.2.0.3)}, \emph{systemfonts(v.1.0.4)}, \emph{prabclus(v.2.3-2)}, \emph{evaluate(v.0.20)}, \emph{lattice(v.0.20-45)}, \emph{labeling(v.0.4.2)}, \emph{cowplot(v.1.1.1)}, \emph{tidyselect(v.1.2.0)}, \emph{magrittr(v.2.0.3)}, \emph{bookdown(v.0.33)}, \emph{R6(v.2.5.1)}, \emph{generics(v.0.1.3)}, \emph{pillar(v.1.9.0)}, \emph{withr(v.2.5.0)}, \emph{mgcv(v.1.8-42)}, \emph{abind(v.1.4-5)}, \emph{nnet(v.7.3-18)}, \emph{car(v.3.1-2)}, \emph{Quandl(v.2.11.0)}, \emph{utf8(v.1.2.3)}, \emph{tzdb(v.0.3.0)}, \emph{rmarkdown(v.2.21)}, \emph{grid(v.4.2.3)}, \emph{netmeta(v.2.8-1)}, \emph{diptest(v.0.76-0)}, \emph{digest(v.0.6.31)}, \emph{webshot(v.0.5.4)}, \emph{stats4(v.4.2.3)}, \emph{munsell(v.0.5.0)}, \emph{viridisLite(v.0.4.1)}, \emph{magic(v.1.6-1)} and \emph{quadprog(v.1.5-8)}
 
 \printbibliography
 
