@@ -214,13 +214,13 @@ Imagina, por ejemplo, que frente a un efecto estudiado se publicaron preferentem
 knitr::include_graphics("images/teoria-meta.pdf")
 ```
 
-Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publicación en los estudios incluidos en un meta-análisis, y hacer estimaciones corregidas del efecto *real* que tengan estos sesgos en cuenta para hacer estimaciones más precisas.
+Por suerte, existen técnicas poderosas para buscar evidencia de sesgos de publicación en los estudios incluidos en un meta-análisis, y hacer estimaciones corregidas del efecto *real* que tengan estos sesgos en cuenta para obtener resultados más precisos.
 
 ## Motivación
 
 Teniendo en cuenta la importancia de estas técnicas, y la relativa escasez de material de buena calidad en español, accesible tanto para estudiantes como para investigadores establecidos, he decidido hacer esta guía. He incluido información actualizada, soportada siempre en fuentes de alta calidad que pueden ser consultadas por las personas que quieran profundizar en cada tema.
 
-A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \@ref(meta-cor)), incluyendo cómo hacer análisis de heterogeneidad (sección \@ref(heterog-inf)) y diagnósticos de influencia (sección \@ref(diag-inf)), creación de gráficos de bosque (*forest plots*; sección \@ref(forest-inf)) y gráficos de embudo (*funnel plots*; sección \@ref(funnel-inf)), así como estrategias para detectar posibles sesgos de publicación (secciones \@ref(sesgo-pub) y \@ref(todas-combinaciones)), y para determinar el poder estadístico de un meta-análisis (sección \@ref(poder-inf)). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \@ref(met-moderation)). 
+A lo largo del documento daré ejemplos e instrucciones precisas de cómo hacer un meta-análisis básico en R (sección \@ref(meta-cor)), incluyendo cómo hacer análisis de heterogeneidad (sección \@ref(heterog-inf)) y diagnósticos de influencia (sección \@ref(diag-inf) y, para técnicas más avanzadas, sección \@ref(todas-combinaciones)), creación de gráficos de bosque (*forest plots*; sección \@ref(forest-inf)) y gráficos de embudo (*funnel plots*; sección \@ref(funnel-inf)), así como estrategias para detectar posibles sesgos de publicación (sección \@ref(sesgo-pub)), y para determinar el poder estadístico de un meta-análisis (sección \@ref(poder-inf)). Finalmente, mostraré técnicas de meta-regresión para investigar los factores que pueden influir en los resultados de los estudios incluidos en un meta-análisis (sección \@ref(met-moderation)). 
 
 Adicionalmente, he incluido algunos apéndices, donde encontrarás información concreta sobre otras rutas alternativas para hacer meta-análisis en R (Apéndice \hyperlink{apendice-alt}{A}), incluyendo instrucciones para hacer una curva de valores $p$ (*p-curve*; Apéndice \hyperlink{p-curve}{A1}), así como la manera correcta de citar paquetes de R (Apéndice \hyperlink{paquetes-cit}{B}) y, con fines de garantizar la reproducibilidad de este documento, una lista de los paquetes usados para la creación de esta guía, con sus respectivas versiones (Apéndice \hyperlink{paquetes-list}{C}).
 
@@ -560,7 +560,7 @@ Por último, podemos también ver esta información que tenemos guardada en el o
 plot(inf.res)
 ```
 
-Más adelante, en la sección \@ref(todas-combinaciones), daré más información y técnicas más completas para identificar estudios atípicos que podrían sesgar nuestra estimación del efecto *real*.
+Más adelante, en la sección \@ref(todas-combinaciones), daré más información y técnicas más completas y avanzadas para identificar estudios atípicos que podrían sesgar nuestra estimación del efecto *real*.
 
 ## *Forest plot* (diagrama de bosque) {#forest-inf}
 
