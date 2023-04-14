@@ -32,7 +32,7 @@ header-includes:
   \rhead{\textit{Meta-análisis de correlaciones y meta-regresión en {R:} Guía práctica}}
   \rfoot{\footnotesize{{doi:}
     \href{https://doi.org/10.31222/osf.io/yaxd4}{10.31222/osf.io/yaxd4}}}
-  \lfoot{\footnotesize{{Versión 3 - } \today}}
+  \lfoot{\footnotesize{{Versión \textbf{3}:} \today}}
   \renewcommand{\abstractname}{Descripción}
   \usepackage[spanish]{babel}
   \usepackage{csquotes}
@@ -146,7 +146,7 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 
 [![Investigación Abierta](images%5CLogo-IA-Rectangulo.pdf){width=600px}](https://www.youtube.com/@InvestigacionAbierta)
 
-**Conocimientos necesarios:** Esta guía asume (1) un manejo básico de R, (2) comprensión de correlaciones y regresiones, y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver [este video](https://youtu.be/ntBbkOn9D_o) introductorio al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] publicado en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/@InvestigacionAbierta).
+**Conocimientos necesarios:** Esta guía asume (1) un manejo básico de R, suficiente para al menos instalar paquetes y correr funciones; (2) comprensión de correlaciones y regresiones; y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver [este video](https://youtu.be/ntBbkOn9D_o) introductorio al meta-análisis en *jamovi* [@leongomezMetaanalysis2021] publicado en mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/@InvestigacionAbierta).
 
 **Versión de R:** Para poder correr el código tal cual aparece en esta guía, se requiere R versión 4.1 o superior, pues he usado el *pipe* nativo de R (`|>`). En versiones anteriores de R, el *pipe* nativo puede ser reemplazado por el pipe de `magrittr` (`%>%`), cargando ese paquete [@magrittrcite]. Para más información, puedes ver la sección [11.1.5](https://datanalytics.com/libro_r/1100_programacion.html#tuber%C3%ADas-pipes) de @gil2023.
 
@@ -228,9 +228,9 @@ Adicionalmente, he incluido algunos apéndices, donde encontrarás información 
 
 # Base de datos de ejemplo
 
-A lo largo de esta guía usaré la base de datos `dat.molloy2014`, tomada de @molloy2013. Esta base de datos viene incluida con el paquete `metafor` de R.
+A lo largo de esta guía usaré la base de datos `dat.molloy2014`, tomada de @molloy2014. Esta base de datos viene incluida con el paquete `metafor` de R.
 
-Básicamente, @molloy2013 estudiaron si existe una asociación entre la escrupulosidad (*conscientiousness*[^1]) y la adherencia a la medicación. En otras palabras, ¿las personas más *escrupulosas* tienden a cumplir más con la medicación prescrita?
+Básicamente, @molloy2014 estudiaron si existe una asociación entre la escrupulosidad (*conscientiousness*[^1]) y la adherencia a la medicación. En otras palabras, ¿las personas más *escrupulosas* tienden a cumplir más con la medicación prescrita?
 
 [^1]: En el contexto de los rasgos de personalidad, la dimensión de la *escrupulosidad* (también llamada conciencia o "voluntad de logro"), se refiere al auto-control, incluyendo la planificación y ejecución de tareas. Para una definición detallada del concepto de escrupulosidad en este contexto, ver @johnBigFiveTrait1999.
 
@@ -288,7 +288,7 @@ Después hay unas columnas que contienen variables específicas para este este e
 
 -   `meanage`: edad promedio de la muestra de cada estudio
 
--   `quality`: calidad metodológica (la calidad metodológica fue calificada por los autores del meta-análisis en una escala de 1 a 4, donde las puntuaciones más altas indican una mayor calidad; para información respecto a cómo se obtuvo esta puntuación, ver el artículo original de @molloy2013.
+-   `quality`: calidad metodológica (la calidad metodológica fue calificada por los autores del meta-análisis en una escala de 1 a 4, donde las puntuaciones más altas indican una mayor calidad; para información respecto a cómo se obtuvo esta puntuación, ver el artículo original de @molloy2014.
 
 Por supuesto, el *output* de la consola no es la forma más clara de ver la base de datos, pero para una versión más legible, se puede usar la función `View`, y el nombre de la base de datos o tabla como argumento (en este caso `View(dat)`). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión (y no como sale en la consola de R), para que sean más fáciles de leer.
 
@@ -316,7 +316,7 @@ kable(dat,
       booktabs = TRUE,
       caption = "Estructura de la base de datos con estudios numerados") |> 
   kable_styling(latex_options = c("HOLD_position", "scale_down")) |> 
-  footnote(general = "Datos tomados de Molloy et al. (2013).",
+  footnote(general = "Datos tomados de Molloy et al. (2014).",
            general_title = "Nota:",
            footnote_as_chunk = TRUE)
 ```
@@ -944,10 +944,10 @@ dat.poder <- summary(dat) |>
 
 Asigné esta versión modificada de la base de datos a un objeto que llamé `dat.poder`. Ya con esta base de datos lista y con el formato correcto para usar la función `mapower_ul`, podemos seguir adelante. 
 
-La función `mapower_ul` requiere que asignemos la base de datos (`dat.poder`) al argumento `dat`, el tamaño de efecto que estimamos como efecto *real* (en este caso, 0.15) al argumento `observed_es`, así como un nombre que le daremos al meta-análisis al argumento `name` (en este caso lo llamaré "Molloy et al. 2013", pero por supuesto tú puedes darle el nombre que consideres adecuado, siempre entre comillas). Asignaré el resultado de este análisis a un objeto que simplemente llamaré `poder`.
+La función `mapower_ul` requiere que asignemos la base de datos (`dat.poder`) al argumento `dat`, el tamaño de efecto que estimamos como efecto *real* (en este caso, 0.15) al argumento `observed_es`, así como un nombre que le daremos al meta-análisis al argumento `name` (en este caso lo llamaré "Molloy et al. 2014", pero por supuesto tú puedes darle el nombre que consideres adecuado, siempre entre comillas). Asignaré el resultado de este análisis a un objeto que simplemente llamaré `poder`.
 
 ```{r}
-poder <- mapower_ul(dat = dat.poder, observed_es = 0.15, name = "Molloy et al. 2013")
+poder <- mapower_ul(dat = dat.poder, observed_es = 0.15, name = "Molloy et al. 2014")
 ```
 
 Como veremos a continuación, este objeto tiene varios elementos muy importantes.

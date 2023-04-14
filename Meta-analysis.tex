@@ -102,7 +102,7 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
-\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[T1]{fontenc} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones y meta-regresión en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.31222/osf.io/yaxd4}{10.31222/osf.io/yaxd4}}} \lfoot{\footnotesize{{Versión 3 - } \today}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{csquotes} \usepackage[style=apa,backend=biber]{biblatex} \DeclareLanguageMapping{spanish}{spanish-apa} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{multicol} \usepackage{fontawesome5} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \newcommand{\opensupplement}{\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}} \newcommand{\closesupplement}{\setcounter{table}{0} \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{\arabic{figure}}}
+\usepackage{setspace} \usepackage{float} \floatplacement{figure}{H} \usepackage[T1]{fontenc} \usepackage[utf8]{inputenc} \usepackage{fancyhdr} \pagestyle{fancy} \lhead{Juan David Leongómez} \rhead{\textit{Meta-análisis de correlaciones y meta-regresión en {R:} Guía práctica}} \rfoot{\footnotesize{{doi:} \href{https://doi.org/10.31222/osf.io/yaxd4}{10.31222/osf.io/yaxd4}}} \lfoot{\footnotesize{{Versión \textbf{3}:} \today}} \renewcommand{\abstractname}{Descripción} \usepackage[spanish]{babel} \usepackage{csquotes} \usepackage[style=apa,backend=biber]{biblatex} \DeclareLanguageMapping{spanish}{spanish-apa} \usepackage{hanging} \usepackage{amsthm,amssymb,amsfonts} \usepackage{tikz,lipsum,lmodern} \usepackage[most]{tcolorbox} \usepackage{multicol} \usepackage{fontawesome5} \usepackage{multirow,booktabs,caption} \renewcommand\spanishtablename{Tabla} \DeclareCaptionLabelSeparator*{spaced}{\\[1ex]} \DeclareCaptionLabelSeparator{point}{. } \captionsetup[table]{labelfont=bf, textfont=it, format=plain, justification=justified, singlelinecheck=false, labelsep=spaced, skip=5pt} \captionsetup[figure]{labelfont=bf, format=plain, justification=justified, singlelinecheck=false,labelsep=point,skip=5pt} \captionsetup[figure]{font=small} \usepackage{orcidlink} \definecolor{iacol}{RGB}{246, 130, 18} \definecolor{iacoldark}{RGB}{246, 100, 18} \newcommand{\opensupplement}{\setcounter{table}{0} \renewcommand{\thetable}{A\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{A\arabic{figure}}} \newcommand{\closesupplement}{\setcounter{table}{0} \renewcommand{\thetable}{\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{\arabic{figure}}}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -144,7 +144,7 @@
 \makeatother
 \subtitle{Guía práctica}
 \author{Juan David Leongómez \orcidlink{0000-0002-0092-6298}\textsuperscript{}}
-\date{13 abril, 2023}
+\date{14 abril, 2023}
 
 \begin{document}
 \maketitle
@@ -189,7 +189,7 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 
 \href{https://www.youtube.com/@InvestigacionAbierta}{\includegraphics[width=6.25in,height=\textheight]{images/Logo-IA-Rectangulo.pdf}}
 
-\textbf{Conocimientos necesarios:} Esta guía asume (1) un manejo básico de R, (2) comprensión de correlaciones y regresiones, y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video} introductorio al meta-análisis en \emph{jamovi} \autocite{leongomezMetaanalysis2021} publicado en mi canal de YouTube \href{https://www.youtube.com/@InvestigacionAbierta}{\emph{Investigación Abierta}}.
+\textbf{Conocimientos necesarios:} Esta guía asume (1) un manejo básico de R, suficiente para al menos instalar paquetes y correr funciones; (2) comprensión de correlaciones y regresiones; y (3) un entendimiento de los principios del meta-análisis. De ser necesario, para adquirir la comprensión básica y necesaria del meta-análisis, recomiendo ver \href{https://youtu.be/ntBbkOn9D_o}{este video} introductorio al meta-análisis en \emph{jamovi} \autocite{leongomezMetaanalysis2021} publicado en mi canal de YouTube \href{https://www.youtube.com/@InvestigacionAbierta}{\emph{Investigación Abierta}}.
 
 \textbf{Versión de R:} Para poder correr el código tal cual aparece en esta guía, se requiere R versión 4.1 o superior, pues he usado el \emph{pipe} nativo de R (\texttt{\textbar{}\textgreater{}}). En versiones anteriores de R, el \emph{pipe} nativo puede ser reemplazado por el pipe de \texttt{magrittr} (\texttt{\%\textgreater{}\%}), cargando ese paquete \autocite{magrittrcite}. Para más información, puedes ver la sección \href{https://datanalytics.com/libro_r/1100_programacion.html\#tuber\%C3\%ADas-pipes}{11.1.5} de \textcite{gil2023}.
 
@@ -283,9 +283,9 @@ Adicionalmente, he incluido algunos apéndices, donde encontrarás información 
 \hypertarget{base-de-datos-de-ejemplo}{%
 \section{Base de datos de ejemplo}\label{base-de-datos-de-ejemplo}}
 
-A lo largo de esta guía usaré la base de datos \texttt{dat.molloy2014}, tomada de \textcite{molloy2013}. Esta base de datos viene incluida con el paquete \texttt{metafor} de R.
+A lo largo de esta guía usaré la base de datos \texttt{dat.molloy2014}, tomada de \textcite{molloy2014}. Esta base de datos viene incluida con el paquete \texttt{metafor} de R.
 
-Básicamente, \textcite{molloy2013} estudiaron si existe una asociación entre la escrupulosidad (\emph{conscientiousness}\footnote{En el contexto de los rasgos de personalidad, la dimensión de la \emph{escrupulosidad} (también llamada conciencia o ``voluntad de logro''), se refiere al auto-control, incluyendo la planificación y ejecución de tareas. Para una definición detallada del concepto de escrupulosidad en este contexto, ver \textcite{johnBigFiveTrait1999}.}) y la adherencia a la medicación. En otras palabras, ¿las personas más \emph{escrupulosas} tienden a cumplir más con la medicación prescrita?
+Básicamente, \textcite{molloy2014} estudiaron si existe una asociación entre la escrupulosidad (\emph{conscientiousness}\footnote{En el contexto de los rasgos de personalidad, la dimensión de la \emph{escrupulosidad} (también llamada conciencia o ``voluntad de logro''), se refiere al auto-control, incluyendo la planificación y ejecución de tareas. Para una definición detallada del concepto de escrupulosidad en este contexto, ver \textcite{johnBigFiveTrait1999}.}) y la adherencia a la medicación. En otras palabras, ¿las personas más \emph{escrupulosas} tienden a cumplir más con la medicación prescrita?
 
 Primero, debemos cargar los principales paquetes que usaré a lo largo de esta guía: \texttt{metafor} \autocite{viechtbauer2010} y \texttt{metaviz} \autocite{KossmeierMetaviz} para hacer e ilustrar los resultados del meta-análisis, así como \texttt{dplyr} \autocite{WickhamDplyr2021} y \texttt{forecats} \autocite{Wickhamforcats2022} para manipular y organizar la base de datos, y \texttt{ggplot2} \autocite{Wickhamggplot22016} para hacer algunas gráficas más adelante\footnote{Los paquetes \texttt{dplyr}, \texttt{forecats} y \texttt{ggplot2} hacen parte de \href{https://www.tidyverse.org/}{\texttt{tidyverse}} \autocite{Wickhamtidyverse2019}, una colección de paquetes para ciencia de datos que comparten un mismo diseño y gramática. Por esto, en vez de cargar cada paquete independientemente, si instalas \texttt{tidyverse}, puedes cargar los paquetes de esta colección usando \texttt{library(tidyverse)}.}.
 
@@ -389,7 +389,7 @@ Después hay unas columnas que contienen variables específicas para este este e
 \item
   \texttt{meanage}: edad promedio de la muestra de cada estudio
 \item
-  \texttt{quality}: calidad metodológica (la calidad metodológica fue calificada por los autores del meta-análisis en una escala de 1 a 4, donde las puntuaciones más altas indican una mayor calidad; para información respecto a cómo se obtuvo esta puntuación, ver el artículo original de \textcite{molloy2013}.
+  \texttt{quality}: calidad metodológica (la calidad metodológica fue calificada por los autores del meta-análisis en una escala de 1 a 4, donde las puntuaciones más altas indican una mayor calidad; para información respecto a cómo se obtuvo esta puntuación, ver el artículo original de \textcite{molloy2014}.
 \end{itemize}
 
 Por supuesto, el \emph{output} de la consola no es la forma más clara de ver la base de datos, pero para una versión más legible, se puede usar la función \texttt{View}, y el nombre de la base de datos o tabla como argumento (en este caso \texttt{View(dat)}). Sin embargo, de aquí en adelante mostraré algunas tablas en un formato de impresión (y no como sale en la consola de R), para que sean más fáciles de leer.
@@ -440,7 +440,7 @@ study\_id & authors & year & ni & ri & controls & design & a\_measure & c\_measu
 15 & Stilley et al. & 2004 & 158 & 0.240 & none & prospective & other & NEO & 46.20 & 3\\
 16 & Wiebe \& Christensen & 1997 & 65 & 0.040 & none & prospective & other & NEO & 56.00 & 1\\
 \bottomrule
-\multicolumn{11}{l}{\rule{0pt}{1em}\textit{Nota:} Datos tomados de Molloy et al. (2013).}\\
+\multicolumn{11}{l}{\rule{0pt}{1em}\textit{Nota:} Datos tomados de Molloy et al. (2014).}\\
 \end{tabular}}
 \end{table}
 
@@ -1253,11 +1253,11 @@ Esto lo puedo obtener de manera sencilla con la función \texttt{summary}, que a
 
 Asigné esta versión modificada de la base de datos a un objeto que llamé \texttt{dat.poder}. Ya con esta base de datos lista y con el formato correcto para usar la función \texttt{mapower\_ul}, podemos seguir adelante.
 
-La función \texttt{mapower\_ul} requiere que asignemos la base de datos (\texttt{dat.poder}) al argumento \texttt{dat}, el tamaño de efecto que estimamos como efecto \emph{real} (en este caso, 0.15) al argumento \texttt{observed\_es}, así como un nombre que le daremos al meta-análisis al argumento \texttt{name} (en este caso lo llamaré ``Molloy et al.~2013'', pero por supuesto tú puedes darle el nombre que consideres adecuado, siempre entre comillas). Asignaré el resultado de este análisis a un objeto que simplemente llamaré \texttt{poder}.
+La función \texttt{mapower\_ul} requiere que asignemos la base de datos (\texttt{dat.poder}) al argumento \texttt{dat}, el tamaño de efecto que estimamos como efecto \emph{real} (en este caso, 0.15) al argumento \texttt{observed\_es}, así como un nombre que le daremos al meta-análisis al argumento \texttt{name} (en este caso lo llamaré ``Molloy et al.~2014'', pero por supuesto tú puedes darle el nombre que consideres adecuado, siempre entre comillas). Asignaré el resultado de este análisis a un objeto que simplemente llamaré \texttt{poder}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{poder }\OtherTok{\textless{}{-}} \FunctionTok{mapower\_ul}\NormalTok{(}\AttributeTok{dat =}\NormalTok{ dat.poder, }\AttributeTok{observed\_es =} \FloatTok{0.15}\NormalTok{, }\AttributeTok{name =} \StringTok{"Molloy et al. 2013"}\NormalTok{)}
+\NormalTok{poder }\OtherTok{\textless{}{-}} \FunctionTok{mapower\_ul}\NormalTok{(}\AttributeTok{dat =}\NormalTok{ dat.poder, }\AttributeTok{observed\_es =} \FloatTok{0.15}\NormalTok{, }\AttributeTok{name =} \StringTok{"Molloy et al. 2014"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1288,7 +1288,7 @@ Para ver el objeto, como siempre, solo tengo que llamarlo por el nombre que le h
   power_es_observed      es01      es02      es03      es04      es05      es06
 1                 0 0.1762492 0.5356629 0.8673657 0.9837594 0.9992182 0.9999858
        es07 es08 es09 es1 es_observed meta_analysis_name
-1 0.9999999    1    1   1   0.3364197 Molloy et al. 2013
+1 0.9999999    1    1   1   0.3364197 Molloy et al. 2014
  \end{verbatim}
                 \end{footnotesize}
                 \end{ROut}
