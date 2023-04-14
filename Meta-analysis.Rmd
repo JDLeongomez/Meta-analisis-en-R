@@ -32,7 +32,7 @@ header-includes:
   \rhead{\textit{Meta-análisis de correlaciones y meta-regresión en {R:} Guía práctica}}
   \rfoot{\footnotesize{{doi:}
     \href{https://doi.org/10.31222/osf.io/yaxd4}{10.31222/osf.io/yaxd4}}}
-  \lfoot{\footnotesize{{Versión 3:} \today}}
+  \lfoot{\footnotesize{{Versión 3 - } \today}}
   \renewcommand{\abstractname}{Descripción}
   \usepackage[spanish]{babel}
   \usepackage{csquotes}
