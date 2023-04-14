@@ -158,7 +158,7 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 \textbf{Cita esta guía como } \hrulefill 
 
 \begin{hangparas}{.25in}{1}
-Leongómez, J. D. (2022). Meta-análisis de correlaciones y meta-regresión en R: Guía práctica. \textit{MetaArXiv}. \url{https://doi.org/10.31222/osf.io/yaxd4}
+Leongómez, J. D. (2023). Meta-análisis de correlaciones y meta-regresión en R: Guía práctica. \textit{MetaArXiv}. \url{https://doi.org/10.31222/osf.io/yaxd4}
 \end{hangparas}
 \newpage
 
@@ -913,7 +913,9 @@ El paquete `metameta` se debe instalar desde GitHub ya que, al día de hoy, no e
 
 [^12]: [CRAN](https://cran.r-project.org/) (siglas de *Comprehensive R Archive Network*) es una red de servidores de todo el mundo que almacenan versiones idénticas y actualizadas del código y la documentación de R (incluyendo el lenguaje mismo de R, paquetes aceptados por el equipo de CRAN, y toda la documentación). Es el repositorio oficial y dedicado a R, desde el que normalmente instalas cualquier paquete. [GitHub](https://github.com/), en cambio, es un repositorio general y abierto para proyectos (típicamente programación) en el que, entre otras cosas, suelen estar alojados todos los paquetes de R en versiones de desarrollador, y antes de ser aceptados en CRAN. Por supuesto, a diferencia de CRAN, GitHub es un repositorio de código general, no específico para R.
 
-Para esto, debemos tener instalado el paquete `devtools`, y usar la función `install_github` que nos permite instalar paquetes directamente desde GitHub.
+Para esto, debemos tener instalado el paquete `devtools` [^13], y usar la función `install_github` que nos permite instalar paquetes directamente desde GitHub.
+
+[^13]: En Windows, instalar `devtools` puede requerir instalar la versión de [`Rtools`](https://cran.r-project.org/bin/windows/Rtools/) correspondiente a tu versión de R. Por ejemplo, si tu versión de R es 4.2.3, debes descargar e instalar la versión 4.2 de [`Rtools`](https://cran.r-project.org/bin/windows/Rtools/).
 
 ```{r eval = FALSE}
 #se debe tener instalado el paquete devtools
@@ -1005,9 +1007,9 @@ poder.plot
 poder.plot$fp_plot
 ```
 
-El objeto `poder.plot` contiene dos elementos: los datos (`$dat`) y la gráfica propiamente dicha (`$fp_plot`). Este último elemento es de clase `ggplot`, por lo que podemos usar funciones de `ggplot2` para cambiar, por ejemplo, el título del eje $X$ a "Tamaño de efecto", el título de la leyenda a "Poder", y el efecto observado de "*Observed*" a "Observado"[^13]. Por ejemplo:
+El objeto `poder.plot` contiene dos elementos: los datos (`$dat`) y la gráfica propiamente dicha (`$fp_plot`). Este último elemento es de clase `ggplot`, por lo que podemos usar funciones de `ggplot2` para cambiar, por ejemplo, el título del eje $X$ a "Tamaño de efecto", el título de la leyenda a "Poder", y el efecto observado de "*Observed*" a "Observado"[^14]. Por ejemplo:
 
-[^13]: Para cambiar el título del eje $X$ usé la función `xlab`; para el título de la leyenda la función `guides` (opción `fill = guide_legend`); y para los valores del eje $X$, la función `scale_x_discrete`}.
+[^14]: Para cambiar el título del eje $X$ usé la función `xlab`; para el título de la leyenda la función `guides` (opción `fill = guide_legend`); y para los valores del eje $X$, la función `scale_x_discrete`}.
 
 ```{r eval = FALSE}
 poder.plot$fp_plot +
@@ -1119,9 +1121,9 @@ plot(gp, breaks = 100,
 
 Los tamaños del efecto que se obtienen de los estudios incluidos en un meta-análisis de correlaciones varían ampliamente, generalmente entre *z* = 0.05 y *z* = 0.25. Esta variación subraya cómo la elección de los estudios incluidos en el meta-análisis puede influir en la estimación del tamaño del efecto. Sin embargo, no hay un subgrupo de resultados que se distinga significativamente del resto.
 
-Para ilustrar mejor esto, voy a manipular manualmente el tamaño de efecto de uno de los estudios. Por ejemplo, en nuestro caso, podemos cambiar el tamaño del efecto del estudio 12, que inicialmente tenía un valor *z* de Fisher de 0.39, a un valor mucho mayor, de 0.70. Aunque esta base de datos alterada pierde validez para realizar cualquier análisis, nos permite visualizar el efecto de valores atípicos en una base de datos[^14].
+Para ilustrar mejor esto, voy a manipular manualmente el tamaño de efecto de uno de los estudios. Por ejemplo, en nuestro caso, podemos cambiar el tamaño del efecto del estudio 12, que inicialmente tenía un valor *z* de Fisher de 0.39, a un valor mucho mayor, de 0.70. Aunque esta base de datos alterada pierde validez para realizar cualquier análisis, nos permite visualizar el efecto de valores atípicos en una base de datos[^15].
 
-[^14]: Normalmente identificamos formalmente estudios con resultados atípicos a partir de un diagnóstico de influencia (\@ref(diag-inf)) y técnicas tipo *leave-one-out* (sección \@ref(leave-one-out)), apoyándonos informalmente en el *forest plot* (sección \@ref(forest-inf)) y el *funnel plot* (sección \@ref(funnel-inf)).
+[^15]: Normalmente identificamos formalmente estudios con resultados atípicos a partir de un diagnóstico de influencia (\@ref(diag-inf)) y técnicas tipo *leave-one-out* (sección \@ref(leave-one-out)), apoyándonos informalmente en el *forest plot* (sección \@ref(forest-inf)) y el *funnel plot* (sección \@ref(funnel-inf)).
 
 Para evitar afectar nuestra base de datos original, creamos una copia de los datos en un objeto llamado `dat_mo`. Luego, utilizamos las funciones `mutate` y `replace` del paquete `dplyr` [@WickhamDplyr2021] para cambiar los tamaños de efecto del estudio 12 en la nueva base de datos.
 
@@ -1168,9 +1170,9 @@ En resumen, el meta-análisis combinatorio, junto con la visualización de datos
 
 Una limitación del meta-análisis combinatorio (y el *GOSH plot*), es que no necesariamente nos permite identificar qué estudios están influyendo de manera preocupante en nuestro resultado. En el ejemplo pasado, sabíamos que el estudio 12 era el *culpable* pues así lo manipulamos. Sin embargo, al hacer un meta-análisis no necesariamente sabemos cuáles estudios son sospechosos. Por esto, tener herramientas que nos permitan identificar estudios potencialmente influyentes, es importante. 
 
-Por ejemplo, la función `gosh.diagnostics` del paquete [`dmetar`](https://dmetar.protectlab.org/index.html) [@Harrer2019dmetar] se puede usar para crear análisis y visualizaciones muy completas a partir de los objetos generados con la función `gosh` del paquete `metafor`, como los que creamos en la sección \@ref(gosh), inmediatamente anterior [^15].
+Por ejemplo, la función `gosh.diagnostics` del paquete [`dmetar`](https://dmetar.protectlab.org/index.html) [@Harrer2019dmetar] se puede usar para crear análisis y visualizaciones muy completas a partir de los objetos generados con la función `gosh` del paquete `metafor`, como los que creamos en la sección \@ref(gosh), inmediatamente anterior [^16].
 
-[^15]: El libro *Doing meta-analysis with R: a hands-on guide* [@harrer2021doing] se acompaña del paquete [`dmetar`](https://dmetar.protectlab.org/index.html) [@Harrer2019dmetar], y explica opciones para hacer meta-análisis tanto a partir de `metafor`, como a partir de otros paquetes (más información en el Apéndice \hyperlink{apendice-alt}{A}).
+[^16]: El libro *Doing meta-analysis with R: a hands-on guide* [@harrer2021doing] se acompaña del paquete [`dmetar`](https://dmetar.protectlab.org/index.html) [@Harrer2019dmetar], y explica opciones para hacer meta-análisis tanto a partir de `metafor`, como a partir de otros paquetes (más información en el Apéndice \hyperlink{apendice-alt}{A}).
 
 La función `gosh.diagnostics` utiliza tres algoritmos de aprendizaje automático (*machine learning*) para detectar patrones en nuestros datos: el algoritmo *k-means* [@hartiganAlgorithm136KMeans1979], la agrupación de densidad alcanzable y la conectividad, o *DBSCAN* [@schubertDBSCANRevisitedRevisited2017], y los modelos de mezcla gaussiana, o *GMM* [@fraleyModelBasedClusteringDiscriminant2002].
 
@@ -1195,9 +1197,9 @@ Sin embargo, es posible agregar parámetros a cada algoritmo como argumentos. Si
 
 En este caso, voy a agregar el argumento `km.params = list(centers = 2)` para especificar que el algoritmo *k-means* debe buscar dos *clusters* (`centers`) en nuestros datos (esto no es estrictamente necesario, pero de manera automática el algoritmo buscará tres; decidí poner dos, pues visiblemente hay dos grupos de resultados, como se ve en la Fig. \@ref(fig:gosh2) y especialmente en la Fig. \@ref(fig:gosh3)). 
 
-Adicionalmente, incluiré el argumento `db.params = list(eps = 0.1, MinPts = 50)`, para especificar parámetros para el algoritmo *DBSCAN*, pues los *clusters* requieren un número mínimo de puntos (`MinPts`: *minimum number of points* que se refiere mínimo número de puntos por *cluster*) dentro de una distancia máxima (`eps`: $\epsilon$ o épsilon) alrededor de uno de sus miembros (o "semilla")[^16]. En este caso, agregué `eps = 0.1` para especificar que la "distancia de *alcanzabilidad*" (en inglés, *reachability distance*) es de 0.1, y `MinPts = 50` para determinar el número mínimo de puntos en cada *cluster* (en este caso, 50). 
+Adicionalmente, incluiré el argumento `db.params = list(eps = 0.1, MinPts = 50)`, para especificar parámetros para el algoritmo *DBSCAN*, pues los *clusters* requieren un número mínimo de puntos (`MinPts`: *minimum number of points* que se refiere mínimo número de puntos por *cluster*) dentro de una distancia máxima (`eps`: $\epsilon$ o épsilon) alrededor de uno de sus miembros (o "semilla")[^17]. En este caso, agregué `eps = 0.1` para especificar que la "distancia de *alcanzabilidad*" (en inglés, *reachability distance*) es de 0.1, y `MinPts = 50` para determinar el número mínimo de puntos en cada *cluster* (en este caso, 50). 
 
-[^16]: Elegir los parámetros `eps` y `MinPts` no es necesariamente una tarea sencilla. No hay una única forma de elegir estos parámetros, ni una manera automática y sencilla de hacerlo. Las técnicas existentes son relativamente complejas, por lo que no las incluyo acá. Si quieres información detallada sobre estos parámetros, te recomiendo leer @esterAlgorithm y @schubertDBSCANRevisitedRevisited2017, así como buscar diferentes maneras prácticas de elegir los valores para estos parámetros propuestas en *blogs* como [este](https://www.datanovia.com/en/lessons/dbscan-density-based-clustering-essentials/) en inglés, o [este](http://exponentis.es/parametrizacion-automatica-de-dbscan-en-r-a-partir-de-la-curva-elbow) en español.
+[^17]: Elegir los parámetros `eps` y `MinPts` no es necesariamente una tarea sencilla. No hay una única forma de elegir estos parámetros, ni una manera automática y sencilla de hacerlo. Las técnicas existentes son relativamente complejas, por lo que no las incluyo acá. Si quieres información detallada sobre estos parámetros, te recomiendo leer @esterAlgorithm y @schubertDBSCANRevisitedRevisited2017, así como buscar diferentes maneras prácticas de elegir los valores para estos parámetros propuestas en *blogs* como [este](https://www.datanovia.com/en/lessons/dbscan-density-based-clustering-essentials/) en inglés, o [este](http://exponentis.es/parametrizacion-automatica-de-dbscan-en-r-a-partir-de-la-curva-elbow) en español.
 
 En este caso, asignaré el resultado a un objeto que llamaré `gp_diag`.
 
@@ -1288,9 +1290,9 @@ Los moderadores pueden ser tanto variables continuas, como categóricas, y en la
 
 ## Ejemplo 1: Moderación de una variable continua (edad promedio de los participantes) {#ex-mod1}
 
-Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^17], lo que podría moderar (afectar) la asociación entre escrupulosidad (*conscientiousness*) y adherencia a la medicación prescrita.
+Primero, y como ejemplo, vamos a ver si la edad promedio de los participantes de un estudio (en nuestros datos, `meanage`) modera el resultado. Esto es importante, pues hay una enorme variación entre las edades medias de los participantes de los diferentes estudios[^18], lo que podría moderar (afectar) la asociación entre escrupulosidad (*conscientiousness*) y adherencia a la medicación prescrita.
 
-[^17]: De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
+[^18]: De hecho, mientras que en el estudio de `r paste0(dat$authors[which.min(dat$meanage)], " (", dat$year[which.min(dat$meanage)], ")")` la edad promedio fue de `r min(dat$meanage)`, en el estudio de `r paste0(dat$authors[which.max(dat$meanage)], " (", dat$year[which.max(dat$meanage)], ")")` la edad promedio fue de `r max(dat$meanage)`.
 
 Para esto, de nuevo podemos usar la función `rma` de paquete `metafor` de la misma manera que en la sección \@ref(meta-cor), pero agregando nuestra variable moderadora (`meanage`) al argumento `mods`. En este caso voy a asignar a un objeto llamado `res.modage`, para diferenciarlo del objeto `res` al que asigné el meta-análisis básico, sin moderadores.
 
@@ -1314,13 +1316,13 @@ En la tabla de `Model results` los estimados (columna `estimate`) se pueden leer
 
 Para más información, podemos *predecir* el efecto (en este caso, la correlación entre la escrupulosidad y la adherencia a la medicación), a diferentes edades, usando la función `predict`. 
 
-En este ejemplo, como argumentos de esta función incluiré el objeto que contiene el meta-análisis con la edad como variable moderadora (`res.modage`), y los los valores para los cuales quiero saber el coeficiente de correlación predicho (argumento `newmods`); en este ejemplo voy a usar "`seq(20, 80, by = 10)`", lo que produce la secuencia de números de 20 a 80, cada 10 (es decir: 20, 30, 40, 50, 60, 70, 80), que serán las edades para las cuales obtendré el coeficiente de correlación estimado por el modelo[^18].
+En este ejemplo, como argumentos de esta función incluiré el objeto que contiene el meta-análisis con la edad como variable moderadora (`res.modage`), y los los valores para los cuales quiero saber el coeficiente de correlación predicho (argumento `newmods`); en este ejemplo voy a usar "`seq(20, 80, by = 10)`", lo que produce la secuencia de números de 20 a 80, cada 10 (es decir: 20, 30, 40, 50, 60, 70, 80), que serán las edades para las cuales obtendré el coeficiente de correlación estimado por el modelo[^19].
 
-[^18]: Escogí edades entre 20 y 80 como referencia, pues están cerca al rango de valores de de las edades promedio de los estudios meta-analizados (`r min(dat$meanage)` a `r max(dat$meanage)`), y con edades cada 10 años, para obtener un número manejable pero informativo de predicciones.
+[^19]: Escogí edades entre 20 y 80 como referencia, pues están cerca al rango de valores de de las edades promedio de los estudios meta-analizados (`r min(dat$meanage)` a `r max(dat$meanage)`), y con edades cada 10 años, para obtener un número manejable pero informativo de predicciones.
 
-Adicionalmente, voy a convertir esta tabla a un objeto clase `data.frame` (usando la función `as.data.frame()`), crearé una nueva variable llamada `meanage` que contiene las edades para las cuales he calculado la predicción (`mutate(meanageage = seq(20, 80, by = 10))`[^19]), y voy a reorganizar el orden de las columnas (`select(7, 1:6)`). Asignaré esta tabla a un objeto llamado `pred.res.modage`.
+Adicionalmente, voy a convertir esta tabla a un objeto clase `data.frame` (usando la función `as.data.frame()`), crearé una nueva variable llamada `meanage` que contiene las edades para las cuales he calculado la predicción (`mutate(meanageage = seq(20, 80, by = 10))`[^20]), y voy a reorganizar el orden de las columnas (`select(7, 1:6)`). Asignaré esta tabla a un objeto llamado `pred.res.modage`.
 
-[^19]: Para agregar los valores de la variable moderadora para los cuales se hace la predicción, alternativamente se puede agregar el argumento `addx = TRUE` a la función `predict` (en este caso, por ejemplo, `predict(res.modage, newmods = seq(20, 80, by = 10), addx = TRUE)`). Sin embargo, para evitar crear columnas adicionales y tener una tabla en un formato más sencillo y claro, he decidido crear la columna `meanage` manualmente. Si usara el argumento `addx = TRUE`, crearía las columnas `X.intrcpt` con el intercepto, y `X.meanage` con los valores de `meanage`.
+[^20]: Para agregar los valores de la variable moderadora para los cuales se hace la predicción, alternativamente se puede agregar el argumento `addx = TRUE` a la función `predict` (en este caso, por ejemplo, `predict(res.modage, newmods = seq(20, 80, by = 10), addx = TRUE)`). Sin embargo, para evitar crear columnas adicionales y tener una tabla en un formato más sencillo y claro, he decidido crear la columna `meanage` manualmente. Si usara el argumento `addx = TRUE`, crearía las columnas `X.intrcpt` con el intercepto, y `X.meanage` con los valores de `meanage`.
 
 ```{r pred-mod1}
 # Calcular efecto ajustado para diferentes edades
@@ -1365,9 +1367,9 @@ regplot(res.modage,
 
 ### *Forest plot* y *funnel plot* {#plot-mod}
 
-Por supuesto, de estos resultados también puedo crear *forest plots* y *funnel plots*, siguiendo los ejemplos y código de la sección \@ref(meta-cor). Para el *forest plot*, hago a continuación un ejemplo anotado y mejorado[^20] (Fig. \@ref(fig:for-plot-mod1), con un código similar al usado como ejemplo en la Fig. \@ref(fig:for-plot2)). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto *real* estimado como producto del meta-análisis.
+Por supuesto, de estos resultados también puedo crear *forest plots* y *funnel plots*, siguiendo los ejemplos y código de la sección \@ref(meta-cor). Para el *forest plot*, hago a continuación un ejemplo anotado y mejorado[^21] (Fig. \@ref(fig:for-plot-mod1), con un código similar al usado como ejemplo en la Fig. \@ref(fig:for-plot2)). Sin embargo, es importante tener en cuenta que esta opción no creará un resumen del meta-análisis, ya que no tenemos un solo efecto *real* estimado como producto del meta-análisis.
 
-[^20]: La función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) no puede crear un *forest plot* de un meta-análisis ajustado con `metafor` cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, sólo podrá hacer el *forest plot* si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.
+[^21]: La función [`viz_forest`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html#creating-forest-plots-with-function-viz_forest) del paquete [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) no puede crear un *forest plot* de un meta-análisis ajustado con `metafor` cuando este modelo contiene variables moderadoras continuas, o cuando tiene como variable moderadora más de una variable categórica. En otras palabras, sólo podrá hacer el *forest plot* si nuestro meta-análisis no tiene moderadores, o tiene un único moderador categórico. Como en este ejemplo nuestro moderador es una variable continua, no es posible usar esta función.
 
 ```{r eval = FALSE}
 # forest plot con anotaciones adicionales
@@ -1507,9 +1509,9 @@ ggplot(dat, aes(x = controls, y = yi)) +
   labs(color = "Tamaño de \nmuestra", size = "Tamaño de \nmuestra") # "\n" para salto de línea
 ```
 
-El código anterior puede verse algo confuso para quien no haya usado `ggplot2` antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación[^21]. Este código produce la Figura \@ref(fig:reg-plot3).
+El código anterior puede verse algo confuso para quien no haya usado `ggplot2` antes. Por esto, he agregado anotaciones, función por función, para ayudar a su interpretación[^22]. Este código produce la Figura \@ref(fig:reg-plot3).
 
-[^21]: Debido a sus enormes y numerosas posibilidades, `ggplot2` es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este [tutorial](https://rpubs.com/anlope10/562981) [@lopezpenarandaTutorialGgplot22019] o ver este [video](https://youtu.be/BUzTAr_QqKs) [@datademiaAprendeGgplot22018]. 
+[^22]: Debido a sus enormes y numerosas posibilidades, `ggplot2` es quizás la opción más poderosa para hacer gráficos estadísticos en R; por esto explicar sus bases supera por mucho el alcance de esta guía. Sin embargo, hay gran cantidad de opciones disponibles en internet. Por ejemplo, puedes leer este [tutorial](https://rpubs.com/anlope10/562981) [@lopezpenarandaTutorialGgplot22019] o ver este [video](https://youtu.be/BUzTAr_QqKs) [@datademiaAprendeGgplot22018]. 
 
 ```{r reg-plot3, fig.height = 4, fig.width = 6, echo = FALSE, fig.cap = "Gráfico de dispersión meta-analítico (*Meta-Analytic Scatter Plot*) creado manualmente con [ggplot2](https://ggplot2.tidyverse.org/) para hacer una mejor representación de un moderador categórico. Los puntos de colores representan el coeficiente de correlación en función de la presencia o ausencia de controles. El tamaño de los puntos es proporcional al tamaño de muestra de los estudios inluidos en el meta-análisis (puntos más grandes y azules para los estudios con mayor tamaño de muestra). Los puntos blancos superpuetos representan el efecto estimado para cada categoría, y las barras de error representan los intervalos de confianza del 95%."}
 ggplot(dat, aes(x = controls, y = yi)) +
@@ -1622,9 +1624,9 @@ Hacer un meta-análisis de correlación en R no es necesariamente complejo, pero
 
 ## Pasos para hacer tu meta-análisis
 
-Primero, debes tener hacer una selección de artículos buena y no sesgada[^22]. Esto mínimamente incluye:
+Primero, debes tener hacer una selección de artículos buena y no sesgada[^23]. Esto mínimamente incluye:
 
-[^22]: Para esto existen varias guías, e incluso la *Declaración PRISMA* que está diseñada para abordar los problemas en la publicación de revisiones sistemáticas y meta-análisis [para información en español, ver e.g., @huttonExtensionDeclaracionPRISMA2016; @pageDeclaracionPRISMA20202021].
+[^23]: Para esto existen varias guías, e incluso la *Declaración PRISMA* que está diseñada para abordar los problemas en la publicación de revisiones sistemáticas y meta-análisis [para información en español, ver e.g., @huttonExtensionDeclaracionPRISMA2016; @pageDeclaracionPRISMA20202021].
 
     A. Formular la pregunta de investigación clara, con base en teoría
 
