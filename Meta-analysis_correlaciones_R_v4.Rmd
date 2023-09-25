@@ -131,7 +131,7 @@ library(scales)
 \rightskip\leftskip
 ```
 
-El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo estudiantes, profesionales e investigadores a menudo carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una variedad de herramientas para realizar meta-análisis de correlaciones en R, mediante el uso de ejemplos reales. Incluye desde análisis simples y su interpretación, hasta el análisis de moderadores (meta-regresión), usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. También incluye explicaciones para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa), creación de gráficos de bosque (*forest plots*) y gráficos de embudo (*funnel plots*), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], y para determinar el poder estadístico de un meta-análisis utilizando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022]. Con esta guía, los lectores podrán adquirir las habilidades necesarias para realizar meta-análisis de correlaciones de manera efectiva en R y obtener resultados confiables.
+El meta-análisis es un método ampliamente utilizado para sintetizar los datos de diferentes estudios. Sin embargo estudiantes, profesionales e investigadores a menudo carecemos de conocimientos prácticos para hacer e interpretar un meta-análisis. Esta guía presenta una variedad de herramientas para realizar meta-análisis de correlaciones en R, mediante el uso de ejemplos reales. Incluye desde análisis simples y su interpretación, hasta el análisis de moderadores (meta-regresión), usando los paquetes [`metafor`](https://www.metafor-project.org/doku.php) [@viechtbauer2010] y [`metaviz`](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html) [@KossmeierMetaviz]. También incluye explicaciones para la transformación de coeficientes *r* de Pearson a *z* de Fisher (y viceversa), creación de gráficos de bosque (*forest plots*) y gráficos de embudo (*funnel plots*), análisis de heterogeneidad y diagnósticos de influencia, así como estrategias para detectar posibles sesgos de publicación utilizando el paquete [`weightr`](https://www.r-pkg.org/pkg/weightr) [@coburnWeightr2019], y para determinar el poder estadístico de un meta-análisis utilizando [`metameta`](https://www.dsquintana.blog/metameta-r-package-meta-analysis/) [@quintanaMetameta2022].  Esta guía práctica acompaña el video [**Meta-análisis de correlaciones en R**](https://youtu.be/RNw92QdsW4g), de mi canal de YouTube [*Investigación Abierta*](https://www.youtube.com/@InvestigacionAbierta).
 
 ```{=latex}
 \par
@@ -150,7 +150,7 @@ El meta-análisis es un método ampliamente utilizado para sintetizar los datos 
 
 **Versión de R:** Para poder correr el código tal cual aparece en esta guía, se requiere R versión 4.1 o superior, pues he usado el *pipe* nativo de R (`|>`). Para saber qué versión tienes instalada, puedes usar el comando `R.version.string`. En versiones anteriores de R, el *pipe* nativo puede ser reemplazado por `%>%` que es el *pipe* del paquete `magrittr` [@magrittrcite] de `tidyverse` [@Wickhamtidyverse2019]. Para más información, puedes ver la sección [11.1.5](https://datanalytics.com/libro_r/1100_programacion.html#tuber%C3%ADas-pipes) de @gil2023.
 
-**Inspiración:** Esta guía fue originalmente inspirada por el video de @quintanaHowPerformMetaanalysis2021, de donde tomé además ejemplos para el análisis básico. Así mismo, la sección \@ref(todas-combinaciones), dedicada al meta-análisis combinatorio, está inspirada y toma ejemplos modificados de @quintanaOhMyGOSH2020.
+**Inspiración:** Esta guía fue originalmente inspirada por el video de @quintanaHowPerformMetaanalysis2021, de donde tomé además ejemplos para el análisis básico. Así mismo, la sección \@ref(todas-combinaciones), dedicada al meta-análisis combinatorio, está inspirada y toma ejemplos modificados de @quintanaOhMyGOSH2020. 
 
 ```{=latex}
 \par
@@ -1125,7 +1125,7 @@ gp <- gosh(res, progbar = TRUE)
 
 Una vez que hayamos realizado el análisis *GOSH* podemos utilizar la función `plot` para visualizar los `r number(65535)` modelos. Simplemente necesitamos proporcionar el resultado de `gosh` (`gp` en este caso) como argumento para `plot`, pero en este ejemplo utilizaré los argumentos `breaks` y `labels` para personalizar la visualización. El argumento `breaks` nos permite definir el número de puntos de corte (y, por lo tanto, el número de barras) en los histogramas, mientras que el argumento `labels` nos permite cambiar los títulos de los ejes (en este caso para ponerlos en español). Esto nos permitirá crear una visualización más clara y fácil de entender de la heterogeneidad entre los estudios.
 
-```{r gosh1, message = FALSE, fig.height = 3.7, fig.cap = "*GOSH plot* creado con la función  [`gosh`](https://www.metafor-project.org/doku.php/plots:gosh_plot) del paquete [`metafor`](https://www.metafor-project.org/doku.php). Un *GOSH plot* (en inglés, *Graphical Display of Study Heterogeneity*) es una visualización gráfica de la heterogeneidad de todos los posibles modelos de meta-análisis ajustados a partir de todas las combinaciones posibles de estudios. Muestra los efectos estimados para cada uno de los modelos en el eje horizontal, y su respectiva heterogeneidad en el eje vertical. La distribución de los efectos (parte superior de la gráfica) y la heterogeneidad (lado derecho de la gráfica) estan representadas como densidades e histogramas."}
+```{r gosh1, cache = TRUE, message = FALSE, fig.height = 3.7, fig.cap = "*GOSH plot* creado con la función  [`gosh`](https://www.metafor-project.org/doku.php/plots:gosh_plot) del paquete [`metafor`](https://www.metafor-project.org/doku.php). Un *GOSH plot* (en inglés, *Graphical Display of Study Heterogeneity*) es una visualización gráfica de la heterogeneidad de todos los posibles modelos de meta-análisis ajustados a partir de todas las combinaciones posibles de estudios. Muestra los efectos estimados para cada uno de los modelos en el eje horizontal, y su respectiva heterogeneidad en el eje vertical. La distribución de los efectos (parte superior de la gráfica) y la heterogeneidad (lado derecho de la gráfica) estan representadas como densidades e histogramas."}
 plot(gp, breaks = 100,
      labels = c("Coeficiente de correlación (z de Fisher)", 
                 expression(I^2)))
@@ -1151,7 +1151,7 @@ res_mo <- rma.uni(yi, vi, data = dat_mo)
 forest(res_mo)
 ```
 
-```{r for-plot-mo, echo = FALSE, fig.height = 4, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php) de la base de datos con valores atípicos introducidos manualmente para el estudio 12. Como se puede ver, este estudio tiene un tamaño de efecto muy diferente al de los demás estudios."}
+```{r for-plot-mo, cache = TRUE, echo = FALSE, fig.height = 4, fig.cap = "*Forest plot* básico de [metafor](https://www.metafor-project.org/doku.php) de la base de datos con valores atípicos introducidos manualmente para el estudio 12. Como se puede ver, este estudio tiene un tamaño de efecto muy diferente al de los demás estudios."}
 res_mo <- rma.uni(yi, vi, data = dat_mo) 
 par(mar = c(4,0,0,0))
 forest(res_mo)
@@ -1168,7 +1168,7 @@ plot(gp_mo, breaks = 100,
 
 En la parte superior de la Figura \@ref(fig:gosh2) hay un claro grupo de tamaños de efecto relativamente grandes, con alta heterogeneidad. Podemos destacar específicamente los modelos del meta-análisis que incluyeron el estudio atípico con el argumento `out`:
 
-```{r gosh3, fig.height = 3.7, fig.cap = "*GOSH plot* de un meta-análisis combinatorio que contiene un estudio con resultado atípico. En este caso, a diferencia de la Figura \\ref{fig:gosh2}, los resultados combinatorios que no contienen el estudio atípico están en azul, mientras que los meta-análisis que sí lo incluyen están en rojo. Los meta análisis que incluyen el estudio con un resultado atípico tienden a arrojar estimados más fuertes para la correlación, sesgando el resultado hacia valores más extremos, y son siempre altamente heterogéneos."}
+```{r gosh3, cache = TRUE, fig.height = 3.7, fig.cap = "*GOSH plot* de un meta-análisis combinatorio que contiene un estudio con resultado atípico. En este caso, a diferencia de la Figura \\ref{fig:gosh2}, los resultados combinatorios que no contienen el estudio atípico están en azul, mientras que los meta-análisis que sí lo incluyen están en rojo. Los meta análisis que incluyen el estudio con un resultado atípico tienden a arrojar estimados más fuertes para la correlación, sesgando el resultado hacia valores más extremos, y son siempre altamente heterogéneos."}
 plot(gp_mo, breaks = 100, out = 12,
      labels = c("Coeficiente de correlación (z de Fisher)", 
                 expression(I^2)))
@@ -1223,7 +1223,7 @@ gp_mo_diag <- gosh.diagnostics(gp_mo,
 
 De manera conveniente, en la consola se puede ver el progreso de la función.
 
-```{r cahe = TRUE, echo = FALSE, message = FALSE}
+```{r cache = TRUE, echo = FALSE, message = FALSE}
 gp_mo_diag <- gosh.diagnostics(gp_mo,
                                km.params = list(centers = 2),
                                db.params = list(eps = 0.1,
